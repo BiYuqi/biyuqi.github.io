@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-06-21T12:56:49.000Z</updated>
+  <updated>2017-06-21T15:33:22.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -16,11 +16,54 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>换电脑后,如何完美迁出hexo博客</title>
+    <link href="http://loadingmore.com/2017/06/21/%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E-%E5%A6%82%E4%BD%95%E5%AE%8C%E7%BE%8E%E8%BF%81%E5%87%BAhexo%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://loadingmore.com/2017/06/21/换电脑后-如何完美迁出hexo博客/</id>
+    <published>2017-06-21T14:25:48.000Z</published>
+    <updated>2017-06-21T15:33:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近换了电脑，之前电脑上搭建的静态博客也需要迁移了，上网查了下资料，自己也着手成功的迁移到了新的电脑</p>
+</blockquote>
+<h2 id="开始前准备"><a href="#开始前准备" class="headerlink" title="开始前准备"></a>开始前准备</h2><p>本博文默认git,nodejs已经安装好</p>
+<h2 id="分析文件"><a href="#分析文件" class="headerlink" title="分析文件"></a>分析文件</h2><h3 id="1-哪些文件是必须拷贝走的-拷贝到新的电脑"><a href="#1-哪些文件是必须拷贝走的-拷贝到新的电脑" class="headerlink" title="1.哪些文件是必须拷贝走的(拷贝到新的电脑)"></a>1.哪些文件是必须拷贝走的(拷贝到新的电脑)</h3><p>首先是之前自己修改的文件，像配置文件_config.yml,theme文件夹，source文件夹自己写的原始文件这些都是必须要拷贝走的。除此之外还有scaffolds文件夹(文件的模板)，package.json(使用哪些包)，.gitignore(提交忽略哪些文件夹)<br>总结：</p>
+<ul>
+<li>_config.yml</li>
+<li>theme</li>
+<li>source</li>
+<li>scaffolds</li>
+<li>package.json</li>
+<li>.gitignore</li>
+</ul>
+<p><strong> 这些是需要拷贝的 </strong></p>
+<h3 id="2-哪些文件是需要忽略不用管的"><a href="#2-哪些文件是需要忽略不用管的" class="headerlink" title="2.哪些文件是需要忽略不用管的"></a>2.哪些文件是需要忽略不用管的</h3><p>.git node_mouldes/ public/ .deploy_git/ db.json</p>
+<h2 id="开始迁移"><a href="#开始迁移" class="headerlink" title="开始迁移"></a>开始迁移</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 全局安装hexo</span></div><div class="line">npm install hexo-cli -g</div><div class="line"></div><div class="line"><span class="comment">// 把必须拷贝的文件，拷贝到新建的文件夹内，执行以下命令</span></div><div class="line"><span class="comment">// 在新建的文件夹内打开命令行，安装必要的模块，初始化</span></div><div class="line"><span class="comment">// 这里不用hexo init初始化，因为配置文件我们已经拷贝过来(一定要慎重，严格按照教程来)</span></div><div class="line"></div><div class="line">npm install</div><div class="line"></div><div class="line"><span class="comment">// 安装其他一些必要的组件</span></div><div class="line">npm install hexo-deployer-git --save</div><div class="line"></div><div class="line">npm install hexo-generator-feed --save</div><div class="line"></div><div class="line">npm install hexo-generator-sitemap --save</div></pre></td></tr></table></figure>
+<h2 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//先本地预览</span></div><div class="line">hexo clean</div><div class="line"></div><div class="line">hexo g</div><div class="line"></div><div class="line">hexo s</div><div class="line"></div><div class="line"><span class="comment">//此时可以先在localhost:4000 本地预览博客，如果不报错，那就说明迁移成功</span></div><div class="line"></div><div class="line"><span class="comment">// 正式部署</span></div><div class="line">hexo clean</div><div class="line"></div><div class="line">hexo g</div><div class="line"></div><div class="line">hexo d</div></pre></td></tr></table></figure>
+<p>至此，可以打开网页看看部署情况，祝各位成功，有问题随时联系我 biyuqiwan@163.com</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近换了电脑，之前电脑上搭建的静态博客也需要迁移了，上网查了下资料，自己也着手成功的迁移到了新的电脑&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;开始前准备&quot;&gt;&lt;a href=&quot;#开始前准备&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="hexo" scheme="http://loadingmore.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>《你不知道的javascript中》JS宽松相等和严格相等</title>
     <link href="http://loadingmore.com/2017/06/21/%E3%80%8A%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84javascript%E4%B8%AD%E3%80%8BJS%E5%AE%BD%E6%9D%BE%E7%9B%B8%E7%AD%89%E5%92%8C%E4%B8%A5%E6%A0%BC%E7%9B%B8%E7%AD%89/"/>
     <id>http://loadingmore.com/2017/06/21/《你不知道的javascript中》JS宽松相等和严格相等/</id>
     <published>2017-06-21T12:43:07.000Z</published>
-    <updated>2017-06-21T12:56:49.000Z</updated>
+    <updated>2017-06-21T12:59:28.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>温故而知新，最近在看《你不知道的javascript》系列的书记，看到深处，总有新的发现，好记性不如烂笔头，遂写下这篇读书笔记</p>
@@ -871,49 +914,6 @@
       <category term="window" scheme="http://loadingmore.com/tags/window/"/>
     
       <category term="java" scheme="http://loadingmore.com/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Javascript开发性能调优(一)</title>
-    <link href="http://loadingmore.com/2017/02/16/Javascript%E5%BC%80%E5%8F%91%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98(%E4%B8%80)/"/>
-    <id>http://loadingmore.com/2017/02/16/Javascript开发性能调优(一)/</id>
-    <published>2017-02-16T13:00:06.000Z</published>
-    <updated>2017-06-08T14:43:06.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p><strong> 为什么我们做出速度很慢的网站，给用户一个糟糕的体验？</strong></p>
-</blockquote>
-<a id="more"></a>
-<h3 id="异步加载第三方内容"><a href="#异步加载第三方内容" class="headerlink" title="异步加载第三方内容"></a>异步加载第三方内容</h3><p>有人没有加载过这样的第三方内容吗？比如第三方统计，打开很多网站，f12都会看到这些内容问题在于，不管是用户端的还是服务器端的连接，都无法保证这些代码是正常有效的工作的。这些服务有可能临时dowan掉或者是被用户或者其公司的防火墙阻止.为了避免这些在页面加载时成为问题，或者更严重的是，阻塞了全部页面的加载，总是应该异步加载这些代码.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>),</div><div class="line">    scripts = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'script'</span>)[<span class="number">0</span>];</div><div class="line"></div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line">    script.src = url;</div><div class="line">    scripts.parentNode.insertBefore(script,scripts);</div></pre></td></tr></table></figure>
-<h3 id="缓存数组长度"><a href="#缓存数组长度" class="headerlink" title="缓存数组长度"></a>缓存数组长度</h3><p>循环无疑是和Javascript性能非常相关的一部分。试着优化循环的逻辑，从而让每次循环更加的高效。要做到这一点，方法之一是存储数组的长度，这样的话，在每次循环时都不用重新计算。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1000</span>),</div><div class="line">    i,len;</div><div class="line"></div><div class="line"><span class="comment">//Bad code</span></div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</div><div class="line">    <span class="comment">//需要计算一千</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Good Code</span></div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;len = arr.length;i&lt;len;i++)&#123;</div><div class="line">    <span class="comment">//计算一次长度</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注解: 虽然现代浏览器引擎会自动优化这个过程，但是不要忘记还有旧的浏览器</p>
-</blockquote>
-<p><strong> 在迭代document.getElementsByTagName(‘a’)等类似方法生成的HTML节点数组（NodeList）时，缓存数组长度尤为关键。这些集合通常被认为是“灵活的”，意思就是说，当他们所对应的元素发生变化时，他们会被自动更新。</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> elements  = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'a'</span>),</div><div class="line">    i,len;</div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;len = elements.length;i&lt;len;i++)&#123;</div><div class="line">    <span class="comment">//do some code</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>注意:返回一个包括所有给定标签名称的元素的HTML集合HTMLCollection。 整个文件结构都会被搜索，包括根节点。返回的 HTML集合是动态的, 意味着它可以自动更新自己来保持和 DOM 树的同步而不用再次调用 document.getElementsByTagName()</p>
-<h3 id="最小化重绘和回流"><a href="#最小化重绘和回流" class="headerlink" title="最小化重绘和回流"></a>最小化重绘和回流</h3><p>当有任何属性或元素发生改变时，都会引起DOM元素的重绘和回流。当一个元素的布局不变，外观发生改变时，就会引起重绘。就像样式的改变，例如改变background-color。回流的代价是最高的，当改变一个页面的布局时就会发生回流。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> item = <span class="built_in">document</span>.getElementById(<span class="string">"test"</span>),</div><div class="line">    lis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>),</div><div class="line">    i, len;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, len = lis.length; i &lt; len; i++) &#123;</div><div class="line">    <span class="comment">//item.offsetWidth 会不停的计算item的宽度</span></div><div class="line">    lis[i].style.width = item.offsetWidth + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>改为<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> item = <span class="built_in">document</span>.getElementById(<span class="string">"test"</span>),</div><div class="line">    lis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>),</div><div class="line">    itemWidth = item.offsetWidth,<span class="comment">//缓存宽度</span></div><div class="line">    i, len;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, len = lis.length; i &lt; len; i++) &#123;</div><div class="line">    lis[i].style.width = itemWidth + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>参考:<br>    <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/getElementsByTagName" target="_blank" rel="external">MDN</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt; 为什么我们做出速度很慢的网站，给用户一个糟糕的体验？&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
-    
-      <category term="性能" scheme="http://loadingmore.com/tags/%E6%80%A7%E8%83%BD/"/>
-    
-      <category term="优化" scheme="http://loadingmore.com/tags/%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   

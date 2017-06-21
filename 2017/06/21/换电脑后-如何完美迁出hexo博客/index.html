@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜LoaingMore&#39;s blog
+        换电脑后,如何完美迁出hexo博客｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2016/11/12/hello-world/">
+    <link rel="canonical" href="http://loadingmore.com/2017/06/21/换电脑后-如何完美迁出hexo博客/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -141,13 +141,13 @@
 
 
 <img class="wechat-title-img"
-     src="/uploads/optmini.jpg">
+     src="http://oq4hkch8e.bkt.clouddn.com/form-opts.png">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('/uploads/optmini.jpg')
+        background-image: url('http://oq4hkch8e.bkt.clouddn.com/form-opts.png?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
 
     
@@ -158,15 +158,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>换电脑后,如何完美迁出hexo博客</h1>
                     
                     <span class="meta">
-                         作者 LoaingMore
+                         作者 Yuqi Bi
                         <span>
-                          日期 2016-11-12
+                          日期 2017-06-21
                          </span>
                     </span>
                     <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#hexo"
+                           title="hexo">hexo</a>
                         
                     </div>
                 </div>
@@ -175,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            换电脑后,如何完美迁出hexo博客
         </span>
     </div>
 </header>
@@ -186,26 +192,35 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+                <blockquote>
+<p>最近换了电脑，之前电脑上搭建的静态博客也需要迁移了，上网查了下资料，自己也着手成功的迁移到了新的电脑</p>
+</blockquote>
+<h2 id="开始前准备"><a href="#开始前准备" class="headerlink" title="开始前准备"></a>开始前准备</h2><p>本博文默认git,nodejs已经安装好</p>
+<h2 id="分析文件"><a href="#分析文件" class="headerlink" title="分析文件"></a>分析文件</h2><h3 id="1-哪些文件是必须拷贝走的-拷贝到新的电脑"><a href="#1-哪些文件是必须拷贝走的-拷贝到新的电脑" class="headerlink" title="1.哪些文件是必须拷贝走的(拷贝到新的电脑)"></a>1.哪些文件是必须拷贝走的(拷贝到新的电脑)</h3><p>首先是之前自己修改的文件，像配置文件_config.yml,theme文件夹，source文件夹自己写的原始文件这些都是必须要拷贝走的。除此之外还有scaffolds文件夹(文件的模板)，package.json(使用哪些包)，.gitignore(提交忽略哪些文件夹)<br>总结：</p>
+<ul>
+<li>_config.yml</li>
+<li>theme</li>
+<li>source</li>
+<li>scaffolds</li>
+<li>package.json</li>
+<li>.gitignore</li>
+</ul>
+<p><strong> 这些是需要拷贝的 </strong></p>
+<h3 id="2-哪些文件是需要忽略不用管的"><a href="#2-哪些文件是需要忽略不用管的" class="headerlink" title="2.哪些文件是需要忽略不用管的"></a>2.哪些文件是需要忽略不用管的</h3><p>.git node_mouldes/ public/ .deploy_git/ db.json</p>
+<h2 id="开始迁移"><a href="#开始迁移" class="headerlink" title="开始迁移"></a>开始迁移</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 全局安装hexo</span></div><div class="line">npm install hexo-cli -g</div><div class="line"></div><div class="line"><span class="comment">// 把必须拷贝的文件，拷贝到新建的文件夹内，执行以下命令</span></div><div class="line"><span class="comment">// 在新建的文件夹内打开命令行，安装必要的模块，初始化</span></div><div class="line"><span class="comment">// 这里不用hexo init初始化，因为配置文件我们已经拷贝过来(一定要慎重，严格按照教程来)</span></div><div class="line"></div><div class="line">npm install</div><div class="line"></div><div class="line"><span class="comment">// 安装其他一些必要的组件</span></div><div class="line">npm install hexo-deployer-git --save</div><div class="line"></div><div class="line">npm install hexo-generator-feed --save</div><div class="line"></div><div class="line">npm install hexo-generator-sitemap --save</div></pre></td></tr></table></figure>
+<h2 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//先本地预览</span></div><div class="line">hexo clean</div><div class="line"></div><div class="line">hexo g</div><div class="line"></div><div class="line">hexo s</div><div class="line"></div><div class="line"><span class="comment">//此时可以先在localhost:4000 本地预览博客，如果不报错，那就说明迁移成功</span></div><div class="line"></div><div class="line"><span class="comment">// 正式部署</span></div><div class="line">hexo clean</div><div class="line"></div><div class="line">hexo g</div><div class="line"></div><div class="line">hexo d</div></pre></td></tr></table></figure>
+<p>至此，可以打开网页看看部署情况，祝各位成功，有问题随时联系我 biyuqiwan@163.com</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2016/12/04/Javascript数组去重效率比较/" data-toggle="tooltip" data-placement="top"
-                           title="Javascript数组去重">&larr; Previous Post</a>
-                    </li>
                     
+                    <li class="next">
+                        <a href="/2017/06/21/《你不知道的javascript中》JS宽松相等和严格相等/" data-toggle="tooltip" data-placement="top"
+                           title="《你不知道的javascript中》JS宽松相等和严格相等">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -220,7 +235,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#开始前准备"><span class="toc-text">开始前准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析文件"><span class="toc-text">分析文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-哪些文件是必须拷贝走的-拷贝到新的电脑"><span class="toc-text">1.哪些文件是必须拷贝走的(拷贝到新的电脑)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-哪些文件是需要忽略不用管的"><span class="toc-text">2.哪些文件是需要忽略不用管的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始迁移"><span class="toc-text">开始迁移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试是否安装成功"><span class="toc-text">测试是否安装成功</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -241,6 +256,12 @@
                         <a href="/tags/">FEATURED TAGS</a>
                     </h5>
                     <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#hexo"
+                           title="hexo">hexo</a>
                         
                     </div>
                 </section>
