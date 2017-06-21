@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+         Vue2.x开发Chrome插件记录｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/06/04/Vue2-X开发Chrome插件记录/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://oq4hkch8e.bkt.clouddn.com/form-opts.png">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://oq4hkch8e.bkt.clouddn.com/form-opts.png?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1> Vue2.x开发Chrome插件记录</h1>
+                    
+                    <span class="meta">
+                         作者 Yuqi Bi
+                        <span>
+                          日期 2017-06-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                        <a class="tag" href="/tags/#chrome插件"
+                           title="chrome插件">chrome插件</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+             Vue2.x开发Chrome插件记录
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>作为一名web开发者,对<a href="https://daneden.github.io/animate.css/" target="_blank" rel="external">Animate.css</a>这个动画库不会陌生,它把常见的动画都封装了起来，非常实用。但是有时候在开发中，仅仅只是需要某一两个动画效果，把整个CSS文件都引入，这样不是太好。<br><a id="more"></a><br>需求就出现了，能不能有一个工具可以直接预览Animate.css对应的动画效果，并且生成对应的动画代码呢？</p>
+<p>作为web开发者，平时跟Chrome浏览器打交道最多，于是就想着整一个Chrome插件可以及时预览对应Animate.css中的动画效果并生成对应的动画代码，这样在实际开发中碰到一些需要使用到Animate.css中的动画效果时，可以大大的提高我们的开发效率。</p>
+<p>插件如下图所示：<br><img src="http://oq4hkch8e.bkt.clouddn.com/prevcss.gif" alt=""><br><strong> <a href="http://pan.baidu.com/s/1bpozy8J" target="_blank" rel="external">插件下载地址</a> </strong><br><strong> <a href="https://github.com/BiYuqi/v-chrome" target="_blank" rel="external">插件源码</a> </strong><br><strong> <a href="http://loadingmore.com/web-prev-animate/">web网页版本</a> </strong></p>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p><strong> Chrome插件开发基本知识 </strong><br>在应用商店中下载下来的插件基本上都是以.crx为文件后缀，该文件其实就是一个压缩包，包括插件所需要的html、css、javascript、图片资源等等文件。</p>
+<p>开发一个插件就跟我们平时做web开发流程没多大的区别，就是先搭好基本的页面，然后使用js来写交互逻辑等功能。</p>
+<p>比如我这个插件的目录文件如下：<br><img src="http://oq4hkch8e.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170604220601.png" alt=""></p>
+<p><strong> manifest.json文件 </strong><br>文件中需要注意一下的mainfest.json(很重要)这个文件，这个json文件的作用是提供插件的各种信息，例如插件能够做的事情，以及插件的文件配置等等信息。下面是一个清单文件的示例：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"manifest_version"</span>: <span class="number">2</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"Prev CSS3 Animate"</span>,</div><div class="line">    <span class="string">"description"</span>: <span class="string">"Preview CSS3 animation effects"</span>,</div><div class="line">    <span class="string">"version"</span>: <span class="string">"1.0"</span>,</div><div class="line">    <span class="string">"content_security_policy"</span>: <span class="string">"script-src 'self' 'unsafe-eval'; object-src 'self'"</span>,</div><div class="line">    <span class="string">"permissions"</span>: [</div><div class="line">        <span class="string">"http://*/*"</span>,</div><div class="line">        <span class="string">"https://*/*"</span>,</div><div class="line">        <span class="string">"file:///*"</span></div><div class="line">     ],</div><div class="line">    <span class="string">"content_scripts"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="string">"matches"</span>: [</div><div class="line">                <span class="string">"http://*/*"</span>,</div><div class="line">                <span class="string">"file:///*/*"</span></div><div class="line">            ],</div><div class="line">            <span class="string">"css"</span>: [<span class="string">"dist/style.css"</span>]</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="string">"browser_action"</span>: &#123;</div><div class="line">        <span class="string">"default_icon"</span>: <span class="string">"img/icon4.png"</span>,</div><div class="line">        <span class="string">"default_popup"</span>: <span class="string">"index.html"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一行声明我们使用清单文件格式的版本 2，必须包含（版本 1 是旧的，已弃用，不建议使用）</p>
+<p>接下来的部分定义扩展程序的名称、描述与版本。这些都会在 Chrome 浏览器中使用，向用户显示已安装的扩展程序，同时在 Chrome 网上应用店中向潜在的新用户显示您的扩展程序。名称应该简练，描述不要比一句话左右还长</p>
+<p>browser_action 对应的是默认的logo(本文是icon4.png)以及文件入口(文本为index.html),这两个资源都必须在扩展程序包中存在，图片是扩展的显示，html是扩展具体运行的基础文件。</p>
+<h3 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h3><p>整个插件的核心交互功能非常简单，如文章开头的动图所示，用户选择对相应动画，代码区域显示对应的代码。这种简单数据交互使用vuejs再适合不过了，vuejs基础知识这里就不再细说了。可直接拷贝代码</p>
+<p>这里需要注意的一点是，chrome 扩展的运行环境有一些特殊要求，称为 Content Security Policy (CSP)，使得通常的 vue 不能被正常使用。如果用的是 vue 1.x，那么可以下载 csp 版本,<strong> <a href="https://github.com/vuejs/vue/tree/csp/dist" target="_blank" rel="external">看这里</a> </strong> 如果是 2.x 版本，请参考官网文档的 <strong> <a href="https://vuefe.cn/v2/guide/installation.html#CSP-环境" target="_blank" rel="external">这一段</a> </strong></p>
+<p>其实2.x解决cps问题很简单，只需要在manifest.json里面加入这样一行即可随意使用2.x版本的Vue<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="string">"content_security_policy"</span>: <span class="string">"script-src 'self' 'unsafe-eval'; object-src 'self'"</span></div></pre></td></tr></table></figure></p>
+<p>核心代码：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 因为使用的webpack 所以直接饮用了打包后的文件 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"dist/style.css"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app-prev-css"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>Prev CSS3 Animate.css<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prev-box"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">:class</span>=<span class="string">"[activeClass, errorClass]"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"select-line"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">select</span> <span class="attr">v-model</span>=<span class="string">"selected"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">option</span> <span class="attr">v-for</span>=<span class="string">"(option,index) in options"</span> <span class="attr">:value</span>=<span class="string">"option"</span>&gt;</span>&#123;&#123;option&#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"copyTips"</span> <span class="attr">class</span>=<span class="string">"copy-btn"</span> <span class="attr">data-clipboard-target</span>=<span class="string">"#copyCss"</span>&gt;</span>复制<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prev-css"</span> <span class="attr">v-html</span>=<span class="string">"cssText"</span> <span class="attr">id</span>=<span class="string">"copyCss"</span> <span class="attr">v-cloak</span>&gt;</span>&#123;&#123;cssText&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tips"</span> <span class="attr">v-show</span>=<span class="string">"isShow"</span> <span class="attr">v-cloak</span>&gt;</span>复制成功！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 因为使用的webpack 所以直接饮用了打包后的文件 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"dist/bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS就不列出来了，可以在源代码中查看。</p>
+<p>下面来使用vuejs来实现插件的功能。<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">v-model</span>=<span class="string">"selected"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">v-for</span>=<span class="string">"(option,index) in options"</span> <span class="attr">:value</span>=<span class="string">"option"</span>&gt;</span>&#123;&#123;option&#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用 v-for 指令进行列表渲染。</p>
+<p>用v-bind方法来绑定option的value值</p>
+<p>在select中使用v-model方法来监听选中的值</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">    <span class="attr">el</span>:<span class="string">"#app-prev-css"</span>,</div><div class="line">    data () &#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">selected</span>:<span class="string">'bounce'</span>,</div><div class="line">            <span class="attr">activeClass</span>: <span class="string">'animated'</span>,</div><div class="line">            <span class="attr">errorClass</span>: <span class="string">'bounce'</span>,</div><div class="line">            <span class="attr">isShow</span>:<span class="literal">false</span>,</div><div class="line">            <span class="attr">options</span>:[</div><div class="line">                <span class="string">'bounce'</span>,<span class="string">'flash'</span>,<span class="string">'pulse'</span>,<span class="string">'rubberBand'</span>,<span class="string">'shake'</span>,<span class="string">'headShake'</span>,<span class="string">'swing'</span>,<span class="string">'tada'</span>,<span class="string">'wobble'</span>,<span class="string">'jello'</span>,</div><div class="line">                <span class="string">'bounceIn'</span>,<span class="string">'bounceInDown'</span>,<span class="string">'bounceInLeft'</span>,<span class="string">'bounceInRight'</span>,<span class="string">'bounceInUp'</span>,</div><div class="line">                <span class="string">'bounceOut'</span>,<span class="string">'bounceOutDown'</span>,<span class="string">'bounceOutLeft'</span>,<span class="string">'bounceOutRight'</span>,<span class="string">'bounceOutUp'</span>,</div><div class="line">                <span class="string">'fadeIn'</span>,<span class="string">'fadeInDown'</span>,<span class="string">'fadeInDownBig'</span>,<span class="string">'fadeInLeft'</span>,<span class="string">'fadeInLeftBig'</span>,<span class="string">'fadeInRight'</span>,</div><div class="line">                <span class="string">'fadeInRightBig'</span>,<span class="string">'fadeInUp'</span>,<span class="string">'fadeInUpBig'</span>,<span class="string">'fadeOut'</span>,<span class="string">'fadeOutDown'</span>,<span class="string">'fadeOutDownBig'</span>,</div><div class="line">                <span class="string">'fadeOutLeft'</span>,<span class="string">'fadeOutLeftBig'</span>,<span class="string">'fadeOutRight'</span>,<span class="string">'fadeOutRightBig'</span>,<span class="string">'fadeOutUp'</span>,<span class="string">'fadeOutUpBig'</span>,</div><div class="line">                <span class="string">'flip'</span>,<span class="string">'flipInX'</span>,<span class="string">'flipInY'</span>,<span class="string">'flipOutX'</span>,<span class="string">'flipOutY'</span>,<span class="string">'lightSpeedIn'</span>,<span class="string">'lightSpeedOut'</span>,</div><div class="line">                <span class="string">'rotateIn'</span>,<span class="string">'rotateInDownLeft'</span>,<span class="string">'rotateInDownRight'</span>,<span class="string">'rotateInUpLeft'</span>,<span class="string">'rotateInUpRight'</span>,</div><div class="line">                <span class="string">'rotateOut'</span>,<span class="string">'rotateOutDownLeft'</span>,<span class="string">'rotateOutDownRight'</span>,<span class="string">'rotateOutUpLeft'</span>,<span class="string">'rotateOutUpRight'</span>,</div><div class="line">                <span class="string">'slideInUp'</span>,<span class="string">'slideInDown'</span>,<span class="string">'slideInLeft'</span>,<span class="string">'slideInRight'</span>,<span class="string">'slideOutUp'</span>,<span class="string">'slideOutDown'</span>,<span class="string">'slideOutLeft'</span>,</div><div class="line">                <span class="string">'slideOutRight'</span>,<span class="string">'zoomIn'</span>,<span class="string">'zoomInDown'</span>,<span class="string">'zoomInLeft'</span>,<span class="string">'zoomInRight'</span>,<span class="string">'zoomInUp'</span>,</div><div class="line">                <span class="string">'zoomOut'</span>,<span class="string">'zoomOutDown'</span>,<span class="string">'zoomOutLeft'</span>,<span class="string">'zoomOutRight'</span>,<span class="string">'zoomOutUp'</span>,<span class="string">'hinge'</span>,<span class="string">'rollIn'</span>,<span class="string">'rollOut'</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="代码同步显示"><a href="#代码同步显示" class="headerlink" title="代码同步显示"></a>代码同步显示</h3><p>接下来是代码同步功能，即在代码区域显示对应animate对齐的CSS代码。</p>
+<p>这里我们用vuejs中的computed属性方法来返回数据<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">computed:&#123;</div><div class="line">    cssText () &#123;</div><div class="line">        <span class="comment">// 数据我单独放在json里面了 返回对应名字动画即可</span></div><div class="line">        <span class="keyword">var</span>  baseData = data[<span class="keyword">this</span>.selected]</div><div class="line"></div><div class="line">        <span class="comment">// 处理数据 优化显示方式 换行 缩进代码 使用了showdown =&gt; html</span></div><div class="line">        <span class="keyword">var</span> converter =  <span class="keyword">new</span> showdown.Converter(&#123;</div><div class="line">          <span class="attr">tables</span>: <span class="literal">true</span></div><div class="line">        &#125;);</div><div class="line">        baseData = converter.makeHtml(baseData);</div><div class="line"></div><div class="line">        baseData = baseData.replace(<span class="regexp">/(.*?)gs/g</span>,<span class="string">"&lt;div&gt;$1&lt;/div&gt;"</span>)</div><div class="line">        baseData = baseData.replace(<span class="regexp">/&lt;p&gt;|&lt;\/p&gt;/g</span>,<span class="string">""</span>)</div><div class="line">        baseData = baseData.replace(<span class="regexp">/\b(sp)\b/g</span>,<span class="string">"&lt;span class='space'&gt;&lt;/span&gt;"</span>)</div><div class="line">        baseData = baseData.replace(<span class="regexp">/\b(sp2)\b/g</span>,<span class="string">"&lt;span class='space2'&gt;&lt;/span&gt;"</span>)</div><div class="line">        <span class="comment">// 返回</span></div><div class="line">        <span class="keyword">return</span> baseData</div><div class="line">    &#125;</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<h3 id="复制代码"><a href="#复制代码" class="headerlink" title="复制代码"></a>复制代码</h3><p>使用了Clipboard插件,具体使用方法<a href="https://github.com/zenorocha/clipboard.js" target="_blank" rel="external">github地址看这里</a><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 点击按钮绑定 data-clipboard-target="#copyCss" --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"copyTips"</span> <span class="attr">class</span>=<span class="string">"copy-btn"</span> <span class="attr">data-clipboard-target</span>=<span class="string">"#copyCss"</span>&gt;</span>复制<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 代码区域使用 id copyCss--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prev-css"</span> <span class="attr">v-html</span>=<span class="string">"cssText"</span> <span class="attr">id</span>=<span class="string">"copyCss"</span> <span class="attr">v-cloak</span>&gt;</span>&#123;&#123;cssText&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>接下来就是js<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">mounted:<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">new</span> Clipboard(<span class="string">'.copy-btn'</span>);</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>开发好之后，可以直接在chrome中运行来调试。打开扩展面板，勾选开发者模式，然后加载刚开发扩展所在的目录就可以直接运行</p>
+<p>一个简单的插件就完成了，通过这一个简单的chrome插件就可以体验到vuejs在web开发中简单、优雅的魅力，还有什么理由不用起来呢。</p>
+<p><img src="http://oq4hkch8e.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE201.png" alt=""></p>
+<p><img src="http://oq4hkch8e.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170604223202.png" alt=""></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/06/11/原生JS模拟点击事件和自定义事件/" data-toggle="tooltip" data-placement="top"
+                           title="原生JS模拟点击事件和自定义事件">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/05/14/学习下如何优雅的写表单验证/" data-toggle="tooltip" data-placement="top"
+                           title="学习下如何优雅的写表单验证">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#功能实现"><span class="toc-text">功能实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码同步显示"><span class="toc-text">代码同步显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制代码"><span class="toc-text">复制代码</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                        <a class="tag" href="/tags/#chrome插件"
+                           title="chrome插件">chrome插件</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

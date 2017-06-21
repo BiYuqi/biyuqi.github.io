@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        浅谈jsvascript随机函数Math.random()｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2016/12/27/浅析js随机数Math.random()/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>浅谈jsvascript随机函数Math.random()</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2016-12-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            浅谈jsvascript随机函数Math.random()
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><strong> Math.random() 方法可返回介于 0 ~ 1 之间的一个随机数。</strong><br><strong> 返回指定范围的随机数(m-n)之间)的公式：Math.random()*(n-m)+m；</strong></p>
+<h2 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h2><p>随机数是统计学领域的一个概念，对于游戏来说也是意义非凡（不玩游戏的我~ ~ ~），用好随机数，其实可以实现很多有意思的效果.</p>
+<p>炒个栗子：抽奖大转盘程序，每当转盘停止转动的时候，指针恰好指向奖品图片的正中点，有人会觉得这不自然，不符合随机的规律。指向一个随机的位置可能更能让人容易接受。</p>
+<p>学过 JavaScript 的人都知道，应用随机数很简单，只要一个 Math.random() 就可以获得一个大于等于 0 小于 1 的浮点数。从一个集合中随机选择对象时，使用浮点数离散化后的结果作为选择集的索引：<br>如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [...];<span class="comment">//很多组数据的集合</span></div><div class="line"><span class="keyword">var</span> ranIndex = <span class="built_in">parseInt</span>( <span class="built_in">Math</span>.random() * arr.length );</div><div class="line"><span class="keyword">var</span> result = arr[ranIndex];</div></pre></td></tr></table></figure></p>
+<h2 id="产生符合指定概率模型的随机数"><a href="#产生符合指定概率模型的随机数" class="headerlink" title="产生符合指定概率模型的随机数"></a>产生符合指定概率模型的随机数</h2><p>就像我们做一些特效一样，缓慢的节奏可以是动画更加动感，应用合适的概率分布也能让页面更具有表现力。而概率分布需要足够大的样本集才能体现效果，在<strong> <a href="http://codepen.io/taobaofed/full/VeYZvL/?count=10000" target="_blank" rel="external">codepen</a>(因为还没有弄好图片，大家可以移步去这里一探究竟)</strong>经常可以看到各种粒子效果（烟花，火焰，炫光）都离不开概率分布.</p>
+<p>讲个比较贴近现实的栗子，平常开发过程中，抽奖需求应该用的蛮多的，抽奖活动中所有的奖品中，苹果电脑 和 移动电源中奖概率会一样么？为每一种奖品配置不同的概率是任何一款抽奖平台的基本功能。<br>举个例子：假设某次抽奖活动，奖品概率设置如下：</p>
+<ul>
+<li>小米背包:0.01</li>
+<li>旅行箱:0.03</li>
+<li>移动电源:0.06</li>
+<li>不中奖（也看作一种商品）:0.9</li>
+</ul>
+<p>意思就是在10000次抽奖中，抽中100个移动电源，300个旅行箱，600个移动电源，9000次不中奖.<br>基本设计思路：设计一个returnRandom()函数，返回一个大于0小于1的浮点数，将0到1之间等分成四段，每一段对应一个奖品，根据函数的返回值来决定命中那个奖品；所以returnRandom()函数的返回值要满足如下：</p>
+<ul>
+<li>返回值区间 [0,0.25],概率 0.01</li>
+<li>返回值区间[0.25,0.5],概率0.03</li>
+<li>返回值区间[0.5,0.75],概率0.06</li>
+<li>返回值区间[0.75,1],概率0.9</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>  <span class="title">returnRandom</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> m = <span class="built_in">Math</span>.random(),</div><div class="line">	n = <span class="built_in">Math</span>.random()/<span class="number">4</span>;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">0.01</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span> + n;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">0.03</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0.25</span> + n;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">0.06</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0.5</span> + n;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">1</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0.75</span> + n;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用的时候，可以用熟悉的调用方式:<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">"小米背包"</span>,<span class="string">"旅行箱"</span>,<span class="string">"移动电源"</span>,<span class="string">"谢谢参与"</span>];</div><div class="line"><span class="keyword">var</span> ranIndex = <span class="built_in">parseInt</span>( returnRandom() * arr.length );</div><div class="line"><span class="keyword">var</span> result = arr[ranIndex];</div></pre></td></tr></table></figure></p>
+<p>具体实现：<br>用博客中之前写的数组去重函数来实现统计运算一百万次的概率<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> test = [];<span class="comment">//一个新的临时数组</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;<span class="number">1000000</span>;i++)&#123;</div><div class="line">	test.push(<span class="built_in">parseInt</span>( returnRandom()*<span class="number">4</span> ))<span class="comment">//储存运算十万次后得到的数据</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">	<span class="keyword">var</span> result = [];<span class="comment">//用来接收测到的数据</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;test.length;i++)&#123;<span class="comment">//遍历当前数组</span></div><div class="line">		<span class="keyword">if</span>(!obj[test[i]])&#123;<span class="comment">//如果没有当前项</span></div><div class="line">			result[test[i]] = <span class="number">1</span></div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			result[test[i]] ++;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>数据导入echart3.0后得出如下图：<br><img src="http://oiukswkar.bkt.clouddn.com/mathrandom.png" alt="Math.random()测试概率"></p>
+<h2 id="概率的可配置化"><a href="#概率的可配置化" class="headerlink" title="概率的可配置化"></a>概率的可配置化</h2><p>上一段代码演示了如何生成符合指定概率模型的随机浮点数，它的缺限在于模型的数据硬编码在函数体内，维护起来有困难。</p>
+<p>如果设计一个工厂函数，根据输入的权重数据来动态创建随机函数，会给实际应用中带来很大便利。<br>后续在更…..</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/12/28/JS数组常用的方法总结/" data-toggle="tooltip" data-placement="top"
+                           title="JS数组常用的方法总结">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/12/26/JS实用技巧(二)/" data-toggle="tooltip" data-placement="top"
+                           title="JS实用技巧(二)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机数"><span class="toc-text">随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产生符合指定概率模型的随机数"><span class="toc-text">产生符合指定概率模型的随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概率的可配置化"><span class="toc-text">概率的可配置化</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

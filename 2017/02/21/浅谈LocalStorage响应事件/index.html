@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        浅谈LocalStorage响应事件｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/02/21/浅谈LocalStorage响应事件/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>浅谈LocalStorage响应事件</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2017-02-21
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#localStorage"
+                           title="localStorage">localStorage</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            浅谈LocalStorage响应事件
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p><strong> 前几天群里看到有朋友提了一个这样的需求；A页面看视频,又在B页面打开相同视频，B页面视频看完时，A页面状态自动改变 </strong></p>
+</blockquote>
+<a id="more"></a>
+<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><p><strong> localStorage API有哪些？</strong></p>
+<ul>
+<li>localStorage.setItem()该方法接受两个参数——要创建/修改的数据项的键，和对应的值</li>
+<li>localStorage.getItem()可以从存储中获取一个数据项。该方法接受数据项的键作为参数，并返回数据值</li>
+<li>localStorage.removeItem() 接受一个参数——你想要移除的数据项的键，然后会将对应的数据项从域名对应的存储对象中移除</li>
+<li>localStorage.clear() 不接受参数，只是简单地清空域名对应的整个存储对象</li>
+</ul>
+<p>具体的实践先不写了,后续有时间再写…(会有时间么)</p>
+<h3 id="StorageEvent-响应存储的变化"><a href="#StorageEvent-响应存储的变化" class="headerlink" title="StorageEvent 响应存储的变化"></a>StorageEvent 响应存储的变化</h3><p>先看下MDN的介绍:</p>
+<blockquote>
+<p>无论何时,Storage对象发生变化时(即创建/更新/删除数据项时,重复设置相同的键值不会触发该事件，Storage.clear() 方法至多触发一次该事件),StorageEvent事件会触发.在同一个页面内发生的改变不会起作用——在相同域名下的其他页面(如一个新标签或iframe)发生的改变才会起作用.在其他域名下的页面不能访问相同的Storage对象。</p>
+</blockquote>
+<p><strong> 根据mdn的描述，说明该方法只能在通域名下使用 </strong></p>
+<p>写个样板DEMO<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'storage'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    e.key;<span class="comment">//改变的数据项的键</span></div><div class="line">    e.oldValue;<span class="comment">//改变前的旧值</span></div><div class="line">    e.newValue;<span class="comment">//改变后的新值</span></div><div class="line">    e.url;<span class="comment">//改变的存储对象所在的文档的 URL</span></div><div class="line">    e.storageArea;<span class="comment">//以及存储对象本身</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p><strong> 该方法给予了我们很多想象力,像开头所说不同页面同域名下,所发生的的变化都可以通过该方法进行捕捉，进而更新相应数据 </strong></p>
+<h3 id="演示DEMO"><a href="#演示DEMO" class="headerlink" title="演示DEMO"></a>演示DEMO</h3><p>先占个位，demo随后即来</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API" target="_blank" rel="external">Web Storage API</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Storage" target="_blank" rel="external">LocalStorage</a></li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/02/JS函数的throttle(节流)和debounce(抖动)/" data-toggle="tooltip" data-placement="top"
+                           title="Js函数的throttle(节流)和debounce(防抖)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/02/21/正则表达式必须包含数字字母两种组合/" data-toggle="tooltip" data-placement="top"
+                           title="正则表达式必须包含数字和字母两种组合">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#回顾"><span class="toc-text">回顾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#StorageEvent-响应存储的变化"><span class="toc-text">StorageEvent 响应存储的变化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#演示DEMO"><span class="toc-text">演示DEMO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#localStorage"
+                           title="localStorage">localStorage</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

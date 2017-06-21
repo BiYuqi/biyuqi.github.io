@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Js模仿块级作用域与ES6块级作用域｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2016/12/22/Js模仿块级作用域与ES6块级作用域/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Js模仿块级作用域与ES6块级作用域</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2016-12-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Js模仿块级作用域与ES6块级作用域
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>最近接触ES6多了起来，感觉自己之前js的基础还没有多牢固，趁着下班时间，着手温习下高程3，今天看到块级作用域这块，索性就把刚学一点的ES6做个比较，看异同，现学现卖了。</p>
+</blockquote>
+<h2 id="前传"><a href="#前传" class="headerlink" title="前传"></a>前传</h2><p>ES5只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景。<br><a id="more"></a></p>
+<h2 id="为什么需要块级作用域（ES5实现方式）？"><a href="#为什么需要块级作用域（ES5实现方式）？" class="headerlink" title="为什么需要块级作用域（ES5实现方式）？"></a>为什么需要块级作用域（ES5实现方式）？</h2><p><strong>第一种场景，用来计数的循环变量泄露为全局变量。</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">outputNums</span>(<span class="params">count</span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;count;i++)&#123;</div><div class="line">		<span class="built_in">console</span>.log(i);<span class="comment">// 0 1 2 3 4 5 6</span></div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.log(i); <span class="comment">//7</span></div><div class="line">&#125;</div><div class="line">outputNums(<span class="number">7</span>)</div></pre></td></tr></table></figure></p>
+<p>该函数定义了for循环，变量i初始值为0，变量i只用来控制循环，但是循环结束后，它并没有消失，泄露成了全局变量。在Javascript中，变量i是定义在outputNums()的活动对象中，因此函数内部可以随处访问。  </p>
+<ul>
+<li>解决方法：匿名函数可以用来模仿块级作用域<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//这里是块级作用域</span></div><div class="line">&#125;)()</div><div class="line"></div><div class="line">以上立即执行函数相当于</div><div class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//这里是块级作用域</span></div><div class="line">&#125;;</div><div class="line">func();</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>定义一个匿名函数，立即调用它，调用方式是在函数名字后面添加一对圆括号，即<strong>func()</strong>;<br>如果省去变量直接加()呢？<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//这里是块级作用域</span></div><div class="line">&#125;()；<span class="comment">//报错</span></div></pre></td></tr></table></figure></p>
+<p>因为JavaScript将function关键字当做一个函数声明的开始，而声明后面不能跟圆括号，然而表达式后面可以跟圆括号，将函数声明转化为函数表达式，只需如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//这里是块级作用域</span></div><div class="line">&#125;)()；</div></pre></td></tr></table></figure></p>
+<p>改写后：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">outputNums</span>(<span class="params">count</span>)</span>&#123;</div><div class="line">	(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;count;i++)&#123;</div><div class="line">			<span class="built_in">console</span>.log(i);<span class="comment">// 0 1 2 3 4 5 6</span></div><div class="line">		&#125;</div><div class="line">	&#125;)()；</div><div class="line">	<span class="built_in">console</span>.log(i); <span class="comment">//报错</span></div><div class="line">&#125;</div><div class="line">outputNums(<span class="number">7</span>)</div></pre></td></tr></table></figure></p>
+<p>我们在for循环外面加了一个私有作用域，在匿名函数定义的任何变量，都会在执行结束时销毁，因此i只能在循环中使用，使用后即被销毁，在私有作用域中可以访问变量count，是因为匿名函数是一个闭包，可以访问包含作用域中的所有变量。<br>举个例子：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> nowDate = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">	<span class="keyword">if</span>(nowDate.getMonth == <span class="number">0</span> &amp;&amp; nowDate.getDate == <span class="number">1</span>)&#123;</div><div class="line">		alert(<span class="string">"新年快乐！"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;)()</div></pre></td></tr></table></figure></p>
+<p>上面这段代码，会在阳历一月一日，弹出新年祝福！在多人开发团队合作中，通过创建私有作用域，每个开发人员既可以使用自己的变量，也不用担心弄乱全局作用域。</p>
+<p><strong>第二种场景，内层变量可能会覆盖外层变量。</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> nowDate = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(nowDate);</div><div class="line">	<span class="keyword">if</span>(<span class="literal">false</span>)&#123;</div><div class="line">		<span class="keyword">var</span>  nowDate = <span class="string">"新年快乐"</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">func()<span class="comment">//undefined</span></div></pre></td></tr></table></figure></p>
+<p>导致导致上面的结果原因是变量提升，导致内层nowDate覆盖外层nowDate；<br>错误还原如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> nowDate = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> nowDate;</div><div class="line">	<span class="built_in">console</span>.log(nowDate);</div><div class="line">	<span class="keyword">if</span>(<span class="literal">false</span>)&#123;</div><div class="line">		nowDate = <span class="string">"新年快乐"</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">func()<span class="comment">//undefined</span></div></pre></td></tr></table></figure></p>
+<h2 id="ES6的块级作用域"><a href="#ES6的块级作用域" class="headerlink" title="ES6的块级作用域"></a>ES6的块级作用域</h2><p><strong>let实际上为javascript增加了块级作用域</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">let</span> n = <span class="number">5</span>;</div><div class="line">	<span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">		<span class="keyword">let</span> n = <span class="number">10</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">console</span>.log(n);<span class="comment">//5</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面两段代码都声明了n，运行后输出5，这表明外层代码不收内层代码的影响，如果用var 定义变量n，最后结果会输出10.</p>
+<ul>
+<li>ES6允许块级作用域的任意嵌套。<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&#123;&#123;&#123;&#123; <span class="keyword">let</span> n = <span class="string">"新年快乐"</span> &#125;&#125;&#125;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>下面这段代码使用了四层的会计作用域，外层的作用域无法读取内层作用域。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&#123;&#123;&#123;</div><div class="line">	&#123; <span class="keyword">let</span> n = <span class="string">"新年快乐"</span> &#125;</div><div class="line">	<span class="built_in">console</span>.log(n);<span class="comment">//报错</span></div><div class="line">&#125;&#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>内层作用域可以定义外层作用域的同名变量。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&#123;&#123;&#123;</div><div class="line">	<span class="keyword">let</span> n = <span class="string">"我是n"</span></div><div class="line">	&#123; <span class="keyword">let</span> n = <span class="string">"我也可以是n"</span> &#125;</div><div class="line">	<span class="built_in">console</span>.log(n);<span class="comment">//我是n</span></div><div class="line">&#125;&#125;&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="展望下未来"><a href="#展望下未来" class="headerlink" title="展望下未来"></a>展望下未来</h2><p><strong>块级作用域的出现，实际上使得获得广泛应用的立即执行函数表达式（IIFE）不再必要了。</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// IIFE 写法</span></div><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> nowDate = <span class="string">"新年快乐"</span>;</div><div class="line">  <span class="comment">//...</span></div><div class="line">&#125;)();</div><div class="line"></div><div class="line"><span class="comment">// 块级作用域写法</span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> nowDate =<span class="string">"新年快乐"</span>;</div><div class="line">  <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结语：具体怎么用，还是得看支持的程度。<br>共勉！</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/12/26/JS实用技巧(二)/" data-toggle="tooltip" data-placement="top"
+                           title="JS实用技巧(二)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/12/21/React-Native-常见错误总结/" data-toggle="tooltip" data-placement="top"
+                           title="React Native 常见错误总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前传"><span class="toc-text">前传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要块级作用域（ES5实现方式）？"><span class="toc-text">为什么需要块级作用域（ES5实现方式）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6的块级作用域"><span class="toc-text">ES6的块级作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#展望下未来"><span class="toc-text">展望下未来</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

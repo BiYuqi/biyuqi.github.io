@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        React.createClass和extends React.Component的区别｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2016/12/18/react-native-之-React-createClass和extends-React-Component的区别/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>React.createClass和extends React.Component的区别</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2016-12-18
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#React"
+                           title="React">React</a>
+                        
+                        <a class="tag" href="/tags/#React-native"
+                           title="React-native">React-native</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            React.createClass和extends React.Component的区别
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>createClass本质上是一个工厂函数，extens的方式更加接近最新的ES6规范的class写法。两种方式在预防上的差别主要体现在方法的定义和静态属性的声明上.createClass方式的方法定义使用逗号隔开，因为createClass本质上是一个函数，传递给它的是一个Object；而class的方式定义方法时务必不要使用逗号隔开，这是ES6class 的语法规范。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="React-createClass和extends-Component的区别主要在于："><a href="#React-createClass和extends-Component的区别主要在于：" class="headerlink" title="React.createClass和extends Component的区别主要在于："></a>React.createClass和extends Component的区别主要在于：</h2><ul>
+<li>1.语法区别</li>
+<li>2.模块的导出</li>
+<li>3.状态的区别</li>
+<li>4.实例函数／回调函数的绑定(this)</li>
+<li>5.propType 和 getDefaultProps</li>
+</ul>
+<h2 id="一、语法区别"><a href="#一、语法区别" class="headerlink" title="一、语法区别"></a>一、语法区别</h2><p>React.createClass<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">const</span> ListDemo = React.create(&#123;</div><div class="line">	render()&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;)；</div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div></pre></td></tr></table></figure></p>
+<p>React.Component<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(props) &#123;</div><div class="line">		<span class="keyword">super</span>(props)</div><div class="line">	&#125;</div><div class="line">	render()&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<p>后一种方法使用ES6的语法，用constructor构造器来构造默认的属性和状态。类中方法的定义不再需要尾随 function，而且方法之间不需要以 , 分隔.</p>
+<h2 id="二、模块的导出"><a href="#二、模块的导出" class="headerlink" title="二、模块的导出"></a>二、模块的导出</h2><blockquote>
+<p>在 ES6 语法中，模块的导出使用 export default 代替 module.exports，如下所示：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// ES5 语法</span></div><div class="line"><span class="keyword">var</span> ListDemo = React.createClass(&#123;</div><div class="line">    ...</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div><div class="line"></div><div class="line"><span class="comment">// ES6 语法</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo</div></pre></td></tr></table></figure>
+<h2 id="三、状态的区别"><a href="#三、状态的区别" class="headerlink" title="三、状态的区别"></a>三、状态的区别</h2><p>React.createClass<br>使用 ES5 语法时，React Native 组件的状态变量是在 getInitialState 函数中初始化的，如下所示：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">const</span> ListDemo = React.create(&#123;</div><div class="line">	<span class="comment">// return an object</span></div><div class="line">	getInitialState()&#123;</div><div class="line">	        <span class="keyword">return</span> &#123;</div><div class="line">	            <span class="attr">isEditing</span>: <span class="literal">false</span></div><div class="line">	        &#125;</div><div class="line">   	 &#125;,</div><div class="line">	<span class="attr">render</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;)；</div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div></pre></td></tr></table></figure></p>
+<p>React.Component<br>到了 ES6 语法中，React Native 团队修改了状态变量的初始化方式，取消了单独的 getInitialState 函数，将初始化放在构造函数中，并提供 this.state 实例变量用来存储状态变量，如下所示：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(props) &#123;</div><div class="line">		<span class="keyword">super</span>(props);</div><div class="line">		<span class="keyword">this</span>.state = &#123;</div><div class="line">           		 <span class="attr">scrollTop</span>: <span class="keyword">new</span> Animated.Value(<span class="number">0</span>),</div><div class="line">        	&#125;;</div><div class="line">	&#125;</div><div class="line">	render()&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<h2 id="四、实例函数／回调函数的绑定-this"><a href="#四、实例函数／回调函数的绑定-this" class="headerlink" title="四、实例函数／回调函数的绑定(this)"></a>四、实例函数／回调函数的绑定(this)</h2><p>React.createClass：会正确绑定this<br>ES5 语法中，React Native 的 createClass 函数提供的一个便利的功能是自动绑定类作用域中的函数到组件实例，例如 createClass 里面定义的函数可以通过 this 直接指向本组件的某个成员函数<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">let</span> ListDemo = React.createClass(&#123;</div><div class="line">    <span class="attr">_handleClick</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 这个方法将作为回调函数使用</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'onClick'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">render</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">                <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.normal&#125;</span></span></div><div class="line">                    <span class="attr">onPress</span>=<span class="string">&#123;this._handleClick&#125;</span>&gt;</div><div class="line">                    确定</div><div class="line">                <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;,</div><div class="line">&#125;);</div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div></pre></td></tr></table></figure></p>
+<p>React.Component<br>到了 ES6 的 class 定义中，开发者必须手动进行回调函数的绑定操作，React Native 团队推荐在组件的构造函数中进行，如下所示：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(props) &#123;</div><div class="line">        <span class="keyword">super</span>(props);</div><div class="line">    &#125;</div><div class="line">    _handleClick() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'onClick'</span>);</div><div class="line">    &#125;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">                <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.normal&#125;</span></span></div><div class="line">                    <span class="attr">onPress</span>=<span class="string">&#123;this._handleClick.bind(this)&#125;</span>&gt;</div><div class="line">                    确定</div><div class="line">                <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>我们还可以在 constructor 中来改变 this.handleClick 执行的上下文，这应该是相对上面一种来说更好的办法，万一我们需要改变语法结构，这种方式完全不需要去改动 JSX 的部分：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(props) &#123;</div><div class="line">        <span class="keyword">super</span>(props);</div><div class="line">        <span class="comment">// 手动执行绑定操作</span></div><div class="line">        <span class="keyword">this</span>._handleClick = <span class="keyword">this</span>._handleClick.bind(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">    _handleClick() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'onClick'</span>);</div><div class="line">    &#125;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">                <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.normal&#125;</span></span></div><div class="line">                    <span class="attr">onPress</span>=<span class="string">&#123;this._handleClick&#125;</span>&gt;</div><div class="line">                    确定</div><div class="line">                <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure>
+<h2 id="五、propType-和-getDefaultProps"><a href="#五、propType-和-getDefaultProps" class="headerlink" title="五、propType 和 getDefaultProps"></a>五、propType 和 getDefaultProps</h2><p>React.createClass：通过proTypes对象和getDefaultProps()方法来设置和获取props.<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> ListDemo = React.createClass(&#123;  </div><div class="line">  <span class="attr">propTypes</span>: &#123;</div><div class="line">    <span class="attr">name</span>: React.PropTypes.string</div><div class="line">  &#125;,</div><div class="line">  getDefaultProps() &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line"></div><div class="line">    &#125;;</div><div class="line">  &#125;,</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<p>React.Component：通过设置两个属性propTypes和defaultProps<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React form <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> propTypes = &#123; <span class="comment">// as static property</span></div><div class="line">        name: React.PropTypes.string</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">static</span> defaultProps = &#123; <span class="comment">// as static property</span></div><div class="line">        name: <span class="string">''</span></div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">constructor</span>(props)&#123;</div><div class="line">        <span class="keyword">super</span>(props)</div><div class="line">    &#125;</div><div class="line">    render()&#123;</div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<p><strong> 最近使用RN比较多,慢慢填坑路… 慢慢写吧!</strong></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/12/21/React-Native-常见错误总结/" data-toggle="tooltip" data-placement="top"
+                           title="React Native 常见错误总结">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/12/13/Babel核心用法记要/" data-toggle="tooltip" data-placement="top"
+                           title="Babel核心用法记要">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#React-createClass和extends-Component的区别主要在于："><span class="toc-text">React.createClass和extends Component的区别主要在于：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、语法区别"><span class="toc-text">一、语法区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、模块的导出"><span class="toc-text">二、模块的导出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、状态的区别"><span class="toc-text">三、状态的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、实例函数／回调函数的绑定-this"><span class="toc-text">四、实例函数／回调函数的绑定(this)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、propType-和-getDefaultProps"><span class="toc-text">五、propType 和 getDefaultProps</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#React"
+                           title="React">React</a>
+                        
+                        <a class="tag" href="/tags/#React-native"
+                           title="React-native">React-native</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

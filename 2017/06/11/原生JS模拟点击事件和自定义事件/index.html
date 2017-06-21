@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        原生JS模拟点击事件和自定义事件｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/06/11/原生JS模拟点击事件和自定义事件/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://oq4hkch8e.bkt.clouddn.com/form-opts.png">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://oq4hkch8e.bkt.clouddn.com/form-opts.png?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>原生JS模拟点击事件和自定义事件</h1>
+                    
+                    <span class="meta">
+                         作者 Yuqi Bi
+                        <span>
+                          日期 2017-06-11
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            原生JS模拟点击事件和自定义事件
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>事件，就是网页中某个特别值得关注的瞬间，事件是经常有用户操作或通过其他浏览器功能来触发，但是很少有人知道，也可以使用javascript来在任意时刻触发特定事件，此时事件如同浏览器创建的事件一样。 —— 《高级程序设计3》</p>
+</blockquote>
+<h2 id="高程三的实现方法"><a href="#高程三的实现方法" class="headerlink" title="高程三的实现方法"></a>高程三的实现方法</h2><p>模拟点击事件应该是一个很常见的行为，经常用jQ来实现，今天研究下原生js如何模拟触发点击事件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">            点击</div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="keyword">var</span> doms = <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>)</div><div class="line">            doms.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">            &#125;)</div><div class="line">            <span class="comment">// 使用createEvent() 创建event事件 传入鼠标事件字符串 MouseEvents</span></div><div class="line">            <span class="keyword">var</span> events = <span class="built_in">document</span>.createEvent(<span class="string">"MouseEvents"</span>)</div><div class="line">            <span class="comment">// 返回的对象有一个名为 initMouseEvent()方法 用于指定与该鼠标售价仅有关的信息</span></div><div class="line">            events.initMouseEvent(<span class="string">"click"</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="built_in">document</span>.defaultView)</div><div class="line">            <span class="comment">// 最后一步触发事件 dispatchEvent()</span></div><div class="line">            doms.dispatchEvent(events)</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>很遗憾的是，在我查过MDN后，得知该方法已经废弃<br><strong> 注：该特性已经从 Web 标准中删除，虽然一些浏览器目前仍然支持它，但也许会在未来的某个时间停止支持，请尽量不要使用该特性。 </strong></p>
+<h2 id="MDN-MouseEvent"><a href="#MDN-MouseEvent" class="headerlink" title="MDN MouseEvent()"></a>MDN MouseEvent()</h2><p>MDN上已经说得很清楚,尽管为了保持向后兼容MouseEvent.initMouseEvent()仍然可用,但是呢,我们应该使用MouseEvent().<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">语法：event = <span class="keyword">new</span> MouseEvent(typeArg, mouseEventInit);</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>)</div><div class="line">doms.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 创建模拟对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="keyword">new</span> MouseEvent(<span class="string">"click"</span>,&#123;</div><div class="line">    <span class="attr">bubbles</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">cancelable</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">view</span>:<span class="built_in">window</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 最后一步触发事件 dispatchEvent()</span></div><div class="line">doms.dispatchEvent(events)</div><div class="line"></div><div class="line"><span class="comment">// 至此 我们的自动触发事件已经完成 控制台已经打印：莫名其妙被点击</span></div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>typeArg</th>
+<th>DOMString 格式的事件名称。</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mouseEventInit</td>
+<td>可选</td>
+</tr>
+</tbody>
+</table>
+<p>更多的属性请看这里<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent#浏览器兼容性" target="_blank" rel="external">点击查看</a></p>
+<h2 id="IE兼容"><a href="#IE兼容" class="headerlink" title="IE兼容"></a>IE兼容</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 注意低版本ie兼容</span></div><div class="line">doms.attachEvent(<span class="string">'onclick'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 创建事件对象</span></div><div class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEventObject()</div><div class="line"><span class="comment">// 触发</span></div><div class="line">doms.fireEvent(<span class="string">'onclick'</span>,event)</div></pre></td></tr></table></figure>
+<p>先创建enent对象，然后为其制定相应的信息，然后触发事件<br>fireEvent()方法会自动为event对象添加scrElement和type属性，其他属性都必须手动添加</p>
+<h2 id="创建自定义事件"><a href="#创建自定义事件" class="headerlink" title="创建自定义事件"></a>创建自定义事件</h2><p><strong> 自定义事件有两种方法,一种是使用new Event(),另一种是new customEvent() </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 创建自定义事件</span></div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> Event(<span class="string">'build'</span>,&#123;</div><div class="line">      <span class="attr">bubbles</span>: <span class="string">'true'</span>,</div><div class="line">      <span class="attr">cancelable</span>: <span class="string">'true'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 监听事件</span></div><div class="line">doms.addEventListener(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"测试自定义事件"</span>)</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="comment">// 触发事件.</span></div><div class="line">doms.dispatchEvent(event);</div><div class="line"><span class="comment">// 控制台</span></div><div class="line"><span class="comment">// 测试自定义事件</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 创建自定义事件</span></div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> CustomEvent(<span class="string">'build'</span>,&#123;</div><div class="line">      <span class="attr">bubbles</span>: <span class="string">'true'</span>, <span class="comment">//一个布尔值,表明该事件是否会冒泡.</span></div><div class="line">      cancelable: <span class="string">'true'</span>, <span class="comment">//一个布尔值,表明该事件是否可以被取消.</span></div><div class="line">      detail:<span class="string">"我是测试数据"</span> <span class="comment">//当事件初始化时传递的数据.</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 监听事件</span></div><div class="line">doms.addEventListener(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"测试自定义事件"</span>)</div><div class="line">    <span class="built_in">console</span>.log(e.detail)</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="comment">// 触发事件.</span></div><div class="line">doms.dispatchEvent(event);</div><div class="line"><span class="comment">// 控制台</span></div><div class="line"><span class="comment">// 测试自定义事件</span></div></pre></td></tr></table></figure>
+<p>可以很明显的看到,其实new customEvent()比new Event()多了可以在event.detail属性里携带自定义数据的功能</p>
+<p>绝大多数现代浏览器中都会支持这个构造函数（Internet Explorer例外）。 要了解更为复杂的方法，可参考下面的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/Events/Creating_and_triggering_events" target="_blank" rel="external">过时的方法</a>。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CustomEvent" target="_blank" rel="external">customEvent()</a>和<a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/Event" target="_blank" rel="external"> Event()</a> MDN链接在此</p>
+<p>总结下来发现,除了模拟自定义事件比较好用,兼容性还可以，模拟鼠标事件兼容性各方面都支持的不太好，DOM这块水很深啊，继续研究…</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/06/12/FreeCodeCamp初级脚本算法题-笔记/" data-toggle="tooltip" data-placement="top"
+                           title="FreeCodeCamp初级脚本算法题-笔记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/06/04/Vue2-X开发Chrome插件记录/" data-toggle="tooltip" data-placement="top"
+                           title=" Vue2.x开发Chrome插件记录">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#高程三的实现方法"><span class="toc-text">高程三的实现方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MDN-MouseEvent"><span class="toc-text">MDN MouseEvent()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IE兼容"><span class="toc-text">IE兼容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建自定义事件"><span class="toc-text">创建自定义事件</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

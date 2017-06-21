@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/bitbug_favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        写的每条正则记录在册(持续更新)｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/03/20/从今天起写的每条正则都记录在册/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>写的每条正则记录在册(持续更新)</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2017-03-20
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#正则"
+                           title="正则">正则</a>
+                        
+                        <a class="tag" href="/tags/#RegExp"
+                           title="RegExp">RegExp</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            写的每条正则记录在册(持续更新)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="不能纯字母数字-必须包含两者"><a href="#不能纯字母数字-必须包含两者" class="headerlink" title="不能纯字母数字 必须包含两者"></a>不能纯字母数字 必须包含两者</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/</span>;</div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(?!^[0-9]+$)(?!^[a-z]+$)^[0-9a-z]+$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式"><a href="#不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式" class="headerlink" title="不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)"></a>不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg3 = <span class="regexp">/(?!^[0-9]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[0-9a-z_\-@&amp;=]+$/</span>;</div><div class="line"><span class="keyword">var</span> reg4 = <span class="regexp">/^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[0-9a-z_\-@&amp;=]+$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="药品库规格-药品规格-测试用例"><a href="#药品库规格-药品规格-测试用例" class="headerlink" title="药品库规格 药品规格 测试用例"></a>药品库规格 药品规格 测试用例</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//ex:匹配如下</span></div><div class="line"><span class="comment">//12*13  12mg*3 12mg*3 片(盒|粒)</span></div><div class="line"><span class="comment">//0.12*12 7片*6盒</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(([1-9]+\d*(\.\d*)?)|(^0\.[1-9]+\d*))([a-zA-Zμ]*|[\u4e00-\u9fa5]*)*?\*([1-9]+\d*)[\u4e00-\u9fa5]*$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="判断文件类型"><a href="#判断文件类型" class="headerlink" title="判断文件类型"></a>判断文件类型</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg6 = <span class="regexp">/\.(doc|png|image)$/</span>;<span class="comment">//等等 需要什么文件可以自动添加</span></div></pre></td></tr></table></figure>
+<h3 id="排除指定字符"><a href="#排除指定字符" class="headerlink" title="排除指定字符"></a>排除指定字符</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//找出其中 包含 p 但不包含 ph 的所有单词，即</span></div><div class="line"><span class="comment">//[ 'python', 'javascript', 'jsonp' ]</span></div><div class="line"><span class="keyword">var</span> web_development = <span class="string">"python php ruby javascript jsonp perhapsphpisoutdated"</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b(?=\w*p)(?!\w*ph)\w+\b/g</span></div></pre></td></tr></table></figure>
+<h3 id="排除结尾不以什么字符结尾"><a href="#排除结尾不以什么字符结尾" class="headerlink" title="排除结尾不以什么字符结尾"></a>排除结尾不以什么字符结尾</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//不以is结尾的单词</span></div><div class="line"><span class="keyword">var</span> str =  <span class="string">`existing</span></div><div class="line">            pessimist</div><div class="line">            this</div><div class="line">            is</div><div class="line">            the</div><div class="line">            `;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b\w+[^is]$\b/gm</span>;<span class="comment">//跨行</span></div></pre></td></tr></table></figure>
+<h3 id="检测是否出现重复字符2个及以上-2017-4-6"><a href="#检测是否出现重复字符2个及以上-2017-4-6" class="headerlink" title="检测是否出现重复字符2个及以上(2017/4/6)"></a>检测是否出现重复字符2个及以上(2017/4/6)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">// 例如aabcdf abbbdfsdf</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(.)\1+/g</span>;</div><div class="line">    <span class="comment">//排序</span></div><div class="line">    s = s.split(<span class="string">''</span>);</div><div class="line">    s.sort();</div><div class="line">    s = s.join(<span class="string">''</span>);</div><div class="line">    <span class="comment">//校验</span></div><div class="line">    <span class="keyword">if</span>(reg.test(s))&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"哎呀,碰到了重复字符"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> str = <span class="string">'asfawertyha'</span>;</div><div class="line">get(str);</div></pre></td></tr></table></figure>
+<h3 id="字符去重-2017-4-10"><a href="#字符去重-2017-4-10" class="headerlink" title="字符去重(2017/4/10)"></a>字符去重(2017/4/10)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">//排序</span></div><div class="line">    s = s.split(<span class="string">''</span>);</div><div class="line">    s.sort();</div><div class="line">    s = s.join(<span class="string">''</span>);</div><div class="line">    <span class="comment">//该正则与上一条有区别</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(.)\1*/g</span>;</div><div class="line">    <span class="keyword">var</span> tt = <span class="string">''</span>;<span class="comment">//存储新字符串</span></div><div class="line">    <span class="keyword">var</span> m;<span class="comment">//变量</span></div><div class="line">    <span class="keyword">while</span> (m = reg.exec(s))&#123;</div><div class="line">        tt += m[<span class="number">1</span>];<span class="comment">//循环去重</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//返回去重后的字符</span></div><div class="line">    <span class="keyword">return</span> tt;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> str = <span class="string">'asfaasdwesdfrtyha'</span>;</div><div class="line">get(str);</div><div class="line"><span class="comment">//adefhrstwy</span></div></pre></td></tr></table></figure>
+<h3 id="匹配1000-65535区间的数字-不包含9999-2017-5-4"><a href="#匹配1000-65535区间的数字-不包含9999-2017-5-4" class="headerlink" title="匹配1000-65535区间的数字(不包含9999)(2017/5/4)"></a>匹配1000-65535区间的数字(不包含9999)(2017/5/4)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(?!9999)([1-9]\d&#123;3&#125;|[1-5]\d&#123;4&#125;|6[0-5]&#123;2&#125;[0-3][0-5])$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="链接巧妙取纯数字-2017-5-4"><a href="#链接巧妙取纯数字-2017-5-4" class="headerlink" title="链接巧妙取纯数字(2017/5/4)"></a>链接巧妙取纯数字(2017/5/4)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b\d+\b/</span>;</div><div class="line"><span class="comment">//test 尾数后面的纯数字，不出意外都可以取出来</span></div><div class="line">http:<span class="comment">//www.66play.com/Home/share/match/id/39455  </span></div><div class="line">http:<span class="comment">//www.66play.com/match-detail-151951</span></div><div class="line">http:<span class="comment">//www.66play.com/Home/share/match/id/148853?</span></div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/04/04/写个正则匹配url参数的字典-方便提取查询参数/" data-toggle="tooltip" data-placement="top"
+                           title="写个正则匹配url参数的字典(方便提取查询参数)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/03/20/纯css实现底footer终在底部/" data-toggle="tooltip" data-placement="top"
+                           title="纯css实现底footer终在底部">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#不能纯字母数字-必须包含两者"><span class="toc-text">不能纯字母数字 必须包含两者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式"><span class="toc-text">不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#药品库规格-药品规格-测试用例"><span class="toc-text">药品库规格 药品规格 测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断文件类型"><span class="toc-text">判断文件类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排除指定字符"><span class="toc-text">排除指定字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排除结尾不以什么字符结尾"><span class="toc-text">排除结尾不以什么字符结尾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检测是否出现重复字符2个及以上-2017-4-6"><span class="toc-text">检测是否出现重复字符2个及以上(2017/4/6)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符去重-2017-4-10"><span class="toc-text">字符去重(2017/4/10)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匹配1000-65535区间的数字-不包含9999-2017-5-4"><span class="toc-text">匹配1000-65535区间的数字(不包含9999)(2017/5/4)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接巧妙取纯数字-2017-5-4"><span class="toc-text">链接巧妙取纯数字(2017/5/4)</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#正则"
+                           title="正则">正则</a>
+                        
+                        <a class="tag" href="/tags/#RegExp"
+                           title="RegExp">RegExp</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="http://loadingmore.com/demo/">Demo</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+</body>
+
+</html>

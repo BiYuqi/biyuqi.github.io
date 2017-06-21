@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>LoadingMore</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://loadingmore.com/"/>
+  <updated>2017-06-21T12:56:49.000Z</updated>
+  <id>http://loadingmore.com/</id>
+  
+  <author>
+    <name>LoaingMore</name>
+    <email>biyuqiwan@163.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《你不知道的javascript中》JS宽松相等和严格相等</title>
+    <link href="http://loadingmore.com/2017/06/21/%E3%80%8A%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84javascript%E4%B8%AD%E3%80%8BJS%E5%AE%BD%E6%9D%BE%E7%9B%B8%E7%AD%89%E5%92%8C%E4%B8%A5%E6%A0%BC%E7%9B%B8%E7%AD%89/"/>
+    <id>http://loadingmore.com/2017/06/21/《你不知道的javascript中》JS宽松相等和严格相等/</id>
+    <published>2017-06-21T12:43:07.000Z</published>
+    <updated>2017-06-21T12:56:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>温故而知新，最近在看《你不知道的javascript》系列的书记，看到深处，总有新的发现，好记性不如烂笔头，遂写下这篇读书笔记</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>宽松相等==和严格相等===都用来判断两个值是否”相等”,但是他们也有一个很重要的区别，尤其是判断条件上<br>常见的误区是”==检查值是否相等，===检查值和类型是否相等”。这样理解似乎有点道理，但是还不够准确，正确的解释是：</p>
+<blockquote>
+<p>“==允许在相等比较中进行强制类型转换，而===不允许”</p>
+</blockquote>
+<h1 id="抽象值操作"><a href="#抽象值操作" class="headerlink" title="抽象值操作"></a>抽象值操作</h1><p>(名词解释，后面用到再来看也可以)</p>
+<h2 id="ToNumber"><a href="#ToNumber" class="headerlink" title="ToNumber"></a>ToNumber</h2><p>ES5 规范在 9.3 节定义了<br>抽象操作 ToNumber。<br>其中 true 转换为 1，false 转换为 0。undefined 转换为 NaN，null 转换为 0。</p>
+<h2 id="ToString"><a href="#ToString" class="headerlink" title="ToString"></a>ToString</h2><p>定义了抽象操作 ToString，它负责处理非字符串到字符串的强制类型转换。<br>基本类型值的字符串化规则为：null 转换为 “null”，undefined 转换为 “undefined”，true<br>转换为 “true”。数字的字符串化则遵循通用规则</p>
+<h2 id="ToPrimitive"><a href="#ToPrimitive" class="headerlink" title="ToPrimitive"></a>ToPrimitive</h2><p>为了将值转换为相应的基本类型值，抽象操作 ToPrimitive（参见 ES5 规范 9.1 节）会首先<br>（通过内部操作 DefaultValue，参见 ES5 规范 8.12.8 节）检查该值是否有 valueOf() 方法。<br>如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用 toString()<br>的返回值（如果存在）来进行强制类型转换。<br>如果 valueOf() 和 toString() 均不返回基本类型值，会产生 TypeError 错误</p>
+<h1 id="抽象相等"><a href="#抽象相等" class="headerlink" title="抽象相等"></a>抽象相等</h1><h2 id="1-字符串和数字之间的相等比较"><a href="#1-字符串和数字之间的相等比较" class="headerlink" title="1.字符串和数字之间的相等比较"></a>1.字符串和数字之间的相等比较</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">42</span>；</div><div class="line"><span class="keyword">var</span> b = <span class="string">"42"</span>;</div><div class="line"></div><div class="line">a === b <span class="comment">//false</span></div><div class="line">a == b <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p>因为没有强制类型的转换，所以a===b为false,42不等于”42”<br>a == b 是宽松相等,如果值得类型不同，则对其中之一或者两者进行强制类型转换。<br>具体怎么转环？还要看规范：<br>ES5规范汇这样定义：</p>
+<p><strong>(1) 如果Type(x) 是数字，Type(y) 是字符串，则返回 x == ToNumber(y)的结果。</strong></p>
+<p><strong>(2) 如果Type(x)是字符串，Type(y)是数字，则返回ToNumber(x) == y的结果</strong></p>
+<h2 id="2-其他类型和布尔类型之间的相等比较"><a href="#2-其他类型和布尔类型之间的相等比较" class="headerlink" title="2.其他类型和布尔类型之间的相等比较"></a>2.其他类型和布尔类型之间的相等比较</h2><p>== 最容易出错的一个地方时true和false与其他类型之间的相等比较。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="string">"42"</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="literal">true</span>;</div><div class="line"></div><div class="line">a == b <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>根据以往的经验，”42”是一个真值，为什么==的结果不是true呢？原因及简单又复杂，很容易掉坑里，看看规范怎么说：</p>
+<p><strong>(1) 如果Type(x)是布尔类型，则返回ToNumber(x) == y的结果 </strong></p>
+<p><strong>(2) 如果Type(y)是布尔类型，则返回x == ToNumber(y)的结果</strong><br>看个例子<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="literal">true</span></div><div class="line"><span class="keyword">var</span> y = <span class="string">"42"</span></div><div class="line"></div><div class="line">x == y <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<p>Type(x)是布尔值，所以准换后为1，变为1 == “42”,两者类型仍然不通，进而”42”继续转换为42，最后变为1 == 42，结果是false，<br>反过来也一样<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="string">'42'</span></div><div class="line"><span class="keyword">var</span> y = <span class="literal">false</span></div><div class="line"></div><div class="line">x == y <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<p>一个值既不等于true,也不等于false.太奇怪了吧？</p>
+<p>这个问题本身就是错误的，我们被自己的大脑欺骗了。</p>
+<p>“42” 是一个真值没错，但 “42” == true 中并没有发生布尔值的比较和强制类型转换。</p>
+<p>这里不是 “42” 转换为布尔值（true） ，而是 true 转换为 1，”42” 转换为 42。</p>
+<p>这里并不涉及 ToBoolean，所以 “42” 是真值还是假值与 == 本身没有关系！<br>重点是我们要搞清楚 == 对不同的类型组合怎样处理。== 两边的布尔值会被强制类型转换为数字。</p>
+<p>很奇怪吧？建议无论什么情况下都不要使用 == true 和 == false。<br>请注意，这里说的只是 ==，=== true 和 === false 不允许强制类型转换，所以并不涉及ToNumber。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="string">'42'</span></div><div class="line"></div><div class="line"><span class="comment">// 不要这样用，条件不成立</span></div><div class="line"><span class="keyword">if</span>(a == <span class="literal">true</span>)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 也不要这样</span></div><div class="line"><span class="keyword">if</span>(a === <span class="literal">true</span>)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//这样显式用法没有问题</span></div><div class="line"><span class="keyword">if</span>(a)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 这样的显式更好</span></div><div class="line"><span class="keyword">if</span>(!!a)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>避免了 == true 和 == false(也叫作布尔值的宽松相等)之后就不用担心这些坑了</p>
+<h2 id="3-null和undefined之间的相等比较"><a href="#3-null和undefined之间的相等比较" class="headerlink" title="3.null和undefined之间的相等比较"></a>3.null和undefined之间的相等比较</h2><p>null 和 unfined之间的== 也涉及隐式强制类型的转换：</p>
+<p><strong>(1)如果x为null,y为unfined,这结果为true</strong></p>
+<p><strong>(2)如果x为unfined，y为null,则结果为true</strong></p>
+<p>在==中null和unfined相等(他们也与其自身相等),除此之外其他值不存在这种情况<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = nul;</div><div class="line"><span class="keyword">var</span> b;</div><div class="line"></div><div class="line">a == b <span class="comment">//true</span></div><div class="line">a == <span class="literal">null</span> <span class="comment">// true</span></div><div class="line">b == <span class="literal">null</span> <span class="comment">//true</span></div><div class="line"></div><div class="line">a == <span class="literal">false</span>  <span class="comment">//false</span></div><div class="line">b == <span class="literal">false</span> <span class="comment">//false</span></div><div class="line">a == <span class="string">''</span>  <span class="comment">//false</span></div><div class="line">b == <span class="string">''</span>  <span class="comment">//fasle</span></div><div class="line">a == <span class="number">0</span>  <span class="comment">//false</span></div><div class="line">b == <span class="number">0</span> <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<p>null 和 undefined 之间的强制类型转换是安全可靠的，上例中除 null 和 undefined 以外的</p>
+<p>其他值均无法得到假阳（false positive）结果。个人认为通过这种方式将 null 和 undefined<br>作为等价值来处理比较好。<br>ex:<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = doSomething()</div><div class="line"></div><div class="line"><span class="keyword">if</span>(a == <span class="literal">null</span>)&#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>条件判断a ==null仅仅在函数返回null和undefined时才成立，除此之外都不成立</p>
+<h2 id="4-对象和非对象之间的相等比较"><a href="#4-对象和非对象之间的相等比较" class="headerlink" title="4.对象和非对象之间的相等比较"></a>4.对象和非对象之间的相等比较</h2><p>ES5 规范 11.9.3.8-9 做如下规定：</p>
+<p><strong>(1)如果Type(x)是字符串或者数字，Type(y)是对象，则返回x == ToPromitive(y)的结果</strong></p>
+<p><strong>(2)如果 Type(x) 是对象，Type(y) 是字符串或数字，则返回 ToPromitive(x) == y 的结果</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">42</span></div><div class="line"><span class="keyword">var</span> b = [<span class="number">42</span>]</div><div class="line">a == b <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p>[ 42 ] 首先调用 ToPromitive 抽象操作 ，返回 “42”，变成 “42” == 42，然后<br>又变成 42 == 42，最后二者相等</p>
+<h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">JavaScript 中的相等性判断|MDN</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;温故而知新，最近在看《你不知道的javascript》系列的书记，看到深处，总有新的发现，好记性不如烂笔头，遂写下这篇读书笔记&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlin
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>FreeCodeCamp初级脚本算法题-笔记</title>
+    <link href="http://loadingmore.com/2017/06/12/FreeCodeCamp%E5%88%9D%E7%BA%A7%E8%84%9A%E6%9C%AC%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%94%E8%AE%B0/"/>
+    <id>http://loadingmore.com/2017/06/12/FreeCodeCamp初级脚本算法题-笔记/</id>
+    <published>2017-06-11T16:03:36.000Z</published>
+    <updated>2017-06-13T14:22:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><a href="http://www.freecodecamp.cn/" target="_blank" rel="external">FreeCodeCamp</a>是一个学习编程的开源社区,里面有面向前端方面的基础知识，也有一些脚本算法相关的题目，今天花了2个小时把初级脚本算法题16道，研究了一下(我刚做了15,还有一道需要研究下…后面补上+注释),通过几个小时的学习，领会到FCC是在实践练习中掌握知识，而不是学习背记理论了解知识,前端本身也是一种技术，所以多实践，多研究，才能加深对这门语言的理解.</p>
+</blockquote>
+<h2 id="翻转字符串算法挑战"><a href="#翻转字符串算法挑战" class="headerlink" title="翻转字符串算法挑战"></a>翻转字符串算法挑战</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reverseString = <span class="function"><span class="keyword">function</span> (<span class="params">str</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> str.split(<span class="string">''</span>).reverse().join(<span class="string">''</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="阶乘算法挑战"><a href="#阶乘算法挑战" class="headerlink" title="阶乘算法挑战"></a>阶乘算法挑战</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> factorialize = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> res = <span class="number">1</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=num;i&gt;<span class="number">0</span>;i--)&#123;</div><div class="line">        res *= i</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 递归</span></div><div class="line"><span class="keyword">const</span> factorialize2 = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(num &lt;= <span class="number">1</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> num * factorialize2(num<span class="number">-1</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="回文算法挑战"><a href="#回文算法挑战" class="headerlink" title="回文算法挑战"></a>回文算法挑战</h2><p>如果一个字符串忽略标点符号、大小写和空格，正着读和反着读一模一样，那么这个字符串就是palindrome(回文)<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> palindrome = <span class="function"><span class="keyword">function</span> (<span class="params">str</span>) </span>&#123;</div><div class="line">    str = str.replace(<span class="regexp">/[^0-9a-zA-Z]/gi</span>,<span class="string">''</span>).toLowerCase()</div><div class="line">    <span class="keyword">const</span> len = str.length</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>,j=len<span class="number">-1</span>;i&lt;len;i++,j--)&#123;</div><div class="line">        <span class="keyword">if</span>(str[i] !== str[j])&#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(palindrome(<span class="string">'mnnm'</span>))</div></pre></td></tr></table></figure></p>
+<h2 id="寻找最长的单词算法挑战"><a href="#寻找最长的单词算法挑战" class="headerlink" title="寻找最长的单词算法挑战"></a>寻找最长的单词算法挑战</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> findLongestWord = <span class="function"><span class="keyword">function</span> (<span class="params">word</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> words = word.split(<span class="string">' '</span>),</div><div class="line">        max = <span class="number">0</span>,</div><div class="line">        len = words.length;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        <span class="keyword">if</span>(words[i].length &gt; max)&#123;</div><div class="line">            max = words.length</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> max</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(findLongestWord(<span class="string">"The quick brown fox jumped over the lazy dog"</span>))</div></pre></td></tr></table></figure>
+<h2 id="设置首字母大写算法挑战"><a href="#设置首字母大写算法挑战" class="headerlink" title="设置首字母大写算法挑战."></a>设置首字母大写算法挑战.</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> titleCase = <span class="function"><span class="keyword">function</span> (<span class="params">w</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> word = w.toLowerCase().split(<span class="string">' '</span>),</div><div class="line">        len = word.length;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        <span class="keyword">let</span> filter = word[i].charAt(<span class="number">0</span>).toUpperCase()</div><div class="line">        word[i] = word[i].replace(word[i].charAt(<span class="number">0</span>),filter)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> word.join(<span class="string">' '</span>)</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(titleCase(<span class="string">'I"m a little tea pot'</span>))</div></pre></td></tr></table></figure>
+<h2 id="寻找数组中的最大值算法挑战"><a href="#寻找数组中的最大值算法挑战" class="headerlink" title="寻找数组中的最大值算法挑战"></a>寻找数组中的最大值算法挑战</h2><p>大数组中包含了4个小数组，分别找到每个小数组中的最大值，然后把它们串联起来，形成一个新数组。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> largestOfFour = <span class="function"><span class="keyword">function</span> (<span class="params">arr</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> len = arr.length,</div><div class="line">        res = [];</div><div class="line">    <span class="comment">// 写个执行解析出每个数组大值得函数</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getMax</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">        <span class="keyword">let</span> ss = s.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> b - a</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">return</span> ss[<span class="number">0</span>]</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        <span class="comment">// 动态添加每个最大值</span></div><div class="line">        res.push(getMax(arr[i]))</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 返回</span></div><div class="line">    <span class="keyword">return</span> res</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> stt = [[<span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>], [<span class="number">13</span>, <span class="number">27</span>, <span class="number">18</span>, <span class="number">26</span>], [<span class="number">32</span>, <span class="number">35</span>, <span class="number">37</span>, <span class="number">39</span>], [<span class="number">1000</span>, <span class="number">1001</span>, <span class="number">857</span>, <span class="number">1</span>]]</div><div class="line"><span class="built_in">console</span>.log(largestOfFour(stt))</div><div class="line"><span class="comment">// [5, 27, 39, 1001]</span></div></pre></td></tr></table></figure></p>
+<h2 id="确认末尾字符算法挑战"><a href="#确认末尾字符算法挑战" class="headerlink" title="确认末尾字符算法挑战"></a>确认末尾字符算法挑战</h2><p>检查一个字符串(str)是否以指定的字符串(target)结尾。<br>如果是，返回true;如果不是，返回false。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> confirmEnding = <span class="function"><span class="keyword">function</span> (<span class="params">str,target</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">""</span>+target+<span class="string">"$"</span>,<span class="string">'gi'</span>)</div><div class="line">    <span class="keyword">if</span>(reg.test(str))&#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(confirmEnding(<span class="string">"He has to give me a new name"</span>, <span class="string">"me"</span>))</div></pre></td></tr></table></figure></p>
+<h2 id="重复操作算法挑战"><a href="#重复操作算法挑战" class="headerlink" title="重复操作算法挑战"></a>重复操作算法挑战</h2><p>重复一个指定的字符串 num次，如果num是一个负数则返回一个空字符串。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> repeat = <span class="function"><span class="keyword">function</span>(<span class="params">str,num</span>)</span>&#123;</div><div class="line">    <span class="keyword">let</span> res = <span class="string">''</span>;</div><div class="line">    <span class="keyword">if</span>(num &lt; <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;=num;i++)&#123;</div><div class="line">        res += str</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(repeat(<span class="string">'ser'</span>,<span class="number">3</span>))</div><div class="line"><span class="comment">// serserser</span></div></pre></td></tr></table></figure></p>
+<h2 id="符串截取算法挑战"><a href="#符串截取算法挑战" class="headerlink" title="符串截取算法挑战"></a>符串截取算法挑战</h2><p>如果字符串的长度比指定的参数num长，则把多余的部分用…来表示。<br>如果字符串的长度比指定的参数num短 返回原字符串<br>切记，插入到字符串尾部的三个点号也会计入字符串的长度。<br>但是，如果指定的参数num小于或等于3，则添加的三个点号不会计入字符串的长度。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> truncate = <span class="function"><span class="keyword">function</span>(<span class="params">str,num</span>)</span>&#123;</div><div class="line">    <span class="keyword">let</span> ss = <span class="string">''</span>,</div><div class="line">        tips = <span class="string">'...'</span>;</div><div class="line">    <span class="keyword">if</span>(str.length &gt; num)&#123;</div><div class="line">        <span class="keyword">if</span>(num &gt; <span class="number">3</span>)&#123;</div><div class="line">            <span class="keyword">return</span> str.substr(<span class="number">0</span>,(num<span class="number">-3</span>))+tips</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> str.substr(<span class="number">0</span>,num)+tips</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> str</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(truncate(<span class="string">"A-tisket a-tasket A green and yellow basket"</span>, <span class="number">8</span>))</div><div class="line"><span class="comment">// A-tis...</span></div></pre></td></tr></table></figure></p>
+<h2 id="数组分割算法挑战"><a href="#数组分割算法挑战" class="headerlink" title="数组分割算法挑战"></a>数组分割算法挑战</h2><p>把一个数组arr按照指定的数组大小size分割成若干个数组块。<br>例如:chunk([1,2,3,4],2)=[[1,2],[3,4]];<br>chunk([1,2,3,4,5],2)=[[1,2],[3,4],[5]]<br>chunk([0, 1, 2, 3, 4, 5], 4) 应该返回 [[0, 1, 2, 3], [4, 5]].<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   Math.ceil 目的是未来算出能分多少组</div><div class="line">*   start 每组的起始索引</div><div class="line">*   end 每一组的末尾索引值</div><div class="line">*   通过循环不停地改变启起始末尾索引，</div><div class="line">*   动态的截取 arr.slice 返回一个截取后的数组</div><div class="line">*/</div><div class="line"><span class="keyword">const</span> chunk = <span class="function"><span class="keyword">function</span> (<span class="params">arr,size</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = [],</div><div class="line">        groups = <span class="built_in">Math</span>.ceil(arr.length/size);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;groups;i++)&#123;</div><div class="line">        <span class="keyword">let</span> start = i * size,</div><div class="line">            end = start + size;</div><div class="line">        result.push(arr.slice(start,end))</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(chunk([<span class="number">1</span>,<span class="number">24</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>],<span class="number">3</span>)) <span class="comment">//[Array(3), Array(2)]</span></div></pre></td></tr></table></figure></p>
+<h2 id="数组截断算法挑战"><a href="#数组截断算法挑战" class="headerlink" title="数组截断算法挑战"></a>数组截断算法挑战</h2><p>返回一个数组被截断n个元素后还剩余的元素，截断从索引0开始。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> slasher = <span class="function"><span class="keyword">function</span>(<span class="params">arr,howMany</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(howMany &gt; arr.length)&#123;</div><div class="line">        <span class="keyword">return</span> []</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 换个思路,利用slice的负数从后面截取</span></div><div class="line">    <span class="keyword">return</span> arr.slice(howMany-arr.length)</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(slasher([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">0</span>))</div><div class="line"><span class="comment">// [1, 2, 3]</span></div></pre></td></tr></table></figure></p>
+<h2 id="数组查询算法挑战"><a href="#数组查询算法挑战" class="headerlink" title="数组查询算法挑战"></a>数组查询算法挑战</h2><p>蛤蟆可以吃队友，也可以吃对手。<br>如果数组第一个字符串元素包含了第二个字符串元素的所有字符，函数返回true。<br>举例，[“hello”, “Hello”]应该返回true，因为在忽略大小写的情况下，第二个字符串的所有字符都可以在第一个字符串找到。<br>[“hello”, “hey”]应该返回false，因为字符串”hello”并不包含字符”y”。<br>[“Alien”, “line”]应该返回true，因为”line”中所有字符都可以在”Alien”找到。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> mutation = <span class="function"><span class="keyword">function</span>(<span class="params">arr</span>)</span>&#123;</div><div class="line">    <span class="keyword">let</span> flag = <span class="number">0</span>,<span class="comment">//变量 后面存储匹配ok的数量</span></div><div class="line">        left = arr[<span class="number">0</span>].toLowerCase(),<span class="comment">// 数组第一个元素</span></div><div class="line">        right = arr[<span class="number">1</span>].toLowerCase();<span class="comment">//数组第二个元素</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;right.length;i++)&#123;</div><div class="line">        <span class="keyword">if</span>(left.indexOf(right[i]) &gt; <span class="number">-1</span>)&#123;</div><div class="line">            <span class="comment">// 匹配即加加</span></div><div class="line">            flag++</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 看是否完全匹配</span></div><div class="line">    <span class="keyword">if</span>(flag === right.length)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(mutation([<span class="string">"hello"</span>, <span class="string">"llop"</span>]))</div></pre></td></tr></table></figure></p>
+<h2 id="删除数组中特定值算法挑战"><a href="#删除数组中特定值算法挑战" class="headerlink" title="删除数组中特定值算法挑战"></a>删除数组中特定值算法挑战</h2><p>真假美猴王！<br>删除数组中的所有假值。<br>在JavaScript中，假值有false、null、0、””、undefined 和 NaN<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> bouncer = <span class="function"><span class="keyword">function</span>(<span class="params">arr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> arr.filter(<span class="function">(<span class="params">item</span>)=&gt;</span>&#123;</div><div class="line">        <span class="keyword">return</span> !!item <span class="comment">// !!返回布尔值 用过滤器过滤出为true值</span></div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(bouncer([<span class="number">1</span>, <span class="literal">null</span>, <span class="literal">NaN</span>, <span class="number">2</span>, <span class="literal">undefined</span>]))</div></pre></td></tr></table></figure></p>
+<h2 id="去除数组中任意多个值算法挑战"><a href="#去除数组中任意多个值算法挑战" class="headerlink" title="去除数组中任意多个值算法挑战"></a>去除数组中任意多个值算法挑战</h2><p>实现一个摧毁(destroyer)函数，第一个参数是待摧毁的数组，其余的参数是待摧毁的值。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> destroyer = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="keyword">let</span> arr = <span class="built_in">arguments</span>[<span class="number">0</span>],</div><div class="line">        oData = [].slice.call(<span class="built_in">arguments</span>,<span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;oData.length;i++)&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">0</span>;j&lt;arr.length;j++)&#123;</div><div class="line">            <span class="keyword">if</span>(arr[j] === oData[i])&#123;</div><div class="line">                arr.splice(j,<span class="number">1</span>);</div><div class="line">                j--;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> arr;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(destroyer([<span class="number">3</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>], <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>))<span class="comment">// [1]</span></div></pre></td></tr></table></figure></p>
+<h2 id="数组排序并插入值算法挑战"><a href="#数组排序并插入值算法挑战" class="headerlink" title="数组排序并插入值算法挑战"></a>数组排序并插入值算法挑战</h2><p>先给数组排序，然后找到指定的值在数组的位置，最后返回位置对应的索引。<br>举例：where([1,2,3,4], 1.5) 应该返回 1。因为1.5插入到数组[1,2,3,4]后变成[1,1.5,2,3,4]，而1.5对应的索引值就是1。<br>同理，where([20,3,5], 19) 应该返回 2。因为数组会先排序为 [3,5,20]，19插入到数组[3,5,20]后变成[3,5,19,20]，而19对应的索引值就是2。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> where = <span class="function"><span class="keyword">function</span> (<span class="params">arr,num</span>) </span>&#123;</div><div class="line">    <span class="comment">// 先合并</span></div><div class="line">    <span class="keyword">let</span> res = arr.concat(num);</div><div class="line">    <span class="comment">// 排序 导出索引</span></div><div class="line">    <span class="keyword">return</span> res.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> a - b</div><div class="line">    &#125;).indexOf(num)</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(where([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">1.5</span>))<span class="comment">// 1</span></div></pre></td></tr></table></figure></p>
+<h2 id="位移密码算法挑战-待补"><a href="#位移密码算法挑战-待补" class="headerlink" title="位移密码算法挑战(待补)"></a>位移密码算法挑战(待补)</h2><p>让上帝的归上帝，凯撒的归凯撒。<br>下面我们来介绍风靡全球的凯撒密码Caesar cipher，又叫移位密码。<br>移位密码也就是密码中的字母会按照指定的数量来做移位。<br>一个常见的案例就是ROT13密码，字母会移位13个位置。由’A’ ↔ ‘N’, ‘B’ ↔’O’，以此类推。<br>写一个ROT13函数，实现输入加密字符串，输出解密字符串。<br>所有的字母都是大写，不要转化任何非字母形式的字符(例如：空格，标点符号)，遇到这些特殊字符，跳过它们。<br>ex:<br>rot13(“SERR PBQR PNZC”) 应该解码为 “FREE CODE CAMP”<br>rot13(“SERR CVMMN!”) 应该解码为 “FREE PIZZA!”<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">占位</div></pre></td></tr></table></figure></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>大家如何有更好的解决方法或者疑惑，欢迎补充和交流，可以直接联系我biyuqiwan@163.com</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.freecodecamp.cn/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;FreeCodeCamp&lt;/a&gt;是一个学习编程的开源社区,里面有面向前端方面的基础知识，也有一些脚本算法相关的
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="算法" scheme="http://loadingmore.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>原生JS模拟点击事件和自定义事件</title>
+    <link href="http://loadingmore.com/2017/06/11/%E5%8E%9F%E7%94%9FJS%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/"/>
+    <id>http://loadingmore.com/2017/06/11/原生JS模拟点击事件和自定义事件/</id>
+    <published>2017-06-11T08:46:45.000Z</published>
+    <updated>2017-06-11T16:46:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>事件，就是网页中某个特别值得关注的瞬间，事件是经常有用户操作或通过其他浏览器功能来触发，但是很少有人知道，也可以使用javascript来在任意时刻触发特定事件，此时事件如同浏览器创建的事件一样。 —— 《高级程序设计3》</p>
+</blockquote>
+<h2 id="高程三的实现方法"><a href="#高程三的实现方法" class="headerlink" title="高程三的实现方法"></a>高程三的实现方法</h2><p>模拟点击事件应该是一个很常见的行为，经常用jQ来实现，今天研究下原生js如何模拟触发点击事件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">            点击</div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="keyword">var</span> doms = <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>)</div><div class="line">            doms.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">            &#125;)</div><div class="line">            <span class="comment">// 使用createEvent() 创建event事件 传入鼠标事件字符串 MouseEvents</span></div><div class="line">            <span class="keyword">var</span> events = <span class="built_in">document</span>.createEvent(<span class="string">"MouseEvents"</span>)</div><div class="line">            <span class="comment">// 返回的对象有一个名为 initMouseEvent()方法 用于指定与该鼠标售价仅有关的信息</span></div><div class="line">            events.initMouseEvent(<span class="string">"click"</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="built_in">document</span>.defaultView)</div><div class="line">            <span class="comment">// 最后一步触发事件 dispatchEvent()</span></div><div class="line">            doms.dispatchEvent(events)</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>很遗憾的是，在我查过MDN后，得知该方法已经废弃<br><strong> 注：该特性已经从 Web 标准中删除，虽然一些浏览器目前仍然支持它，但也许会在未来的某个时间停止支持，请尽量不要使用该特性。 </strong></p>
+<h2 id="MDN-MouseEvent"><a href="#MDN-MouseEvent" class="headerlink" title="MDN MouseEvent()"></a>MDN MouseEvent()</h2><p>MDN上已经说得很清楚,尽管为了保持向后兼容MouseEvent.initMouseEvent()仍然可用,但是呢,我们应该使用MouseEvent().<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">语法：event = <span class="keyword">new</span> MouseEvent(typeArg, mouseEventInit);</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>)</div><div class="line">doms.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 创建模拟对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="keyword">new</span> MouseEvent(<span class="string">"click"</span>,&#123;</div><div class="line">    <span class="attr">bubbles</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">cancelable</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">view</span>:<span class="built_in">window</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 最后一步触发事件 dispatchEvent()</span></div><div class="line">doms.dispatchEvent(events)</div><div class="line"></div><div class="line"><span class="comment">// 至此 我们的自动触发事件已经完成 控制台已经打印：莫名其妙被点击</span></div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>typeArg</th>
+<th>DOMString 格式的事件名称。</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mouseEventInit</td>
+<td>可选</td>
+</tr>
+</tbody>
+</table>
+<p>更多的属性请看这里<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent#浏览器兼容性" target="_blank" rel="external">点击查看</a></p>
+<h2 id="IE兼容"><a href="#IE兼容" class="headerlink" title="IE兼容"></a>IE兼容</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 注意低版本ie兼容</span></div><div class="line">doms.attachEvent(<span class="string">'onclick'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 创建事件对象</span></div><div class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEventObject()</div><div class="line"><span class="comment">// 触发</span></div><div class="line">doms.fireEvent(<span class="string">'onclick'</span>,event)</div></pre></td></tr></table></figure>
+<p>先创建enent对象，然后为其制定相应的信息，然后触发事件<br>fireEvent()方法会自动为event对象添加scrElement和type属性，其他属性都必须手动添加</p>
+<h2 id="创建自定义事件"><a href="#创建自定义事件" class="headerlink" title="创建自定义事件"></a>创建自定义事件</h2><p><strong> 自定义事件有两种方法,一种是使用new Event(),另一种是new customEvent() </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 创建自定义事件</span></div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> Event(<span class="string">'build'</span>,&#123;</div><div class="line">      <span class="attr">bubbles</span>: <span class="string">'true'</span>,</div><div class="line">      <span class="attr">cancelable</span>: <span class="string">'true'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 监听事件</span></div><div class="line">doms.addEventListener(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"测试自定义事件"</span>)</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="comment">// 触发事件.</span></div><div class="line">doms.dispatchEvent(event);</div><div class="line"><span class="comment">// 控制台</span></div><div class="line"><span class="comment">// 测试自定义事件</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 创建自定义事件</span></div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> CustomEvent(<span class="string">'build'</span>,&#123;</div><div class="line">      <span class="attr">bubbles</span>: <span class="string">'true'</span>, <span class="comment">//一个布尔值,表明该事件是否会冒泡.</span></div><div class="line">      cancelable: <span class="string">'true'</span>, <span class="comment">//一个布尔值,表明该事件是否可以被取消.</span></div><div class="line">      detail:<span class="string">"我是测试数据"</span> <span class="comment">//当事件初始化时传递的数据.</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 监听事件</span></div><div class="line">doms.addEventListener(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"测试自定义事件"</span>)</div><div class="line">    <span class="built_in">console</span>.log(e.detail)</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="comment">// 触发事件.</span></div><div class="line">doms.dispatchEvent(event);</div><div class="line"><span class="comment">// 控制台</span></div><div class="line"><span class="comment">// 测试自定义事件</span></div></pre></td></tr></table></figure>
+<p>可以很明显的看到,其实new customEvent()比new Event()多了可以在event.detail属性里携带自定义数据的功能</p>
+<p>绝大多数现代浏览器中都会支持这个构造函数（Internet Explorer例外）。 要了解更为复杂的方法，可参考下面的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/Events/Creating_and_triggering_events" target="_blank" rel="external">过时的方法</a>。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CustomEvent" target="_blank" rel="external">customEvent()</a>和<a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/Event" target="_blank" rel="external"> Event()</a> MDN链接在此</p>
+<p>总结下来发现,除了模拟自定义事件比较好用,兼容性还可以，模拟鼠标事件兼容性各方面都支持的不太好，DOM这块水很深啊，继续研究…</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;事件，就是网页中某个特别值得关注的瞬间，事件是经常有用户操作或通过其他浏览器功能来触发，但是很少有人知道，也可以使用javascript来在任意时刻触发特定事件，此时事件如同浏览器创建的事件一样。 —— 《高级程序设计3》&lt;/p&gt;
+&lt;/blockq
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title> Vue2.x开发Chrome插件记录</title>
+    <link href="http://loadingmore.com/2017/06/04/Vue2-X%E5%BC%80%E5%8F%91Chrome%E6%8F%92%E4%BB%B6%E8%AE%B0%E5%BD%95/"/>
+    <id>http://loadingmore.com/2017/06/04/Vue2-X开发Chrome插件记录/</id>
+    <published>2017-06-04T13:37:58.000Z</published>
+    <updated>2017-06-08T14:39:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>作为一名web开发者,对<a href="https://daneden.github.io/animate.css/" target="_blank" rel="external">Animate.css</a>这个动画库不会陌生,它把常见的动画都封装了起来，非常实用。但是有时候在开发中，仅仅只是需要某一两个动画效果，把整个CSS文件都引入，这样不是太好。<br><a id="more"></a><br>需求就出现了，能不能有一个工具可以直接预览Animate.css对应的动画效果，并且生成对应的动画代码呢？</p>
+<p>作为web开发者，平时跟Chrome浏览器打交道最多，于是就想着整一个Chrome插件可以及时预览对应Animate.css中的动画效果并生成对应的动画代码，这样在实际开发中碰到一些需要使用到Animate.css中的动画效果时，可以大大的提高我们的开发效率。</p>
+<p>插件如下图所示：<br><img src="http://oq4hkch8e.bkt.clouddn.com/prevcss.gif" alt=""><br><strong> <a href="http://pan.baidu.com/s/1bpozy8J" target="_blank" rel="external">插件下载地址</a> </strong><br><strong> <a href="https://github.com/BiYuqi/v-chrome" target="_blank" rel="external">插件源码</a> </strong><br><strong> <a href="http://loadingmore.com/web-prev-animate/">web网页版本</a> </strong></p>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p><strong> Chrome插件开发基本知识 </strong><br>在应用商店中下载下来的插件基本上都是以.crx为文件后缀，该文件其实就是一个压缩包，包括插件所需要的html、css、javascript、图片资源等等文件。</p>
+<p>开发一个插件就跟我们平时做web开发流程没多大的区别，就是先搭好基本的页面，然后使用js来写交互逻辑等功能。</p>
+<p>比如我这个插件的目录文件如下：<br><img src="http://oq4hkch8e.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170604220601.png" alt=""></p>
+<p><strong> manifest.json文件 </strong><br>文件中需要注意一下的mainfest.json(很重要)这个文件，这个json文件的作用是提供插件的各种信息，例如插件能够做的事情，以及插件的文件配置等等信息。下面是一个清单文件的示例：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"manifest_version"</span>: <span class="number">2</span>,</div><div class="line">    <span class="string">"name"</span>: <span class="string">"Prev CSS3 Animate"</span>,</div><div class="line">    <span class="string">"description"</span>: <span class="string">"Preview CSS3 animation effects"</span>,</div><div class="line">    <span class="string">"version"</span>: <span class="string">"1.0"</span>,</div><div class="line">    <span class="string">"content_security_policy"</span>: <span class="string">"script-src 'self' 'unsafe-eval'; object-src 'self'"</span>,</div><div class="line">    <span class="string">"permissions"</span>: [</div><div class="line">        <span class="string">"http://*/*"</span>,</div><div class="line">        <span class="string">"https://*/*"</span>,</div><div class="line">        <span class="string">"file:///*"</span></div><div class="line">     ],</div><div class="line">    <span class="string">"content_scripts"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="string">"matches"</span>: [</div><div class="line">                <span class="string">"http://*/*"</span>,</div><div class="line">                <span class="string">"file:///*/*"</span></div><div class="line">            ],</div><div class="line">            <span class="string">"css"</span>: [<span class="string">"dist/style.css"</span>]</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="string">"browser_action"</span>: &#123;</div><div class="line">        <span class="string">"default_icon"</span>: <span class="string">"img/icon4.png"</span>,</div><div class="line">        <span class="string">"default_popup"</span>: <span class="string">"index.html"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一行声明我们使用清单文件格式的版本 2，必须包含（版本 1 是旧的，已弃用，不建议使用）</p>
+<p>接下来的部分定义扩展程序的名称、描述与版本。这些都会在 Chrome 浏览器中使用，向用户显示已安装的扩展程序，同时在 Chrome 网上应用店中向潜在的新用户显示您的扩展程序。名称应该简练，描述不要比一句话左右还长</p>
+<p>browser_action 对应的是默认的logo(本文是icon4.png)以及文件入口(文本为index.html),这两个资源都必须在扩展程序包中存在，图片是扩展的显示，html是扩展具体运行的基础文件。</p>
+<h3 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h3><p>整个插件的核心交互功能非常简单，如文章开头的动图所示，用户选择对相应动画，代码区域显示对应的代码。这种简单数据交互使用vuejs再适合不过了，vuejs基础知识这里就不再细说了。可直接拷贝代码</p>
+<p>这里需要注意的一点是，chrome 扩展的运行环境有一些特殊要求，称为 Content Security Policy (CSP)，使得通常的 vue 不能被正常使用。如果用的是 vue 1.x，那么可以下载 csp 版本,<strong> <a href="https://github.com/vuejs/vue/tree/csp/dist" target="_blank" rel="external">看这里</a> </strong> 如果是 2.x 版本，请参考官网文档的 <strong> <a href="https://vuefe.cn/v2/guide/installation.html#CSP-环境" target="_blank" rel="external">这一段</a> </strong></p>
+<p>其实2.x解决cps问题很简单，只需要在manifest.json里面加入这样一行即可随意使用2.x版本的Vue<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="string">"content_security_policy"</span>: <span class="string">"script-src 'self' 'unsafe-eval'; object-src 'self'"</span></div></pre></td></tr></table></figure></p>
+<p>核心代码：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 因为使用的webpack 所以直接饮用了打包后的文件 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"dist/style.css"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app-prev-css"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>Prev CSS3 Animate.css<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prev-box"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">div</span> <span class="attr">:class</span>=<span class="string">"[activeClass, errorClass]"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"select-line"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">select</span> <span class="attr">v-model</span>=<span class="string">"selected"</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">option</span> <span class="attr">v-for</span>=<span class="string">"(option,index) in options"</span> <span class="attr">:value</span>=<span class="string">"option"</span>&gt;</span>&#123;&#123;option&#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"copyTips"</span> <span class="attr">class</span>=<span class="string">"copy-btn"</span> <span class="attr">data-clipboard-target</span>=<span class="string">"#copyCss"</span>&gt;</span>复制<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prev-css"</span> <span class="attr">v-html</span>=<span class="string">"cssText"</span> <span class="attr">id</span>=<span class="string">"copyCss"</span> <span class="attr">v-cloak</span>&gt;</span>&#123;&#123;cssText&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tips"</span> <span class="attr">v-show</span>=<span class="string">"isShow"</span> <span class="attr">v-cloak</span>&gt;</span>复制成功！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 因为使用的webpack 所以直接饮用了打包后的文件 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"dist/bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS就不列出来了，可以在源代码中查看。</p>
+<p>下面来使用vuejs来实现插件的功能。<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">v-model</span>=<span class="string">"selected"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">v-for</span>=<span class="string">"(option,index) in options"</span> <span class="attr">:value</span>=<span class="string">"option"</span>&gt;</span>&#123;&#123;option&#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用 v-for 指令进行列表渲染。</p>
+<p>用v-bind方法来绑定option的value值</p>
+<p>在select中使用v-model方法来监听选中的值</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">    <span class="attr">el</span>:<span class="string">"#app-prev-css"</span>,</div><div class="line">    data () &#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">selected</span>:<span class="string">'bounce'</span>,</div><div class="line">            <span class="attr">activeClass</span>: <span class="string">'animated'</span>,</div><div class="line">            <span class="attr">errorClass</span>: <span class="string">'bounce'</span>,</div><div class="line">            <span class="attr">isShow</span>:<span class="literal">false</span>,</div><div class="line">            <span class="attr">options</span>:[</div><div class="line">                <span class="string">'bounce'</span>,<span class="string">'flash'</span>,<span class="string">'pulse'</span>,<span class="string">'rubberBand'</span>,<span class="string">'shake'</span>,<span class="string">'headShake'</span>,<span class="string">'swing'</span>,<span class="string">'tada'</span>,<span class="string">'wobble'</span>,<span class="string">'jello'</span>,</div><div class="line">                <span class="string">'bounceIn'</span>,<span class="string">'bounceInDown'</span>,<span class="string">'bounceInLeft'</span>,<span class="string">'bounceInRight'</span>,<span class="string">'bounceInUp'</span>,</div><div class="line">                <span class="string">'bounceOut'</span>,<span class="string">'bounceOutDown'</span>,<span class="string">'bounceOutLeft'</span>,<span class="string">'bounceOutRight'</span>,<span class="string">'bounceOutUp'</span>,</div><div class="line">                <span class="string">'fadeIn'</span>,<span class="string">'fadeInDown'</span>,<span class="string">'fadeInDownBig'</span>,<span class="string">'fadeInLeft'</span>,<span class="string">'fadeInLeftBig'</span>,<span class="string">'fadeInRight'</span>,</div><div class="line">                <span class="string">'fadeInRightBig'</span>,<span class="string">'fadeInUp'</span>,<span class="string">'fadeInUpBig'</span>,<span class="string">'fadeOut'</span>,<span class="string">'fadeOutDown'</span>,<span class="string">'fadeOutDownBig'</span>,</div><div class="line">                <span class="string">'fadeOutLeft'</span>,<span class="string">'fadeOutLeftBig'</span>,<span class="string">'fadeOutRight'</span>,<span class="string">'fadeOutRightBig'</span>,<span class="string">'fadeOutUp'</span>,<span class="string">'fadeOutUpBig'</span>,</div><div class="line">                <span class="string">'flip'</span>,<span class="string">'flipInX'</span>,<span class="string">'flipInY'</span>,<span class="string">'flipOutX'</span>,<span class="string">'flipOutY'</span>,<span class="string">'lightSpeedIn'</span>,<span class="string">'lightSpeedOut'</span>,</div><div class="line">                <span class="string">'rotateIn'</span>,<span class="string">'rotateInDownLeft'</span>,<span class="string">'rotateInDownRight'</span>,<span class="string">'rotateInUpLeft'</span>,<span class="string">'rotateInUpRight'</span>,</div><div class="line">                <span class="string">'rotateOut'</span>,<span class="string">'rotateOutDownLeft'</span>,<span class="string">'rotateOutDownRight'</span>,<span class="string">'rotateOutUpLeft'</span>,<span class="string">'rotateOutUpRight'</span>,</div><div class="line">                <span class="string">'slideInUp'</span>,<span class="string">'slideInDown'</span>,<span class="string">'slideInLeft'</span>,<span class="string">'slideInRight'</span>,<span class="string">'slideOutUp'</span>,<span class="string">'slideOutDown'</span>,<span class="string">'slideOutLeft'</span>,</div><div class="line">                <span class="string">'slideOutRight'</span>,<span class="string">'zoomIn'</span>,<span class="string">'zoomInDown'</span>,<span class="string">'zoomInLeft'</span>,<span class="string">'zoomInRight'</span>,<span class="string">'zoomInUp'</span>,</div><div class="line">                <span class="string">'zoomOut'</span>,<span class="string">'zoomOutDown'</span>,<span class="string">'zoomOutLeft'</span>,<span class="string">'zoomOutRight'</span>,<span class="string">'zoomOutUp'</span>,<span class="string">'hinge'</span>,<span class="string">'rollIn'</span>,<span class="string">'rollOut'</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="代码同步显示"><a href="#代码同步显示" class="headerlink" title="代码同步显示"></a>代码同步显示</h3><p>接下来是代码同步功能，即在代码区域显示对应animate对齐的CSS代码。</p>
+<p>这里我们用vuejs中的computed属性方法来返回数据<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">computed:&#123;</div><div class="line">    cssText () &#123;</div><div class="line">        <span class="comment">// 数据我单独放在json里面了 返回对应名字动画即可</span></div><div class="line">        <span class="keyword">var</span>  baseData = data[<span class="keyword">this</span>.selected]</div><div class="line"></div><div class="line">        <span class="comment">// 处理数据 优化显示方式 换行 缩进代码 使用了showdown =&gt; html</span></div><div class="line">        <span class="keyword">var</span> converter =  <span class="keyword">new</span> showdown.Converter(&#123;</div><div class="line">          <span class="attr">tables</span>: <span class="literal">true</span></div><div class="line">        &#125;);</div><div class="line">        baseData = converter.makeHtml(baseData);</div><div class="line"></div><div class="line">        baseData = baseData.replace(<span class="regexp">/(.*?)gs/g</span>,<span class="string">"&lt;div&gt;$1&lt;/div&gt;"</span>)</div><div class="line">        baseData = baseData.replace(<span class="regexp">/&lt;p&gt;|&lt;\/p&gt;/g</span>,<span class="string">""</span>)</div><div class="line">        baseData = baseData.replace(<span class="regexp">/\b(sp)\b/g</span>,<span class="string">"&lt;span class='space'&gt;&lt;/span&gt;"</span>)</div><div class="line">        baseData = baseData.replace(<span class="regexp">/\b(sp2)\b/g</span>,<span class="string">"&lt;span class='space2'&gt;&lt;/span&gt;"</span>)</div><div class="line">        <span class="comment">// 返回</span></div><div class="line">        <span class="keyword">return</span> baseData</div><div class="line">    &#125;</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<h3 id="复制代码"><a href="#复制代码" class="headerlink" title="复制代码"></a>复制代码</h3><p>使用了Clipboard插件,具体使用方法<a href="https://github.com/zenorocha/clipboard.js" target="_blank" rel="external">github地址看这里</a><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 点击按钮绑定 data-clipboard-target="#copyCss" --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"copyTips"</span> <span class="attr">class</span>=<span class="string">"copy-btn"</span> <span class="attr">data-clipboard-target</span>=<span class="string">"#copyCss"</span>&gt;</span>复制<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 代码区域使用 id copyCss--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"prev-css"</span> <span class="attr">v-html</span>=<span class="string">"cssText"</span> <span class="attr">id</span>=<span class="string">"copyCss"</span> <span class="attr">v-cloak</span>&gt;</span>&#123;&#123;cssText&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>接下来就是js<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">mounted:<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">new</span> Clipboard(<span class="string">'.copy-btn'</span>);</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>开发好之后，可以直接在chrome中运行来调试。打开扩展面板，勾选开发者模式，然后加载刚开发扩展所在的目录就可以直接运行</p>
+<p>一个简单的插件就完成了，通过这一个简单的chrome插件就可以体验到vuejs在web开发中简单、优雅的魅力，还有什么理由不用起来呢。</p>
+<p><img src="http://oq4hkch8e.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE201.png" alt=""></p>
+<p><img src="http://oq4hkch8e.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170604223202.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;作为一名web开发者,对&lt;a href=&quot;https://daneden.github.io/animate.css/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Animate.css&lt;/a&gt;这个动画库不会陌生,它把常见的动画都封装了起来，非常实用。但是有时候在开发中，仅仅只是需要某一两个动画效果，把整个CSS文件都引入，这样不是太好。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="http://loadingmore.com/tags/Vue/"/>
+    
+      <category term="chrome插件" scheme="http://loadingmore.com/tags/chrome%E6%8F%92%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>学习下如何优雅的写表单验证</title>
+    <link href="http://loadingmore.com/2017/05/14/%E5%AD%A6%E4%B9%A0%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%86%99%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/"/>
+    <id>http://loadingmore.com/2017/05/14/学习下如何优雅的写表单验证/</id>
+    <published>2017-05-14T11:44:53.000Z</published>
+    <updated>2017-06-08T13:41:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近项目挺赶,博客许久没更新(借口~),周末充下电,表单是一个项目中必不可少的模块了，像注册，登录等。学习下解决下工作中关于表单验证这块的问题</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3><p>demo源码可能与博客有些略微不同(但是核心思想一模一样)<br><a href="http://loadingmore.com/demo/src/html/form-opt.html">线上案例</a></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>看看平时我写表单的代码风格吧(求轻喷~)<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span>(userName.value === <span class="string">''</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"姓名不为空"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(!reg.test(userName.value))&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"姓名不合格"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(userPass.value === <span class="string">''</span>)&#123;</div><div class="line">    <span class="comment">//.........</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(userPass.value !=== reUserPass.value)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"密码不一致"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(mobile.value === <span class="string">''</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"手机号码不能为空"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//此处略去n多if-esle</span></div></pre></td></tr></table></figure></p>
+<p>这样编写代码对于实现业务需求来说是没有问题的，但是总觉得哪里怪怪的:</p>
+<blockquote>
+<ul>
+<li>我有密集恐惧症，那么多的if-else看着怪恶心的</li>
+<li>验证的规则复用性太差了,哪里需要，只是拷贝来，粘贴过去,飞来飞去</li>
+<li>这样的代码容易被喷，不容易维护</li>
+</ul>
+</blockquote>
+<h3 id="怎么解决呢"><a href="#怎么解决呢" class="headerlink" title="怎么解决呢"></a>怎么解决呢</h3><p>假如我们不想使用那么多的if语句，那么你心中理想的验证表单的方式是什么呢？写一系列规则，最后一步验证，这样写起来很嗨吧<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 首页获取form元素</span></div><div class="line"><span class="keyword">var</span> registerForm = <span class="built_in">document</span>.querySelector(<span class="string">'#re-form'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 创建实例</span></div><div class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> Validator();</div><div class="line"></div><div class="line">validator.add(registerForm.userName,<span class="string">'isEmpty'</span>,<span class="string">'用户名不能为空'</span>);</div><div class="line">validator.add(registerForm.userPass,<span class="string">'minLength:6'</span>,<span class="string">'密码至少六位'</span>);</div><div class="line"></div><div class="line"><span class="comment">//校验信息</span></div><div class="line"><span class="keyword">var</span> errorMsg = validator.start();</div><div class="line"></div><div class="line"><span class="keyword">if</span>(errorMsg)&#123;</div><div class="line">    <span class="built_in">console</span>.log(errorMsg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果能这样写那就太爽了,很优雅,很方便,下一步需要了解下什么是策略模式</p>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>所谓策略就是做事情的方法,好比玩三国杀，每个人都有自己的技能，每个人物都有自己的制胜策略;比如去旅游,就有很多种路线供你选择，要么坐飞机，要么坐高铁，要么徒步;</p>
+<p>所以，做一件事情会有很多种方法,接下来编码也会以这种方式进行;核心思想是，将要做什么和谁去做进行分离。一个完整的策略需要两个类：策略类,环境类;环境类接收请求，但不处理请求，它会把请求委托给策略类，让策略类去处理，而策略类的扩展是很容易的，这样，使得我们的代码易于扩展。<br>在表单验证的例子中，各种验证的方法组成了策略类，比如：判断是否为空的方法(如：isNonEmpty)，判断最小长度的方法(如：minLength)，判断是否为手机号的方法(isMoblie)等等，他们组成了策略类，供给环境类去委托请求。下面，我们就来实战一下。</p>
+<h3 id="策略类"><a href="#策略类" class="headerlink" title="策略类"></a>策略类</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 完成我们的策略表 (自由定制)</span></div><div class="line"><span class="keyword">var</span> ruleList = &#123;</div><div class="line">    <span class="comment">//验证为空</span></div><div class="line">    isEmpoty: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value == <span class="string">''</span>)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证最小长度</span></div><div class="line">    minLength: <span class="function"><span class="keyword">function</span>(<span class="params">value,len,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value.length &lt; len)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证手机号</span></div><div class="line">    isMobile: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="regexp">/^1\d&#123;10&#125;$/</span>.test(value))&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="环境类"><a href="#环境类" class="headerlink" title="环境类"></a>环境类</h3><p>根据之前的畅想：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">validator.add(registerForm.userName,<span class="string">'isEmpty'</span>,<span class="string">'用户名不能为空'</span>);</div><div class="line">validator.add(registerForm.userName,<span class="string">'isMobile'</span>,<span class="string">'手机号码有误'</span>);</div></pre></td></tr></table></figure></p>
+<p>我们可能需要创建一个类，类里面有两个方法 add()add()接收三个参数，第一个是表单字段(校验对象),第二个是策略方法名字,使用冒号(:)分隔，亲一个是方法名字，后一个是传给该方法的参数(如长度),第三个是验证不通过的返回信息;<br>然后用start方法进行验证：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> errorMsg = validation.start();</div></pre></td></tr></table></figure></p>
+<p>但是这种参数配置还是有问题，我们的要求是多种校验规则，比如用户名既不能为空，又要满足用户名长度不小于6，并不是单一的，上面的为什么要写两次，这种看着就不舒服，这时候我就需要对配置参数做一点小小的改动，我们用数组来传递多个校验规则：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//最终实现</span></div><div class="line">validator.add(registerForm.username, [&#123;</div><div class="line">    <span class="attr">strategy</span>: <span class="string">'isEmpty'</span>,</div><div class="line">    <span class="attr">errorMsg</span>: <span class="string">'用户名不能为空！'</span></div><div class="line">&#125;, &#123;</div><div class="line">    <span class="attr">strategy</span>: <span class="string">'minLength:6'</span>,</div><div class="line">    <span class="attr">errorMsg</span>: <span class="string">'用户名长度不能小于6位！'</span></div><div class="line">&#125;])</div></pre></td></tr></table></figure></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> FormValidator = <span class="function"><span class="keyword">function</span>(<span class="params">ruleList</span>)</span>&#123;</div><div class="line">    <span class="comment">//保存策略规则列表</span></div><div class="line">    <span class="keyword">this</span>.strategies = ruleList;</div><div class="line">    <span class="comment">//储存规则方法</span></div><div class="line">    <span class="keyword">this</span>.validationFns = [];</div><div class="line">&#125;;</div><div class="line">FormValidator.prototype = &#123;</div><div class="line">    <span class="attr">add</span>:<span class="function"><span class="keyword">function</span>(<span class="params">dom,rule</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;rule.length;i++)&#123;</div><div class="line">            <span class="comment">// 这里使用闭包储存i 动态添加方法</span></div><div class="line">            (<span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123;</div><div class="line">                <span class="comment">//</span></div><div class="line">                that.validationFns.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                    <span class="comment">/*</span></div><div class="line">                    * aryNames 规则名字(包含传的参数minLeng:6) 所以需要动态的解析</div><div class="line">                    * errorMsg 错误信息</div><div class="line">                    * rulename 方法名字</div><div class="line">                    * dataArr 储存参数 value method名字 错误信息</div><div class="line">                    * strategies 使用apply 向指定方法传参数</div><div class="line">                     */</div><div class="line">                    <span class="keyword">var</span> aryNames = rule[i].strategy.split(<span class="string">':'</span>),</div><div class="line">                        errorMsg = rule[i].errorMsg,</div><div class="line">                        rulename = aryNames[<span class="number">0</span>],</div><div class="line">                        dataArr = [];</div><div class="line">                        dataArr.push(dom.value);</div><div class="line">                        <span class="keyword">if</span>(aryNames[<span class="number">1</span>])&#123;</div><div class="line">                            dataArr.push(aryNames[<span class="number">1</span>]);</div><div class="line">                        &#125;</div><div class="line">                        dataArr.push(errorMsg);</div><div class="line">                    <span class="keyword">return</span> that.strategies[rulename].apply(dom,dataArr);</div><div class="line">                &#125;)</div><div class="line">            &#125;)(i)</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">start</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>;</div><div class="line">        <span class="comment">// 遍历规则集合 抛出错误</span></div><div class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> that.validationFns)&#123;</div><div class="line">            <span class="keyword">var</span> msg = that.validationFns[i]();</div><div class="line">            <span class="keyword">if</span>(msg)&#123;</div><div class="line">                <span class="keyword">return</span> msg;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong> 规则集合</strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 规则集合</span></div><div class="line"><span class="keyword">var</span> rules = &#123;</div><div class="line">    <span class="comment">//验证为空</span></div><div class="line">    isEmpoty: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value == <span class="string">''</span>)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证最小长度</span></div><div class="line">    minLength: <span class="function"><span class="keyword">function</span>(<span class="params">value,len,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value.length &lt; len)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证手机号</span></div><div class="line">    isMobile: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="regexp">/^1\d&#123;10&#125;$/</span>.test(value))&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><strong> 客户端调用代码方法</strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"submit"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"userpass"</span> <span class="attr">name</span>=<span class="string">"userpass"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> forms = <span class="built_in">document</span>.querySelector(<span class="string">'#submit'</span>);</div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.querySelector(<span class="string">'.btn'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 构造函数 传入规则</span></div><div class="line"><span class="keyword">var</span> validation = <span class="keyword">new</span> FormValidator(rules);</div><div class="line"><span class="comment">// 直接调用规则方法即可 返回错误信息</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getErrorMsg</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 直接调用规则方法即可</span></div><div class="line">    validation.add(forms.username,[</div><div class="line">        &#123;</div><div class="line">            <span class="attr">strategy</span>:<span class="string">'isEmpoty'</span>, <span class="comment">//strategy 为固定字段</span></div><div class="line">            errorMsg:<span class="string">'用户名不能为空'</span> <span class="comment">//errorMsg 为固定字段</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">strategy</span>:<span class="string">'minLength:6'</span>,</div><div class="line">            <span class="attr">errorMsg</span>:<span class="string">'用户名长度最低6位'</span></div><div class="line">        &#125;</div><div class="line">    ]);</div><div class="line">    validation.add(forms.userpass,[</div><div class="line">        &#123;</div><div class="line">            <span class="attr">strategy</span>:<span class="string">'isMobile'</span>,</div><div class="line">            <span class="attr">errorMsg</span>:<span class="string">'手机号码有误'</span></div><div class="line">        &#125;</div><div class="line">    ]);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> error = validation.start();</div><div class="line">    <span class="keyword">return</span> error;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 点击事件</span></div><div class="line">btn.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> msg = getErrorMsg();</div><div class="line">    <span class="keyword">if</span>(msg)&#123;</div><div class="line">        <span class="built_in">console</span>.log(msg)<span class="comment">//错误提示</span></div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//在此提交数据</span></div><div class="line">    &#125;</div><div class="line">&#125;,<span class="literal">false</span>)</div></pre></td></tr></table></figure>
+<p>在修改某个校验规则的时候，只需要编写或者改写少量的代码。比如我们想要将用户名输入框的校验规则改成用户名不能少于4个字符。可以看到，这时候的修改是毫不费力的。代码如下：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 更具体的方法 可以在rules中修改</span></div><div class="line">validation.add(forms.username, [&#123;</div><div class="line">        <span class="attr">strategy</span>: <span class="string">'isNonEmpty'</span>,</div><div class="line">        <span class="attr">errorMsg</span>: <span class="string">'用户名不能为空！'</span></div><div class="line">    &#125;, &#123;</div><div class="line">        <span class="attr">strategy</span>: <span class="string">'minLength:4'</span>,</div><div class="line">        <span class="attr">errorMsg</span>: <span class="string">'用户名长度不能小于4位！'</span></div><div class="line">    &#125;])</div></pre></td></tr></table></figure></p>
+<p>参考：<br><a href="http://hcysun.me/2016/02/21/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%9C%A8%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" target="_blank" rel="external">策略模式在表单中的应用</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近项目挺赶,博客许久没更新(借口~),周末充下电,表单是一个项目中必不可少的模块了，像注册，登录等。学习下解决下工作中关于表单验证这块的问题&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JS字符串常用方法总结</title>
+    <link href="http://loadingmore.com/2017/04/22/Javascript%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://loadingmore.com/2017/04/22/Javascript字符串常用方法总结/</id>
+    <published>2017-04-22T13:54:07.000Z</published>
+    <updated>2017-04-22T15:56:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>周末温习高程三,摘录读书笔记</p>
+</blockquote>
+<h3 id="字符方法"><a href="#字符方法" class="headerlink" title="字符方法"></a>字符方法</h3><ul>
+<li>charAt()</li>
+<li>charCodeAt()</li>
+</ul>
+<a id="more"></a>
+<p>都接收一个参数，区别是chartAt()方法以单独字符串形式返回给定位置的字符<br>eg:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'hello world'</span>;</div><div class="line">alert(str.charAt(<span class="number">1</span>))<span class="comment">//e</span></div></pre></td></tr></table></figure>
+<p>如果你想得到的不是字符而是编码那就需要charCodeAt():<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str2 = <span class="string">'hello world'</span>;</div><div class="line">alert(str2.charCodeAt(<span class="number">1</span>))<span class="comment">//101  小写字母e的字符编码</span></div></pre></td></tr></table></figure></p>
+<p>注：ECMAScript5中还定义了可以用[Number]的方式访问字符串中特定字符;IE8+</p>
+<h3 id="字符串操作方法"><a href="#字符串操作方法" class="headerlink" title="字符串操作方法"></a>字符串操作方法</h3><ul>
+<li>concat()</li>
+<li>slice()</li>
+<li>substr()</li>
+<li>substring()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//concat() //顾名思义用来拼接一个或多个字符</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'hello'</span>;</div><div class="line"><span class="keyword">var</span> str0 = str.concat(<span class="string">'world'</span>);</div><div class="line"><span class="built_in">console</span>.log(str0)<span class="comment">//'hello world'</span></div><div class="line"><span class="built_in">console</span>.log(str)<span class="comment">//'hello'</span></div><div class="line"><span class="comment">//实践中还是用+号操作符的拼接字符串的场景多，这里只做演示</span></div></pre></td></tr></table></figure>
+<p>后面三个字符 substr slice substring 第一个是开始位置 区别在于第二个字符<br>slice substring 第二个是位置(不包含)<br>substr 第二个参数是个数，即返回字符的个数,没有第二个参数,意味着从第一个参数起,返回所有<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'biyuqi'</span>;</div><div class="line"><span class="built_in">console</span>.log(str.slice(<span class="number">0</span>))   <span class="comment">//biyuqi</span></div><div class="line"><span class="built_in">console</span>.log(str.slice(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">//iy</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(str.substring(<span class="number">0</span>))   <span class="comment">//biyuqi</span></div><div class="line"><span class="built_in">console</span>.log(str.substring(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">//iy</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(str.substr(<span class="number">0</span>))   <span class="comment">//biyuqi</span></div><div class="line"><span class="built_in">console</span>.log(str.substr(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">//iyu 不包含3 数量3</span></div></pre></td></tr></table></figure></p>
+<h3 id="字符串位置的方法"><a href="#字符串位置的方法" class="headerlink" title="字符串位置的方法"></a>字符串位置的方法</h3><p>与数组方法类似,返回字符串的位置(如果没有找到该字符,则返回-1),区别在于indexOf从字符串开始向后搜索,lastIndex相反</p>
+<ul>
+<li>indexOf()</li>
+<li>lastIndexOf()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'hello world'</span>;</div><div class="line"><span class="built_in">console</span>.log(str.indexOf(<span class="string">'o'</span>)) <span class="comment">//4</span></div><div class="line"><span class="built_in">console</span>.log(str.lastIndexOf(<span class="string">'o'</span>)) <span class="comment">//7</span></div><div class="line"><span class="built_in">console</span>.log(str.indexOf(<span class="string">'m'</span>)) <span class="comment">//-1</span></div><div class="line"></div><div class="line"><span class="comment">//判断重复字符</span></div><div class="line"><span class="comment">//a 测试变量</span></div><div class="line"><span class="keyword">if</span>(str.indexOf(a) === str.lastIndexOf(a))&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"没有重复字符"</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"有重复字符"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="trim-方法"><a href="#trim-方法" class="headerlink" title="trim()方法"></a>trim()方法</h3><p>ECMAScipr5为所有字符定义了trim()方法,去除字符前后所有空格<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">' hello,sorld '</span>;</div><div class="line"><span class="built_in">console</span>.log(str.trim()) <span class="comment">//'hello sorld'</span></div><div class="line"></div><div class="line"><span class="comment">// trim() 仅支持IE9+</span></div><div class="line"><span class="comment">//so 兼容方法</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">trim</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(^\s*)|(\s*$)/g</span>;</div><div class="line">    <span class="keyword">return</span> s.replace(reg,<span class="string">''</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="字符串模式匹配方法"><a href="#字符串模式匹配方法" class="headerlink" title="字符串模式匹配方法"></a>字符串模式匹配方法</h3><p><strong> match()接收一个参数,要么是一个正则表达式,要么是一个RegExp对象</strong></p>
+<ul>
+<li>match() //与正则exec()方法类似</li>
+<li>replace()</li>
+</ul>
+<p>返回一个数组,数组第一项与整个是与整个模式配的字符串,之后的每一项(如果有)保存着与正则表达式中的捕获组匹配的字符串,没有匹配则返回null</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> string = <span class="string">'biyui,sdf,sdfsdf'</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/(.),/</span>;</div><div class="line"><span class="built_in">console</span>.log(string.match(reg))</div></pre></td></tr></table></figure>
+<p><img src="http://oj7j5nuxv.bkt.clouddn.com/match-v.png" alt=""></p>
+<p>全匹配时返回匹配数组,没有匹配则返回null<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> string = <span class="string">'biyui,sdf,sdfsdf'</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/(.),/g</span>;</div><div class="line"><span class="built_in">console</span>.log(string.match(reg))</div></pre></td></tr></table></figure></p>
+<p><img src="http://oj7j5nuxv.bkt.clouddn.com/match-val.png" alt=""></p>
+<p><strong> replace(),接收两个参数：第一个参数可以使RegExp对象或者一个字符串,第二个参数可以使一个字符串或者一个函数 </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//字符替换</span></div><div class="line"><span class="keyword">var</span> text = <span class="string">'cat,bat,sat,fat'</span>;</div><div class="line"><span class="keyword">var</span> res = text.replace(<span class="string">'at'</span>,<span class="string">'ond'</span>);</div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// cond bat sat fat</span></div><div class="line"></div><div class="line"><span class="comment">//全部替换</span></div><div class="line"><span class="keyword">var</span> text = <span class="string">'cat,bat,sat,fat'</span>;</div><div class="line"><span class="keyword">var</span> res = text.replace(<span class="regexp">/at/g</span>,<span class="string">'ond'</span>);</div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// cond bond,sond fond</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//第二个参数函数</span></div><div class="line"><span class="comment">//1.只有一个匹配项时，会接收三个参数：模式匹配的项，位置，原始串</span></div><div class="line"><span class="comment">//2.如果有多个捕获组，传递的参数一次的模式匹配的匹配项1、2、3;最后两个参数依然是 位置 原始串</span></div><div class="line"></div><div class="line"><span class="comment">//替换特殊字符</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlreplace</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> s.replace(<span class="regexp">/[&lt;&gt;"&amp;]/g</span>,<span class="function"><span class="keyword">function</span>(<span class="params">match,pos,text</span>)</span>&#123;</div><div class="line">        <span class="keyword">switch</span>(match)&#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"&lt;"</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;lt;"</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"&gt;"</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;gt;"</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"&amp;"</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;amp"</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"\""</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;quot;"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(htmlreplace(<span class="string">"&lt;p&gt;test&lt;/p&gt;"</span>))</div><div class="line"><span class="comment">//&amp;lt;p&amp;gt;test&amp;lt;/P&amp;gt;</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;周末温习高程三,摘录读书笔记&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;字符方法&quot;&gt;&lt;a href=&quot;#字符方法&quot; class=&quot;headerlink&quot; title=&quot;字符方法&quot;&gt;&lt;/a&gt;字符方法&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;charAt()&lt;/li&gt;
+&lt;li&gt;charCodeAt()&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python爬虫框架scrapy安装报错解决办法</title>
+    <link href="http://loadingmore.com/2017/04/12/Python%E7%88%AC%E8%99%AB%E6%A1%86%E6%9E%B6scrapy%E5%AE%89%E8%A3%85%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
+    <id>http://loadingmore.com/2017/04/12/Python爬虫框架scrapy安装报错解决办法/</id>
+    <published>2017-04-12T13:16:23.000Z</published>
+    <updated>2017-04-13T12:14:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近尝试入门python,接触这门语言的目的很明确,就是爬虫,用来爬取数据,我对数据一直抱有神秘感，很感兴趣，所以闲暇之余,开始入门python,它大名鼎鼎的爬虫框架scrapy自然躲不过我的搜索,所以安装测试,于是便开始了这篇踩坑文章</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><p><img src="http://oiukswkar.bkt.clouddn.com/scrapy-error.png" alt=""><br>我的报错原因就是如图中所示: <strong> error: Unable to find vcvarsall.bat</strong><br>网上也收了很多解决办法,但都是不但可行，对于初学者我来学还是蛮吃力,最终看到有篇帖子说是因为缺少c++一些环境变量引起的,安装Visual Studio 2015可以结局问题,所以网上找了个简版安装包,已经共享在了百度云盘:<br><strong> <a href="http://pan.baidu.com/s/1pLTpCTl" target="_blank" rel="external">我是下载链接</a></strong></p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>勾选如下几项即可<br><img src="http://oiukswkar.bkt.clouddn.com/visul.png" alt=""></p>
+<p>安装完毕后关闭即可;</p>
+<p>这个时候在命令行里:<br><strong> pip install scrapy </strong><br>这个时候基本上会顺利的安装完毕了</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近尝试入门python,接触这门语言的目的很明确,就是爬虫,用来爬取数据,我对数据一直抱有神秘感，很感兴趣，所以闲暇之余,开始入门python,它大名鼎鼎的爬虫框架scrapy自然躲不过我的搜索,所以安装测试,于是便开始了这篇踩坑文章&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="http://loadingmore.com/categories/Python/"/>
+    
+    
+      <category term="python" scheme="http://loadingmore.com/tags/python/"/>
+    
+      <category term="scrapy" scheme="http://loadingmore.com/tags/scrapy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>禁止输入框输入空格</title>
+    <link href="http://loadingmore.com/2017/04/11/%E8%BE%93%E5%85%A5%E6%A1%86%E7%A6%81%E6%AD%A2%E8%BE%93%E5%85%A5%E7%A9%BA%E6%A0%BC/"/>
+    <id>http://loadingmore.com/2017/04/11/输入框禁止输入空格/</id>
+    <published>2017-04-11T11:18:38.000Z</published>
+    <updated>2017-04-12T12:35:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>做表单验证，输入框经常要做判断,群里也经常看到有朋友问,所以做了下记录,自动过滤空格,</p>
+</blockquote>
+<h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3><p><a href="http://loadingmore.com/demo/src/html/closespace.html">DEMO</a></p>
+<a id="more"></a>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>说下实现思路吧,其实就是监听输入框输入的类型,进行空格检测,正则一旦检测到空格,立即对当前值输入框进行赋值,赋值为过滤空格后的值<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"test"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="原生JS"><a href="#原生JS" class="headerlink" title="原生JS"></a>原生JS</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> input = <span class="built_in">document</span>.querySelector(<span class="string">'.test'</span>),</div><div class="line">    reg = <span class="regexp">/\s/</span>;</div><div class="line">input.oninput = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(reg.test(<span class="keyword">this</span>.value))&#123;</div><div class="line">        <span class="comment">//过滤赋值</span></div><div class="line">        input.value = <span class="keyword">this</span>.value.replace(reg,<span class="string">''</span>);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="JQ版"><a href="#JQ版" class="headerlink" title="JQ版"></a>JQ版</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> input = $(<span class="string">'.test'</span>),</div><div class="line">    reg = <span class="regexp">/\s/</span>;</div><div class="line">input.on(<span class="string">'input'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> val = $(<span class="keyword">this</span>).val();</div><div class="line">    <span class="keyword">if</span>(reg.test(val))&#123;</div><div class="line">        <span class="comment">//过滤赋值</span></div><div class="line">        input.val(val.replace(reg,<span class="string">''</span>));</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Vue版本"><a href="#Vue版本" class="headerlink" title="Vue版本"></a>Vue版本</h3><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"test"</span> <span class="attr">v-model</span>=<span class="string">"message"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在Vue里面因为需要实时监听值得变化,所以需要在watch里面监听</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">watch: &#123;</div><div class="line">    <span class="attr">message</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">const</span> reg= <span class="regexp">/\s/</span>;</div><div class="line">        <span class="keyword">if</span>(reg.test(<span class="keyword">this</span>.message))&#123;</div><div class="line">            <span class="keyword">this</span>.message = <span class="keyword">this</span>.message.replace(reg,<span class="string">''</span>);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;做表单验证，输入框经常要做判断,群里也经常看到有朋友问,所以做了下记录,自动过滤空格,&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;DEMO&quot;&gt;&lt;a href=&quot;#DEMO&quot; class=&quot;headerlink&quot; title=&quot;DEMO&quot;&gt;&lt;/a&gt;DEMO&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://loadingmore.com/demo/src/html/closespace.html&quot;&gt;DEMO&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>写个正则匹配url参数的字典(方便提取查询参数)</title>
+    <link href="http://loadingmore.com/2017/04/04/%E5%86%99%E4%B8%AA%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8Durl%E5%8F%82%E6%95%B0%E7%9A%84%E5%AD%97%E5%85%B8-%E6%96%B9%E4%BE%BF%E6%8F%90%E5%8F%96%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0/"/>
+    <id>http://loadingmore.com/2017/04/04/写个正则匹配url参数的字典-方便提取查询参数/</id>
+    <published>2017-04-04T14:38:00.000Z</published>
+    <updated>2017-04-09T13:50:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>项目经常会用到提取地址栏的参数的问题，之前都是随用随写，这不趁着放假，总结了一下</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="我的版本"><a href="#我的版本" class="headerlink" title="我的版本"></a>我的版本</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUrlPart</span>(<span class="params">url</span>)</span>&#123;</div><div class="line">    url = url == <span class="literal">null</span> ? <span class="built_in">window</span>.location.href : url;</div><div class="line">    <span class="keyword">var</span> str = url.substring(url.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>);</div><div class="line">    <span class="comment">// 或者 var str = url.split('?')[1];也可以拿到?后面参数</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/([^?&amp;=]+)=([^?&amp;=]+)/gi</span>;</div><div class="line">    <span class="keyword">var</span> m,res = &#123;&#125;;</div><div class="line">    <span class="keyword">while</span> (m = reg.exec(str))&#123;</div><div class="line">        res[m[<span class="number">1</span>]] = m[<span class="number">2</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="来个高程三的版本"><a href="#来个高程三的版本" class="headerlink" title="来个高程三的版本"></a>来个高程三的版本</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getQueryStringArgs</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//取得查询字符串并渠道开头问好</span></div><div class="line">    <span class="keyword">var</span> qs = (location.search.length &gt; <span class="number">0</span> ? location.search.substring(<span class="number">1</span>) : <span class="string">""</span>),</div><div class="line"></div><div class="line">    <span class="comment">//保存数据对象</span></div><div class="line">    args = &#123;&#125;,</div><div class="line"></div><div class="line">    <span class="comment">//取得每一项</span></div><div class="line">    items = qs.length ? qs.split(<span class="string">"&amp;"</span>) : [],</div><div class="line">    item = <span class="literal">null</span>,</div><div class="line">    name = <span class="literal">null</span>,</div><div class="line">    value = <span class="literal">null</span>,</div><div class="line"></div><div class="line">    <span class="comment">//for循环中使用</span></div><div class="line">    i = <span class="number">0</span>,</div><div class="line">    len = items.length;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        item = items[i].split(<span class="string">"="</span>);</div><div class="line">        name = <span class="built_in">decodeURIComponent</span>(item[<span class="number">0</span>]);</div><div class="line">        value = <span class="built_in">decodeURIComponent</span>(item[<span class="number">1</span>]);</div><div class="line"></div><div class="line">        <span class="keyword">if</span>(name.length)&#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;项目经常会用到提取地址栏的参数的问题，之前都是随用随写，这不趁着放假，总结了一下&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+      <category term="查询参数" scheme="http://loadingmore.com/tags/%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>写的每条正则记录在册(持续更新)</title>
+    <link href="http://loadingmore.com/2017/03/20/%E4%BB%8E%E4%BB%8A%E5%A4%A9%E8%B5%B7%E5%86%99%E7%9A%84%E6%AF%8F%E6%9D%A1%E6%AD%A3%E5%88%99%E9%83%BD%E8%AE%B0%E5%BD%95%E5%9C%A8%E5%86%8C/"/>
+    <id>http://loadingmore.com/2017/03/20/从今天起写的每条正则都记录在册/</id>
+    <published>2017-03-20T14:45:12.000Z</published>
+    <updated>2017-06-10T02:50:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="不能纯字母数字-必须包含两者"><a href="#不能纯字母数字-必须包含两者" class="headerlink" title="不能纯字母数字 必须包含两者"></a>不能纯字母数字 必须包含两者</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/</span>;</div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(?!^[0-9]+$)(?!^[a-z]+$)^[0-9a-z]+$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式"><a href="#不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式" class="headerlink" title="不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)"></a>不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg3 = <span class="regexp">/(?!^[0-9]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[0-9a-z_\-@&amp;=]+$/</span>;</div><div class="line"><span class="keyword">var</span> reg4 = <span class="regexp">/^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[0-9a-z_\-@&amp;=]+$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="药品库规格-药品规格-测试用例"><a href="#药品库规格-药品规格-测试用例" class="headerlink" title="药品库规格 药品规格 测试用例"></a>药品库规格 药品规格 测试用例</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//ex:匹配如下</span></div><div class="line"><span class="comment">//12*13  12mg*3 12mg*3 片(盒|粒)</span></div><div class="line"><span class="comment">//0.12*12 7片*6盒</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(([1-9]+\d*(\.\d*)?)|(^0\.[1-9]+\d*))([a-zA-Zμ]*|[\u4e00-\u9fa5]*)*?\*([1-9]+\d*)[\u4e00-\u9fa5]*$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="判断文件类型"><a href="#判断文件类型" class="headerlink" title="判断文件类型"></a>判断文件类型</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg6 = <span class="regexp">/\.(doc|png|image)$/</span>;<span class="comment">//等等 需要什么文件可以自动添加</span></div></pre></td></tr></table></figure>
+<h3 id="排除指定字符"><a href="#排除指定字符" class="headerlink" title="排除指定字符"></a>排除指定字符</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//找出其中 包含 p 但不包含 ph 的所有单词，即</span></div><div class="line"><span class="comment">//[ 'python', 'javascript', 'jsonp' ]</span></div><div class="line"><span class="keyword">var</span> web_development = <span class="string">"python php ruby javascript jsonp perhapsphpisoutdated"</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b(?=\w*p)(?!\w*ph)\w+\b/g</span></div></pre></td></tr></table></figure>
+<h3 id="排除结尾不以什么字符结尾"><a href="#排除结尾不以什么字符结尾" class="headerlink" title="排除结尾不以什么字符结尾"></a>排除结尾不以什么字符结尾</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//不以is结尾的单词</span></div><div class="line"><span class="keyword">var</span> str =  <span class="string">`existing</span></div><div class="line">            pessimist</div><div class="line">            this</div><div class="line">            is</div><div class="line">            the</div><div class="line">            `;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b\w+[^is]$\b/gm</span>;<span class="comment">//跨行</span></div></pre></td></tr></table></figure>
+<h3 id="检测是否出现重复字符2个及以上-2017-4-6"><a href="#检测是否出现重复字符2个及以上-2017-4-6" class="headerlink" title="检测是否出现重复字符2个及以上(2017/4/6)"></a>检测是否出现重复字符2个及以上(2017/4/6)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">// 例如aabcdf abbbdfsdf</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(.)\1+/g</span>;</div><div class="line">    <span class="comment">//排序</span></div><div class="line">    s = s.split(<span class="string">''</span>);</div><div class="line">    s.sort();</div><div class="line">    s = s.join(<span class="string">''</span>);</div><div class="line">    <span class="comment">//校验</span></div><div class="line">    <span class="keyword">if</span>(reg.test(s))&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"哎呀,碰到了重复字符"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> str = <span class="string">'asfawertyha'</span>;</div><div class="line">get(str);</div></pre></td></tr></table></figure>
+<h3 id="字符去重-2017-4-10"><a href="#字符去重-2017-4-10" class="headerlink" title="字符去重(2017/4/10)"></a>字符去重(2017/4/10)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">//排序</span></div><div class="line">    s = s.split(<span class="string">''</span>);</div><div class="line">    s.sort();</div><div class="line">    s = s.join(<span class="string">''</span>);</div><div class="line">    <span class="comment">//该正则与上一条有区别</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(.)\1*/g</span>;</div><div class="line">    <span class="keyword">var</span> tt = <span class="string">''</span>;<span class="comment">//存储新字符串</span></div><div class="line">    <span class="keyword">var</span> m;<span class="comment">//变量</span></div><div class="line">    <span class="keyword">while</span> (m = reg.exec(s))&#123;</div><div class="line">        tt += m[<span class="number">1</span>];<span class="comment">//循环去重</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//返回去重后的字符</span></div><div class="line">    <span class="keyword">return</span> tt;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> str = <span class="string">'asfaasdwesdfrtyha'</span>;</div><div class="line">get(str);</div><div class="line"><span class="comment">//adefhrstwy</span></div></pre></td></tr></table></figure>
+<h3 id="匹配1000-65535区间的数字-不包含9999-2017-5-4"><a href="#匹配1000-65535区间的数字-不包含9999-2017-5-4" class="headerlink" title="匹配1000-65535区间的数字(不包含9999)(2017/5/4)"></a>匹配1000-65535区间的数字(不包含9999)(2017/5/4)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(?!9999)([1-9]\d&#123;3&#125;|[1-5]\d&#123;4&#125;|6[0-5]&#123;2&#125;[0-3][0-5])$/</span>;</div></pre></td></tr></table></figure>
+<h3 id="链接巧妙取纯数字-2017-5-4"><a href="#链接巧妙取纯数字-2017-5-4" class="headerlink" title="链接巧妙取纯数字(2017/5/4)"></a>链接巧妙取纯数字(2017/5/4)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b\d+\b/</span>;</div><div class="line"><span class="comment">//test 尾数后面的纯数字，不出意外都可以取出来</span></div><div class="line">http:<span class="comment">//www.66play.com/Home/share/match/id/39455  </span></div><div class="line">http:<span class="comment">//www.66play.com/match-detail-151951</span></div><div class="line">http:<span class="comment">//www.66play.com/Home/share/match/id/148853?</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>纯css实现底footer终在底部</title>
+    <link href="http://loadingmore.com/2017/03/20/%E7%BA%AFcss%E5%AE%9E%E7%8E%B0%E5%BA%95footer%E7%BB%88%E5%9C%A8%E5%BA%95%E9%83%A8/"/>
+    <id>http://loadingmore.com/2017/03/20/纯css实现底footer终在底部/</id>
+    <published>2017-03-20T01:45:12.000Z</published>
+    <updated>2017-06-08T14:39:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>做PC端开发,最近遇到有的网页内容不足一屏,footer浮上来的情况,试了下绝对定位,效果没有那么好,网上看到一国外友人的回答,实在是好用,特此分享</p>
+</blockquote>
+<h2 id="实现目标"><a href="#实现目标" class="headerlink" title="实现目标"></a>实现目标</h2><p>可以实现: 当正文内容很少时，底部位于窗口最下面。当改变窗口高度时，不会出现重叠问题。<br><a id="more"></a></p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>先看下html结构,我尝试了下，只有header在wrapper时，效果最好<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>我是header，我就待在这<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>我是内容区域<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>我是底部,我不会跑上去<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>样式<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line">*&#123;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">box-sizing</span>: border-box;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.wrapper</span>&#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="comment">/* 必须使用和footer相同的高度 */</span></div><div class="line">    <span class="attribute">padding-bottom</span>: <span class="number">150px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.header</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background-color</span>: green;</div><div class="line">    <span class="attribute">opacity</span>: <span class="number">0.4</span>;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">line-height</span>: <span class="number">100px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.footer</span>&#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">height</span>: <span class="number">150px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">line-height</span>: <span class="number">150px</span>;</div><div class="line">    <span class="attribute">background</span>: limegreen;</div><div class="line">    <span class="comment">/* 必须使用和footer相同的高度 */</span></div><div class="line">    <span class="comment">/*这点很重要，需要和wrapper的padding-bottom相互抵消*/</span></div><div class="line">    <span class="attribute">margin-top</span>: -<span class="number">150px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>运行一下下面的代码，就知道精妙之处了！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;做PC端开发,最近遇到有的网页内容不足一屏,footer浮上来的情况,试了下绝对定位,效果没有那么好,网上看到一国外友人的回答,实在是好用,特此分享&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;实现目标&quot;&gt;&lt;a href=&quot;#实现目标&quot; class=&quot;headerlink&quot; title=&quot;实现目标&quot;&gt;&lt;/a&gt;实现目标&lt;/h2&gt;&lt;p&gt;可以实现: 当正文内容很少时，底部位于窗口最下面。当改变窗口高度时，不会出现重叠问题。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="css" scheme="http://loadingmore.com/tags/css/"/>
+    
+      <category term="footer" scheme="http://loadingmore.com/tags/footer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>阿拉伯数字千分位用逗号分隔</title>
+    <link href="http://loadingmore.com/2017/03/18/%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97%E5%8D%83%E5%88%86%E4%BD%8D%E7%94%A8%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94/"/>
+    <id>http://loadingmore.com/2017/03/18/阿拉伯数字千分位用逗号分隔/</id>
+    <published>2017-03-18T12:50:30.000Z</published>
+    <updated>2017-06-10T02:54:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>上回说到字符正向加逗号或者其他字符,主要用户银行卡号等场景，而且封装成了通用代码;这回准备写点关于金钱的东西,今天写点不一样的。</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我经常在上市公司年报上看到这样的字眼:<strong> 本公司首次向社会公众发行人民币普通股（A 股）10,720,000.00 股。募集资金总额为人民币 239,270,400.00 元.</strong> 千分位加逗号,今天咱们用正则实现这样的效果<br><a id="more"></a></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">*@param s 字符</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMoney</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">3</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//判断是否有小数位 如果有,需要多加判断</span></div><div class="line">    <span class="keyword">if</span>(s.indexOf(<span class="string">'.'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">        <span class="keyword">var</span> index = s.indexOf(<span class="string">'.'</span>);</div><div class="line">        <span class="keyword">var</span> last = s.substr(index);</div><div class="line">        s = s.substr(<span class="number">0</span>,index).replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+$)/g</span>,<span class="string">','</span>);</div><div class="line">        s = s + last;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//没有小数的就直接返回</span></div><div class="line">        <span class="keyword">return</span> s.replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+$)/g</span>,<span class="string">','</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//测试</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'123123123123.56'</span>;</div><div class="line"><span class="built_in">console</span>.log(setMoney(str))</div><div class="line"><span class="comment">//123,123,123,123.56</span></div></pre></td></tr></table></figure>
+<h2 id="要不封装一下？"><a href="#要不封装一下？" class="headerlink" title="要不封装一下？"></a>要不封装一下？</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   @param &#123;String&#125; s 字符</div><div class="line">*   @param &#123;String&#125; t 字符类型 , . 。等等</div><div class="line">*   @param &#123;Number&#125; n 间隔位数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMoney</span>(<span class="params">s,t,n</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">3</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//判断是否有小数位 如果有,需要多加判断</span></div><div class="line">    <span class="keyword">if</span>(s.indexOf(<span class="string">'.'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">        <span class="keyword">var</span> index = s.indexOf(<span class="string">'.'</span>);</div><div class="line">        <span class="keyword">var</span> last = s.substr(index);</div><div class="line">        <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'\\B(?=(\\d&#123;'</span>+n+<span class="string">'&#125;)+$)'</span>,<span class="string">'g'</span>);</div><div class="line">        s = s.substr(<span class="number">0</span>,index).replace(reg,<span class="string">''</span>+t+<span class="string">''</span>);</div><div class="line">        s = s + last;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//没有小数的就直接返回</span></div><div class="line">        <span class="keyword">return</span> s.replace(reg,<span class="string">''</span>+t+<span class="string">''</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//测试</span></div><div class="line"><span class="built_in">console</span>.log(setMoney2(str,<span class="string">','</span>,<span class="number">5</span>))</div><div class="line"><span class="comment">//12,31231,23123.56</span></div><div class="line"><span class="built_in">console</span>.log(setMoney2(str,<span class="string">','</span>,<span class="number">3</span>))</div><div class="line"><span class="comment">//123,123,123,123.56</span></div></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>今天就先写到这,最近一直在研究正则,所以稍微总结了一些案例,后续可能还是以js为主,正则可能相对会减少发表,过几天写一个日常用的正则案例的博客,就正则这东西,几天不用就会遗忘,保持持续更新…以上代码都有做测试,如果有什么疑问,可以与我联系 biyuqiwan@163.com</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;上回说到字符正向加逗号或者其他字符,主要用户银行卡号等场景，而且封装成了通用代码;这回准备写点关于金钱的东西,今天写点不一样的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;我经常在上市公司年报上看到这样的字眼:&lt;strong&gt; 本公司首次向社会公众发行人民币普通股（A 股）10,720,000.00 股。募集资金总额为人民币 239,270,400.00 元.&lt;/strong&gt; 千分位加逗号,今天咱们用正则实现这样的效果&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>正则实现代码高亮</title>
+    <link href="http://loadingmore.com/2017/03/18/%E6%AD%A3%E5%88%99%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE/"/>
+    <id>http://loadingmore.com/2017/03/18/正则实现代码高亮/</id>
+    <published>2017-03-18T07:52:23.000Z</published>
+    <updated>2017-03-18T10:26:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近鼓捣了个markdown在线预览的编辑器,基于vue2.0实现,对vue的理解程度还没有那么深,所以代码高亮,断行没有用插件来实现,于是决定用正则来简单实现.</p>
+</blockquote>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>经常写代码，写业务难免要查询某些数据和字符串打交道,其中正则便是一个提高编程效率的实用工具,还没了解正则的建议好好学一学.<strong> <a href="http://loadingmore.com/v-markdown">编辑器在这里</a></strong> | <strong> <a href="http://www.jb51.net/tools/zhengze.html#mission" target="_blank" rel="external">正则表达式30分钟入门教程</a></strong><br><a id="more"></a></p>
+<h2 id="第一步取html"><a href="#第一步取html" class="headerlink" title="第一步取html"></a>第一步取html</h2><p>示例代码,给代码块加高亮,断行,前提是在整个HTML文档中先取出代码块，再对代码块进行操作<br><strong> 取数据：</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//这就是我所用到的正则</span></div><div class="line"><span class="comment">//&lt;code[^&gt;]+&gt;  找到code代码段 包含里面含有class 等属性的情况</span></div><div class="line"><span class="comment">//[\s\S]+? [\s\S]代表匹配文档中任何一个位置 +不止一处  ?非贪婪模式</span></div><div class="line"><span class="comment">//非贪婪模式可以匹配每一段code的内容，如不加？ 诸位可以试下会匹配到什么</span></div><div class="line"><span class="keyword">var</span> regCode = <span class="regexp">/&lt;code[^&gt;]+&gt;([\s\S]+?)&lt;\/code&gt;/g</span>;</div></pre></td></tr></table></figure></p>
+<p><strong> 取出的数据源:</strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">code</span> <span class="attr">class</span>=<span class="string">"javascript language-javascript"</span>&gt;</span></div><div class="line">    function loadStyle(href)&#123;</div><div class="line">        var link = document.createElement("link");   </div><div class="line">        link.type = "text/css";</div><div class="line">        link.rel = "stylesheet";</div><div class="line">        link.href = href;   </div><div class="line">        var head = document.getElementsByTagName("head")[0];   </div><div class="line">        head.appendChild(link);</div><div class="line">    &#125;</div><div class="line">    loadStyle(demo.css);</div><div class="line"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="第二步写规则"><a href="#第二步写规则" class="headerlink" title="第二步写规则"></a>第二步写规则</h2><p>这里我把正则分开写了,分别配置了不同关键词,对应的颜色,考虑到性能,复杂度可以把这些正则写在一起,用|隔开也行,这里我就偷懒了，先这样<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> config = &#123;</div><div class="line">    <span class="attr">regs</span>:[</div><div class="line">        <span class="regexp">/\b(var|function|return|new|try|exec|match|catch|break|continue|case|for|if|else|while|switch)\b/g</span>,</div><div class="line">        /(<span class="keyword">this</span>)/g,</div><div class="line">        /(<span class="literal">true</span>|<span class="literal">false</span>)/g,</div><div class="line">        /([+])/g,</div><div class="line">        /\b(<span class="built_in">document</span>|innerHTML)\b/g,</div><div class="line">        /\b(createElement|getElementsByTagName|appendChild|querySelector|querySelectorAll|getElementById)\b/g</div><div class="line">    ],</div><div class="line">    <span class="attr">fontColor</span>:[</div><div class="line">        <span class="string">'#9E70DD'</span>,</div><div class="line">        <span class="string">'#9B2C34'</span>,</div><div class="line">        <span class="string">'#D19A66'</span>,</div><div class="line">        <span class="string">'#42A2EF'</span>,</div><div class="line">        <span class="string">'#E06A6C'</span>,</div><div class="line">        <span class="string">'#50B2BC'</span></div><div class="line">    ]</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="第三步-处理关键词"><a href="#第三步-处理关键词" class="headerlink" title="第三步 处理关键词"></a>第三步 处理关键词</h2><p>假设我们的html数命名为 s 现在来替换s中的代码段里面的关键词<br>我们的配置项为6个  所以直接for循环<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">    <span class="comment">//对codes 进行循环替换</span></div><div class="line">    s = s.replace(config.regs[i],<span class="function"><span class="keyword">function</span>(<span class="params">m</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;span style="color:'</span>+config.fontColor[i]+<span class="string">'"&gt;'</span>+m+<span class="string">'&lt;/span&gt;'</span></div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="第四步-处理函数名高亮"><a href="#第四步-处理函数名高亮" class="headerlink" title="第四步 处理函数名高亮"></a>第四步 处理函数名高亮</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//函数名高亮</span></div><div class="line"><span class="comment">//匹配代码块内函数名</span></div><div class="line"><span class="keyword">var</span> regName = <span class="regexp">/\s(\w+)\(/g</span>;</div><div class="line"><span class="keyword">var</span> res = [];</div><div class="line"><span class="keyword">while</span>(m = regName.exec(s))&#123;</div><div class="line">    res.push(m[<span class="number">1</span>])</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;res.length;i++)&#123;</div><div class="line">    s = s.replace(res[i],<span class="string">'&lt;span style="color:#3081E3"&gt;'</span>+res[i]+<span class="string">'&lt;/span&gt;'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="第五步-处理函数断行加"><a href="#第五步-处理函数断行加" class="headerlink" title="第五步 处理函数断行加"></a>第五步 处理函数断行加<br></h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> regCode = <span class="regexp">/&lt;code[^&gt;]+&gt;([\s\S]+?)&lt;\/code&gt;/g</span>;</div><div class="line"><span class="keyword">var</span> content;</div><div class="line"><span class="comment">//收集每一行代码</span></div><div class="line"><span class="keyword">var</span> conStr=[];</div><div class="line"><span class="keyword">while</span>(content = regCode.exec(s))&#123;</div><div class="line">    conStr.push(content[<span class="number">1</span>])</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;conStr.length;i++)&#123;</div><div class="line">    <span class="comment">//代码换行处进行添加&lt;br&gt;</span></div><div class="line">    s = s.replace(conStr[i],conStr[i].replace(<span class="regexp">/\n/g</span>, <span class="string">"&lt;br&gt;"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>处理结束后就可以把s放到页面了,试试效果，效果在这里<a href="http://loadingmore.com/v-markdown">效果在这里</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近鼓捣了个markdown在线预览的编辑器,基于vue2.0实现,对vue的理解程度还没有那么深,所以代码高亮,断行没有用插件来实现,于是决定用正则来简单实现.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;场景&quot;&gt;&lt;a href=&quot;#场景&quot; class=&quot;headerlink&quot; title=&quot;场景&quot;&gt;&lt;/a&gt;场景&lt;/h2&gt;&lt;p&gt;经常写代码，写业务难免要查询某些数据和字符串打交道,其中正则便是一个提高编程效率的实用工具,还没了解正则的建议好好学一学.&lt;strong&gt; &lt;a href=&quot;http://loadingmore.com/v-markdown&quot;&gt;编辑器在这里&lt;/a&gt;&lt;/strong&gt; | &lt;strong&gt; &lt;a href=&quot;http://www.jb51.net/tools/zhengze.html#mission&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;正则表达式30分钟入门教程&lt;/a&gt;&lt;/strong&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>每隔四个字符添加一个空格的正则怎么写?</title>
+    <link href="http://loadingmore.com/2017/03/11/%E6%AF%8F%E9%9A%94%E5%9B%9B%E4%B8%AA%E5%AD%97%E7%AC%A6%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%AD%A3%E5%88%99%E6%80%8E%E4%B9%88%E5%86%99/"/>
+    <id>http://loadingmore.com/2017/03/11/每隔四个字符添加一个空格的正则怎么写/</id>
+    <published>2017-03-11T09:14:44.000Z</published>
+    <updated>2017-03-12T01:27:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近有懒惰不少,好久没写博客了,今天在一群里看到有小伙伴问怎用正则规律的添加空格,花了几分钟写了下,做下记录</p>
+</blockquote>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>这样的效果在填写银行卡的时候十分常见，这也是非常人性化的举措,动笔写吧,起初我想用js实现，可想想各种字符串,各种循环,我决定还是得正则靠谱.<br><a id="more"></a></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>试了下,一个正则我还搞不定,水平有限就用俩吧：<br>分析：</p>
+<ul>
+<li>首先肯定是得把4n个字符找出来</li>
+<li>其次把剩余的字符找出来</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//取前4n个字符</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/(\w&#123;4&#125;)/g</span>;</div><div class="line"><span class="comment">//拿到最后剩余的字符</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(?:\w&#123;4&#125;)+(\w+)/g</span>;</div></pre></td></tr></table></figure>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>接下来我们这这些代码组织一下,封装一个通用的方法，进而只需要传字符,可自动输出想要的字符：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSpace</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">//过滤了空格的存在</span></div><div class="line">    <span class="comment">//实际中根据需求是否必须去掉空格</span></div><div class="line">    s = s.replace(<span class="regexp">/\s*/g</span>,<span class="string">''</span>);</div><div class="line">    <span class="keyword">if</span>(s.length === <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">4</span> &amp;&amp; s.length !== <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> m,n,res = <span class="string">''</span>;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(\w&#123;4&#125;)/g</span>;</div><div class="line">    <span class="keyword">var</span> reg2 = <span class="regexp">/(?:\w&#123;4&#125;)+(\w+)/</span>;</div><div class="line">    <span class="keyword">while</span>(m = reg.exec(s))&#123;</div><div class="line">        <span class="comment">//循环加空格</span></div><div class="line">        res += m[<span class="number">1</span>] +<span class="string">' '</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//做下判断是否是4的整数倍</span></div><div class="line">    <span class="keyword">if</span>(s.length%<span class="number">4</span> == <span class="number">0</span>)&#123;</div><div class="line">        <span class="comment">//整数倍会多一个空格 去除</span></div><div class="line">        <span class="keyword">return</span> res.replace(<span class="regexp">/\s$/</span>,<span class="string">''</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//否则用俩正则</span></div><div class="line">        <span class="keyword">var</span> n = reg2.exec(s);</div><div class="line">        <span class="keyword">return</span> (res+n[<span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Demo</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'1234567890'</span>;</div><div class="line"><span class="built_in">console</span>.log(getSpace(str));</div><div class="line"><span class="comment">//1234 5678 90</span></div></pre></td></tr></table></figure></p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>下面是支付宝的绑定银行卡界面:<br>监听oninput事件,进行实时的提示用户输入的卡号<br><img src="http://oiukswkar.bkt.clouddn.com/bank-number.png" alt=""><br>咱们模拟下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//html</span></div><div class="line">&lt;input type=<span class="string">"text"</span> id=<span class="string">"get"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"show"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">//js</span></div><div class="line"><span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">'#get'</span>);</div><div class="line"><span class="keyword">var</span> show = <span class="built_in">document</span>.querySelector(<span class="string">'.show'</span>);</div><div class="line">box.oninput = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    show.innerHTML =getSpace(box.value);</div><div class="line">&#125;</div><div class="line"><span class="comment">//ok大功告成 自己测试去吧</span></div></pre></td></tr></table></figure></p>
+<p><img src="http://oiukswkar.bkt.clouddn.com/bank-number2.png" alt=""></p>
+<h2 id="通用模块封装"><a href="#通用模块封装" class="headerlink" title="通用模块封装"></a>通用模块封装</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">*@param s 即将被转化的字符  String</div><div class="line">*@param num 字符的间隔    Number</div><div class="line">*@param type 字符的类型  String</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSpace</span>(<span class="params">s,num,type</span>)</span>&#123;</div><div class="line">    <span class="comment">//过滤了空格的存在</span></div><div class="line">    <span class="comment">//实际中根据需求是否必须去掉空格</span></div><div class="line">    s = s.replace(<span class="regexp">/\s*/g</span>,<span class="string">''</span>);</div><div class="line">    <span class="keyword">if</span>(s.length === <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; num &amp;&amp; s.length !== <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> m,n,res = <span class="string">''</span>;</div><div class="line">    <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(\\w&#123;'</span>+num+<span class="string">'&#125;)'</span>,<span class="string">'g'</span>);</div><div class="line">    <span class="keyword">var</span> reg2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(?:\\w&#123;'</span>+num+<span class="string">'&#125;)+(\\w+)'</span>,<span class="string">'g'</span>);</div><div class="line">    <span class="keyword">var</span> reg3 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">''</span>+type+<span class="string">'$'</span>);</div><div class="line">    <span class="keyword">while</span>(m = reg.exec(s))&#123;</div><div class="line">        res += m[<span class="number">1</span>] + type;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(s.length%num == <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> res.replace(reg3,<span class="string">''</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">var</span> n = reg2.exec(s);</div><div class="line">        <span class="keyword">return</span> (res+n[<span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//用法</span></div><div class="line"><span class="keyword">var</span> st = <span class="string">'1234567890'</span>;</div><div class="line">getSpace(st,<span class="number">3</span>,<span class="string">','</span>);</div><div class="line"><span class="comment">//123,456,789,0</span></div><div class="line">getSpace(st,<span class="number">4</span>,<span class="string">'.'</span>);</div><div class="line"><span class="comment">//1234.5678.90</span></div><div class="line">getSpace(st,<span class="number">2</span>,<span class="string">'$'</span>);</div><div class="line"><span class="comment">//12$34$56$78$90</span></div><div class="line"></div><div class="line"><span class="comment">//诸位发挥想象力吧...........</span></div><div class="line"><span class="comment">//想怎么用就怎么用....</span></div></pre></td></tr></table></figure>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本文所写的函数,适用于数字字母下划线,没有做只允许数字的判断,如果需要只需在函数开始对s进行判断，return 即可;如有问题,请评论区留言</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近有懒惰不少,好久没写博客了,今天在一群里看到有小伙伴问怎用正则规律的添加空格,花了几分钟写了下,做下记录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h2&gt;&lt;p&gt;这样的效果在填写银行卡的时候十分常见，这也是非常人性化的举措,动笔写吧,起初我想用js实现，可想想各种字符串,各种循环,我决定还是得正则靠谱.&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>只执行一次的函数该怎么写?</title>
+    <link href="http://loadingmore.com/2017/03/02/%E5%8F%AA%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1%E7%9A%84%E5%87%BD%E6%95%B0%E8%AF%A5%E6%80%8E%E4%B9%88%E5%86%99/"/>
+    <id>http://loadingmore.com/2017/03/02/只执行一次的函数该怎么写/</id>
+    <published>2017-03-02T11:45:43.000Z</published>
+    <updated>2017-06-08T14:43:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>实际项目中也许会遇到一些只能执行一次的事件,该怎么写呢？</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">once</span>(<span class="params">fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> isFlag = <span class="literal">false</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!isFlag)&#123;</div><div class="line">            isFlag = <span class="literal">true</span>;</div><div class="line">            fn();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line"><span class="comment">//html结构省略 测试点击事件</span></div><div class="line"><span class="comment">//只执行一次</span></div><div class="line"><span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">'.box'</span>);</div><div class="line">box.addEventListener(<span class="string">'click'</span>,once(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//放心鼠标点破,也只会执行一次</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"二狗"</span>);</div><div class="line">&#125;),<span class="literal">false</span>)</div></pre></td></tr></table></figure>
+<p>剩下的就看根据需求,来决定使用场景了</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;实际项目中也许会遇到一些只能执行一次的事件,该怎么写呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="小技巧" scheme="http://loadingmore.com/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Js函数的throttle(节流)和debounce(防抖)</title>
+    <link href="http://loadingmore.com/2017/03/02/JS%E5%87%BD%E6%95%B0%E7%9A%84throttle(%E8%8A%82%E6%B5%81)%E5%92%8Cdebounce(%E6%8A%96%E5%8A%A8)/"/>
+    <id>http://loadingmore.com/2017/03/02/JS函数的throttle(节流)和debounce(抖动)/</id>
+    <published>2017-03-02T05:00:12.000Z</published>
+    <updated>2017-05-20T18:14:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><strong> 某些场景下，比如响应鼠标移动或者影响窗口大小的resize事件,scroll事件,导致频繁的触发DOM操作，资源加载等重行为，导致页面卡顿甚至浏览器崩溃;网上看到一些解决的方案，遂做记录 </strong></p>
+</blockquote>
+<p><img src="http://oiukswkar.bkt.clouddn.com/throttle.jpg" alt="sdf"><br><a id="more"></a></p>
+<h3 id="什么是debounce-什么场景用-怎么实现"><a href="#什么是debounce-什么场景用-怎么实现" class="headerlink" title="什么是debounce? 什么场景用? 怎么实现?"></a>什么是debounce? 什么场景用? 怎么实现?</h3><p><strong> 关键词查询</strong></p>
+<p>解释这个函数前，先想想如下场景：网站我们的网站有个搜索框，用户输入文本我们会自动联想匹配一些结果呈现给给用户，我们可能首先想到的就是监听keypress事件,然后进行一步查询结果,该方法本身没有问题，但是如果用户哭诉输入一连串几十个字符，那就要瞬间触发几十次请求，无疑,我们不想要这样的结果，我们要的是用户停止输入的时候才去触发查询请求,这个时候函数防抖就可以帮到我们.</p>
+<p><strong>电梯超时</strong></p>
+<p>想象每天上班大厦底下的电梯。把电梯完成一次运送，类比为一次函数的执行和响应。如果电梯里有人进来，等待15秒。如果又人进来，15秒等待重新计时，直到15秒超时，开始运送。</p>
+<p><strong>函数防抖</strong></p>
+<p>就是让某个函数在上一次执行后，满足等待某个时间内不再触发此函数后再执行，而在这个等待时间内再次触发此函数，等待时间会重新计算。</p>
+<ul>
+<li>如果用手指一直按住一个弹簧，它将不会弹起直到你松手为止。</li>
+<li>也就是说当调用动作n毫秒后，才会执行该动作，</li>
+<li>若在这n毫秒内又调用此动作则将重新计算执行时间。</li>
+</ul>
+<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay,callback 才会执行</div><div class="line">* @param delay   &#123;number&#125;    空闲时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">delay,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">        &#125;,delay)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line"><span class="comment">//keypress时间结束200毫秒后执行相关回调事件</span></div><div class="line">$(<span class="string">'.input'</span>).addEventListener(<span class="string">'keypress'</span>,debounce(<span class="number">200</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//do somecode</span></div><div class="line">&#125;,<span class="literal">false</span>))</div></pre></td></tr></table></figure></p>
+<h3 id="什么是throttle-什么场景用-怎么实现"><a href="#什么是throttle-什么场景用-怎么实现" class="headerlink" title="什么是throttle? 什么场景用? 怎么实现?"></a>什么是throttle? 什么场景用? 怎么实现?</h3><p><strong>scroll事件</strong></p>
+<p>网站开发中经常会遇到这样的需求就是滚动浏览器滚动条的时候，更新页面上的某些布局或者数据或者调用后台的某些接口,同样，如果不对scroll函数加以限制的话,我们滚动一次滚动条就会产生N多次的调用了,throttle跟debounce不同,不是在等待某个时间后去执行函数，二是每间隔某个时间去执行函数</p>
+<p><strong>自助饮料机</strong></p>
+<p>好比一台自动的饮料机，按拿铁按钮，在出饮料的过程中，不管按多少这个按钮，都不会连续出饮料，中间按钮的响应会被忽略，必须要等这一杯的容量全部出完之后，再按拿铁按钮才会出下一杯。</p>
+<p><strong>函数节流</strong></p>
+<p>每间隔某个时间去执行某函数，避免函数的过多执行，这个方式就叫函数节流。</p>
+<ul>
+<li>形像的比喻是水龙头或机枪，你可以控制它的流量或频率。</li>
+<li>throttle 的关注点是连续的执行间隔时间。</li>
+<li>也就是会说预先设定一个执行周期，当调用动作的时刻大于</li>
+<li>等于执行周期则执行该动作，然后进入下一个新周期。</li>
+</ul>
+<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 频率控制 返回函数连续调用时，callback 执行频率限定为 次/delay  </div><div class="line">* 不满足间隔时间,延迟times后必须执行一次</div><div class="line">* @param delay  &#123;number&#125;    间隔时间，单位毫秒</div><div class="line">* @param times  &#123;number&#125;    延迟时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">delay,times,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> startTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">        timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> currTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">            that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        <span class="keyword">if</span>(currTime - startTime &gt;= delay)&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">            startTime = currTime;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                callback.apply(that,args);</div><div class="line">            &#125;,times)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//Demo</span></div><div class="line"><span class="comment">//图片懒加,就是一个不断需要滚动条来判断距离的一个解决方案;</span></div><div class="line"><span class="comment">//通过scroll时间不断的判断,为了避免大量的scroll触发,</span></div><div class="line"><span class="comment">//我们可以用throttle对其进行节流操作</span></div><div class="line"><span class="comment">//仅仅做演示 html css均不提供，后文会给出demo</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lazyload</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> okSeeHeight = <span class="built_in">document</span>.documentElement.clientHeight;<span class="comment">//可视区域高度</span></div><div class="line">    <span class="keyword">var</span> curScrollTop = <span class="built_in">document</span>.body.scrollTop || <span class="built_in">document</span>.documentElement.scrollTop;<span class="comment">//滚动条高度</span></div><div class="line">    <span class="keyword">var</span> imgNums = <span class="built_in">document</span>.querySelectorAll(<span class="string">'img'</span>),</div><div class="line">        len = imgNums.length,</div><div class="line">        sn = <span class="number">0</span>;<span class="comment">//初始化图片位置 避免每次都重新计算</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=sn; i&lt;len; i++)&#123;</div><div class="line">        <span class="comment">//到达可视区域</span></div><div class="line">        <span class="keyword">if</span>(imgNums[i].offsetTop &lt; okSeeHeight + curScrollTop)&#123;</div><div class="line">            <span class="comment">//替换scr</span></div><div class="line">            imgNums[i].src = imgNums[i].getAttribute(<span class="string">'data-src'</span>);</div><div class="line">            sn = i + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用即可</span></div><div class="line"><span class="comment">//可以大大减少scroll的触发量,而不影响体验</span></div><div class="line"><span class="comment">//500毫秒执行  不满足就强制500毫秒运行一次回调函数</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,throttle(<span class="number">500</span>,<span class="number">500</span>,lazyload))</div></pre></td></tr></table></figure>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>只要牵涉到连续事件或频率控制相关的应用都可以考虑到这两个函数，比如：</p>
+<ul>
+<li>游戏射击，keydown 事件</li>
+<li>文本输入、自动完成，keyup 事件</li>
+<li>鼠标移动，mousemove 事件</li>
+<li>DOM 元素动态定位，window 对象的 resize 和 scroll 事件</li>
+</ul>
+<p>前两者 debounce 和 throttle 都可以按需使用；后两者肯定是用 throttle 了。如果不做过滤处理，每秒种甚至会触发数十次相应的事件。尤其是 mousemove 事件，每移动一像素都可能触发一次事件。如果是在一个画布上做一个鼠标相关的应用，过滤事件处理是必须的，否则肯定会造成糟糕的体验。</p>
+<h3 id="图片懒加载演示DEMO"><a href="#图片懒加载演示DEMO" class="headerlink" title="图片懒加载演示DEMO"></a>图片懒加载演示DEMO</h3><p><strong><a href="http://loadingmore.com/demo/src/html/lazyload.html">图片懒加载节流优化</a></strong></p>
+<p><strong><a href="https://github.com/BiYuqi/lazyloading-img" target="_blank" rel="external">github地址</a></strong></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.cnblogs.com/fsjohnhuang/p/4147810.html" target="_blank" rel="external">肥仔John</a></li>
+<li><a href="http://www.cnblogs.com/ambar/archive/2011/10/08/throttle-and-debounce.html" target="_blank" rel="external">高阶函数 debounce 和 throttle</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt; 某些场景下，比如响应鼠标移动或者影响窗口大小的resize事件,scroll事件,导致频繁的触发DOM操作，资源加载等重行为，导致页面卡顿甚至浏览器崩溃;网上看到一些解决的方案，遂做记录 &lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http://oiukswkar.bkt.clouddn.com/throttle.jpg&quot; alt=&quot;sdf&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="函数" scheme="http://loadingmore.com/tags/%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈LocalStorage响应事件</title>
+    <link href="http://loadingmore.com/2017/02/21/%E6%B5%85%E8%B0%88LocalStorage%E5%93%8D%E5%BA%94%E4%BA%8B%E4%BB%B6/"/>
+    <id>http://loadingmore.com/2017/02/21/浅谈LocalStorage响应事件/</id>
+    <published>2017-02-21T09:13:12.000Z</published>
+    <updated>2017-06-10T02:50:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><strong> 前几天群里看到有朋友提了一个这样的需求；A页面看视频,又在B页面打开相同视频，B页面视频看完时，A页面状态自动改变 </strong></p>
+</blockquote>
+<a id="more"></a>
+<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><p><strong> localStorage API有哪些？</strong></p>
+<ul>
+<li>localStorage.setItem()该方法接受两个参数——要创建/修改的数据项的键，和对应的值</li>
+<li>localStorage.getItem()可以从存储中获取一个数据项。该方法接受数据项的键作为参数，并返回数据值</li>
+<li>localStorage.removeItem() 接受一个参数——你想要移除的数据项的键，然后会将对应的数据项从域名对应的存储对象中移除</li>
+<li>localStorage.clear() 不接受参数，只是简单地清空域名对应的整个存储对象</li>
+</ul>
+<p>具体的实践先不写了,后续有时间再写…(会有时间么)</p>
+<h3 id="StorageEvent-响应存储的变化"><a href="#StorageEvent-响应存储的变化" class="headerlink" title="StorageEvent 响应存储的变化"></a>StorageEvent 响应存储的变化</h3><p>先看下MDN的介绍:</p>
+<blockquote>
+<p>无论何时,Storage对象发生变化时(即创建/更新/删除数据项时,重复设置相同的键值不会触发该事件，Storage.clear() 方法至多触发一次该事件),StorageEvent事件会触发.在同一个页面内发生的改变不会起作用——在相同域名下的其他页面(如一个新标签或iframe)发生的改变才会起作用.在其他域名下的页面不能访问相同的Storage对象。</p>
+</blockquote>
+<p><strong> 根据mdn的描述，说明该方法只能在通域名下使用 </strong></p>
+<p>写个样板DEMO<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'storage'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    e.key;<span class="comment">//改变的数据项的键</span></div><div class="line">    e.oldValue;<span class="comment">//改变前的旧值</span></div><div class="line">    e.newValue;<span class="comment">//改变后的新值</span></div><div class="line">    e.url;<span class="comment">//改变的存储对象所在的文档的 URL</span></div><div class="line">    e.storageArea;<span class="comment">//以及存储对象本身</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p><strong> 该方法给予了我们很多想象力,像开头所说不同页面同域名下,所发生的的变化都可以通过该方法进行捕捉，进而更新相应数据 </strong></p>
+<h3 id="演示DEMO"><a href="#演示DEMO" class="headerlink" title="演示DEMO"></a>演示DEMO</h3><p>先占个位，demo随后即来</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API" target="_blank" rel="external">Web Storage API</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Storage" target="_blank" rel="external">LocalStorage</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt; 前几天群里看到有朋友提了一个这样的需求；A页面看视频,又在B页面打开相同视频，B页面视频看完时，A页面状态自动改变 &lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="localStorage" scheme="http://loadingmore.com/tags/localStorage/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>正则表达式必须包含数字和字母两种组合</title>
+    <link href="http://loadingmore.com/2017/02/21/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%BF%85%E9%A1%BB%E5%8C%85%E5%90%AB%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E4%B8%A4%E7%A7%8D%E7%BB%84%E5%90%88/"/>
+    <id>http://loadingmore.com/2017/02/21/正则表达式必须包含数字字母两种组合/</id>
+    <published>2017-02-21T03:13:12.000Z</published>
+    <updated>2017-06-08T14:43:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><strong> 做表单验证经常做判断密码的组合，强度之类的校验，最近仔细研究了下正则，体会到了正则的强大，所以用几种方法来实现这一需求 </strong></p>
+</blockquote>
+<a id="more"></a>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p><strong> 正则表达式中必须包含字母数字(不能纯数字或纯字母)，那么就必须要判断该字符串中：</strong></p>
+<ul>
+<li>必须包含数字</li>
+<li>必须包含字母</li>
+</ul>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>这里会用到正则的环视(零宽断言):(?=exp)和(?!exp),所以我们的正则可以写为：<br>第一种实现用(?=exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字)</span></div><div class="line">/^(?=.*?[<span class="number">0</span><span class="number">-9</span>])(?=.*?[a-z])[<span class="number">0</span><span class="number">-9</span>a-z]+$/</div></pre></td></tr></table></figure></p>
+<p>第二种实现用(?!exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母)</span></div><div class="line">/(?!^[<span class="number">0</span><span class="number">-9</span>]+$)(?!^[a-z]+$)^[<span class="number">0</span><span class="number">-9</span>a-z]+$/</div></pre></td></tr></table></figure></p>
+<p>当然,如果需要限定字符串长度,我们后面的[a-z0-9]+可以改为一个长度范围,+改为如{5,16};</p>
+<h3 id="改需求-必须包含字母数字特殊字符"><a href="#改需求-必须包含字母数字特殊字符" class="headerlink" title="改需求 必须包含字母数字特殊字符"></a>改需求 必须包含字母数字特殊字符</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>第一种实现用(?=exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字，一个特殊字符)</span></div><div class="line">/^(?=.*?[<span class="number">0</span><span class="number">-9</span>])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[<span class="number">0</span><span class="number">-9</span>a-z_\-@&amp;=]+$/</div></pre></td></tr></table></figure></p>
+<p>第二种实现用混合<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp)</span></div><div class="line"><span class="comment">//必须包含?=exp 后面的字符(意味着必须有至有字母，数字，不全是字母数字</span></div><div class="line"><span class="comment">//(意味着有特殊字符))</span></div><div class="line"> /^(?=.*?\d)(?=.*?[a-z])(?!^[a-z\d]+$).+$/;</div></pre></td></tr></table></figure></p>
+<h3 id="改需求-必须包含字母数字特殊字符中任意两种组合"><a href="#改需求-必须包含字母数字特殊字符中任意两种组合" class="headerlink" title="改需求 必须包含字母数字特殊字符中任意两种组合"></a>改需求 必须包含字母数字特殊字符中任意两种组合</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>实现用(?!exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母 纯特殊字符)</span></div><div class="line">/(?!^[<span class="number">0</span><span class="number">-9</span>]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[<span class="number">0</span><span class="number">-9</span>a-z_\-@&amp;=]+$/</div></pre></td></tr></table></figure></p>
+<p>###解读正则</p>
+<p><strong> 正则以^开始，限定匹配字符串是从开始位置进行匹配，(?=.<em>?[a-z])是肯定型顺序环视，限定当前位置的后面，能匹配.</em>?[a-z]，也就是，能够匹配到一个字母，同理，(?=.<em>?[0-9])表示限定当前位置的后面，能匹配一个数字，(?=.</em>?[<em>-@&amp;=])表示限定当前位置的后面，能匹配一个特殊字符，而[a-z0-9</em>-@&amp;=]+就是前面那些环视限定的位置，即表示[a-z0-9_-@&amp;=]+中，至少匹配一个字母、一个数字、一个特殊字符，最终匹配到达字符串结束位置$。</strong></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://deerchao.net/tutorials/regex/regex-1.htm" target="_blank" rel="external">30分钟入门正则表达式</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt; 做表单验证经常做判断密码的组合，强度之类的校验，最近仔细研究了下正则，体会到了正则的强大，所以用几种方法来实现这一需求 &lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>window命令行下输入javac提示不是内部或外部命令解决方法</title>
+    <link href="http://loadingmore.com/2017/02/20/window%E4%B8%8B%E8%BE%93%E5%85%A5javac%E6%8F%90%E7%A4%BA%E4%B8%8D%E6%98%AF%E5%86%85%E9%83%A8%E6%88%96%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+    <id>http://loadingmore.com/2017/02/20/window下输入javac提示不是内部或外部命令解决方法/</id>
+    <published>2017-02-20T12:53:28.000Z</published>
+    <updated>2017-06-08T14:44:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><strong> 下午用Cordova打包app时，提示未安装jdk，可是我明明安装jdk了，java -version也有版本提示;这就奇了怪，于是网上各种搜罗，于是有了这篇文章 </strong></p>
+</blockquote>
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong> 本文的前提是电脑中已经安装好java，配置好环境变量后出现的问题(某些情况下);没有安装的请自行安装 </strong> <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">JAVA-jdk</a>**</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>找到 <strong> 高级系统设置&gt;环境变量&gt;系统变量&gt;Path </strong><br>path路径里面添加jdk和jre的路径下面bin文件夹路径,格式：<br><img src="http://oiukswkar.bkt.clouddn.com/javac.png" alt=""><br><strong> 我的安装路径可能与大家不一样,可自行选择路径追加到Path后面记得有分号;</strong><br>;C:\Program Files (x86)\Java\jdk1.8.0_101\bin;C:\Program Files (x86)\Java\jre1.8.0_101\bin</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong> 加入绝对路径可以无视JAVA_HOME,win会把Path路径下面所有可执行的文件都枚举出来 </strong></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt; 下午用Cordova打包app时，提示未安装jdk，可是我明明安装jdk了，java -version也有版本提示;这就奇了怪，于是网上各种搜罗，于是有了这篇文章 &lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="经验" scheme="http://loadingmore.com/categories/%E7%BB%8F%E9%AA%8C/"/>
+    
+    
+      <category term="window" scheme="http://loadingmore.com/tags/window/"/>
+    
+      <category term="java" scheme="http://loadingmore.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Javascript开发性能调优(一)</title>
+    <link href="http://loadingmore.com/2017/02/16/Javascript%E5%BC%80%E5%8F%91%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98(%E4%B8%80)/"/>
+    <id>http://loadingmore.com/2017/02/16/Javascript开发性能调优(一)/</id>
+    <published>2017-02-16T13:00:06.000Z</published>
+    <updated>2017-06-08T14:43:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><strong> 为什么我们做出速度很慢的网站，给用户一个糟糕的体验？</strong></p>
+</blockquote>
+<a id="more"></a>
+<h3 id="异步加载第三方内容"><a href="#异步加载第三方内容" class="headerlink" title="异步加载第三方内容"></a>异步加载第三方内容</h3><p>有人没有加载过这样的第三方内容吗？比如第三方统计，打开很多网站，f12都会看到这些内容问题在于，不管是用户端的还是服务器端的连接，都无法保证这些代码是正常有效的工作的。这些服务有可能临时dowan掉或者是被用户或者其公司的防火墙阻止.为了避免这些在页面加载时成为问题，或者更严重的是，阻塞了全部页面的加载，总是应该异步加载这些代码.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>),</div><div class="line">    scripts = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'script'</span>)[<span class="number">0</span>];</div><div class="line"></div><div class="line">    script.async = <span class="literal">true</span>;</div><div class="line">    script.src = url;</div><div class="line">    scripts.parentNode.insertBefore(script,scripts);</div></pre></td></tr></table></figure>
+<h3 id="缓存数组长度"><a href="#缓存数组长度" class="headerlink" title="缓存数组长度"></a>缓存数组长度</h3><p>循环无疑是和Javascript性能非常相关的一部分。试着优化循环的逻辑，从而让每次循环更加的高效。要做到这一点，方法之一是存储数组的长度，这样的话，在每次循环时都不用重新计算。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1000</span>),</div><div class="line">    i,len;</div><div class="line"></div><div class="line"><span class="comment">//Bad code</span></div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</div><div class="line">    <span class="comment">//需要计算一千</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Good Code</span></div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;len = arr.length;i&lt;len;i++)&#123;</div><div class="line">    <span class="comment">//计算一次长度</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注解: 虽然现代浏览器引擎会自动优化这个过程，但是不要忘记还有旧的浏览器</p>
+</blockquote>
+<p><strong> 在迭代document.getElementsByTagName(‘a’)等类似方法生成的HTML节点数组（NodeList）时，缓存数组长度尤为关键。这些集合通常被认为是“灵活的”，意思就是说，当他们所对应的元素发生变化时，他们会被自动更新。</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> elements  = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'a'</span>),</div><div class="line">    i,len;</div><div class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;len = elements.length;i&lt;len;i++)&#123;</div><div class="line">    <span class="comment">//do some code</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意:返回一个包括所有给定标签名称的元素的HTML集合HTMLCollection。 整个文件结构都会被搜索，包括根节点。返回的 HTML集合是动态的, 意味着它可以自动更新自己来保持和 DOM 树的同步而不用再次调用 document.getElementsByTagName()</p>
+<h3 id="最小化重绘和回流"><a href="#最小化重绘和回流" class="headerlink" title="最小化重绘和回流"></a>最小化重绘和回流</h3><p>当有任何属性或元素发生改变时，都会引起DOM元素的重绘和回流。当一个元素的布局不变，外观发生改变时，就会引起重绘。就像样式的改变，例如改变background-color。回流的代价是最高的，当改变一个页面的布局时就会发生回流。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> item = <span class="built_in">document</span>.getElementById(<span class="string">"test"</span>),</div><div class="line">    lis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>),</div><div class="line">    i, len;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, len = lis.length; i &lt; len; i++) &#123;</div><div class="line">    <span class="comment">//item.offsetWidth 会不停的计算item的宽度</span></div><div class="line">    lis[i].style.width = item.offsetWidth + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>改为<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> item = <span class="built_in">document</span>.getElementById(<span class="string">"test"</span>),</div><div class="line">    lis = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>),</div><div class="line">    itemWidth = item.offsetWidth,<span class="comment">//缓存宽度</span></div><div class="line">    i, len;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, len = lis.length; i &lt; len; i++) &#123;</div><div class="line">    lis[i].style.width = itemWidth + <span class="string">'px'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>参考:<br>    <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/getElementsByTagName" target="_blank" rel="external">MDN</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt; 为什么我们做出速度很慢的网站，给用户一个糟糕的体验？&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="性能" scheme="http://loadingmore.com/tags/%E6%80%A7%E8%83%BD/"/>
+    
+      <category term="优化" scheme="http://loadingmore.com/tags/%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
+  
+</feed>
