@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-06-21T15:33:22.000Z</updated>
+  <updated>2017-07-01T13:55:56.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,6 +14,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一个有点意思的正则</title>
+    <link href="http://loadingmore.com/2017/07/01/%E4%B8%80%E4%B8%AA%E6%9C%89%E7%82%B9%E6%84%8F%E6%80%9D%E7%9A%84%E6%AD%A3%E5%88%99/"/>
+    <id>http://loadingmore.com/2017/07/01/一个有点意思的正则/</id>
+    <published>2017-07-01T13:37:38.000Z</published>
+    <updated>2017-07-01T13:55:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>周末闲来无事，没事逛逛前端群,碰到一个有点意思的题目,记录下来</p>
+</blockquote>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>一个数组，里面的字符串都有相同的前几个字，但是后面的不相同  如何把这相同的提取出来<br>大概像下面这样：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> arr = [<span class="string">'test23'</span>,<span class="string">'testtr'</span>,<span class="string">'test90'</span>] <span class="comment">//共同体 test</span></div><div class="line"><span class="keyword">const</span> arr1 = [<span class="string">'tes23'</span>,<span class="string">'testtr'</span>,<span class="string">'test90'</span>] <span class="comment">//共同体 tes  小心搞错哦</span></div><div class="line"><span class="keyword">const</span> arr2 = [<span class="string">'回家3'</span>,<span class="string">'回家5'</span>,<span class="string">'回家吗'</span>] <span class="comment">// 共同体 回家</span></div></pre></td></tr></table></figure></p>
+<h2 id="我的方法"><a href="#我的方法" class="headerlink" title="我的方法"></a>我的方法</h2><p>看到的第一感觉就是用正则(谁让我逻辑很菜呢…)<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* @param &#123;len&#125; 数组长度 下面用来匹配重复的个数</div><div class="line">* @param &#123;reg&#125; 不用说了，我们的匹配规则</div><div class="line">* @param &#123;data&#125; 换个思路，当做字符串进行处理</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWord</span>(<span class="params">arr</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> len = arr.length,</div><div class="line">        reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'^(.*)(.*\\1)&#123;'</span>+(len<span class="number">-1</span>)+<span class="string">'&#125;'</span>,<span class="string">'g'</span>),</div><div class="line">        data = arr.join(<span class="string">''</span>);</div><div class="line">    <span class="keyword">return</span> reg.exec(data)[<span class="number">1</span>]</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(getArr(arr)) <span class="comment">// test</span></div><div class="line"><span class="built_in">console</span>.log(getArr(arr1)) <span class="comment">//tes</span></div><div class="line"><span class="built_in">console</span>.log(getArr(arr2)) <span class="comment">//回家</span></div></pre></td></tr></table></figure></p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>我也不知道(逃…),我就想安安静静的温习个正则而已.<br>如果有更好的方法，烦请与我联系,向您请教，如有bug,请轻拍.我的邮箱：biyuqiwan@163.com</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;周末闲来无事，没事逛逛前端群,碰到一个有点意思的题目,记录下来&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h2&gt;&lt;p&gt;一个数组
+    
+    </summary>
+    
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+  </entry>
   
   <entry>
     <title>换电脑后,如何完美迁出hexo博客</title>
@@ -881,39 +912,6 @@
       <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
       <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>window命令行下输入javac提示不是内部或外部命令解决方法</title>
-    <link href="http://loadingmore.com/2017/02/20/window%E4%B8%8B%E8%BE%93%E5%85%A5javac%E6%8F%90%E7%A4%BA%E4%B8%8D%E6%98%AF%E5%86%85%E9%83%A8%E6%88%96%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
-    <id>http://loadingmore.com/2017/02/20/window下输入javac提示不是内部或外部命令解决方法/</id>
-    <published>2017-02-20T12:53:28.000Z</published>
-    <updated>2017-06-08T14:44:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p><strong> 下午用Cordova打包app时，提示未安装jdk，可是我明明安装jdk了，java -version也有版本提示;这就奇了怪，于是网上各种搜罗，于是有了这篇文章 </strong></p>
-</blockquote>
-<a id="more"></a>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong> 本文的前提是电脑中已经安装好java，配置好环境变量后出现的问题(某些情况下);没有安装的请自行安装 </strong> <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">JAVA-jdk</a>**</p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>找到 <strong> 高级系统设置&gt;环境变量&gt;系统变量&gt;Path </strong><br>path路径里面添加jdk和jre的路径下面bin文件夹路径,格式：<br><img src="http://oiukswkar.bkt.clouddn.com/javac.png" alt=""><br><strong> 我的安装路径可能与大家不一样,可自行选择路径追加到Path后面记得有分号;</strong><br>;C:\Program Files (x86)\Java\jdk1.8.0_101\bin;C:\Program Files (x86)\Java\jre1.8.0_101\bin</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong> 加入绝对路径可以无视JAVA_HOME,win会把Path路径下面所有可执行的文件都枚举出来 </strong></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt; 下午用Cordova打包app时，提示未安装jdk，可是我明明安装jdk了，java -version也有版本提示;这就奇了怪，于是网上各种搜罗，于是有了这篇文章 &lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="经验" scheme="http://loadingmore.com/categories/%E7%BB%8F%E9%AA%8C/"/>
-    
-    
-      <category term="window" scheme="http://loadingmore.com/tags/window/"/>
-    
-      <category term="java" scheme="http://loadingmore.com/tags/java/"/>
     
   </entry>
   
