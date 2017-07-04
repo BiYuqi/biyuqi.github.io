@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://loadingmore.com/2016/12/13/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%B8%80)/</loc>
+    
+    <lastmod>2017-07-04T15:16:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://loadingmore.com/2017/02/04/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%BA%94)/</loc>
+    
+    <lastmod>2017-07-04T15:15:49.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://loadingmore.com/2017/01/08/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E5%9B%9B)/</loc>
+    
+    <lastmod>2017-07-04T15:15:27.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://loadingmore.com/2017/01/02/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%B8%89)/</loc>
+    
+    <lastmod>2017-07-04T15:14:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://loadingmore.com/2016/12/26/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%BA%8C)/</loc>
+    
+    <lastmod>2017-07-04T15:14:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://loadingmore.com/2016/12/12/JS%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E7%9A%84%E7%94%B1%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97%E7%BB%84%E5%90%88%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
+    
+    <lastmod>2017-07-04T15:13:06.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://loadingmore.com/2017/07/01/%E4%B8%80%E4%B8%AA%E6%9C%89%E7%82%B9%E6%84%8F%E6%80%9D%E7%9A%84%E6%AD%A3%E5%88%99/</loc>
     
     <lastmod>2017-07-01T13:59:39.000Z</lastmod>
@@ -107,13 +149,6 @@
   </url>
   
   <url>
-    <loc>http://loadingmore.com/2017/01/08/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E5%9B%9B)/</loc>
-    
-    <lastmod>2017-06-08T14:46:18.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://loadingmore.com/2017/02/20/window%E4%B8%8B%E8%BE%93%E5%85%A5javac%E6%8F%90%E7%A4%BA%E4%B8%8D%E6%98%AF%E5%86%85%E9%83%A8%E6%88%96%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2017-06-08T14:44:56.000Z</lastmod>
@@ -166,34 +201,6 @@
     <loc>http://loadingmore.com/2017/01/11/Vue%E8%B5%B7%E6%AD%A5/</loc>
     
     <lastmod>2017-06-08T14:42:50.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://loadingmore.com/2016/12/13/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%B8%80)/</loc>
-    
-    <lastmod>2017-06-08T14:42:16.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://loadingmore.com/2017/02/04/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%BA%94)/</loc>
-    
-    <lastmod>2017-06-08T14:42:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://loadingmore.com/2017/01/02/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%B8%89)/</loc>
-    
-    <lastmod>2017-06-08T14:42:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://loadingmore.com/2016/12/26/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7(%E4%BA%8C)/</loc>
-    
-    <lastmod>2017-06-08T14:41:56.000Z</lastmod>
     
   </url>
   
@@ -334,13 +341,6 @@
     <loc>http://loadingmore.com/2016/12/22/Js%E6%A8%A1%E4%BB%BF%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8EES6%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</loc>
     
     <lastmod>2016-12-25T06:09:50.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://loadingmore.com/2016/12/12/JS%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E7%9A%84%E7%94%B1%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97%E7%BB%84%E5%90%88%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
-    
-    <lastmod>2016-12-21T15:14:40.000Z</lastmod>
     
   </url>
   
