@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-07-16T11:50:22.000Z</updated>
+  <updated>2017-08-09T11:20:46.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vuex在IE上的报错处理</title>
+    <link href="http://loadingmore.com/2017/08/09/Vuex%E5%9C%A8IE%E4%B8%8A%E7%9A%84%E6%8A%A5%E9%94%99%E5%A4%84%E7%90%86/"/>
+    <id>http://loadingmore.com/2017/08/09/Vuex在IE上的报错处理/</id>
+    <published>2017-08-09T11:16:07.000Z</published>
+    <updated>2017-08-09T11:20:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近在做一个后台项目，其中遇到了vuex在IE浏览器中报错的问题，于是就有了这篇博文进行记录</p>
+</blockquote>
+<h2 id="报错语句"><a href="#报错语句" class="headerlink" title="报错语句"></a>报错语句</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">SCRIPT5022: [vuex] vuex requires a <span class="built_in">Promise</span> polyfill <span class="keyword">in</span> <span class="keyword">this</span> browser.</div></pre></td></tr></table></figure>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>1.先安装babel-polyfill<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">npm install babel-polyfill --save-dev</div></pre></td></tr></table></figure></p>
+<p>2.build/webpack.base.config.js下修改文件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 入口文件改为如下</span></div><div class="line">entry: &#123;</div><div class="line">  <span class="attr">app</span>: [<span class="string">'babel-polyfill'</span>,<span class="string">'./src/main.js'</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>IE浏览器没有内置Promise对象。不仅如此，几乎所有的ES6新增的方法在IE都不能用，比如Array.from。因为babel只会转译语法，并不会新增方法</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近在做一个后台项目，其中遇到了vuex在IE浏览器中报错的问题，于是就有了这篇博文进行记录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;报错语句&quot;&gt;&lt;a href=&quot;#报错语句&quot; class=&quot;headerlink&quot; title=&quot;报错语
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="http://loadingmore.com/tags/Vue/"/>
+    
+  </entry>
   
   <entry>
     <title>一个有点意思的正则</title>
@@ -94,7 +124,7 @@
     <link href="http://loadingmore.com/2017/06/21/%E3%80%8A%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84javascript%E4%B8%AD%E3%80%8BJS%E5%AE%BD%E6%9D%BE%E7%9B%B8%E7%AD%89%E5%92%8C%E4%B8%A5%E6%A0%BC%E7%9B%B8%E7%AD%89/"/>
     <id>http://loadingmore.com/2017/06/21/《你不知道的javascript中》JS宽松相等和严格相等/</id>
     <published>2017-06-21T12:43:07.000Z</published>
-    <updated>2017-06-21T12:59:28.000Z</updated>
+    <updated>2017-08-09T11:18:02.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>温故而知新，最近在看《你不知道的javascript》系列的书记，看到深处，总有新的发现，好记性不如烂笔头，遂写下这篇读书笔记</p>
@@ -147,6 +177,8 @@
     
     </summary>
     
+    
+      <category term="Javascript" scheme="http://loadingmore.com/tags/Javascript/"/>
     
   </entry>
   
@@ -868,50 +900,6 @@
       <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
       <category term="localStorage" scheme="http://loadingmore.com/tags/localStorage/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>正则表达式必须包含数字和字母两种组合</title>
-    <link href="http://loadingmore.com/2017/02/21/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%BF%85%E9%A1%BB%E5%8C%85%E5%90%AB%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E4%B8%A4%E7%A7%8D%E7%BB%84%E5%90%88/"/>
-    <id>http://loadingmore.com/2017/02/21/正则表达式必须包含数字字母两种组合/</id>
-    <published>2017-02-21T03:13:12.000Z</published>
-    <updated>2017-06-08T14:43:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p><strong> 做表单验证经常做判断密码的组合，强度之类的校验，最近仔细研究了下正则，体会到了正则的强大，所以用几种方法来实现这一需求 </strong></p>
-</blockquote>
-<a id="more"></a>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p><strong> 正则表达式中必须包含字母数字(不能纯数字或纯字母)，那么就必须要判断该字符串中：</strong></p>
-<ul>
-<li>必须包含数字</li>
-<li>必须包含字母</li>
-</ul>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>这里会用到正则的环视(零宽断言):(?=exp)和(?!exp),所以我们的正则可以写为：<br>第一种实现用(?=exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字)</span></div><div class="line">/^(?=.*?[<span class="number">0</span><span class="number">-9</span>])(?=.*?[a-z])[<span class="number">0</span><span class="number">-9</span>a-z]+$/</div></pre></td></tr></table></figure></p>
-<p>第二种实现用(?!exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母)</span></div><div class="line">/(?!^[<span class="number">0</span><span class="number">-9</span>]+$)(?!^[a-z]+$)^[<span class="number">0</span><span class="number">-9</span>a-z]+$/</div></pre></td></tr></table></figure></p>
-<p>当然,如果需要限定字符串长度,我们后面的[a-z0-9]+可以改为一个长度范围,+改为如{5,16};</p>
-<h3 id="改需求-必须包含字母数字特殊字符"><a href="#改需求-必须包含字母数字特殊字符" class="headerlink" title="改需求 必须包含字母数字特殊字符"></a>改需求 必须包含字母数字特殊字符</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>第一种实现用(?=exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字，一个特殊字符)</span></div><div class="line">/^(?=.*?[<span class="number">0</span><span class="number">-9</span>])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[<span class="number">0</span><span class="number">-9</span>a-z_\-@&amp;=]+$/</div></pre></td></tr></table></figure></p>
-<p>第二种实现用混合<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp)</span></div><div class="line"><span class="comment">//必须包含?=exp 后面的字符(意味着必须有至有字母，数字，不全是字母数字</span></div><div class="line"><span class="comment">//(意味着有特殊字符))</span></div><div class="line"> /^(?=.*?\d)(?=.*?[a-z])(?!^[a-z\d]+$).+$/;</div></pre></td></tr></table></figure></p>
-<h3 id="改需求-必须包含字母数字特殊字符中任意两种组合"><a href="#改需求-必须包含字母数字特殊字符中任意两种组合" class="headerlink" title="改需求 必须包含字母数字特殊字符中任意两种组合"></a>改需求 必须包含字母数字特殊字符中任意两种组合</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>实现用(?!exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母 纯特殊字符)</span></div><div class="line">/(?!^[<span class="number">0</span><span class="number">-9</span>]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[<span class="number">0</span><span class="number">-9</span>a-z_\-@&amp;=]+$/</div></pre></td></tr></table></figure></p>
-<p>###解读正则</p>
-<p><strong> 正则以^开始，限定匹配字符串是从开始位置进行匹配，(?=.<em>?[a-z])是肯定型顺序环视，限定当前位置的后面，能匹配.</em>?[a-z]，也就是，能够匹配到一个字母，同理，(?=.<em>?[0-9])表示限定当前位置的后面，能匹配一个数字，(?=.</em>?[<em>-@&amp;=])表示限定当前位置的后面，能匹配一个特殊字符，而[a-z0-9</em>-@&amp;=]+就是前面那些环视限定的位置，即表示[a-z0-9_-@&amp;=]+中，至少匹配一个字母、一个数字、一个特殊字符，最终匹配到达字符串结束位置$。</strong></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://deerchao.net/tutorials/regex/regex-1.htm" target="_blank" rel="external">30分钟入门正则表达式</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt; 做表单验证经常做判断密码的组合，强度之类的校验，最近仔细研究了下正则，体会到了正则的强大，所以用几种方法来实现这一需求 &lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
-    
-      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
     
   </entry>
   
