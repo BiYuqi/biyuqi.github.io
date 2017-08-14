@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-08-09T11:20:46.000Z</updated>
+  <updated>2017-08-14T12:10:51.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一次FormData递归上传图片小记</title>
+    <link href="http://loadingmore.com/2017/08/14/%E4%B8%80%E6%AC%A1FormData%E9%80%92%E5%BD%92%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%B0%8F%E8%AE%B0/"/>
+    <id>http://loadingmore.com/2017/08/14/一次FormData递归上传图片小记/</id>
+    <published>2017-08-14T12:09:48.000Z</published>
+    <updated>2017-08-14T12:10:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近项目开发中遇到一个多图上传的需求，后台给的接口支持FormData.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/FormData" target="_blank" rel="external">这里查看详情FormData</a></p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>刚开始没有太好的办法，之前用formdata传图，都是固定的个数，对应唯一的filename参数名字，不会发生冲突，所以刚开始想到了for循环…结果就是能上传，但是顺序全部搞乱了，还有就是图片传的重复，缺失严重</p>
+<h2 id="递归优化"><a href="#递归优化" class="headerlink" title="递归优化"></a>递归优化</h2><p>想着for循环也不能控制上传进度，所以采用了递归的思路<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 伪代码</span></div><div class="line">$(<span class="string">'#sleect_input'</span>).off().on(<span class="string">'change'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> files = e.target.files,</div><div class="line">        resFiles = [];</div><div class="line">    <span class="comment">// 收集files</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;files.length;i++)&#123;</div><div class="line">        resFiles.push(files[i])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 上传</span></div><div class="line">    $(<span class="string">'#upLoad'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> formdata = <span class="keyword">new</span> FormData();</div><div class="line">        <span class="comment">// 递归</span></div><div class="line">        (<span class="function"><span class="keyword">function</span> <span class="title">uploadFiles</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> f = resFiles.shift();</div><div class="line">            <span class="keyword">if</span>(f)&#123;</div><div class="line">                formdata.append(<span class="string">'file'</span>,f)</div><div class="line">                $.ajax(&#123;</div><div class="line">                    <span class="attr">url</span>:<span class="string">'XXXXXXXXXXXXXXXXXXXXXX'</span>,</div><div class="line">                    <span class="attr">type</span>: <span class="string">"POST"</span>,</div><div class="line">                    <span class="attr">data</span>: formdata,</div><div class="line">                    <span class="attr">processData</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">contentType</span>: <span class="literal">false</span>,</div><div class="line">                &#125;).always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                    <span class="built_in">console</span>.log(<span class="string">"pending+正在上传"</span>);</div><div class="line">                    <span class="comment">// 清除上一次上传的file name</span></div><div class="line">                    formdata.delete(<span class="string">'file'</span>)</div><div class="line">                    <span class="comment">// 继续下一步上传</span></div><div class="line">                    uploadFiles();</div><div class="line">                &#125;);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"finished+上传完毕要做的事"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;)()</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>至此，解决了多图片上传的问题</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;p&gt;最近项目开发中遇到一个多图上传的需求，后台给的接口支持FormData.&lt;a href=&quot;https://developer.mozilla
+    
+    </summary>
+    
+    
+      <category term="Javascript" scheme="http://loadingmore.com/tags/Javascript/"/>
+    
+      <category term="FormData" scheme="http://loadingmore.com/tags/FormData/"/>
+    
+  </entry>
   
   <entry>
     <title>Vuex在IE上的报错处理</title>
@@ -850,56 +876,6 @@
       <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
       <category term="函数" scheme="http://loadingmore.com/tags/%E5%87%BD%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈LocalStorage响应事件</title>
-    <link href="http://loadingmore.com/2017/02/21/%E6%B5%85%E8%B0%88LocalStorage%E5%93%8D%E5%BA%94%E4%BA%8B%E4%BB%B6/"/>
-    <id>http://loadingmore.com/2017/02/21/浅谈LocalStorage响应事件/</id>
-    <published>2017-02-21T09:13:12.000Z</published>
-    <updated>2017-06-23T12:01:43.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p><strong> 前几天群里看到有朋友提了一个这样的需求；A页面看视频,又在B页面打开相同视频，B页面视频看完时，A页面状态自动改变 </strong></p>
-</blockquote>
-<a id="more"></a>
-<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><p><strong> localStorage API有哪些？</strong></p>
-<ul>
-<li>localStorage.setItem()该方法接受两个参数——要创建/修改的数据项的键，和对应的值</li>
-<li>localStorage.getItem()可以从存储中获取一个数据项。该方法接受数据项的键作为参数，并返回数据值</li>
-<li>localStorage.removeItem() 接受一个参数——你想要移除的数据项的键，然后会将对应的数据项从域名对应的存储对象中移除</li>
-<li>localStorage.clear() 不接受参数，只是简单地清空域名对应的整个存储对象</li>
-</ul>
-<p>具体的实践先不写了,后续有时间再写…(会有时间么)</p>
-<h3 id="StorageEvent-响应存储的变化"><a href="#StorageEvent-响应存储的变化" class="headerlink" title="StorageEvent 响应存储的变化"></a>StorageEvent 响应存储的变化</h3><p>先看下MDN的介绍:</p>
-<blockquote>
-<p>无论何时,Storage对象发生变化时(即创建/更新/删除数据项时,重复设置相同的键值不会触发该事件，Storage.clear() 方法至多触发一次该事件),StorageEvent事件会触发.在同一个页面内发生的改变不会起作用——在相同域名下的其他页面(如一个新标签或iframe)发生的改变才会起作用.在其他域名下的页面不能访问相同的Storage对象。</p>
-</blockquote>
-<p><strong> 根据mdn的描述，说明该方法只能在通域名下使用 </strong></p>
-<p>写个样板DEMO<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'storage'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    e.key;<span class="comment">//改变的数据项的键</span></div><div class="line">    e.oldValue;<span class="comment">//改变前的旧值</span></div><div class="line">    e.newValue;<span class="comment">//改变后的新值</span></div><div class="line">    e.url;<span class="comment">//改变的存储对象所在的文档的 URL</span></div><div class="line">    e.storageArea;<span class="comment">//以及存储对象本身</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p><strong> 该方法给予了我们很多想象力,像开头所说不同页面同域名下,所发生的的变化都可以通过该方法进行捕捉，进而更新相应数据 </strong></p>
-<h3 id="演示DEMO"><a href="#演示DEMO" class="headerlink" title="演示DEMO"></a>演示DEMO</h3><p><a href="http://loadingmore.com/demo/src/html/localstorage/page1.html">DEMO地址</a></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API" target="_blank" rel="external">Web Storage API</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Storage" target="_blank" rel="external">LocalStorage</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt; 前几天群里看到有朋友提了一个这样的需求；A页面看视频,又在B页面打开相同视频，B页面视频看完时，A页面状态自动改变 &lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
-    
-      <category term="localStorage" scheme="http://loadingmore.com/tags/localStorage/"/>
     
   </entry>
   

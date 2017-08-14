@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        JS生成随机的由字母数字组合的字符串｜LoaingMore&#39;s blog
+        一次FormData递归上传图片小记｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2016/12/12/JS生成随机的由字母数字组合的字符串/">
+    <link rel="canonical" href="http://loadingmore.com/2017/08/14/一次FormData递归上传图片小记/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -158,18 +158,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>JS生成随机的由字母数字组合的字符串</h1>
+                    <h1>一次FormData递归上传图片小记</h1>
                     
                     <span class="meta">
-                         作者 LoaingMore
+                         作者 LoadingMore
                         <span>
-                          日期 2016-12-12
+                          日期 2017-08-14
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#javascript"
-                           title="javascript">javascript</a>
+                        <a class="tag" href="/tags/#Javascript"
+                           title="Javascript">Javascript</a>
+                        
+                        <a class="tag" href="/tags/#FormData"
+                           title="FormData">FormData</a>
                         
                     </div>
                 </div>
@@ -178,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            JS生成随机的由字母数字组合的字符串
+            一次FormData递归上传图片小记
         </span>
     </div>
 </header>
@@ -189,26 +192,20 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>网上偶然看到一个问题，需要生成3~32位长度的字母数字随机组合字符串，另一个是生成43位随机字符串.<br>代码：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">** getWorld 产生任意长度随机字母数字组合</div><div class="line">** getFlag 是否任意长度 min 任意最小长度（固定位数） max-任意最大长度</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWord</span>(<span class="params">getFlag,min,max</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> str = <span class="string">""</span>;</div><div class="line">	<span class="keyword">var</span> range = min;</div><div class="line">	<span class="keyword">var</span> arr = [<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>,</div><div class="line">				<span class="string">'9'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>,</div><div class="line">				 <span class="string">'i'</span>, <span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'l'</span>, <span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>, <span class="string">'p'</span>, <span class="string">'q'</span>,</div><div class="line">				<span class="string">'r'</span>, <span class="string">'s'</span>, <span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>, <span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>, <span class="string">'A'</span>,</div><div class="line">				 <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'G'</span>, <span class="string">'H'</span>, <span class="string">'I'</span>, <span class="string">'J'</span>, <span class="string">'K'</span>,</div><div class="line">				 <span class="string">'L'</span>, <span class="string">'M'</span>, <span class="string">'N'</span>, <span class="string">'O'</span>, <span class="string">'P'</span>, <span class="string">'Q'</span>, <span class="string">'R'</span>, <span class="string">'S'</span>, <span class="string">'T'</span>, <span class="string">'U'</span>,</div><div class="line">				 <span class="string">'V'</span>, <span class="string">'W'</span>, <span class="string">'X'</span>, <span class="string">'Y'</span>, <span class="string">'Z'</span>];</div><div class="line">	<span class="keyword">if</span>(getFlag)&#123;</div><div class="line">		range = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * (max - min)) + min;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;range;i++)&#123;</div><div class="line">		<span class="keyword">var</span> index = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * (arr.length - <span class="number">1</span>));</div><div class="line">		str += arr[index];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> str;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h2><ul>
-<li>生成3~32位随机数：getWord(true,3,32)</li>
-<li>生成43位随机串: getWord(false,43);</li>
-</ul>
+                <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近项目开发中遇到一个多图上传的需求，后台给的接口支持FormData.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/FormData" target="_blank" rel="external">这里查看详情FormData</a></p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>刚开始没有太好的办法，之前用formdata传图，都是固定的个数，对应唯一的filename参数名字，不会发生冲突，所以刚开始想到了for循环…结果就是能上传，但是顺序全部搞乱了，还有就是图片传的重复，缺失严重</p>
+<h2 id="递归优化"><a href="#递归优化" class="headerlink" title="递归优化"></a>递归优化</h2><p>想着for循环也不能控制上传进度，所以采用了递归的思路<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 伪代码</span></div><div class="line">$(<span class="string">'#sleect_input'</span>).off().on(<span class="string">'change'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> files = e.target.files,</div><div class="line">        resFiles = [];</div><div class="line">    <span class="comment">// 收集files</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;files.length;i++)&#123;</div><div class="line">        resFiles.push(files[i])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 上传</span></div><div class="line">    $(<span class="string">'#upLoad'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> formdata = <span class="keyword">new</span> FormData();</div><div class="line">        <span class="comment">// 递归</span></div><div class="line">        (<span class="function"><span class="keyword">function</span> <span class="title">uploadFiles</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> f = resFiles.shift();</div><div class="line">            <span class="keyword">if</span>(f)&#123;</div><div class="line">                formdata.append(<span class="string">'file'</span>,f)</div><div class="line">                $.ajax(&#123;</div><div class="line">                    <span class="attr">url</span>:<span class="string">'XXXXXXXXXXXXXXXXXXXXXX'</span>,</div><div class="line">                    <span class="attr">type</span>: <span class="string">"POST"</span>,</div><div class="line">                    <span class="attr">data</span>: formdata,</div><div class="line">                    <span class="attr">processData</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">contentType</span>: <span class="literal">false</span>,</div><div class="line">                &#125;).always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                    <span class="built_in">console</span>.log(<span class="string">"pending+正在上传"</span>);</div><div class="line">                    <span class="comment">// 清除上一次上传的file name</span></div><div class="line">                    formdata.delete(<span class="string">'file'</span>)</div><div class="line">                    <span class="comment">// 继续下一步上传</span></div><div class="line">                    uploadFiles();</div><div class="line">                &#125;);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"finished+上传完毕要做的事"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;)()</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>至此，解决了多图片上传的问题</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2016/12/13/JS实用技巧(一)/" data-toggle="tooltip" data-placement="top"
-                           title="JS实用技巧(一)">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2016/12/12/Javascript函数/" data-toggle="tooltip" data-placement="top"
-                           title="Javascript函数">Next Post &rarr;</a>
+                        <a href="/2017/08/09/Vuex在IE上的报错处理/" data-toggle="tooltip" data-placement="top"
+                           title="Vuex在IE上的报错处理">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -229,7 +226,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法："><span class="toc-text">使用方法：</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决"><span class="toc-text">解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递归优化"><span class="toc-text">递归优化</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -251,8 +248,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#javascript"
-                           title="javascript">javascript</a>
+                        <a class="tag" href="/tags/#Javascript"
+                           title="Javascript">Javascript</a>
+                        
+                        <a class="tag" href="/tags/#FormData"
+                           title="FormData">FormData</a>
                         
                     </div>
                 </section>
