@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-08-14T12:10:51.000Z</updated>
+  <updated>2017-08-15T16:38:39.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jquery操作select下拉框值</title>
+    <link href="http://loadingmore.com/2017/08/16/Jquery%E6%93%8D%E4%BD%9Cselect%E4%B8%8B%E6%8B%89%E6%A1%86%E5%80%BC/"/>
+    <id>http://loadingmore.com/2017/08/16/Jquery操作select下拉框值/</id>
+    <published>2017-08-15T16:36:00.000Z</published>
+    <updated>2017-08-15T16:38:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>最近项目中操作select的option值得场景还是很多的，在此记录一下,以免忘记</p>
+</blockquote>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selected"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">data-id</span>=<span class="string">"1000"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"2"</span> <span class="attr">data-id</span>=<span class="string">"1001"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"3"</span> <span class="attr">data-id</span>=<span class="string">"1002"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"4"</span> <span class="attr">data-id</span>=<span class="string">"1003"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// change事件中进行操作</span></div><div class="line">$(<span class="string">'#selected'</span>).on(<span class="string">'change'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 获取被选中的option 自定义属性</span></div><div class="line">    <span class="keyword">var</span> selectedOpt = $(<span class="string">'#selected'</span>).find(<span class="string">'option:selected'</span>).attr(<span class="string">'data-id'</span>)</div><div class="line"></div><div class="line">    <span class="comment">//获取下拉框选中项的value属性值</span></div><div class="line">    <span class="keyword">var</span> selectedVal = $(<span class="string">'#selected'</span>).val()</div><div class="line"></div><div class="line">    <span class="comment">//获取下拉框选中项的index属性值</span></div><div class="line">    <span class="keyword">var</span> selectedIndex = $(<span class="string">"#selected"</span>).get(<span class="number">0</span>).selectedIndex</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(selectedIndex)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">//设置下拉框值为4的option选中</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOpt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#selected option[value=4]'</span>).attr(<span class="string">'selected'</span>,<span class="string">'selected'</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// setOpt()</span></div><div class="line"></div><div class="line"><span class="comment">//在下拉框最后添加一个选项</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addOpt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#selected'</span>).append(<span class="string">'&lt;option value="5" data-id="1004"&gt;蘑菇云&lt;/option&gt;'</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// addOpt()</span></div><div class="line"></div><div class="line"><span class="comment">//移除下拉框最后一个选项</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeLastOpt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#selected option:last'</span>).remove()</div><div class="line">&#125;</div><div class="line"><span class="comment">// removeLastOpt()</span></div><div class="line"></div><div class="line"><span class="comment">// 获取最后一个下拉框自定义属性值</span></div><div class="line"><span class="keyword">var</span> selectMaxIndex = $(<span class="string">"#selected option:last"</span>).attr(<span class="string">"data-id"</span>);</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;最近项目中操作select的option值得场景还是很多的，在此记录一下,以免忘记&lt;/p&gt;
+&lt;/blockquot
+    
+    </summary>
+    
+    
+      <category term="select" scheme="http://loadingmore.com/tags/select/"/>
+    
+      <category term="Jquery" scheme="http://loadingmore.com/tags/Jquery/"/>
+    
+  </entry>
   
   <entry>
     <title>一次FormData递归上传图片小记</title>
@@ -805,77 +834,6 @@
       <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
       <category term="小技巧" scheme="http://loadingmore.com/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Js函数的throttle(节流)和debounce(防抖)</title>
-    <link href="http://loadingmore.com/2017/03/02/JS%E5%87%BD%E6%95%B0%E7%9A%84throttle(%E8%8A%82%E6%B5%81)%E5%92%8Cdebounce(%E6%8A%96%E5%8A%A8)/"/>
-    <id>http://loadingmore.com/2017/03/02/JS函数的throttle(节流)和debounce(抖动)/</id>
-    <published>2017-03-02T05:00:12.000Z</published>
-    <updated>2017-05-20T18:14:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p><strong> 某些场景下，比如响应鼠标移动或者影响窗口大小的resize事件,scroll事件,导致频繁的触发DOM操作，资源加载等重行为，导致页面卡顿甚至浏览器崩溃;网上看到一些解决的方案，遂做记录 </strong></p>
-</blockquote>
-<p><img src="http://oiukswkar.bkt.clouddn.com/throttle.jpg" alt="sdf"><br><a id="more"></a></p>
-<h3 id="什么是debounce-什么场景用-怎么实现"><a href="#什么是debounce-什么场景用-怎么实现" class="headerlink" title="什么是debounce? 什么场景用? 怎么实现?"></a>什么是debounce? 什么场景用? 怎么实现?</h3><p><strong> 关键词查询</strong></p>
-<p>解释这个函数前，先想想如下场景：网站我们的网站有个搜索框，用户输入文本我们会自动联想匹配一些结果呈现给给用户，我们可能首先想到的就是监听keypress事件,然后进行一步查询结果,该方法本身没有问题，但是如果用户哭诉输入一连串几十个字符，那就要瞬间触发几十次请求，无疑,我们不想要这样的结果，我们要的是用户停止输入的时候才去触发查询请求,这个时候函数防抖就可以帮到我们.</p>
-<p><strong>电梯超时</strong></p>
-<p>想象每天上班大厦底下的电梯。把电梯完成一次运送，类比为一次函数的执行和响应。如果电梯里有人进来，等待15秒。如果又人进来，15秒等待重新计时，直到15秒超时，开始运送。</p>
-<p><strong>函数防抖</strong></p>
-<p>就是让某个函数在上一次执行后，满足等待某个时间内不再触发此函数后再执行，而在这个等待时间内再次触发此函数，等待时间会重新计算。</p>
-<ul>
-<li>如果用手指一直按住一个弹簧，它将不会弹起直到你松手为止。</li>
-<li>也就是说当调用动作n毫秒后，才会执行该动作，</li>
-<li>若在这n毫秒内又调用此动作则将重新计算执行时间。</li>
-</ul>
-<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay,callback 才会执行</div><div class="line">* @param delay   &#123;number&#125;    空闲时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">delay,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">        &#125;,delay)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line"><span class="comment">//keypress时间结束200毫秒后执行相关回调事件</span></div><div class="line">$(<span class="string">'.input'</span>).addEventListener(<span class="string">'keypress'</span>,debounce(<span class="number">200</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//do somecode</span></div><div class="line">&#125;,<span class="literal">false</span>))</div></pre></td></tr></table></figure></p>
-<h3 id="什么是throttle-什么场景用-怎么实现"><a href="#什么是throttle-什么场景用-怎么实现" class="headerlink" title="什么是throttle? 什么场景用? 怎么实现?"></a>什么是throttle? 什么场景用? 怎么实现?</h3><p><strong>scroll事件</strong></p>
-<p>网站开发中经常会遇到这样的需求就是滚动浏览器滚动条的时候，更新页面上的某些布局或者数据或者调用后台的某些接口,同样，如果不对scroll函数加以限制的话,我们滚动一次滚动条就会产生N多次的调用了,throttle跟debounce不同,不是在等待某个时间后去执行函数，二是每间隔某个时间去执行函数</p>
-<p><strong>自助饮料机</strong></p>
-<p>好比一台自动的饮料机，按拿铁按钮，在出饮料的过程中，不管按多少这个按钮，都不会连续出饮料，中间按钮的响应会被忽略，必须要等这一杯的容量全部出完之后，再按拿铁按钮才会出下一杯。</p>
-<p><strong>函数节流</strong></p>
-<p>每间隔某个时间去执行某函数，避免函数的过多执行，这个方式就叫函数节流。</p>
-<ul>
-<li>形像的比喻是水龙头或机枪，你可以控制它的流量或频率。</li>
-<li>throttle 的关注点是连续的执行间隔时间。</li>
-<li>也就是会说预先设定一个执行周期，当调用动作的时刻大于</li>
-<li>等于执行周期则执行该动作，然后进入下一个新周期。</li>
-</ul>
-<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 频率控制 返回函数连续调用时，callback 执行频率限定为 次/delay  </div><div class="line">* 不满足间隔时间,延迟times后必须执行一次</div><div class="line">* @param delay  &#123;number&#125;    间隔时间，单位毫秒</div><div class="line">* @param times  &#123;number&#125;    延迟时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">delay,times,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> startTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">        timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> currTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">            that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        <span class="keyword">if</span>(currTime - startTime &gt;= delay)&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">            startTime = currTime;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                callback.apply(that,args);</div><div class="line">            &#125;,times)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//Demo</span></div><div class="line"><span class="comment">//图片懒加,就是一个不断需要滚动条来判断距离的一个解决方案;</span></div><div class="line"><span class="comment">//通过scroll时间不断的判断,为了避免大量的scroll触发,</span></div><div class="line"><span class="comment">//我们可以用throttle对其进行节流操作</span></div><div class="line"><span class="comment">//仅仅做演示 html css均不提供，后文会给出demo</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lazyload</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> okSeeHeight = <span class="built_in">document</span>.documentElement.clientHeight;<span class="comment">//可视区域高度</span></div><div class="line">    <span class="keyword">var</span> curScrollTop = <span class="built_in">document</span>.body.scrollTop || <span class="built_in">document</span>.documentElement.scrollTop;<span class="comment">//滚动条高度</span></div><div class="line">    <span class="keyword">var</span> imgNums = <span class="built_in">document</span>.querySelectorAll(<span class="string">'img'</span>),</div><div class="line">        len = imgNums.length,</div><div class="line">        sn = <span class="number">0</span>;<span class="comment">//初始化图片位置 避免每次都重新计算</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=sn; i&lt;len; i++)&#123;</div><div class="line">        <span class="comment">//到达可视区域</span></div><div class="line">        <span class="keyword">if</span>(imgNums[i].offsetTop &lt; okSeeHeight + curScrollTop)&#123;</div><div class="line">            <span class="comment">//替换scr</span></div><div class="line">            imgNums[i].src = imgNums[i].getAttribute(<span class="string">'data-src'</span>);</div><div class="line">            sn = i + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用即可</span></div><div class="line"><span class="comment">//可以大大减少scroll的触发量,而不影响体验</span></div><div class="line"><span class="comment">//500毫秒执行  不满足就强制500毫秒运行一次回调函数</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,throttle(<span class="number">500</span>,<span class="number">500</span>,lazyload))</div></pre></td></tr></table></figure>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>只要牵涉到连续事件或频率控制相关的应用都可以考虑到这两个函数，比如：</p>
-<ul>
-<li>游戏射击，keydown 事件</li>
-<li>文本输入、自动完成，keyup 事件</li>
-<li>鼠标移动，mousemove 事件</li>
-<li>DOM 元素动态定位，window 对象的 resize 和 scroll 事件</li>
-</ul>
-<p>前两者 debounce 和 throttle 都可以按需使用；后两者肯定是用 throttle 了。如果不做过滤处理，每秒种甚至会触发数十次相应的事件。尤其是 mousemove 事件，每移动一像素都可能触发一次事件。如果是在一个画布上做一个鼠标相关的应用，过滤事件处理是必须的，否则肯定会造成糟糕的体验。</p>
-<h3 id="图片懒加载演示DEMO"><a href="#图片懒加载演示DEMO" class="headerlink" title="图片懒加载演示DEMO"></a>图片懒加载演示DEMO</h3><p><strong><a href="http://loadingmore.com/demo/src/html/lazyload.html">图片懒加载节流优化</a></strong></p>
-<p><strong><a href="https://github.com/BiYuqi/lazyloading-img" target="_blank" rel="external">github地址</a></strong></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://www.cnblogs.com/fsjohnhuang/p/4147810.html" target="_blank" rel="external">肥仔John</a></li>
-<li><a href="http://www.cnblogs.com/ambar/archive/2011/10/08/throttle-and-debounce.html" target="_blank" rel="external">高阶函数 debounce 和 throttle</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt; 某些场景下，比如响应鼠标移动或者影响窗口大小的resize事件,scroll事件,导致频繁的触发DOM操作，资源加载等重行为，导致页面卡顿甚至浏览器崩溃;网上看到一些解决的方案，遂做记录 &lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;http://oiukswkar.bkt.clouddn.com/throttle.jpg&quot; alt=&quot;sdf&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
-    
-      <category term="函数" scheme="http://loadingmore.com/tags/%E5%87%BD%E6%95%B0/"/>
     
   </entry>
   
