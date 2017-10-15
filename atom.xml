@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-08-15T16:38:39.000Z</updated>
+  <updated>2017-10-15T04:43:24.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,6 +14,45 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>写Vue回到顶部组件遇到的一些问题</title>
+    <link href="http://loadingmore.com/2017/10/15/vue%E5%86%99%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8%E7%BB%84%E4%BB%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
+    <id>http://loadingmore.com/2017/10/15/vue写回到顶部组件遇到的一些问题/</id>
+    <published>2017-10-15T04:13:12.000Z</published>
+    <updated>2017-10-15T04:43:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<blockquote>
+<p>人的懒惰是有惯性的，写博客也是一旦停下来就会一直懒下去，相反一旦坚持下来，也会有惯性，所以我要开始更文啦…</p>
+</blockquote>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="http://oq4hkch8e.bkt.clouddn.com/backTop.gif" alt=""></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="1-谷歌浏览器下document-body-scrollTop失效"><a href="#1-谷歌浏览器下document-body-scrollTop失效" class="headerlink" title="1.谷歌浏览器下document.body.scrollTop失效"></a>1.谷歌浏览器下document.body.scrollTop失效</h3><p>经查阅此版本后的均需要使用document.documentElement.scrollTop来替代</p>
+<h3 id="2-vue怎么监听滚动事件"><a href="#2-vue怎么监听滚动事件" class="headerlink" title="2.vue怎么监听滚动事件"></a>2.vue怎么监听滚动事件</h3><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"back-top"</span> @<span class="attr">click</span>=<span class="string">"goTop"</span> <span class="attr">name</span>=<span class="string">"button"</span> <span class="attr">v-show</span>=<span class="string">"visible"</span> <span class="attr">:style</span>=<span class="string">"customStyle"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"16"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">viewBox</span>=<span class="string">"0 0 17 17"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">class</span>=<span class="string">"back-icon"</span> <span class="attr">aria-hidden</span>=<span class="string">"true"</span> <span class="attr">style</span>=<span class="string">"height: 16px; width: 16px;"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">g</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">"M12.036 15.59c0 .55-.453.995-.997.995H5.032c-.55 0-.997-.445-.997-.996V8.584H1.03c-1.1 0-1.36-.633-.578-1.416L7.33.29c.39-.39 1.026-.385 1.412 0l6.878 6.88c.782.78.523 1.415-.58 1.415h-3.004v7.004z"</span> <span class="attr">fill-rule</span>=<span class="string">"evenodd"</span>&gt;</span><span class="tag">&lt;/<span class="name">path</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">g</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    <span class="attr">props</span>:&#123;</div><div class="line">        <span class="attr">visibleHeight</span>: &#123; <span class="comment">// 按钮出现条件</span></div><div class="line">            type: <span class="built_in">Number</span>,</div><div class="line">            <span class="attr">default</span>: <span class="number">400</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">rate</span>: &#123;</div><div class="line">            <span class="attr">type</span>: <span class="built_in">Number</span>, <span class="comment">// 滚动速率</span></div><div class="line">            <span class="keyword">default</span>: <span class="number">4</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">customStyle</span>: &#123; <span class="comment">// 默认样式</span></div><div class="line">            type: <span class="built_in">Object</span>,</div><div class="line">            <span class="keyword">default</span>() &#123;  <span class="comment">// 此处由于是Object 所以要返回一个函数</span></div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">right</span>: <span class="string">'50px'</span>,</div><div class="line">                    <span class="attr">bottom</span>: <span class="string">'50px'</span>,</div><div class="line">                    <span class="attr">width</span>: <span class="string">'40px'</span>,</div><div class="line">                    <span class="attr">height</span>: <span class="string">'40px'</span>,</div><div class="line">                    <span class="string">'border-radius'</span>: <span class="string">'4px'</span>,</div><div class="line">                    <span class="string">'line-height'</span>: <span class="string">'45px'</span>,</div><div class="line">                    <span class="attr">background</span>: <span class="string">'#e7eaf1'</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    data() &#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">scrollTop</span>: <span class="string">''</span>,</div><div class="line">            <span class="attr">visible</span>: <span class="literal">false</span>, <span class="comment">// 是否显示</span></div><div class="line">            interval: <span class="literal">null</span>  <span class="comment">// 定时器</span></div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    mounted() &#123;</div><div class="line">        <span class="comment">// Dom加载完毕时监听scroll事件</span></div><div class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, <span class="keyword">this</span>.handleScroll)</div><div class="line">    &#125;,</div><div class="line">    beforeDestroy() &#123;</div><div class="line">        <span class="built_in">window</span>.removeEventListener(<span class="string">'scroll'</span>, <span class="keyword">this</span>.handleScroll)</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.interval) &#123;</div><div class="line">                clearInterval(<span class="keyword">this</span>.interval)</div><div class="line">            &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">methods</span>:&#123;</div><div class="line">        handleScroll() &#123;</div><div class="line">            <span class="comment">// 判断条件</span></div><div class="line">            <span class="keyword">this</span>.visible = <span class="built_in">window</span>.pageYOffset &gt; <span class="keyword">this</span>.visibleHeight</div><div class="line">            <span class="keyword">this</span>.scrollTop = <span class="built_in">window</span>.pageYOffset</div><div class="line">        &#125;,</div><div class="line">        goTop(e) &#123;</div><div class="line">            <span class="keyword">this</span>.interval = setInterval(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">                <span class="keyword">this</span>.scrollTop = <span class="keyword">this</span>.scrollTop + (-<span class="keyword">this</span>.scrollTop)/<span class="keyword">this</span>.rate</div><div class="line">                <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="keyword">this</span>.scrollTop)</div><div class="line">                <span class="keyword">if</span>(<span class="keyword">this</span>.scrollTop &lt;= <span class="number">0</span>)&#123;</div><div class="line">                    <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="number">0</span>)</div><div class="line">                    clearInterval(<span class="keyword">this</span>.interval)</div><div class="line">                &#125;</div><div class="line">            &#125;,<span class="number">13</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-window-scrollTo-x-y-是什么鬼"><a href="#3-window-scrollTo-x-y-是什么鬼" class="headerlink" title="3.window.scrollTo(x,y)是什么鬼"></a>3.window.scrollTo(x,y)是什么鬼</h3><p>此方法为滚动到文档中的某个坐标，x 是文档中的横轴坐标。y 是文档中的纵轴坐标。<br>该函数实际上和 window.scroll是一样的<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/scrollTo" target="_blank" rel="external">具体请看MDM介绍</a></p>
+<h2 id="缓动动画算法"><a href="#缓动动画算法" class="headerlink" title="缓动动画算法"></a>缓动动画算法</h2><p>之前看过张鑫旭大神写过这个方法，所以本文就直接拿来用了，具体算法是<br><img src="http://image.zhangxinxu.com/image/blog/201701/64-0-mark.png" alt=""><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">A = A + (B - A) / <span class="number">2</span></div><div class="line"></div><div class="line">我下一秒的位置 = 现在位置 + 现在和初始之间距离的一半</div></pre></td></tr></table></figure></p>
+<h2 id="参考算法："><a href="#参考算法：" class="headerlink" title="参考算法："></a>参考算法：</h2><p>[张鑫旭-分享一个即插即用的私藏缓动动画JS小算法]<a href="http://www.zhangxinxu.com/wordpress/2017/01/share-a-animation-algorithm-js/(" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2017/01/share-a-animation-algorithm-js/(</a>)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;blockquote&gt;
+&lt;p&gt;人的懒惰是有惯性的，写博客也是一旦停下来就会一直懒下去，相反一旦坚持下来，也会有惯性，所以我要开始更文啦…&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;效果&quot;&gt;&lt;a href=&quot;#效果&quot; class=&quot;h
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="Vue" scheme="http://loadingmore.com/tags/Vue/"/>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/tags/Javascript/"/>
+    
+  </entry>
   
   <entry>
     <title>Jquery操作select下拉框值</title>
@@ -650,38 +689,6 @@
       <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
     
       <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>纯css实现底footer终在底部</title>
-    <link href="http://loadingmore.com/2017/03/20/%E7%BA%AFcss%E5%AE%9E%E7%8E%B0%E5%BA%95footer%E7%BB%88%E5%9C%A8%E5%BA%95%E9%83%A8/"/>
-    <id>http://loadingmore.com/2017/03/20/纯css实现底footer终在底部/</id>
-    <published>2017-03-20T01:45:12.000Z</published>
-    <updated>2017-06-08T14:39:34.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>做PC端开发,最近遇到有的网页内容不足一屏,footer浮上来的情况,试了下绝对定位,效果没有那么好,网上看到一国外友人的回答,实在是好用,特此分享</p>
-</blockquote>
-<h2 id="实现目标"><a href="#实现目标" class="headerlink" title="实现目标"></a>实现目标</h2><p>可以实现: 当正文内容很少时，底部位于窗口最下面。当改变窗口高度时，不会出现重叠问题。<br><a id="more"></a></p>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>先看下html结构,我尝试了下，只有header在wrapper时，效果最好<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>我是header，我就待在这<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>我是内容区域<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>我是底部,我不会跑上去<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>样式<br><figure class="highlight css"><table><tr><td class="code"><pre><div class="line">*&#123;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">box-sizing</span>: border-box;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span>&#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.wrapper</span>&#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">    <span class="comment">/* 必须使用和footer相同的高度 */</span></div><div class="line">    <span class="attribute">padding-bottom</span>: <span class="number">150px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.header</span>&#123;</div><div class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background-color</span>: green;</div><div class="line">    <span class="attribute">opacity</span>: <span class="number">0.4</span>;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">line-height</span>: <span class="number">100px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.footer</span>&#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">height</span>: <span class="number">150px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">line-height</span>: <span class="number">150px</span>;</div><div class="line">    <span class="attribute">background</span>: limegreen;</div><div class="line">    <span class="comment">/* 必须使用和footer相同的高度 */</span></div><div class="line">    <span class="comment">/*这点很重要，需要和wrapper的padding-bottom相互抵消*/</span></div><div class="line">    <span class="attribute">margin-top</span>: -<span class="number">150px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>运行一下下面的代码，就知道精妙之处了！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;做PC端开发,最近遇到有的网页内容不足一屏,footer浮上来的情况,试了下绝对定位,效果没有那么好,网上看到一国外友人的回答,实在是好用,特此分享&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;实现目标&quot;&gt;&lt;a href=&quot;#实现目标&quot; class=&quot;headerlink&quot; title=&quot;实现目标&quot;&gt;&lt;/a&gt;实现目标&lt;/h2&gt;&lt;p&gt;可以实现: 当正文内容很少时，底部位于窗口最下面。当改变窗口高度时，不会出现重叠问题。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="css" scheme="http://loadingmore.com/tags/css/"/>
-    
-      <category term="footer" scheme="http://loadingmore.com/tags/footer/"/>
     
   </entry>
   
