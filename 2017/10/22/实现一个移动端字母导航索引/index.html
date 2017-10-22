@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        浅谈jsvascript随机函数Math.random()｜LoaingMore&#39;s blog
+        实现一个移动端字母索引导航｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2016/12/27/浅析js随机数Math.random()/">
+    <link rel="canonical" href="http://loadingmore.com/2017/10/22/实现一个移动端字母导航索引/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -158,18 +158,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>浅谈jsvascript随机函数Math.random()</h1>
+                    <h1>实现一个移动端字母索引导航</h1>
                     
                     <span class="meta">
                          作者 LoaingMore
                         <span>
-                          日期 2016-12-27
+                          日期 2017-10-22
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#javascript"
-                           title="javascript">javascript</a>
+                        <a class="tag" href="/tags/#Javascript"
+                           title="Javascript">Javascript</a>
+                        
+                        <a class="tag" href="/tags/#ES6"
+                           title="ES6">ES6</a>
                         
                     </div>
                 </div>
@@ -178,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            浅谈jsvascript随机函数Math.random()
+            实现一个移动端字母索引导航
         </span>
     </div>
 </header>
@@ -190,46 +193,30 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <a id="more"></a>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><strong> Math.random() 方法可返回介于 0 ~ 1 之间的一个随机数。</strong><br><strong> 返回指定范围的随机数(m-n)之间)的公式：Math.random()*(n-m)+m；</strong></p>
-<h2 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h2><p>随机数是统计学领域的一个概念，对于游戏来说也是意义非凡（不玩游戏的我~ ~ ~），用好随机数，其实可以实现很多有意思的效果.</p>
-<p>炒个栗子：抽奖大转盘程序，每当转盘停止转动的时候，指针恰好指向奖品图片的正中点，有人会觉得这不自然，不符合随机的规律。指向一个随机的位置可能更能让人容易接受。</p>
-<p>学过 JavaScript 的人都知道，应用随机数很简单，只要一个 Math.random() 就可以获得一个大于等于 0 小于 1 的浮点数。从一个集合中随机选择对象时，使用浮点数离散化后的结果作为选择集的索引：<br>如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [...];<span class="comment">//很多组数据的集合</span></div><div class="line"><span class="keyword">var</span> ranIndex = <span class="built_in">parseInt</span>( <span class="built_in">Math</span>.random() * arr.length );</div><div class="line"><span class="keyword">var</span> result = arr[ranIndex];</div></pre></td></tr></table></figure></p>
-<h2 id="产生符合指定概率模型的随机数"><a href="#产生符合指定概率模型的随机数" class="headerlink" title="产生符合指定概率模型的随机数"></a>产生符合指定概率模型的随机数</h2><p>就像我们做一些特效一样，缓慢的节奏可以是动画更加动感，应用合适的概率分布也能让页面更具有表现力。而概率分布需要足够大的样本集才能体现效果，在<strong> <a href="http://codepen.io/taobaofed/full/VeYZvL/?count=10000" target="_blank" rel="external">codepen</a>(因为还没有弄好图片，大家可以移步去这里一探究竟)</strong>经常可以看到各种粒子效果（烟花，火焰，炫光）都离不开概率分布.</p>
-<p>讲个比较贴近现实的栗子，平常开发过程中，抽奖需求应该用的蛮多的，抽奖活动中所有的奖品中，苹果电脑 和 移动电源中奖概率会一样么？为每一种奖品配置不同的概率是任何一款抽奖平台的基本功能。<br>举个例子：假设某次抽奖活动，奖品概率设置如下：</p>
+<blockquote>
+<p>索引导航栏的效果在很多 APP 中都有应用,之前接触移动端页面开发较少，所以是边学边做，也就把这个过程中的一些东西整理记录下来。…</p>
+</blockquote>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><a href="http://loadingmore.com/demo/src/html/index-slidebar/index-slidebar.html">DEMO,浏览器请打开移动端调试查看具体效果</a><br><img src="http://oq4hkch8e.bkt.clouddn.com/slideindex.gif" alt=""><br><a href="https://github.com/BiYuqi/demo/blob/master/src/html/index-slidebar/index-slidebar.html" target="_blank" rel="external">GITHUB代码</a></p>
+<h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><p>主要分为三个步骤</p>
 <ul>
-<li>小米背包:0.01</li>
-<li>旅行箱:0.03</li>
-<li>移动电源:0.06</li>
-<li>不中奖（也看作一种商品）:0.9</li>
+<li>渲染字母表</li>
+<li>渲染页面数据</li>
+<li>实现touch事件<br><img src="http://oq4hkch8e.bkt.clouddn.com/indexslide-code.png" alt=""></li>
 </ul>
-<p>意思就是在10000次抽奖中，抽中100个移动电源，300个旅行箱，600个移动电源，9000次不中奖.<br>基本设计思路：设计一个returnRandom()函数，返回一个大于0小于1的浮点数，将0到1之间等分成四段，每一段对应一个奖品，根据函数的返回值来决定命中那个奖品；所以returnRandom()函数的返回值要满足如下：</p>
-<ul>
-<li>返回值区间 [0,0.25],概率 0.01</li>
-<li>返回值区间[0.25,0.5],概率0.03</li>
-<li>返回值区间[0.5,0.75],概率0.06</li>
-<li>返回值区间[0.75,1],概率0.9</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>  <span class="title">returnRandom</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> m = <span class="built_in">Math</span>.random(),</div><div class="line">	n = <span class="built_in">Math</span>.random()/<span class="number">4</span>;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">0.01</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span> + n;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">0.03</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0.25</span> + n;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">0.06</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0.5</span> + n;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(m &lt; <span class="number">1</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0.75</span> + n;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用的时候，可以用熟悉的调用方式:<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">"小米背包"</span>,<span class="string">"旅行箱"</span>,<span class="string">"移动电源"</span>,<span class="string">"谢谢参与"</span>];</div><div class="line"><span class="keyword">var</span> ranIndex = <span class="built_in">parseInt</span>( returnRandom() * arr.length );</div><div class="line"><span class="keyword">var</span> result = arr[ranIndex];</div></pre></td></tr></table></figure></p>
-<p>具体实现：<br>用博客中之前写的数组去重函数来实现统计运算一百万次的概率<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> test = [];<span class="comment">//一个新的临时数组</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;<span class="number">1000000</span>;i++)&#123;</div><div class="line">	test.push(<span class="built_in">parseInt</span>( returnRandom()*<span class="number">4</span> ))<span class="comment">//储存运算十万次后得到的数据</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">	<span class="keyword">var</span> result = [];<span class="comment">//用来接收测到的数据</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;test.length;i++)&#123;<span class="comment">//遍历当前数组</span></div><div class="line">		<span class="keyword">if</span>(!obj[test[i]])&#123;<span class="comment">//如果没有当前项</span></div><div class="line">			result[test[i]] = <span class="number">1</span></div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			result[test[i]] ++;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>数据导入echart3.0后得出如下图：<br><img src="http://oiukswkar.bkt.clouddn.com/mathrandom.png" alt="Math.random()测试概率"></p>
-<h2 id="概率的可配置化"><a href="#概率的可配置化" class="headerlink" title="概率的可配置化"></a>概率的可配置化</h2><p>上一段代码演示了如何生成符合指定概率模型的随机浮点数，它的缺限在于模型的数据硬编码在函数体内，维护起来有困难。</p>
-<p>如果设计一个工厂函数，根据输入的权重数据来动态创建随机函数，会给实际应用中带来很大便利。<br>后续在更…..</p>
+<h2 id="解释几个函数"><a href="#解释几个函数" class="headerlink" title="解释几个函数"></a>解释几个函数</h2><p>解释下moveTo2这个函数,主要目的就是根据touch事件返回的字母，与页面进行匹配，匹配成功后，用window.scrollTo指定跳转位置，<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">moveTo2(letter) &#123;</div><div class="line">    <span class="keyword">const</span> len = <span class="keyword">this</span>.concatList.length</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        <span class="comment">// 匹配成功 即表示存在</span></div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.concatList[i].getAttribute(<span class="string">'data-char'</span>) === letter)&#123;</div><div class="line">            <span class="comment">// this.concatList[i].offsetTop-this.offsetTop</span></div><div class="line">            <span class="comment">// 减去this.offsetTop 是为了减去header的高度，达到预期高度</span></div><div class="line">            <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="keyword">this</span>.concatList[i].offsetTop-<span class="keyword">this</span>.offsetTop)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此方法可返回touch时 所对应的索引是哪个字符,原理就是 this.letterWrap.clientHeight是字母列高度，除以字母数量得到是每个字母的高占比，再用当前touchY去除，得到当前位置的所占比例，取整即可得到当前索引<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">getIndex(touchY) &#123;</div><div class="line">    <span class="comment">// 可返回对应的模块索引</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor((touchY-<span class="keyword">this</span>.offsetTop) / (<span class="keyword">this</span>.letterWrap.clientHeight / <span class="keyword">this</span>.source.length))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>touch事件，其中e.preventDefault()是为了阻止scroll事件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">touchStart() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchstart'</span>,(e)=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="keyword">this</span>.touching)&#123;</div><div class="line">            e.preventDefault()</div><div class="line">            <span class="keyword">this</span>.touching = <span class="literal">true</span></div><div class="line">            <span class="keyword">this</span>.letterWrap.className += <span class="string">' active'</span></div><div class="line">            <span class="keyword">const</span> touchY = e.touches[<span class="number">0</span>].clientY</div><div class="line">            <span class="keyword">const</span> index = <span class="keyword">this</span>.getIndex(touchY)</div><div class="line">            <span class="keyword">this</span>.showTips(index)</div><div class="line">            <span class="keyword">this</span>.moveTo2(<span class="keyword">this</span>.source[index])</div><div class="line">        &#125;</div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">touchMove() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchmove'</span>,(e)=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.touching)&#123;</div><div class="line">            e.preventDefault()</div><div class="line">            <span class="keyword">const</span> touchY = e.touches[<span class="number">0</span>].clientY</div><div class="line">            <span class="keyword">const</span> index = <span class="keyword">this</span>.getIndex(touchY)</div><div class="line">            <span class="keyword">this</span>.showTips(index)</div><div class="line">            <span class="keyword">this</span>.moveTo2(<span class="keyword">this</span>.source[index])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">touchEnd() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchend'</span>,()=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.touching)&#123;</div><div class="line">            <span class="keyword">this</span>.touching = <span class="literal">false</span></div><div class="line">            <span class="keyword">this</span>.letterWrap.className = <span class="keyword">this</span>.letterWrap.className.replace(<span class="regexp">/\s*active/</span>,<span class="string">''</span>)</div><div class="line">            <span class="keyword">this</span>.hideTips()</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>至此，基本功能已经实现，可以根据不同的需求进行改进，后期打算封装成为一个类库，对外暴露接口，这样更灵活些</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2016/12/28/JS数组常用的方法总结/" data-toggle="tooltip" data-placement="top"
-                           title="JS数组常用的方法总结">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2016/12/26/JS实用技巧(二)/" data-toggle="tooltip" data-placement="top"
-                           title="JS实用技巧(二)">Next Post &rarr;</a>
+                        <a href="/2017/10/15/vue写回到顶部组件遇到的一些问题/" data-toggle="tooltip" data-placement="top"
+                           title="写Vue回到顶部组件遇到的一些问题">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -250,7 +237,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机数"><span class="toc-text">随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#产生符合指定概率模型的随机数"><span class="toc-text">产生符合指定概率模型的随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概率的可配置化"><span class="toc-text">概率的可配置化</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现逻辑"><span class="toc-text">实现逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释几个函数"><span class="toc-text">解释几个函数</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -272,8 +259,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#javascript"
-                           title="javascript">javascript</a>
+                        <a class="tag" href="/tags/#Javascript"
+                           title="Javascript">Javascript</a>
+                        
+                        <a class="tag" href="/tags/#ES6"
+                           title="ES6">ES6</a>
                         
                     </div>
                 </section>
