@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Python爬虫框架scrapy安装报错解决办法｜LoaingMore&#39;s blog
+        JavaScript获取CSS样式遇到的一些问题｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2017/04/12/Python爬虫框架scrapy安装报错解决办法/">
+    <link rel="canonical" href="http://loadingmore.com/2017/10/25/原生JavaScript获取CSS样式遇到的一些问题/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -158,21 +158,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Python爬虫框架scrapy安装报错解决办法</h1>
+                    <h1>JavaScript获取CSS样式遇到的一些问题</h1>
                     
                     <span class="meta">
-                         作者 LoaingMore
+                         作者 LoadingMore
                         <span>
-                          日期 2017-04-12
+                          日期 2017-10-25
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#python"
-                           title="python">python</a>
+                        <a class="tag" href="/tags/#Javascript"
+                           title="Javascript">Javascript</a>
                         
-                        <a class="tag" href="/tags/#scrapy"
-                           title="scrapy">scrapy</a>
+                        <a class="tag" href="/tags/#CSS"
+                           title="CSS">CSS</a>
                         
                     </div>
                 </div>
@@ -181,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Python爬虫框架scrapy安装报错解决办法
+            JavaScript获取CSS样式遇到的一些问题
         </span>
     </div>
 </header>
@@ -193,28 +193,25 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <blockquote>
-<p>最近尝试入门python,接触这门语言的目的很明确,就是爬虫,用来爬取数据,我对数据一直抱有神秘感，很感兴趣，所以闲暇之余,开始入门python,它大名鼎鼎的爬虫框架scrapy自然躲不过我的搜索,所以安装测试,于是便开始了这篇踩坑文章</p>
+<p>最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法</p>
 </blockquote>
-<a id="more"></a>
-<h3 id="报错原因"><a href="#报错原因" class="headerlink" title="报错原因"></a>报错原因</h3><p><img src="http://oiukswkar.bkt.clouddn.com/scrapy-error.png" alt=""><br>我的报错原因就是如图中所示: <strong> error: Unable to find vcvarsall.bat</strong><br>网上也收了很多解决办法,但都是不但可行，对于初学者我来学还是蛮吃力,最终看到有篇帖子说是因为缺少c++一些环境变量引起的,安装Visual Studio 2015可以结局问题,所以网上找了个简版安装包,已经共享在了百度云盘:<br><strong> <a href="http://pan.baidu.com/s/1pLTpCTl" target="_blank" rel="external">我是下载链接</a></strong></p>
-<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>勾选如下几项即可<br><img src="http://oiukswkar.bkt.clouddn.com/visul.png" alt=""></p>
-<p>安装完毕后关闭即可;</p>
-<p>这个时候在命令行里:<br><strong> pip install scrapy </strong><br>这个时候基本上会顺利的安装完毕了</p>
+<h2 id="获取不到样式"><a href="#获取不到样式" class="headerlink" title="获取不到样式"></a>获取不到样式</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> res = <span class="built_in">document</span>.querySelector(<span class="string">'.target'</span>).style.width</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// 结果为空</span></div></pre></td></tr></table></figure>
+<p>郁闷啊。。。<br>突然想到之前看高程的时候看到过getComputedStyle这个方法，于是MDN了一下<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getComputedStyle" target="_blank" rel="external">这里</a></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">style                  <span class="comment">//只能获取元素的内联样式，内部样式和外部样式使用style是获取不到的。</span></div><div class="line">currentStyle         <span class="comment">//适用于IE8及以下。</span></div><div class="line">getComputedStyle     <span class="comment">//同currentStyle作用相同，但是适用于FF、opera、safari、chrome IE9+。</span></div></pre></td></tr></table></figure>
+<h2 id="getComputedStyle"><a href="#getComputedStyle" class="headerlink" title="getComputedStyle"></a>getComputedStyle</h2><p>getComputedStyle 是一个可以获取当前元素所有最终使用的CSS属性值。返回的是一个CSS样式声明对象([object CSSStyleDeclaration])，只读</p>
+<p>语法：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> style = <span class="built_in">window</span>.getComputedStyle(element, [pseudoElt]);</div><div class="line"></div><div class="line"><span class="comment">// 用于获取计算样式的Element</span></div><div class="line"><span class="comment">// pseudoElt 可选 指定一个要匹配的伪元素的字符串</span></div></pre></td></tr></table></figure></p>
+<h2 id="兼容性写法"><a href="#兼容性写法" class="headerlink" title="兼容性写法"></a>兼容性写法</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle($(obj))[attr]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Javascript获取transform中的属性值"><a href="#Javascript获取transform中的属性值" class="headerlink" title="Javascript获取transform中的属性值"></a>Javascript获取transform中的属性值</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> $ = <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.querySelector(el)</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle(obj)[attr]</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getTransform = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="keyword">const</span> reg = <span class="regexp">/matrix\((.*)\)/</span></div><div class="line">    <span class="keyword">const</span> result = reg.exec(data)[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">transX</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-2</span>]),</div><div class="line">        <span class="attr">transY</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-1</span>])</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">getTransform(getStyle($(<span class="string">'.box'</span>),<span class="string">'transform'</span>))</div><div class="line"><span class="comment">// &#123;transX: -4, transY: -8&#125;</span></div></pre></td></tr></table></figure>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/04/22/Javascript字符串常用方法总结/" data-toggle="tooltip" data-placement="top"
-                           title="JS字符串常用方法总结">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/04/11/输入框禁止输入空格/" data-toggle="tooltip" data-placement="top"
-                           title="禁止输入框输入空格">Next Post &rarr;</a>
+                        <a href="/2017/10/22/实现一个移动端字母导航索引/" data-toggle="tooltip" data-placement="top"
+                           title="实现一个移动端字母索引导航">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -235,7 +232,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#报错原因"><span class="toc-text">报错原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装步骤"><span class="toc-text">安装步骤</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取不到样式"><span class="toc-text">获取不到样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getComputedStyle"><span class="toc-text">getComputedStyle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#兼容性写法"><span class="toc-text">兼容性写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Javascript获取transform中的属性值"><span class="toc-text">Javascript获取transform中的属性值</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -257,11 +254,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#python"
-                           title="python">python</a>
+                        <a class="tag" href="/tags/#Javascript"
+                           title="Javascript">Javascript</a>
                         
-                        <a class="tag" href="/tags/#scrapy"
-                           title="scrapy">scrapy</a>
+                        <a class="tag" href="/tags/#CSS"
+                           title="CSS">CSS</a>
                         
                     </div>
                 </section>
