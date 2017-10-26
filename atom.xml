@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-10-25T12:17:00.000Z</updated>
+  <updated>2017-10-22T10:48:03.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,41 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>JavaScript获取CSS样式遇到的一些问题</title>
-    <link href="http://loadingmore.com/2017/10/25/%E5%8E%9F%E7%94%9FJavaScript%E8%8E%B7%E5%8F%96CSS%E6%A0%B7%E5%BC%8F%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
-    <id>http://loadingmore.com/2017/10/25/原生JavaScript获取CSS样式遇到的一些问题/</id>
-    <published>2017-10-25T12:09:48.000Z</published>
-    <updated>2017-10-25T12:17:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法</p>
-</blockquote>
-<h2 id="获取不到样式"><a href="#获取不到样式" class="headerlink" title="获取不到样式"></a>获取不到样式</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> res = <span class="built_in">document</span>.querySelector(<span class="string">'.target'</span>).style.width</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// 结果为空</span></div></pre></td></tr></table></figure>
-<p>郁闷啊。。。<br>突然想到之前看高程的时候看到过getComputedStyle这个方法，于是MDN了一下<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getComputedStyle" target="_blank" rel="external">这里</a></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">style                  <span class="comment">//只能获取元素的内联样式，内部样式和外部样式使用style是获取不到的。</span></div><div class="line">currentStyle         <span class="comment">//适用于IE8及以下。</span></div><div class="line">getComputedStyle     <span class="comment">//同currentStyle作用相同，但是适用于FF、opera、safari、chrome IE9+。</span></div></pre></td></tr></table></figure>
-<h2 id="getComputedStyle"><a href="#getComputedStyle" class="headerlink" title="getComputedStyle"></a>getComputedStyle</h2><p>getComputedStyle 是一个可以获取当前元素所有最终使用的CSS属性值。返回的是一个CSS样式声明对象([object CSSStyleDeclaration])，只读</p>
-<p>语法：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> style = <span class="built_in">window</span>.getComputedStyle(element, [pseudoElt]);</div><div class="line"></div><div class="line"><span class="comment">// 用于获取计算样式的Element</span></div><div class="line"><span class="comment">// pseudoElt 可选 指定一个要匹配的伪元素的字符串</span></div></pre></td></tr></table></figure></p>
-<h2 id="兼容性写法"><a href="#兼容性写法" class="headerlink" title="兼容性写法"></a>兼容性写法</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle($(obj))[attr]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Javascript获取transform中的属性值"><a href="#Javascript获取transform中的属性值" class="headerlink" title="Javascript获取transform中的属性值"></a>Javascript获取transform中的属性值</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> $ = <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.querySelector(el)</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle(obj)[attr]</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getTransform = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="keyword">const</span> reg = <span class="regexp">/matrix\((.*)\)/</span></div><div class="line">    <span class="keyword">const</span> result = reg.exec(data)[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">transX</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-2</span>]),</div><div class="line">        <span class="attr">transY</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-1</span>])</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">getTransform(getStyle($(<span class="string">'.box'</span>),<span class="string">'transform'</span>))</div><div class="line"><span class="comment">// &#123;transX: -4, transY: -8&#125;</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;获取不到样式&quot;&gt;&lt;a href=&quot;#获取不到样式&quot; class=&quot;headerlink&quot; title=&quot;
-    
-    </summary>
-    
-    
-      <category term="Javascript" scheme="http://loadingmore.com/tags/Javascript/"/>
-    
-      <category term="CSS" scheme="http://loadingmore.com/tags/CSS/"/>
-    
-  </entry>
   
   <entry>
     <title>实现一个移动端字母索引导航</title>
@@ -129,6 +94,41 @@
       <category term="Vue" scheme="http://loadingmore.com/tags/Vue/"/>
     
       <category term="Javascript" scheme="http://loadingmore.com/tags/Javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript获取CSS样式遇到的一些问题</title>
+    <link href="http://loadingmore.com/2017/09/25/%E5%8E%9F%E7%94%9FJavaScript%E8%8E%B7%E5%8F%96CSS%E6%A0%B7%E5%BC%8F%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
+    <id>http://loadingmore.com/2017/09/25/原生JavaScript获取CSS样式遇到的一些问题/</id>
+    <published>2017-09-25T12:09:48.000Z</published>
+    <updated>2017-10-26T12:45:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法</p>
+</blockquote>
+<h2 id="获取不到样式"><a href="#获取不到样式" class="headerlink" title="获取不到样式"></a>获取不到样式</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> res = <span class="built_in">document</span>.querySelector(<span class="string">'.target'</span>).style.width</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// 结果为空</span></div></pre></td></tr></table></figure>
+<p>郁闷啊。。。<br>突然想到之前看高程的时候看到过getComputedStyle这个方法，于是MDN了一下<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getComputedStyle" target="_blank" rel="external">这里</a></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">style                  <span class="comment">//只能获取元素的内联样式，内部样式和外部样式使用style是获取不到的。</span></div><div class="line">currentStyle         <span class="comment">//适用于IE8及以下。</span></div><div class="line">getComputedStyle     <span class="comment">//同currentStyle作用相同，但是适用于FF、opera、safari、chrome IE9+。</span></div></pre></td></tr></table></figure>
+<h2 id="getComputedStyle"><a href="#getComputedStyle" class="headerlink" title="getComputedStyle"></a>getComputedStyle</h2><p>getComputedStyle 是一个可以获取当前元素所有最终使用的CSS属性值。返回的是一个CSS样式声明对象([object CSSStyleDeclaration])，只读</p>
+<p>语法：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> style = <span class="built_in">window</span>.getComputedStyle(element, [pseudoElt]);</div><div class="line"></div><div class="line"><span class="comment">// 用于获取计算样式的Element</span></div><div class="line"><span class="comment">// pseudoElt 可选 指定一个要匹配的伪元素的字符串</span></div></pre></td></tr></table></figure></p>
+<h2 id="兼容性写法"><a href="#兼容性写法" class="headerlink" title="兼容性写法"></a>兼容性写法</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle($(obj))[attr]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Javascript获取transform中的属性值"><a href="#Javascript获取transform中的属性值" class="headerlink" title="Javascript获取transform中的属性值"></a>Javascript获取transform中的属性值</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> $ = <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.querySelector(el)</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle(obj)[attr]</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getTransform = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="keyword">const</span> reg = <span class="regexp">/matrix\((.*)\)/</span></div><div class="line">    <span class="keyword">const</span> result = reg.exec(data)[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">transX</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-2</span>]),</div><div class="line">        <span class="attr">transY</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-1</span>])</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">getTransform(getStyle($(<span class="string">'.box'</span>),<span class="string">'transform'</span>))</div><div class="line"><span class="comment">// &#123;transX: -4, transY: -8&#125;</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;获取不到样式&quot;&gt;&lt;a href=&quot;#获取不到样式&quot; class=&quot;headerlink&quot; title=&quot;
+    
+    </summary>
+    
+    
+      <category term="Javascript" scheme="http://loadingmore.com/tags/Javascript/"/>
+    
+      <category term="CSS" scheme="http://loadingmore.com/tags/CSS/"/>
     
   </entry>
   
