@@ -62,7 +62,7 @@ hr{
 
 body {
     line-height: 1.7;
-    font-size: 16px;
+    font-size: 14px;
     color: #404040;
     overflow-x: hidden;
     font-family: -apple-system,  "PingFang SC","Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "Microsoft JhengHei", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans CN", "Noto Sans SC", "Source Han Sans TC", "Noto Sans CJK TC", "WenQuanYi Micro Hei", SimSun, sans-serif;
@@ -883,11 +883,11 @@ img::-moz-selection {
     .one-tag-list .post-preview .post-meta {
         font-size: 18px;
     }
-	
+
 	.one-archive-list .post-preview {
 		margin-left: 40px;
 	}
-	
+
 	.archive-month {
 		margin-left: 20px;
 	}
@@ -1276,6 +1276,3 @@ pre .comment{
 		vertical-align: top;
 	}
 }
-
-
-

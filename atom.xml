@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-11-19T05:09:17.000Z</updated>
+  <updated>2017-11-26T07:57:46.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -14,6 +14,199 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【正则表达式系列】入门篇</title>
+    <link href="http://loadingmore.com/2017/11/26/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E5%85%A5%E9%97%A8%E7%AF%87/"/>
+    <id>http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/</id>
+    <published>2017-11-26T07:50:30.000Z</published>
+    <updated>2017-11-26T07:57:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>开始之前，我希望你能放下心中的恐惧感！</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于一个刚接触正则的人来说，会让人觉得那么神秘，闻而生畏。</p>
+<p>正则想要精通更是不易，需要大量反复的练习，接触正则也不少时间了，不知怎么的，我就自己走过了那段畏惧正则的时期，日常的中遇到的问题基本上都能解决</p>
+<p>由于笔者是从事于前端开发的，所以本文中的正则都是基于Javascript的语法规则也讲述，不过不同语言之间的正则基本是相通的，只是语法表示上有点区别，我计划总结下我的一下学习的经历和心得：</p>
+<p><strong> <a href="">【正则表达式系列】入门篇</a> </strong></p>
+<p><strong> 【正则表达式系列】深入篇(待写) </strong></p>
+<p><strong> 【正则表达式系列】零宽断言篇(待写) </strong></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>正则字符，很多文章都会讲到，篇幅原因我就不多说，我只列举常用的：</p>
+<h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.</code></td>
+<td>匹配除换行符以外的任意字符</td>
+</tr>
+<tr>
+<td><code>\d</code></td>
+<td>匹配数字, 等价于字符组[0-9]</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>匹配字母, 数字, 下划线</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>匹配任意的空白符(包括制表符,空格,换行等)</td>
+</tr>
+<tr>
+<td><code>\b</code></td>
+<td>匹配单词开始或结束的位置</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>匹配行首</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>匹配行尾</td>
+</tr>
+</tbody>
+</table>
+<h2 id="反义元字符"><a href="#反义元字符" class="headerlink" title="反义元字符"></a>反义元字符</h2><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\D</code></td>
+<td>匹配非数字的任意字符, 等价于[^0-9]</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>匹配除字母,数字,下划线之外的任意字符</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>匹配非空白的任意字符</td>
+</tr>
+<tr>
+<td><code>\B</code></td>
+<td>匹配非单词开始或结束的位置</td>
+</tr>
+<tr>
+<td><code>[^x]</code></td>
+<td>匹配除x以外的任意字符</td>
+</tr>
+</tbody>
+</table>
+<h2 id="重复限定符"><a href="#重复限定符" class="headerlink" title="重复限定符"></a>重复限定符</h2><table>
+<thead>
+<tr>
+<th>限定符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>x&gt;=0</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>x&gt;=1</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>x=0 or x=1</td>
+</tr>
+<tr>
+<td><code>{n}</code></td>
+<td>x=n</td>
+</tr>
+<tr>
+<td><code>{n,}</code></td>
+<td>x&gt;=n</td>
+</tr>
+<tr>
+<td><code>{n,m}</code></td>
+<td>n&lt;=x&lt;=m</td>
+</tr>
+</tbody>
+</table>
+<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><p>javaScript中正则表达式默认有如下五种修饰符:</p>
+<ul>
+<li>g (全文查找), 如上述截图, 实际上就开启了全文查找模式.</li>
+<li>i (忽略大小写查找)</li>
+<li>m (多行查找)</li>
+<li>y (ES6新增的粘连修饰符)</li>
+<li>u (ES6新增)</li>
+</ul>
+<h2 id="常用几个字符解释"><a href="#常用几个字符解释" class="headerlink" title="常用几个字符解释"></a>常用几个字符解释</h2><h3 id="1-匹配不包括换行的任意字符"><a href="#1-匹配不包括换行的任意字符" class="headerlink" title="1. .匹配不包括换行的任意字符"></a>1. <code>.</code>匹配不包括换行的任意字符</h3><p>如果需要匹配包括换行的任意字符，可以使用<code>[\s\S]</code>来代替.</p>
+<h3 id="2-s空格、tab、换行"><a href="#2-s空格、tab、换行" class="headerlink" title="2. \s空格、tab、换行"></a>2. <code>\s</code>空格、tab、换行</h3><p><code>[\s\S]</code>表示匹配任意字符，<code>\S</code>是<code>\s</code>的反义。注意区分<code>[\s\S]</code>与<code>.</code>的区别。</p>
+<h3 id="3-匹配零个或更多个，即0-n"><a href="#3-匹配零个或更多个，即0-n" class="headerlink" title="3. *匹配零个或更多个，即0~n"></a>3. <code>*</code>匹配零个或更多个，即0~n</h3><h3 id="4-匹配一个或更多个，即至少一个，1-n"><a href="#4-匹配一个或更多个，即至少一个，1-n" class="headerlink" title="4. +匹配一个或更多个，即至少一个，1~n"></a>4. <code>+</code>匹配一个或更多个，即至少一个，1~n</h3><h3 id="5-转义"><a href="#5-转义" class="headerlink" title="5. \ 转义"></a>5. <code>\</code> 转义</h3><p>一个特殊字符前加<code>\</code>就表示转义，说明把它当普通字符用</p>
+<h3 id="6-单字符取一个，比如-abc-会匹配a或b或c"><a href="#6-单字符取一个，比如-abc-会匹配a或b或c" class="headerlink" title="6. []单字符取一个，比如[abc]会匹配a或b或c"></a>6. <code>[]</code>单字符取一个，比如<code>[abc]</code>会匹配a或b或c</h3><p>如果<code>[]</code>里面加上<code>^</code>则会变成排除这个字符,比如<code>[^abc]</code>就是既不包含a,也不包含b,也不包含c<br>在<code>[]</code>里可以使用-来表示一个范围，<code>[0-9]</code>表示从0到9，<code>[a-zA-Z]</code>包含26个字母，如果要包含-则要加上转义字符<code>[\-]</code><br><code>[]</code>常见的错误用法是：<code>[ab|bc]</code>用来表示ab或bc，实际上，它得到的结果是[abc|]，即匹配的是a或b或c或|这4个字符（单字符）的任意一个。这里可以改成<code>(ab|bc)</code>。<br><strong> 总结：[]里面的特殊符有五个：<code>[]-\^</code>，其他字符都是普通字符，包括*.?等。</strong></p>
+<ul>
+<li><code>^</code>在<code>[^</code> 的首位时候才有特殊意义</li>
+<li><code>[0-9</code> <code>-</code>在不是首尾的时候有特殊意义</li>
+<li><code>\</code>本身是转义符，有特殊意义</li>
+</ul>
+<h3 id="7-字符串开始"><a href="#7-字符串开始" class="headerlink" title="7. ^ 字符串开始"></a>7. <code>^</code> 字符串开始</h3><p>注意区分，不在[]里面的是开始符，在里面的是排除<br>eg: <code>^http</code> vs <code>[^abs]</code></p>
+<h3 id="8-有两个用法"><a href="#8-有两个用法" class="headerlink" title="8. ? 有两个用法"></a>8. <code>?</code> 有两个用法</h3><ul>
+<li>匹配一个或零个<br>eg: <code>https?</code>匹配https（一个s）或者http（零个s）</li>
+<li>非贪婪模式<br>所谓非贪婪模式，就是匹配尽可能少的内容，比如，对于源字符串</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>使用<code>&lt;div&gt;(.*?)&lt;/div&gt;</code>会得到2个结果（注意：如果源字符串有换行，使用[\s\S]替换 .</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>和<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>因为，当遇到第一个&lt;/div&gt;，非贪婪模式就不会再往后找了。<br>而使用<code>&lt;div&gt;(.*)&lt;/div&gt;</code>（贪婪模式）则会得到整个字符串,因为它会匹配所有字符直到后面再找不到<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="9-a-1-字符a出现1次或者更多次"><a href="#9-a-1-字符a出现1次或者更多次" class="headerlink" title="9. a{1,} 字符a出现1次或者更多次"></a>9. <code>a{1,}</code> 字符a出现1次或者更多次</h3><h3 id="10-a-字符a出现0次或者1次，等价于-0-1"><a href="#10-a-字符a出现0次或者1次，等价于-0-1" class="headerlink" title="10. a? 字符a出现0次或者1次，等价于{0,1}"></a>10. <code>a?</code> 字符a出现0次或者1次，等价于{0,1}</h3><h3 id="11-ab-0-1-字符ab出现0次或者1次，也就是说ab一起匹配"><a href="#11-ab-0-1-字符ab出现0次或者1次，也就是说ab一起匹配" class="headerlink" title="11. (ab){0,1} 字符ab出现0次或者1次，也就是说ab一起匹配"></a>11. <code>(ab){0,1}</code> 字符ab出现0次或者1次，也就是说ab一起匹配</h3><h3 id="12-a│bc-d-e-可以是ae或者是bce或者是de"><a href="#12-a│bc-d-e-可以是ae或者是bce或者是de" class="headerlink" title="12. (a│bc|d)e 可以是ae或者是bce或者是de"></a>12. <code>(a│bc|d)e</code> 可以是ae或者是bce或者是de</h3><h3 id="13-多个数据选一（常用于多字符）"><a href="#13-多个数据选一（常用于多字符）" class="headerlink" title="13. | 多个数据选一（常用于多字符）"></a>13. <code>|</code> 多个数据选一（常用于多字符）</h3><p>前面提到[]里面的字符有选一个字符功能，但是假如不是一个字符，比如：http|git|svn 就需要用|分开，|的作用域是一直往后直到遇到括号，比如，对于源字符串<br>匹配：</p>
+<ul>
+<li>http abc  </li>
+<li>git abc  </li>
+<li>svn abc</li>
+</ul>
+<p>就可以直接使用<code>(http|git|svn)abc</code>来进行匹配</p>
+<h3 id="14-数据分界和取数据"><a href="#14-数据分界和取数据" class="headerlink" title="14. () 数据分界和取数据"></a>14. <code>()</code> 数据分界和取数据</h3><p><code>(http|git|svn)abc</code>就是一个分界的例子，匹配结果会得到一个数组集合,其中[1]也就是数组的下标1得到的是一个数组集合，这就是模式匹配，也叫分组，子模式计数是从左至右<br><code>(https?):\/\/([^\/]+)</code> 就是一个匹配网址的正则，其中分组2得到的是网址主地址;<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">/(https?):\/\/([^\/]+)/.exec(<span class="string">'http://loadingmore.com'</span>)[<span class="number">2</span>] <span class="comment">// loadingmore.com</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/LT6iPK/1" target="_blank" rel="external">点击这里查看匹配情况</a></p>
+<h3 id="15-非捕获组"><a href="#15-非捕获组" class="headerlink" title="15. (?:)非捕获组"></a>15. <code>(?:)</code>非捕获组</h3><p>上面提到的()作为子模式可以得到里面的数据，但是有些时候我们只是把它作为分界，不需要取数据，这个时候就需要用到非捕获概念了。比如上面匹配网址需要在分组2才能得到loadingmore.com，分组1是http；这个时候我们只需要后面的网址，就可以用非捕获来实现<code>(?:https?):\/\/([^\/]+)</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">/(?:https?):\/\/([^\/]+)/.exec(<span class="string">'http://loadingmore.com'</span>)[<span class="number">1</span>] <span class="comment">//loadingmore.com</span></div></pre></td></tr></table></figure>
+<p><a href="https://regex101.com/r/LT6iPK/2" target="_blank" rel="external">点击这里查看匹配情况</a></p>
+<h3 id="16-模式修饰符"><a href="#16-模式修饰符" class="headerlink" title="16. 模式修饰符"></a>16. 模式修饰符</h3><p>模式修饰符很多语言都支持，js中常用的比如i不区分大小写，g全部匹配，m是多行匹配<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/a-z/i</span> <span class="comment">// 可以匹配26字母 不区分大小写</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/http/g</span> <span class="comment">// httphttphttp可以匹配三个http，没有g修饰，只能匹配第一个</span></div></pre></td></tr></table></figure></p>
+<h1 id="简单操作练习"><a href="#简单操作练习" class="headerlink" title="简单操作练习"></a>简单操作练习</h1><h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><p>下面就一段html进行剖析<br>目标：得到 target1中inner内容 哈哈1<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"target1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        哈哈1</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"target2"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        哈哈2</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>写正则之前，首先要观察要匹配的数据结构，找出异同点，精准定位到你想要数据的位置，必须你需要一个页面的title的内容，那么title就是你的正则的关键字，所要取的数据确实无法定位一个唯一的锚点，那就可以采用分段取数据，缩小范围后，再对这个数据进行二次分解<br>比如上面的html片段，加入直接采用:<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 很明显会得到两个inner数据段</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/&lt;div\s+class="inner"&gt;([\s\S]+?)&lt;\/div&gt;/</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/LT6iPK/3" target="_blank" rel="external">点击查看详情</a><br>这个时候我们就可以考虑以class=”target1”作为定位点进行匹配<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/&lt;div class="target1"&gt;\s+&lt;div class="inner"&gt;([\S\s]+?)&lt;\/div&gt;\s+&lt;\/div&gt;/</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/LT6iPK/5" target="_blank" rel="external">点击查看详情</a></p>
+<p>tips：采用<code>[\s\S]+</code>原因是html结构有换行；<code>.</code>不符合要求，<code>.</code>匹配不包括换行的任意字符，<code>[\s\S]+?</code>加？号的原因是非贪婪模式，否则会一致直匹配到不能匹配为止，本文只需要第一个，所以采用非贪婪模式匹配。下文会讲到贪婪与非贪婪模式</p>
+<p><strong> 总结：所谓匹配数据，就是找到能唯一定位你数据的标识的锚点 </strong></p>
+<h2 id="去噪音"><a href="#去噪音" class="headerlink" title="去噪音"></a>去噪音</h2><p>所谓去掉噪音，就是把哪些无关紧要的，迷惑你的数据果断抛弃掉，一眼抓住你想要的那个字符即可，比如：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">data-v-1b4073f4</span>=<span class="string">""</span> <span class="attr">href</span>=<span class="string">"https://github.com/icepy/Front-End-Develop-Guide#fed_point_recommend"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>前端开发指南<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>找出上个连接中的href链接，当然了，这用js的dom元素获取轻而易举，本文只是为了做示范，阐述一种正则思维<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 首先要定位 &lt;a href= 还有链接后面的 ” 其他的都不用关注</span></div><div class="line">cosnt str = <span class="string">`&lt;a data-v-1b4073f4="" href="http://loadingmore.com" target="_blank"&gt;&lt;/a&gt;`</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/&lt;a[^&gt;]*?href="([^"]+)"/</span></div><div class="line"><span class="keyword">const</span> result = reg.exec(str)[<span class="number">1</span>]</div><div class="line"></div><div class="line"><span class="comment">// console.log(result)</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/LT6iPK/6" target="_blank" rel="external">点击查看详情</a><br><strong> 总结：关心的留下，不关心的都是浮云 </strong></p>
+<h2 id="取数据"><a href="#取数据" class="headerlink" title="取数据"></a>取数据</h2><p>关于取数据一般都用到分组捕获上文有提及</p>
+<h2 id="最后的话"><a href="#最后的话" class="headerlink" title="最后的话"></a>最后的话</h2><p>学习正则，一定要多练习，狠下心来，过一遍正则基础，收获绝对满满，一边下来，不知不觉就掌握了大部分，当然了想要精通，爱需要深入的学习和大量练习，持之以恒方得成效</p>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p><a href="http://help.locoy.com/Document/Learn_Regex_For_30_Minutes.htm" target="_blank" rel="external">正则表达式30分钟入门教程</a><br><a href="http://www.cnblogs.com/beyoung/archive/2007/08/02/840139.html" target="_blank" rel="external">1小时教你学会正则表达式</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;开始之前，我希望你能放下心中的恐惧感！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;对于一个刚接触正则的人来说，会让
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+  </entry>
   
   <entry>
     <title>Js上传图片本地预览几种姿势</title>
@@ -854,42 +1047,6 @@
       &lt;blockquote&gt;
 &lt;p&gt;正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.&lt;/p&gt;
 &lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
-    
-      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
-    
-      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>阿拉伯数字千分位用逗号分隔</title>
-    <link href="http://loadingmore.com/2017/03/18/%E9%98%BF%E6%8B%89%E4%BC%AF%E6%95%B0%E5%AD%97%E5%8D%83%E5%88%86%E4%BD%8D%E7%94%A8%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94/"/>
-    <id>http://loadingmore.com/2017/03/18/阿拉伯数字千分位用逗号分隔/</id>
-    <published>2017-03-18T12:50:30.000Z</published>
-    <updated>2017-06-10T02:54:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>上回说到字符正向加逗号或者其他字符,主要用户银行卡号等场景，而且封装成了通用代码;这回准备写点关于金钱的东西,今天写点不一样的。</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我经常在上市公司年报上看到这样的字眼:<strong> 本公司首次向社会公众发行人民币普通股（A 股）10,720,000.00 股。募集资金总额为人民币 239,270,400.00 元.</strong> 千分位加逗号,今天咱们用正则实现这样的效果<br><a id="more"></a></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">*@param s 字符</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMoney</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">3</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//判断是否有小数位 如果有,需要多加判断</span></div><div class="line">    <span class="keyword">if</span>(s.indexOf(<span class="string">'.'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">        <span class="keyword">var</span> index = s.indexOf(<span class="string">'.'</span>);</div><div class="line">        <span class="keyword">var</span> last = s.substr(index);</div><div class="line">        s = s.substr(<span class="number">0</span>,index).replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+$)/g</span>,<span class="string">','</span>);</div><div class="line">        s = s + last;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//没有小数的就直接返回</span></div><div class="line">        <span class="keyword">return</span> s.replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+$)/g</span>,<span class="string">','</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//测试</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'123123123123.56'</span>;</div><div class="line"><span class="built_in">console</span>.log(setMoney(str))</div><div class="line"><span class="comment">//123,123,123,123.56</span></div></pre></td></tr></table></figure>
-<h2 id="要不封装一下？"><a href="#要不封装一下？" class="headerlink" title="要不封装一下？"></a>要不封装一下？</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   @param &#123;String&#125; s 字符</div><div class="line">*   @param &#123;String&#125; t 字符类型 , . 。等等</div><div class="line">*   @param &#123;Number&#125; n 间隔位数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMoney</span>(<span class="params">s,t,n</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">3</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//判断是否有小数位 如果有,需要多加判断</span></div><div class="line">    <span class="keyword">if</span>(s.indexOf(<span class="string">'.'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">        <span class="keyword">var</span> index = s.indexOf(<span class="string">'.'</span>);</div><div class="line">        <span class="keyword">var</span> last = s.substr(index);</div><div class="line">        <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'\\B(?=(\\d&#123;'</span>+n+<span class="string">'&#125;)+$)'</span>,<span class="string">'g'</span>);</div><div class="line">        s = s.substr(<span class="number">0</span>,index).replace(reg,<span class="string">''</span>+t+<span class="string">''</span>);</div><div class="line">        s = s + last;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//没有小数的就直接返回</span></div><div class="line">        <span class="keyword">return</span> s.replace(reg,<span class="string">''</span>+t+<span class="string">''</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//测试</span></div><div class="line"><span class="built_in">console</span>.log(setMoney2(str,<span class="string">','</span>,<span class="number">5</span>))</div><div class="line"><span class="comment">//12,31231,23123.56</span></div><div class="line"><span class="built_in">console</span>.log(setMoney2(str,<span class="string">','</span>,<span class="number">3</span>))</div><div class="line"><span class="comment">//123,123,123,123.56</span></div></pre></td></tr></table></figure>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>今天就先写到这,最近一直在研究正则,所以稍微总结了一些案例,后续可能还是以js为主,正则可能相对会减少发表,过几天写一个日常用的正则案例的博客,就正则这东西,几天不用就会遗忘,保持持续更新…以上代码都有做测试,如果有什么疑问,可以与我联系 biyuqiwan@163.com</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;上回说到字符正向加逗号或者其他字符,主要用户银行卡号等场景，而且封装成了通用代码;这回准备写点关于金钱的东西,今天写点不一样的。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;我经常在上市公司年报上看到这样的字眼:&lt;strong&gt; 本公司首次向社会公众发行人民币普通股（A 股）10,720,000.00 股。募集资金总额为人民币 239,270,400.00 元.&lt;/strong&gt; 千分位加逗号,今天咱们用正则实现这样的效果&lt;br&gt;
     
     </summary>
     
