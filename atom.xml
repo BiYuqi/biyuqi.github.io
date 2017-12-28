@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2017-11-26T07:57:46.000Z</updated>
+  <updated>2017-12-28T16:17:20.000Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -16,11 +16,67 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>【正则表达式系列】贪婪与非贪婪模式</title>
+    <link href="http://loadingmore.com/2017/12/28/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E8%B4%AA%E5%A9%AA%E4%B8%8E%E9%9D%9E%E8%B4%AA%E5%A9%AA%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://loadingmore.com/2017/12/28/【正则表达式系列】贪婪与非贪婪模式/</id>
+    <published>2017-12-28T14:50:30.000Z</published>
+    <updated>2017-12-28T16:17:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文属于 正则表达式系列文章之一，将近一个多月了停更了，这个系列的坑得赶紧填了~~~</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><strong> <a href="http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/">【正则表达式系列】入门篇</a> </strong></p>
+<p><strong> <a href="">【正则表达式系列】贪婪与非贪婪模式</a> </strong></p>
+<p><strong> 【正则表达式系列】零宽断言篇(待写) </strong></p>
+<h2 id="贪婪模式与非贪婪模式快速理解"><a href="#贪婪模式与非贪婪模式快速理解" class="headerlink" title="贪婪模式与非贪婪模式快速理解"></a>贪婪模式与非贪婪模式快速理解</h2><p>所谓贪婪模式表达式本身会尽可能的匹配更多内容,非贪婪则反之；我们可以这么理解，一个人很贪婪，所以他会能拿多少拿多少，换过来，那就是贪婪模式下的正则表达式，能匹配多少就匹配多少，尽可能最多。而非贪婪模式，则是能不匹配就不匹配，尽可能最少</p>
+<h2 id="贪婪模式非贪婪实战"><a href="#贪婪模式非贪婪实战" class="headerlink" title="贪婪模式非贪婪实战"></a>贪婪模式非贪婪实战</h2><p><strong> 贪婪模式标识符 </strong></p>
+<font style="color:#c33;padding:2px;">+</font>、<font style="color:#c33;padding:2px;">?</font>、<font style="color:#c33;padding:2px;">*</font>、<font style="color:#c33;padding:2px;">{n}</font>、<font style="color:#c33;padding:2px;">{n,}</font>、<font style="color:#c33;padding:2px;">{n,m}</font><br><br><br>上述标识符，代表是贪婪匹配，会尽可能多的去匹配内容<br><br><strong> 非贪婪模式标识符 </strong><br><font style="color:#c33;padding:2px;">+?</font>、<font style="color:#c33;padding:2px;">??</font>、<font style="color:#c33;padding:2px;">*?</font>、<font style="color:#c33;padding:2px;">{n}?</font>、<font style="color:#c33;padding:2px;">{n,}?</font>、<font style="color:#c33;padding:2px;">{n,m}?</font><br><br><br>非贪婪模式的标识符很有规律，就是贪婪模式的标识符后面加上一个<font style="color:#c33;padding:2px;">?</font>
+
+<p><strong> 示例 </strong></p>
+<p>需求：匹配1后面跟任意个0<br>目标源：10001<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">使用贪婪模式：<span class="number">10</span>*       结果：<span class="number">1000</span></div><div class="line">使用非贪婪模式：<span class="number">10</span>*?    结果：<span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/XUpYgg/2" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/3" target="_blank" rel="external">非贪婪示例</a></p>
+<p>1.<font style="color:#c33;padding:2px;">*</font>代表匹配0个或多个的意思：<br>贪婪模式下，他首先匹配一个1然后匹配1后面的0，最多匹配到3个，因此是1000，假如我们的正则加上g模式匹配,会得到1000 和 1 两个结果</p>
+<p>2.非贪婪模式下，表示首先匹配一个1，然后以后面的0能不匹配就不匹配了，所以每次只匹配一个，然而，假如我们的正则加上g模式匹配,1 和 1 两个结果</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用贪婪模式：10*       结果：1000 和 1</span></div><div class="line"><span class="comment">// 使用非贪婪模式：10*?    结果：1 和 1</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/g</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/g</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure>
+<p><a href="https://regex101.com/r/XUpYgg/5" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/4" target="_blank" rel="external">非贪婪示例</a></p>
+<p><strong> 看懂了？ </strong><br>我们在来个例子：<br>需求：匹配1后面跟任意个0，再跟一个1<br>源串：10001</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用贪婪模式：10*1      结果：10001</span></div><div class="line"><span class="comment">// 使用非贪婪模式：10*?1    结果：10001</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure>
+<p><strong> 什么鬼？为什么两个结果一样</strong><br>因为，正则表达式要判断完这整个正则才算成功：</p>
+<p>1.贪婪模式，首先匹配到一个1，然后后面尽可能的多匹配0，发现3个，最后一个匹配上1，至此，正则表达式完成匹配得到10001</p>
+<p>2.非贪婪模式，首先匹配到一个1，然后0*？是非贪婪模式，后面他不想匹配了，于是就瞅瞅后面看到1没？一看，我去，还是0，这下不能偷懒了，只能匹配0了，于是同样的故事上演了三次后，终于看到了希望，看到同胞兄弟1，完成正则匹配，得到10001<br><a href="https://regex101.com/r/XUpYgg/7" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/6/" target="_blank" rel="external">非贪婪示例</a></p>
+<p><strong> 那究竟哪个好呢？ </strong><br>什么时候使用贪婪模式，什么时候使用非贪婪模式，哪个性能好，哪个性能不好，不能一概而论，要根据情况分析。<br>下面我举个例子：<br>源码：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/"</span> <span class="attr">target</span>=<span class="string">"_blank"</span> &gt;</span>Js上传图片本地预览几种姿势<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>提取链接和文本：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg1 = <span class="regexp">/&lt;a [^&gt;]*?href="([^"]*?)"[^&gt;]*?&gt;([^&lt;]*?)&lt;\/a&gt;/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/&lt;a [^&gt;]*?href="([^"]*)"[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/</span></div><div class="line"><span class="keyword">const</span> reg3 = <span class="regexp">/&lt;a [^&gt;]*href="([^"]*)"[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/</span></div></pre></td></tr></table></figure>
+<p><a href="https://regex101.com/r/XUpYgg/8" target="_blank" rel="external">reg1运行次数</a> (150次)<br><a href="https://regex101.com/r/XUpYgg/9" target="_blank" rel="external">reg2运行次数</a> (24次)<br><a href="https://regex101.com/r/XUpYgg/10" target="_blank" rel="external">reg3运行次数</a> (98次)</p>
+<p>正则1是通用写法，正则2是在确定字符不会溢出的情况下消除非贪婪模式，正则3是证明并不是全部消除非贪婪模式就是最优。<br>关于贪婪模式好还是非贪婪模式好的讨论，只能说根据需求而定，不过，在平时的时候用，一般使用非贪婪模式较多，因为贪婪模式经常会由于元字符范围限制不严谨而导致匹配越界，得到非预期结果。</p>
+<h2 id="提取数据示例"><a href="#提取数据示例" class="headerlink" title="提取数据示例"></a>提取数据示例</h2><h3 id="提取两个””中的子串，其中不能再包含””"><a href="#提取两个””中的子串，其中不能再包含””" class="headerlink" title="提取两个””中的子串，其中不能再包含””"></a>提取两个””中的子串，其中不能再包含””</h3><p>需求: 提取两个引号之间的子串，其中不能再包括引号，例如上述的提取结果应该是: “regular expression” 与 “Regex”(每一个结束的”后面都接空格)<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> str = <span class="string">`"The phrase \"regular expression\" is called \"Regex\" for short"`</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/"[^"]*" /g</span> <span class="comment">// 注意正则最后面一个空格</span></div><div class="line"><span class="built_in">console</span>.log(str.match(reg)) <span class="comment">// [""regular expression" ", ""Regex" "]</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/XUpYgg/11" target="_blank" rel="external">案例demo</a><br>分析：<br>1.从第一个”开始匹配，接下来到12位时(“r的”)，不满足[^”]，也不满足之后的”+空格，因此匹配失败了，index挪到下一个，开始下一次匹配<br>2.第二个匹配从”r的”开始，一直匹配到n”空格的空格，这一组刚刚好匹配成功(因为最后符合了正则的”空格)，匹配好了”regular expression”空格<br>3.第三个匹配匹配到了”Regex”空格(过程不再复述)<br>4.到最后时，仅剩一个”直接匹配失败(因为首先得符合”才能开始正则匹配)<br>5.至此，正则匹配结束，匹配成功，并且符合预期</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>本文也只是做一些浅显的分析与引导，更多是起到抛砖引玉的作用，要深入理解还请去了解正则的原理</p>
+<p><a href="http://www.jb51.net/article/31491.htm" target="_blank" rel="external">正则表达式之 贪婪与非贪婪模式详解</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;本文属于 正则表达式系列文章之一，将近一个多月了停更了，这个系列的坑得赶紧填了~~~&lt;/p&gt;
+&lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目
+    
+    </summary>
+    
+      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
+    
+      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
+    
+      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【正则表达式系列】入门篇</title>
     <link href="http://loadingmore.com/2017/11/26/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E5%85%A5%E9%97%A8%E7%AF%87/"/>
     <id>http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/</id>
     <published>2017-11-26T07:50:30.000Z</published>
-    <updated>2017-11-26T07:57:46.000Z</updated>
+    <updated>2017-12-28T16:15:14.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>开始之前，我希望你能放下心中的恐惧感！</p>
@@ -29,7 +85,7 @@
 <p>正则想要精通更是不易，需要大量反复的练习，接触正则也不少时间了，不知怎么的，我就自己走过了那段畏惧正则的时期，日常的中遇到的问题基本上都能解决</p>
 <p>由于笔者是从事于前端开发的，所以本文中的正则都是基于Javascript的语法规则也讲述，不过不同语言之间的正则基本是相通的，只是语法表示上有点区别，我计划总结下我的一下学习的经历和心得：</p>
 <p><strong> <a href="">【正则表达式系列】入门篇</a> </strong></p>
-<p><strong> 【正则表达式系列】深入篇(待写) </strong></p>
+<p><strong> <a href="http://loadingmore.com/2017/12/28/【正则表达式系列】贪婪与非贪婪模式/">【正则表达式系列】贪婪与非贪婪模式</a> </strong></p>
 <p><strong> 【正则表达式系列】零宽断言篇(待写) </strong></p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>正则字符，很多文章都会讲到，篇幅原因我就不多说，我只列举常用的：</p>
 <h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><table>
@@ -1018,48 +1074,6 @@
       <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
     
       <category term="查询参数" scheme="http://loadingmore.com/tags/%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>写的每条正则记录在册(持续更新)</title>
-    <link href="http://loadingmore.com/2017/03/20/%E4%BB%8E%E4%BB%8A%E5%A4%A9%E8%B5%B7%E5%86%99%E7%9A%84%E6%AF%8F%E6%9D%A1%E6%AD%A3%E5%88%99%E9%83%BD%E8%AE%B0%E5%BD%95%E5%9C%A8%E5%86%8C/"/>
-    <id>http://loadingmore.com/2017/03/20/从今天起写的每条正则都记录在册/</id>
-    <published>2017-03-20T14:45:12.000Z</published>
-    <updated>2017-06-10T02:50:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="不能纯字母数字-必须包含两者"><a href="#不能纯字母数字-必须包含两者" class="headerlink" title="不能纯字母数字 必须包含两者"></a>不能纯字母数字 必须包含两者</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/</span>;</div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(?!^[0-9]+$)(?!^[a-z]+$)^[0-9a-z]+$/</span>;</div></pre></td></tr></table></figure>
-<h3 id="不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式"><a href="#不能纯字母数字-必须包含三者-…-发散下思维判断密码强弱的表达式" class="headerlink" title="不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)"></a>不能纯字母数字  必须包含三者 (….发散下思维判断密码强弱的表达式)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg3 = <span class="regexp">/(?!^[0-9]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[0-9a-z_\-@&amp;=]+$/</span>;</div><div class="line"><span class="keyword">var</span> reg4 = <span class="regexp">/^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[0-9a-z_\-@&amp;=]+$/</span>;</div></pre></td></tr></table></figure>
-<h3 id="药品库规格-药品规格-测试用例"><a href="#药品库规格-药品规格-测试用例" class="headerlink" title="药品库规格 药品规格 测试用例"></a>药品库规格 药品规格 测试用例</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//ex:匹配如下</span></div><div class="line"><span class="comment">//12*13  12mg*3 12mg*3 片(盒|粒)</span></div><div class="line"><span class="comment">//0.12*12 7片*6盒</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(([1-9]+\d*(\.\d*)?)|(^0\.[1-9]+\d*))([a-zA-Zμ]*|[\u4e00-\u9fa5]*)*?\*([1-9]+\d*)[\u4e00-\u9fa5]*$/</span>;</div></pre></td></tr></table></figure>
-<h3 id="判断文件类型"><a href="#判断文件类型" class="headerlink" title="判断文件类型"></a>判断文件类型</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg6 = <span class="regexp">/\.(doc|png|image)$/</span>;<span class="comment">//等等 需要什么文件可以自动添加</span></div></pre></td></tr></table></figure>
-<h3 id="排除指定字符"><a href="#排除指定字符" class="headerlink" title="排除指定字符"></a>排除指定字符</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//找出其中 包含 p 但不包含 ph 的所有单词，即</span></div><div class="line"><span class="comment">//[ 'python', 'javascript', 'jsonp' ]</span></div><div class="line"><span class="keyword">var</span> web_development = <span class="string">"python php ruby javascript jsonp perhapsphpisoutdated"</span>;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b(?=\w*p)(?!\w*ph)\w+\b/g</span></div></pre></td></tr></table></figure>
-<h3 id="排除结尾不以什么字符结尾"><a href="#排除结尾不以什么字符结尾" class="headerlink" title="排除结尾不以什么字符结尾"></a>排除结尾不以什么字符结尾</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//不以is结尾的单词</span></div><div class="line"><span class="keyword">var</span> str =  <span class="string">`existing</span></div><div class="line">            pessimist</div><div class="line">            this</div><div class="line">            is</div><div class="line">            the</div><div class="line">            `;</div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b\w+[^is]$\b/gm</span>;<span class="comment">//跨行</span></div></pre></td></tr></table></figure>
-<h3 id="检测是否出现重复字符2个及以上-2017-4-6"><a href="#检测是否出现重复字符2个及以上-2017-4-6" class="headerlink" title="检测是否出现重复字符2个及以上(2017/4/6)"></a>检测是否出现重复字符2个及以上(2017/4/6)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">// 例如aabcdf abbbdfsdf</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(.)\1+/g</span>;</div><div class="line">    <span class="comment">//排序</span></div><div class="line">    s = s.split(<span class="string">''</span>);</div><div class="line">    s.sort();</div><div class="line">    s = s.join(<span class="string">''</span>);</div><div class="line">    <span class="comment">//校验</span></div><div class="line">    <span class="keyword">if</span>(reg.test(s))&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"哎呀,碰到了重复字符"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> str = <span class="string">'asfawertyha'</span>;</div><div class="line">get(str);</div></pre></td></tr></table></figure>
-<h3 id="字符去重-2017-4-10"><a href="#字符去重-2017-4-10" class="headerlink" title="字符去重(2017/4/10)"></a>字符去重(2017/4/10)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">//排序</span></div><div class="line">    s = s.split(<span class="string">''</span>);</div><div class="line">    s.sort();</div><div class="line">    s = s.join(<span class="string">''</span>);</div><div class="line">    <span class="comment">//该正则与上一条有区别</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(.)\1*/g</span>;</div><div class="line">    <span class="keyword">var</span> tt = <span class="string">''</span>;<span class="comment">//存储新字符串</span></div><div class="line">    <span class="keyword">var</span> m;<span class="comment">//变量</span></div><div class="line">    <span class="keyword">while</span> (m = reg.exec(s))&#123;</div><div class="line">        tt += m[<span class="number">1</span>];<span class="comment">//循环去重</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//返回去重后的字符</span></div><div class="line">    <span class="keyword">return</span> tt;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> str = <span class="string">'asfaasdwesdfrtyha'</span>;</div><div class="line">get(str);</div><div class="line"><span class="comment">//adefhrstwy</span></div></pre></td></tr></table></figure>
-<h3 id="匹配1000-65535区间的数字-不包含9999-2017-5-4"><a href="#匹配1000-65535区间的数字-不包含9999-2017-5-4" class="headerlink" title="匹配1000-65535区间的数字(不包含9999)(2017/5/4)"></a>匹配1000-65535区间的数字(不包含9999)(2017/5/4)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(?!9999)([1-9]\d&#123;3&#125;|[1-5]\d&#123;4&#125;|6[0-5]&#123;2&#125;[0-3][0-5])$/</span>;</div></pre></td></tr></table></figure>
-<h3 id="链接巧妙取纯数字-2017-5-4"><a href="#链接巧妙取纯数字-2017-5-4" class="headerlink" title="链接巧妙取纯数字(2017/5/4)"></a>链接巧妙取纯数字(2017/5/4)</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/\b\d+\b/</span>;</div><div class="line"><span class="comment">//test 尾数后面的纯数字，不出意外都可以取出来</span></div><div class="line">http:<span class="comment">//www.66play.com/Home/share/match/id/39455  </span></div><div class="line">http:<span class="comment">//www.66play.com/match-detail-151951</span></div><div class="line">http:<span class="comment">//www.66play.com/Home/share/match/id/148853?</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
-    
-      <category term="RegExp" scheme="http://loadingmore.com/tags/RegExp/"/>
-    
-      <category term="正则" scheme="http://loadingmore.com/tags/%E6%AD%A3%E5%88%99/"/>
     
   </entry>
   
