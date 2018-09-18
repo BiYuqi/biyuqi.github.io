@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Js函数的throttle(节流)和debounce(防抖)｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/03/02/JS函数的throttle(节流)和debounce(抖动)/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Js函数的throttle(节流)和debounce(防抖)</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2017-03-02
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#函数"
+                           title="函数">函数</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Js函数的throttle(节流)和debounce(防抖)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p><strong> 某些场景下，比如响应鼠标移动或者影响窗口大小的resize事件,scroll事件,导致频繁的触发DOM操作，资源加载等重行为，导致页面卡顿甚至浏览器崩溃;网上看到一些解决的方案，遂做记录 </strong></p>
+</blockquote>
+<p><img src="http://oiukswkar.bkt.clouddn.com/throttle.jpg" alt="sdf"><br><a id="more"></a></p>
+<h3 id="什么是debounce-什么场景用-怎么实现"><a href="#什么是debounce-什么场景用-怎么实现" class="headerlink" title="什么是debounce? 什么场景用? 怎么实现?"></a>什么是debounce? 什么场景用? 怎么实现?</h3><p><strong> 关键词查询</strong></p>
+<p>解释这个函数前，先想想如下场景：网站我们的网站有个搜索框，用户输入文本我们会自动联想匹配一些结果呈现给给用户，我们可能首先想到的就是监听keypress事件,然后进行一步查询结果,该方法本身没有问题，但是如果用户哭诉输入一连串几十个字符，那就要瞬间触发几十次请求，无疑,我们不想要这样的结果，我们要的是用户停止输入的时候才去触发查询请求,这个时候函数防抖就可以帮到我们.</p>
+<p><strong>电梯超时</strong></p>
+<p>想象每天上班大厦底下的电梯。把电梯完成一次运送，类比为一次函数的执行和响应。如果电梯里有人进来，等待15秒。如果又人进来，15秒等待重新计时，直到15秒超时，开始运送。</p>
+<p><strong>函数防抖</strong></p>
+<p>就是让某个函数在上一次执行后，满足等待某个时间内不再触发此函数后再执行，而在这个等待时间内再次触发此函数，等待时间会重新计算。</p>
+<ul>
+<li>如果用手指一直按住一个弹簧，它将不会弹起直到你松手为止。</li>
+<li>也就是说当调用动作n毫秒后，才会执行该动作，</li>
+<li>若在这n毫秒内又调用此动作则将重新计算执行时间。</li>
+</ul>
+<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay,callback 才会执行</div><div class="line">* @param delay   &#123;number&#125;    空闲时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">delay,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">        &#125;,delay)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line"><span class="comment">//keypress时间结束200毫秒后执行相关回调事件</span></div><div class="line">$(<span class="string">'.input'</span>).addEventListener(<span class="string">'keypress'</span>,debounce(<span class="number">200</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//do somecode</span></div><div class="line">&#125;,<span class="literal">false</span>))</div></pre></td></tr></table></figure></p>
+<h3 id="什么是throttle-什么场景用-怎么实现"><a href="#什么是throttle-什么场景用-怎么实现" class="headerlink" title="什么是throttle? 什么场景用? 怎么实现?"></a>什么是throttle? 什么场景用? 怎么实现?</h3><p><strong>scroll事件</strong></p>
+<p>网站开发中经常会遇到这样的需求就是滚动浏览器滚动条的时候，更新页面上的某些布局或者数据或者调用后台的某些接口,同样，如果不对scroll函数加以限制的话,我们滚动一次滚动条就会产生N多次的调用了,throttle跟debounce不同,不是在等待某个时间后去执行函数，二是每间隔某个时间去执行函数</p>
+<p><strong>自助饮料机</strong></p>
+<p>好比一台自动的饮料机，按拿铁按钮，在出饮料的过程中，不管按多少这个按钮，都不会连续出饮料，中间按钮的响应会被忽略，必须要等这一杯的容量全部出完之后，再按拿铁按钮才会出下一杯。</p>
+<p><strong>函数节流</strong></p>
+<p>每间隔某个时间去执行某函数，避免函数的过多执行，这个方式就叫函数节流。</p>
+<ul>
+<li>形像的比喻是水龙头或机枪，你可以控制它的流量或频率。</li>
+<li>throttle 的关注点是连续的执行间隔时间。</li>
+<li>也就是会说预先设定一个执行周期，当调用动作的时刻大于</li>
+<li>等于执行周期则执行该动作，然后进入下一个新周期。</li>
+</ul>
+<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 频率控制 返回函数连续调用时，callback 执行频率限定为 次/delay  </div><div class="line">* 不满足间隔时间,延迟times后必须执行一次</div><div class="line">* @param delay  &#123;number&#125;    间隔时间，单位毫秒</div><div class="line">* @param times  &#123;number&#125;    延迟时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">delay,times,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> startTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">        timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> currTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">            that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        <span class="keyword">if</span>(currTime - startTime &gt;= delay)&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">            startTime = currTime;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                callback.apply(that,args);</div><div class="line">            &#125;,times)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//Demo</span></div><div class="line"><span class="comment">//图片懒加,就是一个不断需要滚动条来判断距离的一个解决方案;</span></div><div class="line"><span class="comment">//通过scroll时间不断的判断,为了避免大量的scroll触发,</span></div><div class="line"><span class="comment">//我们可以用throttle对其进行节流操作</span></div><div class="line"><span class="comment">//仅仅做演示 html css均不提供，后文会给出demo</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lazyload</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> okSeeHeight = <span class="built_in">document</span>.documentElement.clientHeight;<span class="comment">//可视区域高度</span></div><div class="line">    <span class="keyword">var</span> curScrollTop = <span class="built_in">document</span>.body.scrollTop || <span class="built_in">document</span>.documentElement.scrollTop;<span class="comment">//滚动条高度</span></div><div class="line">    <span class="keyword">var</span> imgNums = <span class="built_in">document</span>.querySelectorAll(<span class="string">'img'</span>),</div><div class="line">        len = imgNums.length,</div><div class="line">        sn = <span class="number">0</span>;<span class="comment">//初始化图片位置 避免每次都重新计算</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=sn; i&lt;len; i++)&#123;</div><div class="line">        <span class="comment">//到达可视区域</span></div><div class="line">        <span class="keyword">if</span>(imgNums[i].offsetTop &lt; okSeeHeight + curScrollTop)&#123;</div><div class="line">            <span class="comment">//替换scr</span></div><div class="line">            imgNums[i].src = imgNums[i].getAttribute(<span class="string">'data-src'</span>);</div><div class="line">            sn = i + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用即可</span></div><div class="line"><span class="comment">//可以大大减少scroll的触发量,而不影响体验</span></div><div class="line"><span class="comment">//500毫秒执行  不满足就强制500毫秒运行一次回调函数</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,throttle(<span class="number">500</span>,<span class="number">500</span>,lazyload))</div></pre></td></tr></table></figure>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>只要牵涉到连续事件或频率控制相关的应用都可以考虑到这两个函数，比如：</p>
+<ul>
+<li>游戏射击，keydown 事件</li>
+<li>文本输入、自动完成，keyup 事件</li>
+<li>鼠标移动，mousemove 事件</li>
+<li>DOM 元素动态定位，window 对象的 resize 和 scroll 事件</li>
+</ul>
+<p>前两者 debounce 和 throttle 都可以按需使用；后两者肯定是用 throttle 了。如果不做过滤处理，每秒种甚至会触发数十次相应的事件。尤其是 mousemove 事件，每移动一像素都可能触发一次事件。如果是在一个画布上做一个鼠标相关的应用，过滤事件处理是必须的，否则肯定会造成糟糕的体验。</p>
+<h3 id="图片懒加载演示DEMO"><a href="#图片懒加载演示DEMO" class="headerlink" title="图片懒加载演示DEMO"></a>图片懒加载演示DEMO</h3><p><strong><a href="http://loadingmore.com/demo/src/html/lazyload.html">图片懒加载节流优化</a></strong></p>
+<p><strong><a href="https://github.com/BiYuqi/lazyloading-img" target="_blank" rel="external">github地址</a></strong></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.cnblogs.com/fsjohnhuang/p/4147810.html" target="_blank" rel="external">肥仔John</a></li>
+<li><a href="http://www.cnblogs.com/ambar/archive/2011/10/08/throttle-and-debounce.html" target="_blank" rel="external">高阶函数 debounce 和 throttle</a></li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/02/只执行一次的函数该怎么写/" data-toggle="tooltip" data-placement="top"
+                           title="只执行一次的函数该怎么写?">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/02/21/浅谈LocalStorage响应事件/" data-toggle="tooltip" data-placement="top"
+                           title="浅谈LocalStorage响应事件">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是debounce-什么场景用-怎么实现"><span class="toc-text">什么是debounce? 什么场景用? 怎么实现?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是throttle-什么场景用-怎么实现"><span class="toc-text">什么是throttle? 什么场景用? 怎么实现?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片懒加载演示DEMO"><span class="toc-text">图片懒加载演示DEMO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#函数"
+                           title="函数">函数</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
+                        
+                        <li><a href="http://loadingmore.com/vue-element-admin-preview/">Vue-element-admin预览</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>

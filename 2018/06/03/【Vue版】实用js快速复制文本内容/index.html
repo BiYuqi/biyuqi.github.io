@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        编写一个Vue clipboard指令-快速复制文本到剪贴板｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2018/06/03/【Vue版】实用js快速复制文本内容/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>编写一个Vue clipboard指令-快速复制文本到剪贴板</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2018-06-03
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                        <a class="tag" href="/tags/#组件"
+                           title="组件">组件</a>
+                        
+                        <a class="tag" href="/tags/#指令"
+                           title="指令">指令</a>
+                        
+                        <a class="tag" href="/tags/#directive"
+                           title="directive">directive</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            编写一个Vue clipboard指令-快速复制文本到剪贴板
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>记录下用vue指令来写一个快速复制内容到剪贴板的插件, 主要是使用了chrome66+提供的新的剪贴方法，clipboard方法</p>
+</blockquote>
+<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank" rel="external">Vue-element-admin, 欢迎start</a><br><a href="https://github.com/BiYuqi/vue-element-admin/blob/master/src/directive/clipboard/index.js" target="_blank" rel="external">directive/index.js</a><br><a href="http://loadingmore.com/vue-element-admin-preview/">项目预览,图标模块使用</a></p>
+<h2 id="directive部分"><a href="#directive部分" class="headerlink" title="directive部分"></a>directive部分</h2><p>由于项目使用的element-ui库，所以提示信息组件，我就直接应用了，如有需要或者去除，请自行修改<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Message &#125; <span class="keyword">from</span> <span class="string">'element-ui'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> Clipboard = &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 创建一个全局文本框 针对非chrome浏览器，以及chrome浏览器版本小于66的兼容方法</span></div><div class="line"><span class="keyword">const</span> input = <span class="built_in">document</span>.createElement(<span class="string">'input'</span>)</div><div class="line">input.id = <span class="string">'byq-clipboard'</span></div><div class="line">input.type = <span class="string">'text'</span></div><div class="line">input.style.position = <span class="string">'absolute'</span></div><div class="line">input.style.left = <span class="string">'-9999px'</span></div><div class="line"><span class="built_in">document</span>.body.appendChild(input)</div><div class="line"></div><div class="line"><span class="keyword">const</span> copyTarget = <span class="built_in">document</span>.querySelector(<span class="string">'#byq-clipboard'</span>)</div><div class="line"><span class="comment">// 浏览器以及相关验证</span></div><div class="line"><span class="keyword">const</span> UA = <span class="built_in">window</span>.navigator.userAgent.toLowerCase()</div><div class="line"><span class="keyword">const</span> isEdge = UA &amp;&amp; UA.indexOf(<span class="string">'edge/'</span>) &gt; <span class="number">0</span></div><div class="line"><span class="keyword">const</span> isChrome = UA &amp;&amp; <span class="regexp">/chrome\/\d+/</span>.test(UA) &amp;&amp; !isEdge</div><div class="line"><span class="comment">// 确认是chrome浏览器，且版本符合要求</span></div><div class="line"><span class="keyword">const</span> isSupportChromeVersion = <span class="function">(<span class="params">v</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> isChrome &amp;&amp; ~~UA.match(<span class="regexp">/chrome\/(\d+)/</span>)[<span class="number">1</span>] &gt;= v</div><div class="line">&#125;</div><div class="line">Clipboard.install = <span class="function">(<span class="params">Vue, options</span>) =&gt;</span> &#123;</div><div class="line">  Vue.directive(<span class="string">'clipboard'</span>, &#123;</div><div class="line">    bind (el, binding) &#123;</div><div class="line">      <span class="comment">// 注册事件</span></div><div class="line">      el.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> value = binding.value</div><div class="line">        <span class="comment">// 必须传值</span></div><div class="line">        <span class="keyword">if</span> (!value) &#123;</div><div class="line">          Message.error(<span class="string">'请输入要复制问的文本'</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// chrome version 66+ support</span></div><div class="line">        <span class="keyword">if</span> (isSupportChromeVersion(<span class="number">66</span>) &amp;&amp; <span class="built_in">window</span>.navigator.clipboard) &#123;</div><div class="line">          <span class="built_in">window</span>.navigator.clipboard.writeText(value).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            Message.success(<span class="string">'复制成功啦, 赶快使用吧'</span>)</div><div class="line">          &#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</div><div class="line">            Message.error(error)</div><div class="line">          &#125;)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          copyTarget.value = value</div><div class="line">          copyTarget.select()</div><div class="line">          <span class="built_in">document</span>.execCommand(<span class="string">'Copy'</span>)</div><div class="line">          Message.success(<span class="string">'复制成功啦, 赶快使用吧'</span>)</div><div class="line">        &#125;</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> Clipboard</div></pre></td></tr></table></figure></p>
+<h2 id="全局注册使用"><a href="#全局注册使用" class="headerlink" title="全局注册使用"></a>全局注册使用</h2><p><strong> 引入注册组件 </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// main.js 项目入口文件</span></div><div class="line"><span class="keyword">import</span> Clipboard <span class="keyword">from</span> <span class="string">'@/directive/clipboard/index'</span></div><div class="line">Vue.use(Clipboard)</div></pre></td></tr></table></figure></p>
+<p><strong> 页面使用 </strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 只需要传入v-clipboard  带上参数就可以了--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"test"</span> <span class="attr">v-clipboard</span>=<span class="string">"我是一个前端开发者"</span>&gt;</span></div><div class="line">  我是一个前端开发者</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="navigator-clipboard-是个什么鬼？"><a href="#navigator-clipboard-是个什么鬼？" class="headerlink" title="navigator.clipboard 是个什么鬼？"></a>navigator.clipboard 是个什么鬼？</h2><p>这是一个实验中的功能，Clipboard接口提供了一种读写操作系统剪贴板的方式。</p>
+<ul>
+<li>read()<br>从剪贴板读取数据（比如图片）。</li>
+<li>readText()<br>从操作系统读取文本。</li>
+<li>write()<br>写入数据（比如图片）至操作系统剪贴板。</li>
+<li>writeText()<br>写入文本至操作系统剪贴板。</li>
+</ul>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Clipboard" target="_blank" rel="external">Clipboard|MDN</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/09/14/利用TravisCi自动部署博客到gitPage/" data-toggle="tooltip" data-placement="top"
+                           title="利用TravisCi自动部署博客到gitPage">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/12/组件/" data-toggle="tooltip" data-placement="top"
+                           title="组件">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目地址"><span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#directive部分"><span class="toc-text">directive部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局注册使用"><span class="toc-text">全局注册使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#navigator-clipboard-是个什么鬼？"><span class="toc-text">navigator.clipboard 是个什么鬼？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资料"><span class="toc-text">资料</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                        <a class="tag" href="/tags/#组件"
+                           title="组件">组件</a>
+                        
+                        <a class="tag" href="/tags/#指令"
+                           title="指令">指令</a>
+                        
+                        <a class="tag" href="/tags/#directive"
+                           title="directive">directive</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
+                        
+                        <li><a href="http://loadingmore.com/vue-element-admin-preview/">Vue-element-admin预览</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>

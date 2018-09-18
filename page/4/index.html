@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/page/4/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+" data-ishome = "true" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+
+<style>
+
+    .custom-haojen-container .post-preview:nth-of-type(1),
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) {
+        text-align: center;
+        background-repeat: no-repeat;
+        border-radius: 3px;
+        background-size: cover;
+        padding: 0;
+        height: 300px;
+        display: table;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.16);
+    }
+
+    /*去掉诗歌的背景图片*/
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) {
+        background-image: none !important;
+        background-color: rgba(255, 248, 220, 0.5);
+    }
+
+    .custom-haojen-container .post-preview:nth-child(1) h2,
+    .custom-haojen-container .post-preview:nth-child(1) .post-meta,
+    .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+        text-shadow: 0 0 40px rgba(0, 0, 0, 1);
+        letter-spacing: 1px;
+        color: #fff;
+        margin-top: 0;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .custom-haojen-container .post-preview:nth-child(1) .post-meta {
+        font-size: .9em;
+        font-weight: 300;
+        margin-top: 0;
+    }
+
+    .custom-haojen-container .post-preview-poetry:nth-child(1) .post-subtitle {
+        letter-spacing: 6px;
+        font-size: 18px;
+        font-family: unset;
+        font-weight: 400;
+        color: rgba(0, 0, 0, .75)
+    }
+
+    /*不显示摘要*/
+    .custom-haojen-container .post-preview:nth-child(1) .post-content-preview {
+        display: none
+    }
+
+    /*只第一个显示背景图片*/
+    .custom-haojen-container .post-preview:not(:nth-child(1)) {
+        background-image: none !important;
+    }
+
+    /*第一个分界线去掉*/
+    .custom-haojen-container hr:nth-of-type(1) {
+        display: none;
+    }
+
+    /*主题*/
+    .custom-haojen-container .post-preview:nth-of-type(1) > a {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    /*诗词标题*/
+    .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+        font-size: 35px;
+        font-family: STKaiti;
+        color: rgba(0, 0, 0, .8);
+    }
+
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) .post-meta {
+        color: #0e2231;
+    }
+
+    @media (max-width: 768px) {
+        .custom-haojen-container .post-preview:nth-child(1) {
+            height: 240px;
+        }
+
+        .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+            font-size: 28px !important;
+            margin-top: 0;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .custom-haojen-container .post-preview:nth-of-type(1) > a {
+            padding: 20px
+        }
+    }
+
+    /*手机屏幕*/
+    @media (max-width: 400px) {
+        .custom-haojen-container .post-preview:nth-child(1) {
+            height: 195px;
+        }
+
+        .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+            font-size: 20px !important;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+            font-size: 16px;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) a {
+            padding: 30px 20px;
+        }
+    }
+</style>
+
+<!-- Page Header -->
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
+    <div class="row">
+        <header class="intro-header">
+            <div class="container">
+                <div class="site-heading text-center">
+                    <div class="about-me">
+                        <!--移动端头部显示-->
+                        <img src="/uploads/avatar.png"/>
+                        <h5><a href="/about/">LoaingMore</a></h5>
+                        <p>越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+</div>
+<!-- Main Content -->
+<div class="container custom-haojen-container">
+    <!-- Post Container -->
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
+            <!-- Main Content -->
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/03/20/从今天起写的每条正则都记录在册/">
+        <h2 class="post-title">
+            写的每条正则记录在册(持续更新)
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-20
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.
+
+
+不能纯字母数字 必须包含两者var reg1 = /^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/;var reg2..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/03/18/阿拉伯数字千分位用逗号分隔/">
+        <h2 class="post-title">
+            阿拉伯数字千分位用逗号分隔
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-18
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+上回说到字符正向加逗号或者其他字符,主要用户银行卡号等场景，而且封装成了通用代码;这回准备写点关于金钱的东西,今天写点不一样的。
+
+前言我经常在上市公司年报上看到这样的字眼: 本公司首次向社会公众发行人民币普通股（A 股）10,720,000.00 股。募集资金总额为人民币 239,270,4..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/03/18/正则实现代码高亮/">
+        <h2 class="post-title">
+            正则实现代码高亮
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-18
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+最近鼓捣了个markdown在线预览的编辑器,基于vue2.0实现,对vue的理解程度还没有那么深,所以代码高亮,断行没有用插件来实现,于是决定用正则来简单实现.
+
+场景经常写代码，写业务难免要查询某些数据和字符串打交道,其中正则便是一个提高编程效率的实用工具,还没了解正则的建议好好学一学. ..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/03/11/每隔四个字符添加一个空格的正则怎么写/">
+        <h2 class="post-title">
+            每隔四个字符添加一个空格的正则怎么写?
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-11
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+最近有懒惰不少,好久没写博客了,今天在一群里看到有小伙伴问怎用正则规律的添加空格,花了几分钟写了下,做下记录
+
+需求这样的效果在填写银行卡的时候十分常见，这也是非常人性化的举措,动笔写吧,起初我想用js实现，可想想各种字符串,各种循环,我决定还是得正则靠谱.
+实现试了下,一个正则我还搞不定,水..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/03/02/只执行一次的函数该怎么写/">
+        <h2 class="post-title">
+            只执行一次的函数该怎么写?
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-02
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+实际项目中也许会遇到一些只能执行一次的事件,该怎么写呢？
+
+
+代码function once(fn)&#123;    var isFlag = false;    return function()&#123;        if(!isFlag)&#123;            isFl..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/03/02/JS函数的throttle(节流)和debounce(抖动)/">
+        <h2 class="post-title">
+            Js函数的throttle(节流)和debounce(防抖)
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-03-02
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+ 某些场景下，比如响应鼠标移动或者影响窗口大小的resize事件,scroll事件,导致频繁的触发DOM操作，资源加载等重行为，导致页面卡顿甚至浏览器崩溃;网上看到一些解决的方案，遂做记录 
+
+
+什么是debounce? 什么场景用? 怎么实现? 关键词查询
+解释这个函数前，先想想如下场景：网..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/02/21/浅谈LocalStorage响应事件/">
+        <h2 class="post-title">
+            浅谈LocalStorage响应事件
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-02-21
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+ 前几天群里看到有朋友提了一个这样的需求；A页面看视频,又在B页面打开相同视频，B页面视频看完时，A页面状态自动改变 
+
+
+回顾 localStorage API有哪些？
+
+localStorage.setItem()该方法接受两个参数——要创建/修改的数据项的键，和对应的值
+localSto..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/02/21/正则表达式必须包含数字字母两种组合/">
+        <h2 class="post-title">
+            正则表达式必须包含数字和字母两种组合
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-02-21
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+ 做表单验证经常做判断密码的组合，强度之类的校验，最近仔细研究了下正则，体会到了正则的强大，所以用几种方法来实现这一需求 
+
+
+分析 正则表达式中必须包含字母数字(不能纯数字或纯字母)，那么就必须要判断该字符串中：
+
+必须包含数字
+必须包含字母
+
+实现这里会用到正则的环视(零宽断言):(?=e..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+
+<!-- 翻页 pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/page/3/">&larr; Newer Posts</a>
+    </li>
+    
+    
+    <li class="next">
+        <a href="/page/5/">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+        </div>
+        <!-- Sidebar Container -->
+        <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+
+            <!-- About Me -->
+            <section class="visible-md visible-lg" style="padding: 0 18px">
+                <div class="short-about">
+                    <!--侧边栏头像-->
+                    
+                    <img src="/uploads/avatar.png"/>
+                    
+                    <h5><a href="/about/">LoaingMore</a></h5>
+                    
+                    <p>越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com</p>
+                    
+                    <hr>
+                    <!-- SNS Link 社交 -->
+                    <ul class="list-inline">
+                        
+                        
+                        
+
+                        
+
+                        
+
+                        
+                        <li>
+                            <a target="_blank" href="https://github.com/BiYuqi">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
+                        
+
+                        
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Featured Tags  标签 -->
+            
+            <section>
+                <div class="tags">
+                    
+                    
+                    <a href="/tags/#javascript" title="javascript"
+                       rel="36">javascript</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#Js技巧" title="Js技巧"
+                       rel="5">Js技巧</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#select" title="select"
+                       rel="2">select</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#React" title="React"
+                       rel="2">React</a>
+                    
+                    
+                    
+                    <a href="/tags/#React-native" title="React-native"
+                       rel="2">React-native</a>
+                    
+                    
+                    
+                    <a href="/tags/#Vue" title="Vue"
+                       rel="7">Vue</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#Javascript" title="Javascript"
+                       rel="5">Javascript</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#组件" title="组件"
+                       rel="2">组件</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#RegExp" title="RegExp"
+                       rel="10">RegExp</a>
+                    
+                    
+                    
+                    <a href="/tags/#正则" title="正则"
+                       rel="11">正则</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#hexo" title="hexo"
+                       rel="2">hexo</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </section>
+            
+
+            
+            <hr>
+            <h5 style="text-align: center;">我的作品</h5>
+            <ul class="list-inline" style="text-align: center;">
+                
+                <li><a href="http://loadingmore.com/vuenotes/" target="_blank">前端导航</a></li>
+                
+                <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">Vue后台系统解决方案</a></li>
+                
+                <li><a href="https://github.com/BiYuqi/vue-admin-template" target="_blank">Vue后台系统模板</a></li>
+                
+                <li><a href="https://github.com/BiYuqi/vue2-multiple-page" target="_blank">Vue多页面开发实例</a></li>
+                
+                <li><a href="http://loadingmore.com/vue-element-admin-preview/" target="_blank">Vue-element-admin预览</a></li>
+                
+            </ul>
+            
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>

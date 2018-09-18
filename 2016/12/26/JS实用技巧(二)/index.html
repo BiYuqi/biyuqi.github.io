@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        JS实用技巧(二)｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2016/12/26/JS实用技巧(二)/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JS实用技巧(二)</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2016-12-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#Js技巧"
+                           title="Js技巧">Js技巧</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            JS实用技巧(二)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<h3 id="该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"><a href="#该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。" class="headerlink" title="该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"></a>该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。</h3></blockquote>
+<h2 id="1-十六进制颜色值的随机生成-2种方法"><a href="#1-十六进制颜色值的随机生成-2种方法" class="headerlink" title="1.十六进制颜色值的随机生成(2种方法)"></a>1.十六进制颜色值的随机生成(2种方法)</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getColor</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span>   arrStr = [<span class="string">"0"</span>,<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>,<span class="string">"5"</span>,<span class="string">"6"</span>,<span class="string">"7"</span>,<span class="string">"8"</span>,<span class="string">"9"</span>,<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>],</div><div class="line">			strHas = <span class="string">"#"</span>,</div><div class="line">			index;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">				index = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">14</span>);</div><div class="line">				strHas += arrStr[index];</div><div class="line">			&#125;</div><div class="line">	<span class="keyword">return</span> strHas;</div><div class="line">&#125;</div><div class="line">getColor();<span class="comment">//随机颜色值</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getColor2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="string">"#"</span>+(<span class="string">"000"</span>+<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">16777215</span>).toString(<span class="number">16</span>)).slice(<span class="number">-6</span>);</div><div class="line">&#125;</div><div class="line">getColor2()<span class="comment">//随机颜色值</span></div></pre></td></tr></table></figure>
+<p>说明：<br>1、16777215为16进制的颜色ffffff转成10进制的数字<br>2、转成16进制不足6位的以0来补充(经测试会有不足6位的情况出现)</p>
+<h2 id="2-Event兼容"><a href="#2-Event兼容" class="headerlink" title="2.Event兼容"></a>2.Event兼容</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//兼容IE和Firefox的event对象</span></div><div class="line">btn.onclick() = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	e = <span class="built_in">window</span>.event || e;</div><div class="line">	<span class="comment">//some code</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//兼容srcElement和target(事件源)</span></div><div class="line"><span class="keyword">var</span> et = e.srcElement || e.target;</div><div class="line"><span class="built_in">console</span>.log(et.tagName);</div><div class="line"></div><div class="line"><span class="comment">//封装getEventTarget函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getEventTarget</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e.window.event || e;</div><div class="line">	<span class="keyword">return</span> e.srcElement || e.target;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="3-阻止冒泡，封装stopPropagation函数"><a href="#3-阻止冒泡，封装stopPropagation函数" class="headerlink" title="3.阻止冒泡，封装stopPropagation函数"></a>3.阻止冒泡，封装stopPropagation函数</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopPropagation</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = <span class="built_in">window</span>.event || e;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">document</span>.all)&#123;</div><div class="line">		cancelBubble = <span class="literal">true</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		e.stopPropagation();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//or</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopPropagation2</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = <span class="built_in">window</span>.event || e;</div><div class="line">	<span class="keyword">if</span>(e.stopPropagation)&#123;</div><div class="line">		e.stopPropagation();</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		cancelBubble = <span class="literal">true</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	stopPropagation(e);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>document.all可以判断浏览器是否是IE;</p>
+<h2 id="4-添加事件监听-兼容"><a href="#4-添加事件监听-兼容" class="headerlink" title="4.添加事件监听 兼容"></a>4.添加事件监听 兼容</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">	添加事件监听 兼容</div><div class="line">	addEvent(elem,type,fn,choose);</div><div class="line">	elem 需要添加事件监听的元素</div><div class="line">	type 事件类型 一律不加on</div><div class="line">	fn 回调函数（要做的事情）</div><div class="line">	choose 冒泡或者捕捉 默认为false</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">elem,type,fn,choose</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">arguments</span>.length &lt; <span class="number">3</span>)&#123;</div><div class="line">		<span class="keyword">return</span> ;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//给choose赋初值</span></div><div class="line">	choose = choose || <span class="literal">false</span>;</div><div class="line">	<span class="comment">//判断浏览器是否支持addEventListener</span></div><div class="line">	<span class="keyword">if</span>(elem.addEventListener)&#123;</div><div class="line">		elem.addEventListener(type,fn,choose);</div><div class="line">	&#125;<span class="keyword">else</span> &#123;</div><div class="line">		elem.attachEvent(<span class="string">'on'</span>+type , fn , choose);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// demo:</span></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.querySelector(<span class="string">"#btn"</span>);</div><div class="line">on(btn,<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="number">888</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="5-类型判断函数"><a href="#5-类型判断函数" class="headerlink" title="5.类型判断函数"></a>5.类型判断函数</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> Tyle = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> Type = &#123;&#125;,</div><div class="line">		list = [<span class="string">'String'</span>,<span class="string">'Array'</span>,<span class="string">'Object'</span>,<span class="string">'Number'</span>,<span class="string">'RegExp'</span>,<span class="string">'Null'</span>];</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;list.length;i++)&#123;</div><div class="line">		(<span class="function"><span class="keyword">function</span>(<span class="params">type</span>)</span>&#123;</div><div class="line">			Type[<span class="string">'is'</span>+type] = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">				<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj) === <span class="string">'[object '</span>+type+<span class="string">']'</span></div><div class="line">			&#125;</div><div class="line">		&#125;)(list[i])</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> Type</div><div class="line">&#125;)()</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Tyle.isArray([])) <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isNumber(<span class="string">''</span>))	<span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isString(<span class="string">''</span>))	<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isObject(&#123;&#125;))	<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isRegExp(<span class="regexp">/\s/</span>))	<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isNull(<span class="string">''</span>))	<span class="comment">// false</span></div></pre></td></tr></table></figure>
+<h2 id="6-设置透明度"><a href="#6-设置透明度" class="headerlink" title="6.设置透明度"></a>6.设置透明度</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOpacity</span>(<span class="params">elem,level</span>)</span>&#123;</div><div class="line">	node = <span class="keyword">typeof</span> node == <span class="string">"string"</span> ? <span class="built_in">document</span>.getElementById(node) : node;<span class="comment">//检测传进来node的类型</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">document</span>.all)&#123;</div><div class="line">		node.style.filter = <span class="string">'alpha(opacity='</span>+level+<span class="string">')'</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		node.style.opacity  = level/<span class="number">100</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//test</span></div><div class="line">setOpacity(<span class="string">"box1"</span>,<span class="number">20</span>);</div><div class="line">setOpacity(<span class="string">"box2"</span>,<span class="number">80</span>);</div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/12/27/浅析js随机数Math.random()/" data-toggle="tooltip" data-placement="top"
+                           title="浅谈jsvascript随机函数Math.random()">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/12/22/Js模仿块级作用域与ES6块级作用域/" data-toggle="tooltip" data-placement="top"
+                           title="Js模仿块级作用域与ES6块级作用域">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"><span class="toc-text">该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-十六进制颜色值的随机生成-2种方法"><span class="toc-text">1.十六进制颜色值的随机生成(2种方法)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Event兼容"><span class="toc-text">2.Event兼容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-阻止冒泡，封装stopPropagation函数"><span class="toc-text">3.阻止冒泡，封装stopPropagation函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-添加事件监听-兼容"><span class="toc-text">4.添加事件监听 兼容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-类型判断函数"><span class="toc-text">5.类型判断函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-设置透明度"><span class="toc-text">6.设置透明度</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#Js技巧"
+                           title="Js技巧">Js技巧</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
+                        
+                        <li><a href="http://loadingmore.com/vue-element-admin-preview/">Vue-element-admin预览</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>

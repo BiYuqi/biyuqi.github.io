@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        【正则表达式系列】贪婪与非贪婪模式｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/12/28/【正则表达式系列】贪婪与非贪婪模式/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>【正则表达式系列】贪婪与非贪婪模式</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2017-12-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#RegExp"
+                           title="RegExp">RegExp</a>
+                        
+                        <a class="tag" href="/tags/#正则"
+                           title="正则">正则</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            【正则表达式系列】贪婪与非贪婪模式
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文属于 正则表达式系列文章之一，将近一个多月了停更了，这个系列的坑得赶紧填了~~~</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><strong> <a href="http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/">【正则表达式系列】入门篇</a> </strong></p>
+<p><strong> <a href="">【正则表达式系列】贪婪与非贪婪模式</a> </strong></p>
+<p><strong> 【正则表达式系列】零宽断言篇(待写) </strong></p>
+<h2 id="贪婪模式与非贪婪模式快速理解"><a href="#贪婪模式与非贪婪模式快速理解" class="headerlink" title="贪婪模式与非贪婪模式快速理解"></a>贪婪模式与非贪婪模式快速理解</h2><p>所谓贪婪模式表达式本身会尽可能的匹配更多内容,非贪婪则反之；我们可以这么理解，一个人很贪婪，所以他会能拿多少拿多少，换过来，那就是贪婪模式下的正则表达式，能匹配多少就匹配多少，尽可能最多。而非贪婪模式，则是能不匹配就不匹配，尽可能最少</p>
+<h2 id="贪婪模式非贪婪实战"><a href="#贪婪模式非贪婪实战" class="headerlink" title="贪婪模式非贪婪实战"></a>贪婪模式非贪婪实战</h2><p><strong> 贪婪模式标识符 </strong></p>
+<font style="color:#c33;padding:2px;">+</font>、<font style="color:#c33;padding:2px;">?</font>、<font style="color:#c33;padding:2px;">*</font>、<font style="color:#c33;padding:2px;">{n}</font>、<font style="color:#c33;padding:2px;">{n,}</font>、<font style="color:#c33;padding:2px;">{n,m}</font><br><br><br>上述标识符，代表是贪婪匹配，会尽可能多的去匹配内容<br><br><strong> 非贪婪模式标识符 </strong><br><font style="color:#c33;padding:2px;">+?</font>、<font style="color:#c33;padding:2px;">??</font>、<font style="color:#c33;padding:2px;">*?</font>、<font style="color:#c33;padding:2px;">{n}?</font>、<font style="color:#c33;padding:2px;">{n,}?</font>、<font style="color:#c33;padding:2px;">{n,m}?</font><br><br><br>非贪婪模式的标识符很有规律，就是贪婪模式的标识符后面加上一个<font style="color:#c33;padding:2px;">?</font>
+
+<p><strong> 示例 </strong></p>
+<p>需求：匹配1后面跟任意个0<br>目标源：10001<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">使用贪婪模式：<span class="number">10</span>*       结果：<span class="number">1000</span></div><div class="line">使用非贪婪模式：<span class="number">10</span>*?    结果：<span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/XUpYgg/2" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/3" target="_blank" rel="external">非贪婪示例</a></p>
+<p>1.<font style="color:#c33;padding:2px;">*</font>代表匹配0个或多个的意思：<br>贪婪模式下，他首先匹配一个1然后匹配1后面的0，最多匹配到3个，因此是1000，假如我们的正则加上g模式匹配,会得到1000 和 1 两个结果</p>
+<p>2.非贪婪模式下，表示首先匹配一个1，然后以后面的0能不匹配就不匹配了，所以每次只匹配一个，然而，假如我们的正则加上g模式匹配,1 和 1 两个结果</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用贪婪模式：10*       结果：1000 和 1</span></div><div class="line"><span class="comment">// 使用非贪婪模式：10*?    结果：1 和 1</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/g</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/g</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure>
+<p><a href="https://regex101.com/r/XUpYgg/5" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/4" target="_blank" rel="external">非贪婪示例</a></p>
+<p><strong> 看懂了？ </strong><br>我们在来个例子：<br>需求：匹配1后面跟任意个0，再跟一个1<br>源串：10001</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用贪婪模式：10*1      结果：10001</span></div><div class="line"><span class="comment">// 使用非贪婪模式：10*?1    结果：10001</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure>
+<p><strong> 什么鬼？为什么两个结果一样</strong><br>因为，正则表达式要判断完这整个正则才算成功：</p>
+<p>1.贪婪模式，首先匹配到一个1，然后后面尽可能的多匹配0，发现3个，最后一个匹配上1，至此，正则表达式完成匹配得到10001</p>
+<p>2.非贪婪模式，首先匹配到一个1，然后0*？是非贪婪模式，后面他不想匹配了，于是就瞅瞅后面看到1没？一看，我去，还是0，这下不能偷懒了，只能匹配0了，于是同样的故事上演了三次后，终于看到了希望，看到同胞兄弟1，完成正则匹配，得到10001<br><a href="https://regex101.com/r/XUpYgg/7" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/6/" target="_blank" rel="external">非贪婪示例</a></p>
+<p><strong> 那究竟哪个好呢？ </strong><br>什么时候使用贪婪模式，什么时候使用非贪婪模式，哪个性能好，哪个性能不好，不能一概而论，要根据情况分析。<br>下面我举个例子：<br>源码：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/"</span> <span class="attr">target</span>=<span class="string">"_blank"</span> &gt;</span>Js上传图片本地预览几种姿势<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>提取链接和文本：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg1 = <span class="regexp">/&lt;a [^&gt;]*?href="([^"]*?)"[^&gt;]*?&gt;([^&lt;]*?)&lt;\/a&gt;/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/&lt;a [^&gt;]*?href="([^"]*)"[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/</span></div><div class="line"><span class="keyword">const</span> reg3 = <span class="regexp">/&lt;a [^&gt;]*href="([^"]*)"[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/</span></div></pre></td></tr></table></figure>
+<p><a href="https://regex101.com/r/XUpYgg/8" target="_blank" rel="external">reg1运行次数</a> (150次)<br><a href="https://regex101.com/r/XUpYgg/9" target="_blank" rel="external">reg2运行次数</a> (24次)<br><a href="https://regex101.com/r/XUpYgg/10" target="_blank" rel="external">reg3运行次数</a> (98次)</p>
+<p>正则1是通用写法，正则2是在确定字符不会溢出的情况下消除非贪婪模式，正则3是证明并不是全部消除非贪婪模式就是最优。<br>关于贪婪模式好还是非贪婪模式好的讨论，只能说根据需求而定，不过，在平时的时候用，一般使用非贪婪模式较多，因为贪婪模式经常会由于元字符范围限制不严谨而导致匹配越界，得到非预期结果。</p>
+<h2 id="提取数据示例"><a href="#提取数据示例" class="headerlink" title="提取数据示例"></a>提取数据示例</h2><h3 id="提取两个””中的子串，其中不能再包含””"><a href="#提取两个””中的子串，其中不能再包含””" class="headerlink" title="提取两个””中的子串，其中不能再包含””"></a>提取两个””中的子串，其中不能再包含””</h3><p>需求: 提取两个引号之间的子串，其中不能再包括引号，例如上述的提取结果应该是: “regular expression” 与 “Regex”(每一个结束的”后面都接空格)<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> str = <span class="string">`"The phrase \"regular expression\" is called \"Regex\" for short"`</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/"[^"]*" /g</span> <span class="comment">// 注意正则最后面一个空格</span></div><div class="line"><span class="built_in">console</span>.log(str.match(reg)) <span class="comment">// [""regular expression" ", ""Regex" "]</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/r/XUpYgg/11" target="_blank" rel="external">案例demo</a><br>分析：<br>1.从第一个”开始匹配，接下来到12位时(“r的”)，不满足[^”]，也不满足之后的”+空格，因此匹配失败了，index挪到下一个，开始下一次匹配<br>2.第二个匹配从”r的”开始，一直匹配到n”空格的空格，这一组刚刚好匹配成功(因为最后符合了正则的”空格)，匹配好了”regular expression”空格<br>3.第三个匹配匹配到了”Regex”空格(过程不再复述)<br>4.到最后时，仅剩一个”直接匹配失败(因为首先得符合”才能开始正则匹配)<br>5.至此，正则匹配结束，匹配成功，并且符合预期</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>本文也只是做一些浅显的分析与引导，更多是起到抛砖引玉的作用，要深入理解还请去了解正则的原理</p>
+<p><a href="http://www.jb51.net/article/31491.htm" target="_blank" rel="external">正则表达式之 贪婪与非贪婪模式详解</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/04/12/解决Vue复用组件切换时组件不更新的问题/" data-toggle="tooltip" data-placement="top"
+                           title="解决Vue复用组件切换时组件不更新的问题">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/11/26/【正则表达式系列】入门篇/" data-toggle="tooltip" data-placement="top"
+                           title="【正则表达式系列】入门篇">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#贪婪模式与非贪婪模式快速理解"><span class="toc-text">贪婪模式与非贪婪模式快速理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#贪婪模式非贪婪实战"><span class="toc-text">贪婪模式非贪婪实战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提取数据示例"><span class="toc-text">提取数据示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#提取两个””中的子串，其中不能再包含””"><span class="toc-text">提取两个””中的子串，其中不能再包含””</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                        <a class="tag" href="/tags/#RegExp"
+                           title="RegExp">RegExp</a>
+                        
+                        <a class="tag" href="/tags/#正则"
+                           title="正则">正则</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
+                        
+                        <li><a href="http://loadingmore.com/vue-element-admin-preview/">Vue-element-admin预览</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>

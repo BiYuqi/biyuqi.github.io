@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        JS字符串常用方法总结｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/04/22/Javascript字符串常用方法总结/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JS字符串常用方法总结</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2017-04-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            JS字符串常用方法总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>周末温习高程三,摘录读书笔记</p>
+</blockquote>
+<h3 id="字符方法"><a href="#字符方法" class="headerlink" title="字符方法"></a>字符方法</h3><ul>
+<li>charAt()</li>
+<li>charCodeAt()</li>
+</ul>
+<a id="more"></a>
+<p>都接收一个参数，区别是chartAt()方法以单独字符串形式返回给定位置的字符<br>eg:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'hello world'</span>;</div><div class="line">alert(str.charAt(<span class="number">1</span>))<span class="comment">//e</span></div></pre></td></tr></table></figure>
+<p>如果你想得到的不是字符而是编码那就需要charCodeAt():<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str2 = <span class="string">'hello world'</span>;</div><div class="line">alert(str2.charCodeAt(<span class="number">1</span>))<span class="comment">//101  小写字母e的字符编码</span></div></pre></td></tr></table></figure></p>
+<p>注：ECMAScript5中还定义了可以用[Number]的方式访问字符串中特定字符;IE8+</p>
+<h3 id="字符串操作方法"><a href="#字符串操作方法" class="headerlink" title="字符串操作方法"></a>字符串操作方法</h3><ul>
+<li>concat()</li>
+<li>slice()</li>
+<li>substr()</li>
+<li>substring()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//concat() //顾名思义用来拼接一个或多个字符</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'hello'</span>;</div><div class="line"><span class="keyword">var</span> str0 = str.concat(<span class="string">'world'</span>);</div><div class="line"><span class="built_in">console</span>.log(str0)<span class="comment">//'hello world'</span></div><div class="line"><span class="built_in">console</span>.log(str)<span class="comment">//'hello'</span></div><div class="line"><span class="comment">//实践中还是用+号操作符的拼接字符串的场景多，这里只做演示</span></div></pre></td></tr></table></figure>
+<p>后面三个字符 substr slice substring 第一个是开始位置 区别在于第二个字符<br>slice substring 第二个是位置(不包含)<br>substr 第二个参数是个数，即返回字符的个数,没有第二个参数,意味着从第一个参数起,返回所有<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'biyuqi'</span>;</div><div class="line"><span class="built_in">console</span>.log(str.slice(<span class="number">0</span>))   <span class="comment">//biyuqi</span></div><div class="line"><span class="built_in">console</span>.log(str.slice(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">//iy</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(str.substring(<span class="number">0</span>))   <span class="comment">//biyuqi</span></div><div class="line"><span class="built_in">console</span>.log(str.substring(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">//iy</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(str.substr(<span class="number">0</span>))   <span class="comment">//biyuqi</span></div><div class="line"><span class="built_in">console</span>.log(str.substr(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">//iyu 不包含3 数量3</span></div></pre></td></tr></table></figure></p>
+<h3 id="字符串位置的方法"><a href="#字符串位置的方法" class="headerlink" title="字符串位置的方法"></a>字符串位置的方法</h3><p>与数组方法类似,返回字符串的位置(如果没有找到该字符,则返回-1),区别在于indexOf从字符串开始向后搜索,lastIndex相反</p>
+<ul>
+<li>indexOf()</li>
+<li>lastIndexOf()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'hello world'</span>;</div><div class="line"><span class="built_in">console</span>.log(str.indexOf(<span class="string">'o'</span>)) <span class="comment">//4</span></div><div class="line"><span class="built_in">console</span>.log(str.lastIndexOf(<span class="string">'o'</span>)) <span class="comment">//7</span></div><div class="line"><span class="built_in">console</span>.log(str.indexOf(<span class="string">'m'</span>)) <span class="comment">//-1</span></div><div class="line"></div><div class="line"><span class="comment">//判断重复字符</span></div><div class="line"><span class="comment">//a 测试变量</span></div><div class="line"><span class="keyword">if</span>(str.indexOf(a) === str.lastIndexOf(a))&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"没有重复字符"</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"有重复字符"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="trim-方法"><a href="#trim-方法" class="headerlink" title="trim()方法"></a>trim()方法</h3><p>ECMAScipr5为所有字符定义了trim()方法,去除字符前后所有空格<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">' hello,sorld '</span>;</div><div class="line"><span class="built_in">console</span>.log(str.trim()) <span class="comment">//'hello sorld'</span></div><div class="line"></div><div class="line"><span class="comment">// trim() 仅支持IE9+</span></div><div class="line"><span class="comment">//so 兼容方法</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">trim</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(^\s*)|(\s*$)/g</span>;</div><div class="line">    <span class="keyword">return</span> s.replace(reg,<span class="string">''</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="字符串模式匹配方法"><a href="#字符串模式匹配方法" class="headerlink" title="字符串模式匹配方法"></a>字符串模式匹配方法</h3><p><strong> match()接收一个参数,要么是一个正则表达式,要么是一个RegExp对象</strong></p>
+<ul>
+<li>match() //与正则exec()方法类似</li>
+<li>replace()</li>
+</ul>
+<p>返回一个数组,数组第一项与整个是与整个模式配的字符串,之后的每一项(如果有)保存着与正则表达式中的捕获组匹配的字符串,没有匹配则返回null</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> string = <span class="string">'biyui,sdf,sdfsdf'</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/(.),/</span>;</div><div class="line"><span class="built_in">console</span>.log(string.match(reg))</div></pre></td></tr></table></figure>
+<p><img src="http://oj7j5nuxv.bkt.clouddn.com/match-v.png" alt=""></p>
+<p>全匹配时返回匹配数组,没有匹配则返回null<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> string = <span class="string">'biyui,sdf,sdfsdf'</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/(.),/g</span>;</div><div class="line"><span class="built_in">console</span>.log(string.match(reg))</div></pre></td></tr></table></figure></p>
+<p><img src="http://oj7j5nuxv.bkt.clouddn.com/match-val.png" alt=""></p>
+<p><strong> replace(),接收两个参数：第一个参数可以使RegExp对象或者一个字符串,第二个参数可以使一个字符串或者一个函数 </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//字符替换</span></div><div class="line"><span class="keyword">var</span> text = <span class="string">'cat,bat,sat,fat'</span>;</div><div class="line"><span class="keyword">var</span> res = text.replace(<span class="string">'at'</span>,<span class="string">'ond'</span>);</div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// cond bat sat fat</span></div><div class="line"></div><div class="line"><span class="comment">//全部替换</span></div><div class="line"><span class="keyword">var</span> text = <span class="string">'cat,bat,sat,fat'</span>;</div><div class="line"><span class="keyword">var</span> res = text.replace(<span class="regexp">/at/g</span>,<span class="string">'ond'</span>);</div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// cond bond,sond fond</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//第二个参数函数</span></div><div class="line"><span class="comment">//1.只有一个匹配项时，会接收三个参数：模式匹配的项，位置，原始串</span></div><div class="line"><span class="comment">//2.如果有多个捕获组，传递的参数一次的模式匹配的匹配项1、2、3;最后两个参数依然是 位置 原始串</span></div><div class="line"></div><div class="line"><span class="comment">//替换特殊字符</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlreplace</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> s.replace(<span class="regexp">/[&lt;&gt;"&amp;]/g</span>,<span class="function"><span class="keyword">function</span>(<span class="params">match,pos,text</span>)</span>&#123;</div><div class="line">        <span class="keyword">switch</span>(match)&#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">"&lt;"</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;lt;"</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"&gt;"</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;gt;"</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"&amp;"</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;amp"</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"\""</span>:</div><div class="line">                <span class="keyword">return</span> <span class="string">"&amp;quot;"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(htmlreplace(<span class="string">"&lt;p&gt;test&lt;/p&gt;"</span>))</div><div class="line"><span class="comment">//&amp;lt;p&amp;gt;test&amp;lt;/P&amp;gt;</span></div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/05/14/学习下如何优雅的写表单验证/" data-toggle="tooltip" data-placement="top"
+                           title="学习下如何优雅的写表单验证">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/04/12/Python爬虫框架scrapy安装报错解决办法/" data-toggle="tooltip" data-placement="top"
+                           title="Python爬虫框架scrapy安装报错解决办法">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符方法"><span class="toc-text">字符方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串操作方法"><span class="toc-text">字符串操作方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串位置的方法"><span class="toc-text">字符串位置的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trim-方法"><span class="toc-text">trim()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串模式匹配方法"><span class="toc-text">字符串模式匹配方法</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
+                        
+                        <li><a href="http://loadingmore.com/vue-element-admin-preview/">Vue-element-admin预览</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>

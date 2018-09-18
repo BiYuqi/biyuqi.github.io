@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="毕宇旗 Github 上的个人博客">
+    <meta name="keyword" content="毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
+    <link rel="shortcut icon" href="http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico">
+    <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        如何优雅的拼接url之GET请求参数｜LoaingMore&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://loadingmore.com/2017/01/17/如何优雅的拼接url之GET请求参数/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    LoadingMore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>如何优雅的拼接url之GET请求参数</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2017-01-17
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            如何优雅的拼接url之GET请求参数
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>请求的URL后面带参数在项目中是很常见的，常用在的地方比如跳转到新页面或者搜索关键词等，刚好项目用到，就写了我认为比较简便的方法提取参数</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a><font color="#FF0000">Demo</font></h3><p><a href="https://biyuqi.github.io/demo/src/html/url.html" target="_blank" rel="external">点击查看demo</a></p>
+<p><a href="https://github.com/BiYuqi/js-utils/blob/master/src/utils/querySearch.js" target="_blank" rel="external">最新源码ES版</a></p>
+<h3 id="最常见的方式"><a href="#最常见的方式" class="headerlink" title="最常见的方式"></a>最常见的方式</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//无底洞</span></div><div class="line"> url?arg1=value1&amp;arg2=value2&amp;arg3=value3...</div></pre></td></tr></table></figure>
+<h3 id="实战开始"><a href="#实战开始" class="headerlink" title="实战开始"></a>实战开始</h3><p><img src="http://oiukswkar.bkt.clouddn.com/search-url.png" alt="enter description here"></p>
+<p>这是一个后台管理系统的退款订单查询页面，可以看到页面的关键词不下十个，选择里面很多状态，而且还要判断是否输入的状态，拼接起来那叫一个酸爽如果用if else 估计我会崩溃的…..</p>
+<h3 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h3><p>重点在代码后半部分<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//html结构不在本文内讨论</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUrl</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//点击查询， 点击事件里面拿到各个值</span></div><div class="line">    $(<span class="string">"#btn-search"</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    	<span class="comment">//为了储存select的值，设的变量 无须在意，重点不在这里</span></div><div class="line">        <span class="keyword">var</span> pendingStatusUp,</div><div class="line">              payStyle;</div><div class="line"></div><div class="line">        <span class="keyword">var</span> startValue = $(<span class="string">".start_datetime"</span>).val();</div><div class="line">        <span class="keyword">var</span> endValue = $(<span class="string">".end_datetime"</span>).val();</div><div class="line">        <span class="keyword">var</span> orderClass = $(<span class="string">".order-class"</span>).val();</div><div class="line">        <span class="keyword">var</span> pendingStatus = $(<span class="string">".pending-status"</span>).val();</div><div class="line">        <span class="keyword">var</span> orderNumber = $(<span class="string">"#order-num-order"</span>).val();</div><div class="line">        <span class="keyword">var</span> personNumber = $(<span class="string">"#order-person"</span>).val();</div><div class="line">        <span class="keyword">var</span> payStyle = $(<span class="string">'.pay-style'</span>).val();</div><div class="line"></div><div class="line">        <span class="comment">// 问诊还是处方</span></div><div class="line">         <span class="keyword">var</span> orderClassUp = (orderClass == <span class="number">0</span>) ? <span class="string">'问诊'</span> : <span class="string">'处方'</span></div><div class="line"></div><div class="line">        <span class="comment">//以上所有的值，根据自己的情况，拿到点击时每个框的值</span></div><div class="line"></div><div class="line">        <span class="comment">//重点 把所有的值存到一个对象里</span></div><div class="line">        <span class="comment">//重点 把所有的值存到一个对象里</span></div><div class="line">        <span class="keyword">var</span> obj = &#123;</div><div class="line">            <span class="attr">startValue</span>:startValue,</div><div class="line">            <span class="attr">endValue</span>:endValue,</div><div class="line">            <span class="attr">orderClassUp</span>:orderClassUp,</div><div class="line">            <span class="attr">pendingStatusUp</span>:pendingStatusUp,</div><div class="line">            <span class="attr">orderNumber</span>:orderNumber,</div><div class="line">            <span class="attr">personNumber</span>:personNumber,</div><div class="line">            <span class="attr">payStyle</span>:payStyle</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//下面为核心函数部分，可独立封装为一个函数，</span></div><div class="line">        <span class="comment">//有数值对象传进去即可,具体可看DEMO</span></div><div class="line">        <span class="comment">//定义一个数组，储存接下来的参数</span></div><div class="line">        <span class="keyword">var</span> arr = [];</div><div class="line">        <span class="comment">//为length==0时加？</span></div><div class="line">        <span class="keyword">if</span>(arr.length == <span class="number">0</span>)&#123;</div><div class="line">            arr.push(<span class="string">"?"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//遍历obj</span></div><div class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> obj)&#123;</div><div class="line">            <span class="comment">//只有obj里面的属性的值不为空时</span></div><div class="line">            <span class="comment">//过滤值为空的属性，保证正确传参数</span></div><div class="line">            <span class="comment">//进行push操作属性名 = 属性值 &amp;</span></div><div class="line">            <span class="comment">//都会随着遍历正确的排列好等着您用</span></div><div class="line">            <span class="keyword">if</span>(obj[i] !== <span class="string">''</span>)&#123;</div><div class="line">                arr.push(i);</div><div class="line">                arr.push(<span class="string">"="</span>);</div><div class="line">                arr.push(obj[i]);</div><div class="line">                arr.push(<span class="string">"&amp;"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//下面的操作为2步</span></div><div class="line">        <span class="comment">//首先数组变为字符串</span></div><div class="line">        <span class="comment">//最后一项会多个&amp;符号，用正则去除</span></div><div class="line">        <span class="keyword">var</span> str = arr.join(<span class="string">''</span>).replace(<span class="regexp">/&amp;$/</span>,<span class="string">''</span>);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> str;</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>浏览器打印得到的是：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">?orderClassUp=问诊&amp;pendingStatusUp=全部&amp;payStyle=全部</div></pre></td></tr></table></figure></p>
+<p>输入值再看：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">?orderClassUp=问诊&amp;pendingStatusUp=全部&amp;orderNumber=<span class="number">99999999</span>&amp;personNumber=张三&amp;payStyle=全部</div></pre></td></tr></table></figure></p>
+<h3 id="封装util"><a href="#封装util" class="headerlink" title="封装util"></a>封装util</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* ajax请求参数优雅拼接 返回 ？a=v1&amp;b=v2 ....</div><div class="line">* @param &#123; object &#125; 键值对</div><div class="line">*   &#123;</div><div class="line">*       id:'123',</div><div class="line">*       name:'小芳',</div><div class="line">*       keyword:''</div><div class="line">*   &#125;</div><div class="line">*/</div><div class="line"><span class="keyword">var</span> _requireParam = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> rangeArr = [],</div><div class="line">        param = <span class="string">''</span>;</div><div class="line">    <span class="keyword">if</span>(obj &amp;&amp; <span class="keyword">typeof</span> obj === <span class="string">'object'</span>)&#123;</div><div class="line">        <span class="keyword">if</span>(rangeArr.length == <span class="number">0</span>)&#123;</div><div class="line">            rangeArr.push(<span class="string">'?'</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> obj)&#123;</div><div class="line">            <span class="keyword">if</span>(obj.hasOwnProperty(i))&#123;</div><div class="line">                <span class="keyword">if</span>(obj[i] !== <span class="string">''</span>)&#123;</div><div class="line">                    rangeArr.push(i)</div><div class="line">                    rangeArr.push(<span class="string">'='</span>)</div><div class="line">                    rangeArr.push(obj[i])</div><div class="line">                    rangeArr.push(<span class="string">'&amp;'</span>)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        param = rangeArr.join(<span class="string">''</span>).replace(<span class="regexp">/&amp;$/</span>,<span class="string">''</span>)</div><div class="line">        <span class="keyword">return</span> param</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 测试</span></div><div class="line"><span class="keyword">var</span> testObj = &#123;</div><div class="line">      <span class="attr">id</span>:<span class="string">'123'</span>,</div><div class="line">      <span class="attr">name</span>:<span class="string">'小芳'</span>,</div><div class="line">      <span class="attr">keyword</span>:<span class="string">''</span></div><div class="line">  &#125;</div><div class="line">_requireParam(testObj)</div><div class="line"><span class="comment">// ?id=123&amp;name=小芳   已经自动过滤掉为空的字段</span></div></pre></td></tr></table></figure>
+<p>最终需要用提供的接口加上拿到的参数<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">url = url + str;</div></pre></td></tr></table></figure></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/23/来看看select是个什么东东/" data-toggle="tooltip" data-placement="top"
+                           title="来看看select是个什么东东">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/16/原生js实现类似于Jquery的ajax请求方式/" data-toggle="tooltip" data-placement="top"
+                           title="原生js实现类似于Jquery的ajax请求方式">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Demo"><span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最常见的方式"><span class="toc-text">最常见的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实战开始"><span class="toc-text">实战开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进入正题"><span class="toc-text">进入正题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#封装util"><span class="toc-text">封装util</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-text">结语</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
+                        
+                        <li><a href="http://loadingmore.com/vue-element-admin-preview/">Vue-element-admin预览</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/BiYuqi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LoadingMore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+	<div class="ant-back-top"><div class="ant-back-top-content"><i class="anticon anticon-to-top ant-back-top-icon">↑</i></div></div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://loadingmore.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '6e31e743a0eb955e591dd74e724ab4ca';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/uploads/avatar.png">
+
+</body>
+
+</html>
