@@ -6,7 +6,7 @@ cache:
     - node_modules
 
 before_install:
-  - npm install hexo-cli -g
+  - export TZ='Asia/Beijing' # 更改时区
 
 install:
   - npm install
@@ -16,12 +16,17 @@ script:
   - hexo g
 
 after_script:
+  - git clone https://${GH_REF} .deploy_git  # GH_REF是最下面配置的仓库地址
+  - cd .deploy_git
+  - git checkout master
+  - cd ../
+  - mv .deploy_git/.git/ ./public/
   - cd ./public
   - git init 
   - git config user.name "BiYuqi"
   - git config user.email "biyuqiwan@163.com"
   - git add .
-  - git commit -m "Update blog by TravisCI"
+  - git commit -m "Travis CI Auto Builder at `date +"%Y-%m-%d %H:%M"`"
   - git push --force --quiet "https://${firefly}@${GH_REF}" master:master
 
 branches:
