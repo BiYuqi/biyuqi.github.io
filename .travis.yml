@@ -1,0 +1,32 @@
+language: node_js
+node_js: stable
+
+cache:
+  directories:
+    - node_modules
+
+before_install:
+  - npm install hexo-cli -g
+
+install:
+  - npm install
+
+script:
+  - hexo clean
+  - hexo g
+
+after_script:
+  - cd ./public
+  - git init 
+  - git config user.name "BiYuqi"
+  - git config user.email "biyuqiwan@163.com"
+  - git add .
+  - git commit -m "Update blog by TravisCI"
+  - git push --force --quiet "https://${firefly}@${GH_REF}" master:master
+
+branches:
+  only:
+    - dev
+env:
+ global:
+   - GH_REF: github.com/BiYuqi/biyuqi.github.io.git
