@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        JS生成随机的由字母数字组合的字符串｜LoaingMore&#39;s blog
+        github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2016/12/12/JS生成随机的由字母数字组合的字符串/">
+    <link rel="canonical" href="http://loadingmore.com/2016/12/12/github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -158,7 +158,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>JS生成随机的由字母数字组合的字符串</h1>
+                    <h1>github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录</h1>
                     
                     <span class="meta">
                          作者 LoaingMore
@@ -168,8 +168,8 @@
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#javascript"
-                           title="javascript">javascript</a>
+                        <a class="tag" href="/tags/#git"
+                           title="git">git</a>
                         
                     </div>
                 </div>
@@ -178,7 +178,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            JS生成随机的由字母数字组合的字符串
+            github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录
         </span>
     </div>
 </header>
@@ -189,11 +189,16 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>网上偶然看到一个问题，需要生成3~32位长度的字母数字随机组合字符串，另一个是生成43位随机字符串.<br>代码：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">** getWorld 产生任意长度随机字母数字组合</div><div class="line">** getFlag 是否任意长度 min 任意最小长度（固定位数） max-任意最大长度</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWord</span>(<span class="params">getFlag,min,max</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> str = <span class="string">""</span>;</div><div class="line">	<span class="keyword">var</span> range = min;</div><div class="line">	<span class="keyword">var</span> arr = [<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>,</div><div class="line">				<span class="string">'9'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>,</div><div class="line">				 <span class="string">'i'</span>, <span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'l'</span>, <span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>, <span class="string">'p'</span>, <span class="string">'q'</span>,</div><div class="line">				<span class="string">'r'</span>, <span class="string">'s'</span>, <span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>, <span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>, <span class="string">'A'</span>,</div><div class="line">				 <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'G'</span>, <span class="string">'H'</span>, <span class="string">'I'</span>, <span class="string">'J'</span>, <span class="string">'K'</span>,</div><div class="line">				 <span class="string">'L'</span>, <span class="string">'M'</span>, <span class="string">'N'</span>, <span class="string">'O'</span>, <span class="string">'P'</span>, <span class="string">'Q'</span>, <span class="string">'R'</span>, <span class="string">'S'</span>, <span class="string">'T'</span>, <span class="string">'U'</span>,</div><div class="line">				 <span class="string">'V'</span>, <span class="string">'W'</span>, <span class="string">'X'</span>, <span class="string">'Y'</span>, <span class="string">'Z'</span>];</div><div class="line">	<span class="keyword">if</span>(getFlag)&#123;</div><div class="line">		range = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * (max - min)) + min;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;range;i++)&#123;</div><div class="line">		<span class="keyword">var</span> index = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * (arr.length - <span class="number">1</span>));</div><div class="line">		str += arr[index];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> str;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h2><ul>
-<li>生成3~32位随机数：getWord(true,3,32)</li>
-<li>生成43位随机串: getWord(false,43);</li>
+                <blockquote>
+<p>记录下迁将一个远程仓库的某个分支放到一个新的仓库中（提交历史纪录也导过去的一点经验</p>
+</blockquote>
+<h2 id="origin-seed-名字可自取，临时用，迁完后，主动取消关联-区别于origin-目的在于将当前仓库-分支-新关联到新的仓库"><a href="#origin-seed-名字可自取，临时用，迁完后，主动取消关联-区别于origin-目的在于将当前仓库-分支-新关联到新的仓库" class="headerlink" title="origin_seed(名字可自取，临时用，迁完后，主动取消关联) 区别于origin 目的在于将当前仓库(分支)新关联到新的仓库"></a>origin_seed(名字可自取，临时用，迁完后，主动取消关联) 区别于origin 目的在于将当前仓库(分支)新关联到新的仓库</h2><h5 id="新建一个仓库，假设仓库名为webpack-seed"><a href="#新建一个仓库，假设仓库名为webpack-seed" class="headerlink" title="新建一个仓库，假设仓库名为webpack-seed"></a>新建一个仓库，假设仓库名为<a href="https://github.com/BiYuqi/webpack-seed" target="_blank" rel="external">webpack-seed</a></h5><h5 id="切换到旧仓库-将要迁走的仓库下-分支自己选-或者默认迁走master-，然后关联新仓库"><a href="#切换到旧仓库-将要迁走的仓库下-分支自己选-或者默认迁走master-，然后关联新仓库" class="headerlink" title="切换到旧仓库(将要迁走的仓库下, 分支自己选, 或者默认迁走master)，然后关联新仓库"></a>切换到旧仓库(将要迁走的仓库下, 分支自己选, 或者默认迁走master)，然后关联新仓库</h5><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git remove add origin_seed https:<span class="comment">//github.com/BiYuqi/webpack-seed.git (你的新仓库地址)</span></div></pre></td></tr></table></figure>
+<h5 id="推送到新的仓库"><a href="#推送到新的仓库" class="headerlink" title="推送到新的仓库"></a>推送到新的仓库</h5><ul>
+<li>此处是将旧仓库下 web-ejs-pc 分支推送到新仓库master分支, 分支根据需要自己填写<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git -u push origin_seed web-ejs-pc:master</div></pre></td></tr></table></figure>
+</li>
 </ul>
+<h5 id="取消关联，原有仓库恢复原样"><a href="#取消关联，原有仓库恢复原样" class="headerlink" title="取消关联，原有仓库恢复原样"></a>取消关联，原有仓库恢复原样</h5><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git remote remove origin_seed</div></pre></td></tr></table></figure>
+<p>至此，可以去查看新仓库是否迁移成功.</p>
 
                 <hr>
                 
@@ -201,14 +206,14 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/12/13/JS实用技巧(一)/" data-toggle="tooltip" data-placement="top"
-                           title="JS实用技巧(一)">&larr; Previous Post</a>
+                        <a href="/2016/12/12/Javascript函数/" data-toggle="tooltip" data-placement="top"
+                           title="Javascript函数">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/12/12/Javascript函数/" data-toggle="tooltip" data-placement="top"
-                           title="Javascript函数">Next Post &rarr;</a>
+                        <a href="/2016/12/04/meta标签梳理/" data-toggle="tooltip" data-placement="top"
+                           title="meta标签梳理">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -229,7 +234,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法："><span class="toc-text">使用方法：</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#origin-seed-名字可自取，临时用，迁完后，主动取消关联-区别于origin-目的在于将当前仓库-分支-新关联到新的仓库"><span class="toc-text">origin_seed(名字可自取，临时用，迁完后，主动取消关联) 区别于origin 目的在于将当前仓库(分支)新关联到新的仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#新建一个仓库，假设仓库名为webpack-seed"><span class="toc-text">新建一个仓库，假设仓库名为webpack-seed</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#切换到旧仓库-将要迁走的仓库下-分支自己选-或者默认迁走master-，然后关联新仓库"><span class="toc-text">切换到旧仓库(将要迁走的仓库下, 分支自己选, 或者默认迁走master)，然后关联新仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#推送到新的仓库"><span class="toc-text">推送到新的仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#取消关联，原有仓库恢复原样"><span class="toc-text">取消关联，原有仓库恢复原样</span></a></li></ol></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -251,8 +256,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#javascript"
-                           title="javascript">javascript</a>
+                        <a class="tag" href="/tags/#git"
+                           title="git">git</a>
                         
                     </div>
                 </section>
