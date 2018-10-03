@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2018-10-03T08:28:45.385Z</updated>
+  <updated>2018-10-03T08:35:57.168Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -16,11 +16,46 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录</title>
+    <link href="http://loadingmore.com/2018/10/03/github%E4%B8%80%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E6%9F%90%E4%B8%AA%E5%88%86%E6%94%AF%E6%94%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E4%BB%93%E5%BA%93%EF%BC%8C%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95/"/>
+    <id>http://loadingmore.com/2018/10/03/github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录/</id>
+    <published>2018-10-03T16:18:51.000Z</published>
+    <updated>2018-10-03T08:35:57.168Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>记录下迁将一个远程仓库的某个分支放到一个新的仓库中（提交历史纪录也导过去的一点经验</p>
+</blockquote>
+<h2 id="origin-seed-名字可自取，临时用，迁完后，主动取消关联-区别于origin-目的在于将当前仓库-分支-新关联到新的仓库"><a href="#origin-seed-名字可自取，临时用，迁完后，主动取消关联-区别于origin-目的在于将当前仓库-分支-新关联到新的仓库" class="headerlink" title="origin_seed(名字可自取，临时用，迁完后，主动取消关联) 区别于origin 目的在于将当前仓库(分支)新关联到新的仓库"></a>origin_seed(名字可自取，临时用，迁完后，主动取消关联) 区别于origin 目的在于将当前仓库(分支)新关联到新的仓库</h2><h5 id="新建一个仓库，假设仓库名为webpack-seed"><a href="#新建一个仓库，假设仓库名为webpack-seed" class="headerlink" title="新建一个仓库，假设仓库名为webpack-seed"></a>新建一个仓库，假设仓库名为<a href="https://github.com/BiYuqi/webpack-seed" target="_blank" rel="external">webpack-seed</a></h5><h5 id="切换到旧仓库-将要迁走的仓库下-分支自己选-或者默认迁走master-，然后关联新仓库"><a href="#切换到旧仓库-将要迁走的仓库下-分支自己选-或者默认迁走master-，然后关联新仓库" class="headerlink" title="切换到旧仓库(将要迁走的仓库下, 分支自己选, 或者默认迁走master)，然后关联新仓库"></a>切换到旧仓库(将要迁走的仓库下, 分支自己选, 或者默认迁走master)，然后关联新仓库</h5><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git remove add origin_seed https:<span class="comment">//github.com/BiYuqi/webpack-seed.git (你的新仓库地址)</span></div></pre></td></tr></table></figure>
+<h5 id="推送到新的仓库"><a href="#推送到新的仓库" class="headerlink" title="推送到新的仓库"></a>推送到新的仓库</h5><ul>
+<li>此处是将旧仓库下 web-ejs-pc 分支推送到新仓库master分支, 分支根据需要自己填写<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git -u push origin_seed web-ejs-pc:master</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="取消关联，原有仓库恢复原样"><a href="#取消关联，原有仓库恢复原样" class="headerlink" title="取消关联，原有仓库恢复原样"></a>取消关联，原有仓库恢复原样</h5><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git remote remove origin_seed</div></pre></td></tr></table></figure>
+<p>至此，可以去查看新仓库是否迁移成功.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;记录下迁将一个远程仓库的某个分支放到一个新的仓库中（提交历史纪录也导过去的一点经验&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;origin-seed-名字可自取，临时用，迁完后，主动取消关联-区别于origin-目的在于将当前仓库-分支-
+    
+    </summary>
+    
+      <category term="Git" scheme="http://loadingmore.com/categories/Git/"/>
+    
+    
+      <category term="git" scheme="http://loadingmore.com/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
     <title>利用TravisCi自动部署博客到gitPage</title>
     <link href="http://loadingmore.com/2018/09/18/%E5%88%A9%E7%94%A8TravisCi%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0gitPage/"/>
     <id>http://loadingmore.com/2018/09/18/利用TravisCi自动部署博客到gitPage/</id>
     <published>2018-09-18T17:32:00.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>一篇测试文档，测试自动部署gitPage，稍后会写篇博客进行记录,先温习下git</p>
@@ -77,7 +112,7 @@
     <link href="http://loadingmore.com/2018/06/03/%E3%80%90Vue%E7%89%88%E3%80%91%E5%AE%9E%E7%94%A8js%E5%BF%AB%E9%80%9F%E5%A4%8D%E5%88%B6%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9/"/>
     <id>http://loadingmore.com/2018/06/03/【Vue版】实用js快速复制文本内容/</id>
     <published>2018-06-03T19:20:07.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录下用vue指令来写一个快速复制内容到剪贴板的插件, 主要是使用了chrome66+提供的新的剪贴方法，clipboard方法</p>
@@ -123,7 +158,7 @@
     <link href="http://loadingmore.com/2018/05/12/%E7%BB%84%E4%BB%B6/"/>
     <id>http://loadingmore.com/2018/05/12/组件/</id>
     <published>2018-05-12T17:00:22.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.172Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>组件（Component）是对数据和方法的简单封装</p>
@@ -154,7 +189,7 @@
     <link href="http://loadingmore.com/2018/04/12/%E8%A7%A3%E5%86%B3Vue%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6%E5%88%87%E6%8D%A2%E6%97%B6%E7%BB%84%E4%BB%B6%E4%B8%8D%E6%9B%B4%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2018/04/12/解决Vue复用组件切换时组件不更新的问题/</id>
     <published>2018-04-12T00:15:48.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.172Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>距离上次更新已经是去年了,习惯这个东西真可怕，本文仅做个小记录</p>
@@ -188,7 +223,7 @@
     <link href="http://loadingmore.com/2017/12/28/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E8%B4%AA%E5%A9%AA%E4%B8%8E%E9%9D%9E%E8%B4%AA%E5%A9%AA%E6%A8%A1%E5%BC%8F/"/>
     <id>http://loadingmore.com/2017/12/28/【正则表达式系列】贪婪与非贪婪模式/</id>
     <published>2017-12-28T22:50:30.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文属于 正则表达式系列文章之一，将近一个多月了停更了，这个系列的坑得赶紧填了~~~</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><strong> <a href="http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/">【正则表达式系列】入门篇</a> </strong></p>
@@ -244,7 +279,7 @@
     <link href="http://loadingmore.com/2017/11/26/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E5%85%A5%E9%97%A8%E7%AF%87/"/>
     <id>http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/</id>
     <published>2017-11-26T15:50:30.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>开始之前，我希望你能放下心中的恐惧感！</p>
@@ -437,7 +472,7 @@
     <link href="http://loadingmore.com/2017/11/18/Js%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88%E5%87%A0%E7%A7%8D%E5%A7%BF%E5%8A%BF/"/>
     <id>http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/</id>
     <published>2017-11-18T17:00:12.000Z</published>
-    <updated>2018-10-03T08:28:45.381Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本主要总结前端开发中图片上传预览的几个方法 <strong> FileReader </strong> 和 <strong> URL.createObjectURL() </strong></p>
@@ -535,7 +570,7 @@
     <link href="http://loadingmore.com/2017/10/22/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%AD%97%E6%AF%8D%E5%AF%BC%E8%88%AA%E7%B4%A2%E5%BC%95/"/>
     <id>http://loadingmore.com/2017/10/22/实现一个移动端字母导航索引/</id>
     <published>2017-10-22T18:20:12.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.172Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <blockquote>
@@ -578,7 +613,7 @@
     <link href="http://loadingmore.com/2017/10/15/vue%E5%86%99%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8%E7%BB%84%E4%BB%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2017/10/15/vue写回到顶部组件遇到的一些问题/</id>
     <published>2017-10-15T12:13:12.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <blockquote>
@@ -619,7 +654,7 @@
     <link href="http://loadingmore.com/2017/09/25/%E5%8E%9F%E7%94%9FJavaScript%E8%8E%B7%E5%8F%96CSS%E6%A0%B7%E5%BC%8F%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2017/09/25/原生JavaScript获取CSS样式遇到的一些问题/</id>
     <published>2017-09-25T20:09:48.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法</p>
@@ -654,7 +689,7 @@
     <link href="http://loadingmore.com/2017/08/16/Jquery%E6%93%8D%E4%BD%9Cselect%E4%B8%8B%E6%8B%89%E6%A1%86%E5%80%BC/"/>
     <id>http://loadingmore.com/2017/08/16/Jquery操作select下拉框值/</id>
     <published>2017-08-16T00:36:00.000Z</published>
-    <updated>2018-10-03T08:28:45.381Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>最近项目中操作select的option值得场景还是很多的，在此记录一下,以免忘记</p>
@@ -683,7 +718,7 @@
     <link href="http://loadingmore.com/2017/08/14/%E4%B8%80%E6%AC%A1FormData%E9%80%92%E5%BD%92%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%B0%8F%E8%AE%B0/"/>
     <id>http://loadingmore.com/2017/08/14/一次FormData递归上传图片小记/</id>
     <published>2017-08-14T20:09:48.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近项目开发中遇到一个多图上传的需求，后台给的接口支持FormData.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/FormData" target="_blank" rel="external">这里查看详情FormData</a></p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>刚开始没有太好的办法，之前用formdata传图，都是固定的个数，对应唯一的filename参数名字，不会发生冲突，所以刚开始想到了for循环…结果就是能上传，但是顺序全部搞乱了，还有就是图片传的重复，缺失严重</p>
@@ -709,7 +744,7 @@
     <link href="http://loadingmore.com/2017/08/09/Vuex%E5%9C%A8IE%E4%B8%8A%E7%9A%84%E6%8A%A5%E9%94%99%E5%A4%84%E7%90%86/"/>
     <id>http://loadingmore.com/2017/08/09/Vuex在IE上的报错处理/</id>
     <published>2017-08-09T19:16:07.000Z</published>
-    <updated>2018-10-03T08:28:45.381Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在做一个后台项目，其中遇到了vuex在IE浏览器中报错的问题，于是就有了这篇博文进行记录</p>
@@ -739,7 +774,7 @@
     <link href="http://loadingmore.com/2017/07/01/%E4%B8%80%E4%B8%AA%E6%9C%89%E7%82%B9%E6%84%8F%E6%80%9D%E7%9A%84%E6%AD%A3%E5%88%99/"/>
     <id>http://loadingmore.com/2017/07/01/一个有点意思的正则/</id>
     <published>2017-07-01T21:37:38.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>周末闲来无事，没事逛逛前端群,碰到一个有点意思的题目,记录下来</p>
@@ -770,7 +805,7 @@
     <link href="http://loadingmore.com/2017/06/21/%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E-%E5%A6%82%E4%BD%95%E5%AE%8C%E7%BE%8E%E8%BF%81%E5%87%BAhexo%E5%8D%9A%E5%AE%A2/"/>
     <id>http://loadingmore.com/2017/06/21/换电脑后-如何完美迁出hexo博客/</id>
     <published>2017-06-21T22:25:48.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.172Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近换了电脑，之前电脑上搭建的静态博客也需要迁移了，上网查了下资料，自己也着手成功的迁移到了新的电脑</p>
@@ -813,7 +848,7 @@
     <link href="http://loadingmore.com/2017/06/21/%E3%80%8A%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84javascript%E4%B8%AD%E3%80%8BJS%E5%AE%BD%E6%9D%BE%E7%9B%B8%E7%AD%89%E5%92%8C%E4%B8%A5%E6%A0%BC%E7%9B%B8%E7%AD%89/"/>
     <id>http://loadingmore.com/2017/06/21/《你不知道的javascript中》JS宽松相等和严格相等/</id>
     <published>2017-06-21T20:43:07.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>温故而知新，最近在看《你不知道的javascript》系列的书记，看到深处，总有新的发现，好记性不如烂笔头，遂写下这篇读书笔记</p>
@@ -876,7 +911,7 @@
     <link href="http://loadingmore.com/2017/06/12/FreeCodeCamp%E5%88%9D%E7%BA%A7%E8%84%9A%E6%9C%AC%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%94%E8%AE%B0/"/>
     <id>http://loadingmore.com/2017/06/12/FreeCodeCamp初级脚本算法题-笔记/</id>
     <published>2017-06-12T00:03:36.000Z</published>
-    <updated>2018-10-03T08:28:45.381Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p><a href="http://www.freecodecamp.cn/" target="_blank" rel="external">FreeCodeCamp</a>是一个学习编程的开源社区,里面有面向前端方面的基础知识，也有一些脚本算法相关的题目，今天花了2个小时把初级脚本算法题16道，研究了一下(我刚做了15,还有一道需要研究下…后面补上+注释),通过几个小时的学习，领会到FCC是在实践练习中掌握知识，而不是学习背记理论了解知识,前端本身也是一种技术，所以多实践，多研究，才能加深对这门语言的理解.</p>
@@ -920,7 +955,7 @@
     <link href="http://loadingmore.com/2017/06/11/%E5%8E%9F%E7%94%9FJS%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/"/>
     <id>http://loadingmore.com/2017/06/11/原生JS模拟点击事件和自定义事件/</id>
     <published>2017-06-11T16:46:45.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>事件，就是网页中某个特别值得关注的瞬间，事件是经常有用户操作或通过其他浏览器功能来触发，但是很少有人知道，也可以使用javascript来在任意时刻触发特定事件，此时事件如同浏览器创建的事件一样。 —— 《高级程序设计3》</p>
@@ -971,7 +1006,7 @@
     <link href="http://loadingmore.com/2017/06/04/Vue2-X%E5%BC%80%E5%8F%91Chrome%E6%8F%92%E4%BB%B6%E8%AE%B0%E5%BD%95/"/>
     <id>http://loadingmore.com/2017/06/04/Vue2-X开发Chrome插件记录/</id>
     <published>2017-06-04T21:37:58.000Z</published>
-    <updated>2018-10-03T08:28:45.381Z</updated>
+    <updated>2018-10-03T08:35:57.168Z</updated>
     
     <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>作为一名web开发者,对<a href="https://daneden.github.io/animate.css/" target="_blank" rel="external">Animate.css</a>这个动画库不会陌生,它把常见的动画都封装了起来，非常实用。但是有时候在开发中，仅仅只是需要某一两个动画效果，把整个CSS文件都引入，这样不是太好。<br><a id="more"></a><br>需求就出现了，能不能有一个工具可以直接预览Animate.css对应的动画效果，并且生成对应的动画代码呢？</p>
 <p>作为web开发者，平时跟Chrome浏览器打交道最多，于是就想着整一个Chrome插件可以及时预览对应Animate.css中的动画效果并生成对应的动画代码，这样在实际开发中碰到一些需要使用到Animate.css中的动画效果时，可以大大的提高我们的开发效率。</p>
@@ -1013,58 +1048,6 @@
       <category term="Vue" scheme="http://loadingmore.com/tags/Vue/"/>
     
       <category term="chrome插件" scheme="http://loadingmore.com/tags/chrome%E6%8F%92%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>学习下如何优雅的写表单验证</title>
-    <link href="http://loadingmore.com/2017/05/14/%E5%AD%A6%E4%B9%A0%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E5%86%99%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/"/>
-    <id>http://loadingmore.com/2017/05/14/学习下如何优雅的写表单验证/</id>
-    <published>2017-05-14T19:44:53.000Z</published>
-    <updated>2018-10-03T08:28:45.385Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>最近项目挺赶,博客许久没更新(借口~),周末充下电,表单是一个项目中必不可少的模块了，像注册，登录等。学习下解决下工作中关于表单验证这块的问题</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3><p>demo源码可能与博客有些略微不同(但是核心思想一模一样)<br><a href="http://loadingmore.com/demo/src/html/form-opt.html">线上案例</a></p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>看看平时我写表单的代码风格吧(求轻喷~)<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span>(userName.value === <span class="string">''</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"姓名不为空"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(!reg.test(userName.value))&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"姓名不合格"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(userPass.value === <span class="string">''</span>)&#123;</div><div class="line">    <span class="comment">//.........</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(userPass.value !=== reUserPass.value)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"密码不一致"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(mobile.value === <span class="string">''</span>)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"手机号码不能为空"</span>);</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//此处略去n多if-esle</span></div></pre></td></tr></table></figure></p>
-<p>这样编写代码对于实现业务需求来说是没有问题的，但是总觉得哪里怪怪的:</p>
-<blockquote>
-<ul>
-<li>我有密集恐惧症，那么多的if-else看着怪恶心的</li>
-<li>验证的规则复用性太差了,哪里需要，只是拷贝来，粘贴过去,飞来飞去</li>
-<li>这样的代码容易被喷，不容易维护</li>
-</ul>
-</blockquote>
-<h3 id="怎么解决呢"><a href="#怎么解决呢" class="headerlink" title="怎么解决呢"></a>怎么解决呢</h3><p>假如我们不想使用那么多的if语句，那么你心中理想的验证表单的方式是什么呢？写一系列规则，最后一步验证，这样写起来很嗨吧<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 首页获取form元素</span></div><div class="line"><span class="keyword">var</span> registerForm = <span class="built_in">document</span>.querySelector(<span class="string">'#re-form'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 创建实例</span></div><div class="line"><span class="keyword">var</span> validator = <span class="keyword">new</span> Validator();</div><div class="line"></div><div class="line">validator.add(registerForm.userName,<span class="string">'isEmpty'</span>,<span class="string">'用户名不能为空'</span>);</div><div class="line">validator.add(registerForm.userPass,<span class="string">'minLength:6'</span>,<span class="string">'密码至少六位'</span>);</div><div class="line"></div><div class="line"><span class="comment">//校验信息</span></div><div class="line"><span class="keyword">var</span> errorMsg = validator.start();</div><div class="line"></div><div class="line"><span class="keyword">if</span>(errorMsg)&#123;</div><div class="line">    <span class="built_in">console</span>.log(errorMsg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如果能这样写那就太爽了,很优雅,很方便,下一步需要了解下什么是策略模式</p>
-<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>所谓策略就是做事情的方法,好比玩三国杀，每个人都有自己的技能，每个人物都有自己的制胜策略;比如去旅游,就有很多种路线供你选择，要么坐飞机，要么坐高铁，要么徒步;</p>
-<p>所以，做一件事情会有很多种方法,接下来编码也会以这种方式进行;核心思想是，将要做什么和谁去做进行分离。一个完整的策略需要两个类：策略类,环境类;环境类接收请求，但不处理请求，它会把请求委托给策略类，让策略类去处理，而策略类的扩展是很容易的，这样，使得我们的代码易于扩展。<br>在表单验证的例子中，各种验证的方法组成了策略类，比如：判断是否为空的方法(如：isNonEmpty)，判断最小长度的方法(如：minLength)，判断是否为手机号的方法(isMoblie)等等，他们组成了策略类，供给环境类去委托请求。下面，我们就来实战一下。</p>
-<h3 id="策略类"><a href="#策略类" class="headerlink" title="策略类"></a>策略类</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 完成我们的策略表 (自由定制)</span></div><div class="line"><span class="keyword">var</span> ruleList = &#123;</div><div class="line">    <span class="comment">//验证为空</span></div><div class="line">    isEmpoty: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value == <span class="string">''</span>)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证最小长度</span></div><div class="line">    minLength: <span class="function"><span class="keyword">function</span>(<span class="params">value,len,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value.length &lt; len)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证手机号</span></div><div class="line">    isMobile: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="regexp">/^1\d&#123;10&#125;$/</span>.test(value))&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h3 id="环境类"><a href="#环境类" class="headerlink" title="环境类"></a>环境类</h3><p>根据之前的畅想：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">validator.add(registerForm.userName,<span class="string">'isEmpty'</span>,<span class="string">'用户名不能为空'</span>);</div><div class="line">validator.add(registerForm.userName,<span class="string">'isMobile'</span>,<span class="string">'手机号码有误'</span>);</div></pre></td></tr></table></figure></p>
-<p>我们可能需要创建一个类，类里面有两个方法 add()add()接收三个参数，第一个是表单字段(校验对象),第二个是策略方法名字,使用冒号(:)分隔，亲一个是方法名字，后一个是传给该方法的参数(如长度),第三个是验证不通过的返回信息;<br>然后用start方法进行验证：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> errorMsg = validation.start();</div></pre></td></tr></table></figure></p>
-<p>但是这种参数配置还是有问题，我们的要求是多种校验规则，比如用户名既不能为空，又要满足用户名长度不小于6，并不是单一的，上面的为什么要写两次，这种看着就不舒服，这时候我就需要对配置参数做一点小小的改动，我们用数组来传递多个校验规则：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//最终实现</span></div><div class="line">validator.add(registerForm.username, [&#123;</div><div class="line">    <span class="attr">strategy</span>: <span class="string">'isEmpty'</span>,</div><div class="line">    <span class="attr">errorMsg</span>: <span class="string">'用户名不能为空！'</span></div><div class="line">&#125;, &#123;</div><div class="line">    <span class="attr">strategy</span>: <span class="string">'minLength:6'</span>,</div><div class="line">    <span class="attr">errorMsg</span>: <span class="string">'用户名长度不能小于6位！'</span></div><div class="line">&#125;])</div></pre></td></tr></table></figure></p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> FormValidator = <span class="function"><span class="keyword">function</span>(<span class="params">ruleList</span>)</span>&#123;</div><div class="line">    <span class="comment">//保存策略规则列表</span></div><div class="line">    <span class="keyword">this</span>.strategies = ruleList;</div><div class="line">    <span class="comment">//储存规则方法</span></div><div class="line">    <span class="keyword">this</span>.validationFns = [];</div><div class="line">&#125;;</div><div class="line">FormValidator.prototype = &#123;</div><div class="line">    <span class="attr">add</span>:<span class="function"><span class="keyword">function</span>(<span class="params">dom,rule</span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;rule.length;i++)&#123;</div><div class="line">            <span class="comment">// 这里使用闭包储存i 动态添加方法</span></div><div class="line">            (<span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123;</div><div class="line">                <span class="comment">//</span></div><div class="line">                that.validationFns.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                    <span class="comment">/*</span></div><div class="line">                    * aryNames 规则名字(包含传的参数minLeng:6) 所以需要动态的解析</div><div class="line">                    * errorMsg 错误信息</div><div class="line">                    * rulename 方法名字</div><div class="line">                    * dataArr 储存参数 value method名字 错误信息</div><div class="line">                    * strategies 使用apply 向指定方法传参数</div><div class="line">                     */</div><div class="line">                    <span class="keyword">var</span> aryNames = rule[i].strategy.split(<span class="string">':'</span>),</div><div class="line">                        errorMsg = rule[i].errorMsg,</div><div class="line">                        rulename = aryNames[<span class="number">0</span>],</div><div class="line">                        dataArr = [];</div><div class="line">                        dataArr.push(dom.value);</div><div class="line">                        <span class="keyword">if</span>(aryNames[<span class="number">1</span>])&#123;</div><div class="line">                            dataArr.push(aryNames[<span class="number">1</span>]);</div><div class="line">                        &#125;</div><div class="line">                        dataArr.push(errorMsg);</div><div class="line">                    <span class="keyword">return</span> that.strategies[rulename].apply(dom,dataArr);</div><div class="line">                &#125;)</div><div class="line">            &#125;)(i)</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">start</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>;</div><div class="line">        <span class="comment">// 遍历规则集合 抛出错误</span></div><div class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> that.validationFns)&#123;</div><div class="line">            <span class="keyword">var</span> msg = that.validationFns[i]();</div><div class="line">            <span class="keyword">if</span>(msg)&#123;</div><div class="line">                <span class="keyword">return</span> msg;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p><strong> 规则集合</strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 规则集合</span></div><div class="line"><span class="keyword">var</span> rules = &#123;</div><div class="line">    <span class="comment">//验证为空</span></div><div class="line">    isEmpoty: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value == <span class="string">''</span>)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证最小长度</span></div><div class="line">    minLength: <span class="function"><span class="keyword">function</span>(<span class="params">value,len,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(value.length &lt; len)&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//验证手机号</span></div><div class="line">    isMobile: <span class="function"><span class="keyword">function</span>(<span class="params">value,errorMsg</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="regexp">/^1\d&#123;10&#125;$/</span>.test(value))&#123;</div><div class="line">            <span class="keyword">return</span> errorMsg;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p><strong> 客户端调用代码方法</strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"submit"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"username"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"userpass"</span> <span class="attr">name</span>=<span class="string">"userpass"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> forms = <span class="built_in">document</span>.querySelector(<span class="string">'#submit'</span>);</div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.querySelector(<span class="string">'.btn'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 构造函数 传入规则</span></div><div class="line"><span class="keyword">var</span> validation = <span class="keyword">new</span> FormValidator(rules);</div><div class="line"><span class="comment">// 直接调用规则方法即可 返回错误信息</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getErrorMsg</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 直接调用规则方法即可</span></div><div class="line">    validation.add(forms.username,[</div><div class="line">        &#123;</div><div class="line">            <span class="attr">strategy</span>:<span class="string">'isEmpoty'</span>, <span class="comment">//strategy 为固定字段</span></div><div class="line">            errorMsg:<span class="string">'用户名不能为空'</span> <span class="comment">//errorMsg 为固定字段</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">strategy</span>:<span class="string">'minLength:6'</span>,</div><div class="line">            <span class="attr">errorMsg</span>:<span class="string">'用户名长度最低6位'</span></div><div class="line">        &#125;</div><div class="line">    ]);</div><div class="line">    validation.add(forms.userpass,[</div><div class="line">        &#123;</div><div class="line">            <span class="attr">strategy</span>:<span class="string">'isMobile'</span>,</div><div class="line">            <span class="attr">errorMsg</span>:<span class="string">'手机号码有误'</span></div><div class="line">        &#125;</div><div class="line">    ]);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> error = validation.start();</div><div class="line">    <span class="keyword">return</span> error;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 点击事件</span></div><div class="line">btn.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> msg = getErrorMsg();</div><div class="line">    <span class="keyword">if</span>(msg)&#123;</div><div class="line">        <span class="built_in">console</span>.log(msg)<span class="comment">//错误提示</span></div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//在此提交数据</span></div><div class="line">    &#125;</div><div class="line">&#125;,<span class="literal">false</span>)</div></pre></td></tr></table></figure>
-<p>在修改某个校验规则的时候，只需要编写或者改写少量的代码。比如我们想要将用户名输入框的校验规则改成用户名不能少于4个字符。可以看到，这时候的修改是毫不费力的。代码如下：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 更具体的方法 可以在rules中修改</span></div><div class="line">validation.add(forms.username, [&#123;</div><div class="line">        <span class="attr">strategy</span>: <span class="string">'isNonEmpty'</span>,</div><div class="line">        <span class="attr">errorMsg</span>: <span class="string">'用户名不能为空！'</span></div><div class="line">    &#125;, &#123;</div><div class="line">        <span class="attr">strategy</span>: <span class="string">'minLength:4'</span>,</div><div class="line">        <span class="attr">errorMsg</span>: <span class="string">'用户名长度不能小于4位！'</span></div><div class="line">    &#125;])</div></pre></td></tr></table></figure></p>
-<p>参考：<br><a href="http://hcysun.me/2016/02/21/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%9C%A8%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" target="_blank" rel="external">策略模式在表单中的应用</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;最近项目挺赶,博客许久没更新(借口~),周末充下电,表单是一个项目中必不可少的模块了，像注册，登录等。学习下解决下工作中关于表单验证这块的问题&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Javascript" scheme="http://loadingmore.com/categories/Javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
   </entry>
   

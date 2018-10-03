@@ -89,14 +89,14 @@
 						
                     
                         
+                    
+                        
 							
                         <li>
                             <a href="/tags/">tags</a>
                         </li>
 							
 						
-                    
-                        
                     
 					
 					
@@ -281,6 +281,38 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
             <!-- Main Content -->
+
+
+
+<div class="post-preview "
+     style="background-image: url('/uploads/optmini.jpg')">
+    <a href="/2017/02/21/正则表达式必须包含数字字母两种组合/">
+        <h2 class="post-title">
+            正则表达式必须包含数字和字母两种组合
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-02-21
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+ 做表单验证经常做判断密码的组合，强度之类的校验，最近仔细研究了下正则，体会到了正则的强大，所以用几种方法来实现这一需求 
+
+
+分析 正则表达式中必须包含字母数字(不能纯数字或纯字母)，那么就必须要判断该字符串中：
+
+必须包含数字
+必须包含字母
+
+实现这里会用到正则的环视(零宽断言):(?=e..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
 
 
 
@@ -478,33 +510,6 @@ Demo点击查看demo
 
 
 
-<div class="post-preview "
-     style="background-image: url('/uploads/optmini.jpg')">
-    <a href="/2017/01/11/Vue起步/">
-        <h2 class="post-title">
-            Vue起步
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-01-11
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                
-此贴代表我的Vue.js之旅开始了，留个位置
-
-
- Vue.js 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：# 最新稳定版$ npm i..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
 
 <!-- 翻页 pager -->
 
@@ -658,12 +663,12 @@ Demo点击查看demo
                     
                     
                     
+                    
+                    
+                    
+                    
                     <a href="/tags/#hexo" title="hexo"
                        rel="2">hexo</a>
-                    
-                    
-                    
-                    
                     
                     
                     
