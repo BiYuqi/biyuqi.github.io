@@ -17,7 +17,7 @@ categories: Javascript
 
 ### 创建并切换到本地分支
 * **git checkout -b 分支名**
-  eg: git checkout -b dev git checkout -b dev，这条命令把创建本地分支和切换到该分支的功能结合起来了，即基于当前分支master创建本地分支dev并切换到该分支下
+  eg: git checkout -b dev，这条命令把创建本地分支和切换到该分支的功能结合起来了，即基于当前分支master创建本地分支dev并切换到该分支下
 
 ### 删除分支
 * **git branch -d 分支名**
@@ -35,6 +35,10 @@ categories: Javascript
 ### 提交本地分支到远程仓库
 * **git push origin 远程仓库名**
   eg: git push origin dev，这条命令表示把本地dev分支提交到远程仓库，即创建了远程分支dev
+
+## 基于远程分支新建本地分支
+* **git checkout -b 本地分支 origin/远程分支**
+  eg: git checkout -b dev origin/dev
 
 ### 新建本地分支与远程分支关联
 * **git branch --set-upstream dev origin/dev**
