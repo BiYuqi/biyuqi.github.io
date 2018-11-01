@@ -2,9 +2,7 @@
 title: 收集一些有趣常用的npm包
 date: 2018-10-31 23:26:38
 tags: [npm']
-author: "LoadingMore"
-header-img: "form-opts.png"
-cdn: 'header-on'
+categories: Tool
 ---
 > 记录一些当前或以后要用到的npm包
 
@@ -17,7 +15,7 @@ cdn: 'header-on'
 
 **任务调度**(强烈推荐)
 
-* [node-schedule](https://github.com/node-schedule/node-schedule)A cron-like and not-cron-like job scheduler for Node.
+* [node-schedule](https://github.com/node-schedule/node-schedule) A cron-like and not-cron-like job scheduler for Node.
 
 **异步**
 
@@ -25,6 +23,6 @@ cdn: 'header-on'
 
 **锚点滚动**
 
-* [smooth-scroll](https://github.com/cferdinandi/smooth-scroll)A lightweight script to animate scrolling to anchor links.
+* [smooth-scroll](https://github.com/cferdinandi/smooth-scroll) A lightweight script to animate scrolling to anchor links.
 
 
