@@ -74,6 +74,10 @@ friends: [
         "href": "http://loadingmore.com/vuenotes/"
     },
     {
+        "title": "webpack-seed",
+        "href": "https://github.com/BiYuqi/webpack-seed"
+    },
+    {
         "title": "Vue后台系统解决方案",
         "href": "https://github.com/BiYuqi/vue-element-admin"
     },
@@ -84,10 +88,6 @@ friends: [
     {
         "title": "Vue多页面开发实例",
         "href": "https://github.com/BiYuqi/vue2-multiple-page"
-    },
-    {
-      "title": "Vue-element-admin预览",
-      "href": "http://loadingmore.com/vue-element-admin-preview/"
     }
 ]
 
