@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        收集一些有趣常用的npm包｜LoaingMore&#39;s blog
+        Git合并多个commit｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2018/10/31/一些有趣常用的npm包收集/">
+    <link rel="canonical" href="http://loadingmore.com/2018/12/16/Git合并多个commit/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -158,18 +158,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>收集一些有趣常用的npm包</h1>
+                    <h1>Git合并多个commit</h1>
                     
                     <span class="meta">
                          作者 LoaingMore
                         <span>
-                          日期 2018-10-31
+                          日期 2018-12-16
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#npm&#39;"
-                           title="npm&#39;">npm&#39;</a>
+                        <a class="tag" href="/tags/#git"
+                           title="git">git</a>
+                        
+                        <a class="tag" href="/tags/#github"
+                           title="github">github</a>
                         
                     </div>
                 </div>
@@ -178,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            收集一些有趣常用的npm包
+            Git合并多个commit
         </span>
     </div>
 </header>
@@ -190,44 +193,49 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <blockquote>
-<p>记录一些当前或以后要用到的npm包</p>
+<p>项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录</p>
 </blockquote>
-<p><strong>RSS</strong></p>
-<ul>
-<li><a href="https://github.com/bobby-brennan/rss-parser" target="_blank" rel="external">rss-parser</a> A lightweight RSS parser, for Node and the browser</li>
-<li><a href="https://github.com/dylang/node-rss" target="_blank" rel="external">node-rss</a> RSS feed generator for Node</li>
+<h5 id="假设我们有四个commit"><a href="#假设我们有四个commit" class="headerlink" title="假设我们有四个commit"></a>假设我们有四个commit</h5><p><code>git log</code> 查看提交日志.</p>
+<blockquote>
+<p>注: <code>glgg</code> 命令为<code>oh-my-zsh</code>附带aliases, 如果没有按照可自动忽略, 采用git原生操作即可, 下面不多做解释</p>
+</blockquote>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-commit-compose.png" alt="这是图片位置"></p>
+<h5 id="通过-git-rebase-i-执行合并操作"><a href="#通过-git-rebase-i-执行合并操作" class="headerlink" title="通过 git rebase -i  执行合并操作"></a>通过 git rebase -i <commit hash=""> 执行合并操作</commit></h5><ul>
+<li>我们将commit为 <code>Add four part</code> <code>Add third part</code> <code>Add two part</code> 合并到 <code>Add first part</code></li>
+<li>并修改最后的commit信息</li>
 </ul>
-<p><strong>微信推送</strong></p>
-<ul>
-<li><a href="https://pushbear.ftqq.com/admin/#/" target="_blank" rel="external">PushBear</a> 基于微信模板的一对多消息送达服务</li>
-</ul>
-<p><strong>任务调度</strong>(强烈推荐)</p>
-<ul>
-<li><a href="https://github.com/node-schedule/node-schedule" target="_blank" rel="external">node-schedule</a> A cron-like and not-cron-like job scheduler for Node.</li>
-</ul>
-<p><strong>异步</strong></p>
-<ul>
-<li><a href="https://github.com/caolan/async" target="_blank" rel="external">async</a> Async utilities for node and the browser </li>
-</ul>
-<p><strong>锚点滚动</strong></p>
-<ul>
-<li><a href="https://github.com/cferdinandi/smooth-scroll" target="_blank" rel="external">smooth-scroll</a> A lightweight script to animate scrolling to anchor links.</li>
-</ul>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-rebase-i-hash.png" alt="这是执行命令的图片"></p>
+<blockquote>
+<p>进入rebase时可以指定一个commit范围，比如：<br>git rebase -i HEAD~5. 这样也是可行的</p>
+</blockquote>
+<p>解释下，-i选项用来交互式地运行变基, 必须指定想要重写多久远的历史，即指定commit hash, 本例是指定到第一条commit hash 接着我们就进入到vim的编辑模式</p>
+<blockquote>
+<p>–interactive let the user edit the list of commits to rebase</p>
+<p>vim下 i是进入编辑模式, esc退出编辑模式, :wq 退出并保存</p>
+</blockquote>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-rebase-i-vim.png" alt="进入vim编辑模式图片"></p>
+<p>图中上半部分为主注释的是可编辑部分,下半部分是指令的说明. 由指令名称, commit hash, commit message组成</p>
+<h5 id="修改指令"><a href="#修改指令" class="headerlink" title="修改指令"></a>修改指令</h5><p><code>squash</code>命令会合并到前一个commit</p>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-squash.png" alt="选中s"></p>
+<p>命令行中<code>pick</code> 改为 <code>s</code>或<code>squash</code> 然后保存退出(esc, :wq)回车即可</p>
+<p>再次出现命令行，提示让重新修改提交commit message<br><img src="http://loadingmore-1254319003.file.myqcloud.com/git-tip-edit.png" alt=""></p>
+<p>其中, 非注释部分就是三次的 commit message, 你要做的就是删除最后留一个,写成你想提交的message, 保存退出即可</p>
+<p>该处我们修改为: <code>Add compose feature</code></p>
+<p>保存退出(esc, :wq)回车 显示如下， 已经成功修改</p>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-edit-rename.png" alt=""></p>
+<p>查看下本地是否合并：<br><img src="http://loadingmore-1254319003.file.myqcloud.com/git-last.png" alt=""><br>可以看到已经修改成功了，write-blog分支上只有一条提交记录了</p>
+<p>最后：<br><code>git push origin &lt;your branch&gt;</code></p>
+<p>注意：<br>如果该分支上是已经提交server的commit,提交的时候需要 <code>git push origin &lt;your branch&gt; -f</code></p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/12/16/Git合并多个commit/" data-toggle="tooltip" data-placement="top"
-                           title="Git合并多个commit">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/10/03/github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录/" data-toggle="tooltip" data-placement="top"
-                           title="github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录">Next Post &rarr;</a>
+                        <a href="/2018/10/31/一些有趣常用的npm包收集/" data-toggle="tooltip" data-placement="top"
+                           title="收集一些有趣常用的npm包">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -248,7 +256,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#假设我们有四个commit"><span class="toc-text">假设我们有四个commit</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#通过-git-rebase-i-执行合并操作"><span class="toc-text">通过 git rebase -i  执行合并操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修改指令"><span class="toc-text">修改指令</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -270,8 +278,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#npm&#39;"
-                           title="npm&#39;">npm&#39;</a>
+                        <a class="tag" href="/tags/#git"
+                           title="git">git</a>
+                        
+                        <a class="tag" href="/tags/#github"
+                           title="github">github</a>
                         
                     </div>
                 </section>

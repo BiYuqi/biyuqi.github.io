@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2018-11-10T07:22:18.494Z</updated>
+  <updated>2018-12-16T03:40:39.800Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -16,11 +16,70 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Git合并多个commit</title>
+    <link href="http://loadingmore.com/2018/12/16/Git%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AAcommit/"/>
+    <id>http://loadingmore.com/2018/12/16/Git合并多个commit/</id>
+    <published>2018-12-16T11:30:30.000Z</published>
+    <updated>2018-12-16T03:40:39.800Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录</p>
+</blockquote>
+<h5 id="假设我们有四个commit"><a href="#假设我们有四个commit" class="headerlink" title="假设我们有四个commit"></a>假设我们有四个commit</h5><p><code>git log</code> 查看提交日志.</p>
+<blockquote>
+<p>注: <code>glgg</code> 命令为<code>oh-my-zsh</code>附带aliases, 如果没有按照可自动忽略, 采用git原生操作即可, 下面不多做解释</p>
+</blockquote>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-commit-compose.png" alt="这是图片位置"></p>
+<h5 id="通过-git-rebase-i-执行合并操作"><a href="#通过-git-rebase-i-执行合并操作" class="headerlink" title="通过 git rebase -i  执行合并操作"></a>通过 git rebase -i <commit hash=""> 执行合并操作</commit></h5><ul>
+<li>我们将commit为 <code>Add four part</code> <code>Add third part</code> <code>Add two part</code> 合并到 <code>Add first part</code></li>
+<li>并修改最后的commit信息</li>
+</ul>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-rebase-i-hash.png" alt="这是执行命令的图片"></p>
+<blockquote>
+<p>进入rebase时可以指定一个commit范围，比如：<br>git rebase -i HEAD~5. 这样也是可行的</p>
+</blockquote>
+<p>解释下，-i选项用来交互式地运行变基, 必须指定想要重写多久远的历史，即指定commit hash, 本例是指定到第一条commit hash 接着我们就进入到vim的编辑模式</p>
+<blockquote>
+<p>–interactive let the user edit the list of commits to rebase</p>
+<p>vim下 i是进入编辑模式, esc退出编辑模式, :wq 退出并保存</p>
+</blockquote>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-rebase-i-vim.png" alt="进入vim编辑模式图片"></p>
+<p>图中上半部分为主注释的是可编辑部分,下半部分是指令的说明. 由指令名称, commit hash, commit message组成</p>
+<h5 id="修改指令"><a href="#修改指令" class="headerlink" title="修改指令"></a>修改指令</h5><p><code>squash</code>命令会合并到前一个commit</p>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-squash.png" alt="选中s"></p>
+<p>命令行中<code>pick</code> 改为 <code>s</code>或<code>squash</code> 然后保存退出(esc, :wq)回车即可</p>
+<p>再次出现命令行，提示让重新修改提交commit message<br><img src="http://loadingmore-1254319003.file.myqcloud.com/git-tip-edit.png" alt=""></p>
+<p>其中, 非注释部分就是三次的 commit message, 你要做的就是删除最后留一个,写成你想提交的message, 保存退出即可</p>
+<p>该处我们修改为: <code>Add compose feature</code></p>
+<p>保存退出(esc, :wq)回车 显示如下， 已经成功修改</p>
+<p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-edit-rename.png" alt=""></p>
+<p>查看下本地是否合并：<br><img src="http://loadingmore-1254319003.file.myqcloud.com/git-last.png" alt=""><br>可以看到已经修改成功了，write-blog分支上只有一条提交记录了</p>
+<p>最后：<br><code>git push origin &lt;your branch&gt;</code></p>
+<p>注意：<br>如果该分支上是已经提交server的commit,提交的时候需要 <code>git push origin &lt;your branch&gt; -f</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的
+    
+    </summary>
+    
+      <category term="Git" scheme="http://loadingmore.com/categories/Git/"/>
+    
+    
+      <category term="git" scheme="http://loadingmore.com/tags/git/"/>
+    
+      <category term="github" scheme="http://loadingmore.com/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
     <title>收集一些有趣常用的npm包</title>
     <link href="http://loadingmore.com/2018/10/31/%E4%B8%80%E4%BA%9B%E6%9C%89%E8%B6%A3%E5%B8%B8%E7%94%A8%E7%9A%84npm%E5%8C%85%E6%94%B6%E9%9B%86/"/>
     <id>http://loadingmore.com/2018/10/31/一些有趣常用的npm包收集/</id>
     <published>2018-10-31T23:26:38.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录一些当前或以后要用到的npm包</p>
@@ -71,7 +130,7 @@
     <link href="http://loadingmore.com/2018/10/03/github%E4%B8%80%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E6%9F%90%E4%B8%AA%E5%88%86%E6%94%AF%E6%94%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E4%BB%93%E5%BA%93%EF%BC%8C%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95/"/>
     <id>http://loadingmore.com/2018/10/03/github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录/</id>
     <published>2018-10-03T16:18:51.000Z</published>
-    <updated>2018-11-10T07:22:18.490Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录下迁将一个远程仓库的某个分支放到一个新的仓库中（提交历史纪录也导过去的一点经验</p>
@@ -106,7 +165,7 @@
     <link href="http://loadingmore.com/2018/09/18/%E5%88%A9%E7%94%A8TravisCi%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0gitPage/"/>
     <id>http://loadingmore.com/2018/09/18/利用TravisCi自动部署博客到gitPage/</id>
     <published>2018-09-18T17:32:00.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>一篇测试文档，测试自动部署gitPage，稍后会写篇博客进行记录,先温习下git</p>
@@ -166,7 +225,7 @@
     <link href="http://loadingmore.com/2018/06/03/%E3%80%90Vue%E7%89%88%E3%80%91%E5%AE%9E%E7%94%A8js%E5%BF%AB%E9%80%9F%E5%A4%8D%E5%88%B6%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9/"/>
     <id>http://loadingmore.com/2018/06/03/【Vue版】实用js快速复制文本内容/</id>
     <published>2018-06-03T19:20:07.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录下用vue指令来写一个快速复制内容到剪贴板的插件, 主要是使用了chrome66+提供的新的剪贴方法，clipboard方法</p>
@@ -212,7 +271,7 @@
     <link href="http://loadingmore.com/2018/05/12/%E7%BB%84%E4%BB%B6/"/>
     <id>http://loadingmore.com/2018/05/12/组件/</id>
     <published>2018-05-12T17:00:22.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>组件（Component）是对数据和方法的简单封装</p>
@@ -243,7 +302,7 @@
     <link href="http://loadingmore.com/2018/04/12/%E8%A7%A3%E5%86%B3Vue%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6%E5%88%87%E6%8D%A2%E6%97%B6%E7%BB%84%E4%BB%B6%E4%B8%8D%E6%9B%B4%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2018/04/12/解决Vue复用组件切换时组件不更新的问题/</id>
     <published>2018-04-12T00:15:48.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>距离上次更新已经是去年了,习惯这个东西真可怕，本文仅做个小记录</p>
@@ -277,7 +336,7 @@
     <link href="http://loadingmore.com/2017/12/28/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E8%B4%AA%E5%A9%AA%E4%B8%8E%E9%9D%9E%E8%B4%AA%E5%A9%AA%E6%A8%A1%E5%BC%8F/"/>
     <id>http://loadingmore.com/2017/12/28/【正则表达式系列】贪婪与非贪婪模式/</id>
     <published>2017-12-28T22:50:30.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文属于 正则表达式系列文章之一，将近一个多月了停更了，这个系列的坑得赶紧填了~~~</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><strong> <a href="http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/">【正则表达式系列】入门篇</a> </strong></p>
@@ -333,7 +392,7 @@
     <link href="http://loadingmore.com/2017/11/26/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E5%85%A5%E9%97%A8%E7%AF%87/"/>
     <id>http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/</id>
     <published>2017-11-26T15:50:30.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>开始之前，我希望你能放下心中的恐惧感！</p>
@@ -526,7 +585,7 @@
     <link href="http://loadingmore.com/2017/11/18/Js%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88%E5%87%A0%E7%A7%8D%E5%A7%BF%E5%8A%BF/"/>
     <id>http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/</id>
     <published>2017-11-18T17:00:12.000Z</published>
-    <updated>2018-11-10T07:22:18.490Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本主要总结前端开发中图片上传预览的几个方法 <strong> FileReader </strong> 和 <strong> URL.createObjectURL() </strong></p>
@@ -624,7 +683,7 @@
     <link href="http://loadingmore.com/2017/10/22/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%AD%97%E6%AF%8D%E5%AF%BC%E8%88%AA%E7%B4%A2%E5%BC%95/"/>
     <id>http://loadingmore.com/2017/10/22/实现一个移动端字母导航索引/</id>
     <published>2017-10-22T18:20:12.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <blockquote>
@@ -667,7 +726,7 @@
     <link href="http://loadingmore.com/2017/10/15/vue%E5%86%99%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8%E7%BB%84%E4%BB%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2017/10/15/vue写回到顶部组件遇到的一些问题/</id>
     <published>2017-10-15T12:13:12.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <blockquote>
@@ -708,7 +767,7 @@
     <link href="http://loadingmore.com/2017/09/25/%E5%8E%9F%E7%94%9FJavaScript%E8%8E%B7%E5%8F%96CSS%E6%A0%B7%E5%BC%8F%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2017/09/25/原生JavaScript获取CSS样式遇到的一些问题/</id>
     <published>2017-09-25T20:09:48.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法</p>
@@ -743,7 +802,7 @@
     <link href="http://loadingmore.com/2017/08/16/Jquery%E6%93%8D%E4%BD%9Cselect%E4%B8%8B%E6%8B%89%E6%A1%86%E5%80%BC/"/>
     <id>http://loadingmore.com/2017/08/16/Jquery操作select下拉框值/</id>
     <published>2017-08-16T00:36:00.000Z</published>
-    <updated>2018-11-10T07:22:18.490Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>最近项目中操作select的option值得场景还是很多的，在此记录一下,以免忘记</p>
@@ -772,7 +831,7 @@
     <link href="http://loadingmore.com/2017/08/14/%E4%B8%80%E6%AC%A1FormData%E9%80%92%E5%BD%92%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%B0%8F%E8%AE%B0/"/>
     <id>http://loadingmore.com/2017/08/14/一次FormData递归上传图片小记/</id>
     <published>2017-08-14T20:09:48.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近项目开发中遇到一个多图上传的需求，后台给的接口支持FormData.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/FormData" target="_blank" rel="external">这里查看详情FormData</a></p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>刚开始没有太好的办法，之前用formdata传图，都是固定的个数，对应唯一的filename参数名字，不会发生冲突，所以刚开始想到了for循环…结果就是能上传，但是顺序全部搞乱了，还有就是图片传的重复，缺失严重</p>
@@ -798,7 +857,7 @@
     <link href="http://loadingmore.com/2017/08/09/Vuex%E5%9C%A8IE%E4%B8%8A%E7%9A%84%E6%8A%A5%E9%94%99%E5%A4%84%E7%90%86/"/>
     <id>http://loadingmore.com/2017/08/09/Vuex在IE上的报错处理/</id>
     <published>2017-08-09T19:16:07.000Z</published>
-    <updated>2018-11-10T07:22:18.490Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在做一个后台项目，其中遇到了vuex在IE浏览器中报错的问题，于是就有了这篇博文进行记录</p>
@@ -828,7 +887,7 @@
     <link href="http://loadingmore.com/2017/07/01/%E4%B8%80%E4%B8%AA%E6%9C%89%E7%82%B9%E6%84%8F%E6%80%9D%E7%9A%84%E6%AD%A3%E5%88%99/"/>
     <id>http://loadingmore.com/2017/07/01/一个有点意思的正则/</id>
     <published>2017-07-01T21:37:38.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>周末闲来无事，没事逛逛前端群,碰到一个有点意思的题目,记录下来</p>
@@ -859,7 +918,7 @@
     <link href="http://loadingmore.com/2017/06/21/%E6%8D%A2%E7%94%B5%E8%84%91%E5%90%8E-%E5%A6%82%E4%BD%95%E5%AE%8C%E7%BE%8E%E8%BF%81%E5%87%BAhexo%E5%8D%9A%E5%AE%A2/"/>
     <id>http://loadingmore.com/2017/06/21/换电脑后-如何完美迁出hexo博客/</id>
     <published>2017-06-21T22:25:48.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近换了电脑，之前电脑上搭建的静态博客也需要迁移了，上网查了下资料，自己也着手成功的迁移到了新的电脑</p>
@@ -902,7 +961,7 @@
     <link href="http://loadingmore.com/2017/06/21/%E3%80%8A%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84javascript%E4%B8%AD%E3%80%8BJS%E5%AE%BD%E6%9D%BE%E7%9B%B8%E7%AD%89%E5%92%8C%E4%B8%A5%E6%A0%BC%E7%9B%B8%E7%AD%89/"/>
     <id>http://loadingmore.com/2017/06/21/《你不知道的javascript中》JS宽松相等和严格相等/</id>
     <published>2017-06-21T20:43:07.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>温故而知新，最近在看《你不知道的javascript》系列的书记，看到深处，总有新的发现，好记性不如烂笔头，遂写下这篇读书笔记</p>
@@ -965,7 +1024,7 @@
     <link href="http://loadingmore.com/2017/06/12/FreeCodeCamp%E5%88%9D%E7%BA%A7%E8%84%9A%E6%9C%AC%E7%AE%97%E6%B3%95%E9%A2%98-%E7%AC%94%E8%AE%B0/"/>
     <id>http://loadingmore.com/2017/06/12/FreeCodeCamp初级脚本算法题-笔记/</id>
     <published>2017-06-12T00:03:36.000Z</published>
-    <updated>2018-11-10T07:22:18.490Z</updated>
+    <updated>2018-12-16T03:40:39.800Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p><a href="http://www.freecodecamp.cn/" target="_blank" rel="external">FreeCodeCamp</a>是一个学习编程的开源社区,里面有面向前端方面的基础知识，也有一些脚本算法相关的题目，今天花了2个小时把初级脚本算法题16道，研究了一下(我刚做了15,还有一道需要研究下…后面补上+注释),通过几个小时的学习，领会到FCC是在实践练习中掌握知识，而不是学习背记理论了解知识,前端本身也是一种技术，所以多实践，多研究，才能加深对这门语言的理解.</p>
@@ -1001,57 +1060,6 @@
       <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
       <category term="算法" scheme="http://loadingmore.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>原生JS模拟点击事件和自定义事件</title>
-    <link href="http://loadingmore.com/2017/06/11/%E5%8E%9F%E7%94%9FJS%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/"/>
-    <id>http://loadingmore.com/2017/06/11/原生JS模拟点击事件和自定义事件/</id>
-    <published>2017-06-11T16:46:45.000Z</published>
-    <updated>2018-11-10T07:22:18.494Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>事件，就是网页中某个特别值得关注的瞬间，事件是经常有用户操作或通过其他浏览器功能来触发，但是很少有人知道，也可以使用javascript来在任意时刻触发特定事件，此时事件如同浏览器创建的事件一样。 —— 《高级程序设计3》</p>
-</blockquote>
-<h2 id="高程三的实现方法"><a href="#高程三的实现方法" class="headerlink" title="高程三的实现方法"></a>高程三的实现方法</h2><p>模拟点击事件应该是一个很常见的行为，经常用jQ来实现，今天研究下原生js如何模拟触发点击事件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">            点击</div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="keyword">var</span> doms = <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>)</div><div class="line">            doms.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">            &#125;)</div><div class="line">            <span class="comment">// 使用createEvent() 创建event事件 传入鼠标事件字符串 MouseEvents</span></div><div class="line">            <span class="keyword">var</span> events = <span class="built_in">document</span>.createEvent(<span class="string">"MouseEvents"</span>)</div><div class="line">            <span class="comment">// 返回的对象有一个名为 initMouseEvent()方法 用于指定与该鼠标售价仅有关的信息</span></div><div class="line">            events.initMouseEvent(<span class="string">"click"</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="built_in">document</span>.defaultView)</div><div class="line">            <span class="comment">// 最后一步触发事件 dispatchEvent()</span></div><div class="line">            doms.dispatchEvent(events)</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>很遗憾的是，在我查过MDN后，得知该方法已经废弃<br><strong> 注：该特性已经从 Web 标准中删除，虽然一些浏览器目前仍然支持它，但也许会在未来的某个时间停止支持，请尽量不要使用该特性。 </strong></p>
-<h2 id="MDN-MouseEvent"><a href="#MDN-MouseEvent" class="headerlink" title="MDN MouseEvent()"></a>MDN MouseEvent()</h2><p>MDN上已经说得很清楚,尽管为了保持向后兼容MouseEvent.initMouseEvent()仍然可用,但是呢,我们应该使用MouseEvent().<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">语法：event = <span class="keyword">new</span> MouseEvent(typeArg, mouseEventInit);</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>)</div><div class="line">doms.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 创建模拟对象</span></div><div class="line"><span class="keyword">var</span> events = <span class="keyword">new</span> MouseEvent(<span class="string">"click"</span>,&#123;</div><div class="line">    <span class="attr">bubbles</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">cancelable</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">view</span>:<span class="built_in">window</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 最后一步触发事件 dispatchEvent()</span></div><div class="line">doms.dispatchEvent(events)</div><div class="line"></div><div class="line"><span class="comment">// 至此 我们的自动触发事件已经完成 控制台已经打印：莫名其妙被点击</span></div></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>typeArg</th>
-<th>DOMString 格式的事件名称。</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mouseEventInit</td>
-<td>可选</td>
-</tr>
-</tbody>
-</table>
-<p>更多的属性请看这里<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/MouseEvent#浏览器兼容性" target="_blank" rel="external">点击查看</a></p>
-<h2 id="IE兼容"><a href="#IE兼容" class="headerlink" title="IE兼容"></a>IE兼容</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 注意低版本ie兼容</span></div><div class="line">doms.attachEvent(<span class="string">'onclick'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"莫名其妙被点击"</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 创建事件对象</span></div><div class="line"><span class="keyword">var</span> event = <span class="built_in">document</span>.createEventObject()</div><div class="line"><span class="comment">// 触发</span></div><div class="line">doms.fireEvent(<span class="string">'onclick'</span>,event)</div></pre></td></tr></table></figure>
-<p>先创建enent对象，然后为其制定相应的信息，然后触发事件<br>fireEvent()方法会自动为event对象添加scrElement和type属性，其他属性都必须手动添加</p>
-<h2 id="创建自定义事件"><a href="#创建自定义事件" class="headerlink" title="创建自定义事件"></a>创建自定义事件</h2><p><strong> 自定义事件有两种方法,一种是使用new Event(),另一种是new customEvent() </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 创建自定义事件</span></div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> Event(<span class="string">'build'</span>,&#123;</div><div class="line">      <span class="attr">bubbles</span>: <span class="string">'true'</span>,</div><div class="line">      <span class="attr">cancelable</span>: <span class="string">'true'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 监听事件</span></div><div class="line">doms.addEventListener(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"测试自定义事件"</span>)</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="comment">// 触发事件.</span></div><div class="line">doms.dispatchEvent(event);</div><div class="line"><span class="comment">// 控制台</span></div><div class="line"><span class="comment">// 测试自定义事件</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> doms = <span class="built_in">document</span>.getElementById(<span class="string">'container'</span>);</div><div class="line"><span class="comment">// 创建自定义事件</span></div><div class="line"><span class="keyword">var</span> event = <span class="keyword">new</span> CustomEvent(<span class="string">'build'</span>,&#123;</div><div class="line">      <span class="attr">bubbles</span>: <span class="string">'true'</span>, <span class="comment">//一个布尔值,表明该事件是否会冒泡.</span></div><div class="line">      cancelable: <span class="string">'true'</span>, <span class="comment">//一个布尔值,表明该事件是否可以被取消.</span></div><div class="line">      detail:<span class="string">"我是测试数据"</span> <span class="comment">//当事件初始化时传递的数据.</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 监听事件</span></div><div class="line">doms.addEventListener(<span class="string">'build'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"测试自定义事件"</span>)</div><div class="line">    <span class="built_in">console</span>.log(e.detail)</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="comment">// 触发事件.</span></div><div class="line">doms.dispatchEvent(event);</div><div class="line"><span class="comment">// 控制台</span></div><div class="line"><span class="comment">// 测试自定义事件</span></div></pre></td></tr></table></figure>
-<p>可以很明显的看到,其实new customEvent()比new Event()多了可以在event.detail属性里携带自定义数据的功能</p>
-<p>绝大多数现代浏览器中都会支持这个构造函数（Internet Explorer例外）。 要了解更为复杂的方法，可参考下面的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/Events/Creating_and_triggering_events" target="_blank" rel="external">过时的方法</a>。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CustomEvent" target="_blank" rel="external">customEvent()</a>和<a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/Event" target="_blank" rel="external"> Event()</a> MDN链接在此</p>
-<p>总结下来发现,除了模拟自定义事件比较好用,兼容性还可以，模拟鼠标事件兼容性各方面都支持的不太好，DOM这块水很深啊，继续研究…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;事件，就是网页中某个特别值得关注的瞬间，事件是经常有用户操作或通过其他浏览器功能来触发，但是很少有人知道，也可以使用javascript来在任意时刻触发特定事件，此时事件如同浏览器创建的事件一样。 —— 《高级程序设计3》&lt;/p&gt;
-&lt;/blockq
-    
-    </summary>
-    
-    
-      <category term="javascript" scheme="http://loadingmore.com/tags/javascript/"/>
     
   </entry>
   
