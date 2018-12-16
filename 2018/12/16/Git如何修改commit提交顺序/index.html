@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        LoaingMore&#39;s blog
+        Git如何修改commit提交顺序｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/about/">
+    <link rel="canonical" href="http://loadingmore.com/2018/12/16/Git如何修改commit提交顺序/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -44,7 +44,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -137,234 +137,166 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/uploads/avatar.png"/>
-                        <h5><a href="/about/">LoaingMore</a></h5>
-                        <p>越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com</p>
+
+<img class="wechat-title-img"
+     src="/uploads/optmini.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/uploads/optmini.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Git如何修改commit提交顺序</h1>
+                    
+                    <span class="meta">
+                         作者 LoaingMore
+                        <span>
+                          日期 2018-12-16
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#git"
+                           title="git">git</a>
+                        
+                        <a class="tag" href="/tags/#github"
+                           title="github">github</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
-    </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p>  我是小白不懂<br>  目前，西安任职 : 前端开发攻城狮<br>  一名渴望成为前端攻城狮大牛的程序猿</p>
-<h3 id="目前"><a href="#目前" class="headerlink" title="目前"></a>目前</h3><p>  努力工作，积极探索</p>
-<h3 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h3><p>biyuqiwan@163.com</p>
-
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Git如何修改commit提交顺序
+        </span>
+    </div>
+</header>
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>有时候也会遇到需要把commit的顺序调整的情况，比较小众的需求 记录下</p>
+</blockquote>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>单个文件，或者单一功能(耦合性低)的commit移动</li>
+<li>同一个文件的移动(冲突概率比较大)</li>
+</ul>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>首先我们准备几个提交记录:<br>可以看到提交的顺序 <code>add skip merge</code> <code>add skip merge2</code> <code>add skip merge3</code>, 我们的目标是颠倒下顺序 <code>add skip merge3</code> <code>add skip merge2</code> <code>add skip merge</code></p>
+<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge0.png" alt=""></p>
+<p>首先进行变基操作 <code>git rebase -i HEAD~3</code>, 进入交互页面执行可编辑命令字母<code>i</code><br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge1.png" alt=""></p>
+<p>进行移动操作<code>command + c</code> <code>command + v</code> or <code>ctrl + c</code> <code>ctrl + v</code> 等一系列操作后如下:</p>
+<p>可以看到已经调了顺序<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge3.png" alt=""></p>
+<p>退出编辑<code>esc</code>,保存<code>:wq</code><br>显示操作成功</p>
+<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge4.png" alt=""></p>
+<p>查看日志<code>git log</code><br>可以看到已经成功的修改了commit提交顺序</p>
+<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge5.png" alt=""></p>
+<h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3>
+                <hr>
+                
+
+                <ul class="pager">
                     
-                    <img src="/uploads/avatar.png"/>
                     
-                    <h5><a href="/about/">LoaingMore</a></h5>
+                    <li class="next">
+                        <a href="/2018/12/16/Git合并多个commit/" data-toggle="tooltip" data-placement="top"
+                           title="Git合并多个commit">Next Post &rarr;</a>
+                    </li>
                     
-                    <p>越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
+                </ul>
 
-                        
+                
 
-                        
+                
 
-                        
-                        <li>
-                            <a target="_blank" href="https://github.com/BiYuqi">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
 
+                <!--加入新的评论系统-->
+                
+
+                <!-- UY BEGIN -->
+                <div id="uyan_frame" style="margin-top:30px;"></div>
+                <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2139920"></script>
+                <!-- UY END -->
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到冲突"><span class="toc-text">遇到冲突</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#git"
+                           title="git">git</a>
+                        
+                        <a class="tag" href="/tags/#github"
+                           title="github">github</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://loadingmore.com/vuenotes/">前端导航</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-element-admin">Vue后台系统解决方案</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue-admin-template">Vue后台系统模板</a></li>
+                        
+                        <li><a href="https://github.com/BiYuqi/vue2-multiple-page">Vue多页面开发实例</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#javascript" title="javascript"
-                       rel="36">javascript</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#git" title="git"
-                       rel="3">git</a>
-                    
-                    
-                    
-                    <a href="/tags/#github" title="github"
-                       rel="2">github</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#Js技巧" title="Js技巧"
-                       rel="5">Js技巧</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#select" title="select"
-                       rel="2">select</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#React" title="React"
-                       rel="2">React</a>
-                    
-                    
-                    
-                    <a href="/tags/#React-native" title="React-native"
-                       rel="2">React-native</a>
-                    
-                    
-                    
-                    <a href="/tags/#Vue" title="Vue"
-                       rel="7">Vue</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#Javascript" title="Javascript"
-                       rel="5">Javascript</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#组件" title="组件"
-                       rel="2">组件</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#RegExp" title="RegExp"
-                       rel="10">RegExp</a>
-                    
-                    
-                    
-                    <a href="/tags/#正则" title="正则"
-                       rel="11">正则</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#hexo" title="hexo"
-                       rel="2">hexo</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">我的作品</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="http://loadingmore.com/vuenotes/" target="_blank">前端导航</a></li>
-                
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
-                
-                <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">Vue后台系统解决方案</a></li>
-                
-                <li><a href="https://github.com/BiYuqi/vue-admin-template" target="_blank">Vue后台系统模板</a></li>
-                
-                <li><a href="https://github.com/BiYuqi/vue2-multiple-page" target="_blank">Vue多页面开发实例</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
     </div>
-</div>
+</article>
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
