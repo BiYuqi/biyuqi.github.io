@@ -7,7 +7,7 @@ categories: Git
 
 > 项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录
 
-##### 假设我们有四个commit
+### 假设我们有四个commit
 
 `git log` 查看提交日志.
 
@@ -15,7 +15,7 @@ categories: Git
 
 ![这是图片位置](http://loadingmore-1254319003.file.myqcloud.com/git-commit-compose.png)
 
-##### 通过 git rebase -i <commit hash> 执行合并操作
+### 通过 git rebase -i <commit hash> 执行合并操作
 
 * 我们将commit为 `Add four part` `Add third part` `Add two part` 合并到 `Add first part`
 * 并修改最后的commit信息
@@ -35,7 +35,7 @@ categories: Git
 
 图中上半部分为主注释的是可编辑部分,下半部分是指令的说明. 由指令名称, commit hash, commit message组成
 
-##### 修改指令
+### 修改指令
 
 `squash`命令会合并到前一个commit
 
