@@ -195,12 +195,12 @@
                 <blockquote>
 <p>项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录</p>
 </blockquote>
-<h5 id="假设我们有四个commit"><a href="#假设我们有四个commit" class="headerlink" title="假设我们有四个commit"></a>假设我们有四个commit</h5><p><code>git log</code> 查看提交日志.</p>
+<h3 id="假设我们有四个commit"><a href="#假设我们有四个commit" class="headerlink" title="假设我们有四个commit"></a>假设我们有四个commit</h3><p><code>git log</code> 查看提交日志.</p>
 <blockquote>
-<p>注: <code>glgg</code> 命令为<code>oh-my-zsh</code>附带aliases, 如果没有按照可自动忽略, 采用git原生操作即可, 下面不多做解释</p>
+<p>注: <code>glgg</code> 命令为<code>oh-my-zsh</code>附带aliases, 如果没有安装可自动忽略, 采用git原生操作即可, 下面不多做解释</p>
 </blockquote>
 <p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-commit-compose.png" alt="这是图片位置"></p>
-<h5 id="通过-git-rebase-i-执行合并操作"><a href="#通过-git-rebase-i-执行合并操作" class="headerlink" title="通过 git rebase -i  执行合并操作"></a>通过 git rebase -i <commit hash=""> 执行合并操作</commit></h5><ul>
+<h3 id="通过-git-rebase-i-执行合并操作"><a href="#通过-git-rebase-i-执行合并操作" class="headerlink" title="通过 git rebase -i  执行合并操作"></a>通过 git rebase -i <commit hash=""> 执行合并操作</commit></h3><ul>
 <li>我们将commit为 <code>Add four part</code> <code>Add third part</code> <code>Add two part</code> 合并到 <code>Add first part</code></li>
 <li>并修改最后的commit信息</li>
 </ul>
@@ -215,7 +215,7 @@
 </blockquote>
 <p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-rebase-i-vim.png" alt="进入vim编辑模式图片"></p>
 <p>图中上半部分为主注释的是可编辑部分,下半部分是指令的说明. 由指令名称, commit hash, commit message组成</p>
-<h5 id="修改指令"><a href="#修改指令" class="headerlink" title="修改指令"></a>修改指令</h5><p><code>squash</code>命令会合并到前一个commit</p>
+<h3 id="修改指令"><a href="#修改指令" class="headerlink" title="修改指令"></a>修改指令</h3><p><code>squash</code>命令会合并到前一个commit</p>
 <p><img src="http://loadingmore-1254319003.file.myqcloud.com/git-squash.png" alt="选中s"></p>
 <p>命令行中<code>pick</code> 改为 <code>s</code>或<code>squash</code> 然后保存退出(esc, :wq)回车即可</p>
 <p>再次出现命令行，提示让重新修改提交commit message<br><img src="http://loadingmore-1254319003.file.myqcloud.com/git-tip-edit.png" alt=""></p>
@@ -256,7 +256,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#假设我们有四个commit"><span class="toc-text">假设我们有四个commit</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#通过-git-rebase-i-执行合并操作"><span class="toc-text">通过 git rebase -i  执行合并操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修改指令"><span class="toc-text">修改指令</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#假设我们有四个commit"><span class="toc-text">假设我们有四个commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过-git-rebase-i-执行合并操作"><span class="toc-text">通过 git rebase -i  执行合并操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改指令"><span class="toc-text">修改指令</span></a></li></ol>
                 </div>
             </div>
         </div>
