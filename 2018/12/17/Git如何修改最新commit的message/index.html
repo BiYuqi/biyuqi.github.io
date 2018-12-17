@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Git如何修改commit提交顺序｜LoaingMore&#39;s blog
+        Git如何修改最新commit的message｜LoaingMore&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://loadingmore.com/2018/12/16/Git如何修改commit提交顺序/">
+    <link rel="canonical" href="http://loadingmore.com/2018/12/17/Git如何修改最新commit的message/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -158,12 +158,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Git如何修改commit提交顺序</h1>
+                    <h1>Git如何修改最新commit的message</h1>
                     
                     <span class="meta">
                          作者 LoaingMore
                         <span>
-                          日期 2018-12-16
+                          日期 2018-12-17
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -181,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Git如何修改commit提交顺序
+            Git如何修改最新commit的message
         </span>
     </div>
 </header>
@@ -193,36 +193,32 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <blockquote>
-<p>有时候也会遇到需要把commit的顺序调整的情况，比较小众的需求 记录下</p>
+<p>项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改最后一次的提交记录.</p>
 </blockquote>
-<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
-<li>单个文件，或者单一功能(耦合性低)的commit移动</li>
-<li>同一个文件的移动(冲突概率比较大)</li>
-</ul>
-<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>首先我们准备几个提交记录:<br>可以看到提交的顺序 <code>add skip merge</code> <code>add skip merge2</code> <code>add skip merge3</code>, 我们的目标是颠倒下顺序 <code>add skip merge3</code> <code>add skip merge2</code> <code>add skip merge</code></p>
-<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge0.png" alt=""></p>
-<p>首先进行变基操作 <code>git rebase -i HEAD~3</code>, 进入交互页面执行可编辑命令字母<code>i</code><br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge1.png" alt=""></p>
-<p>进行移动操作<code>command + c</code> <code>command + v</code> or <code>ctrl + c</code> <code>ctrl + v</code> 等一系列操作后如下:</p>
-<p>可以看到已经调了顺序<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge3.png" alt=""></p>
-<p>退出编辑<code>esc</code>,保存<code>:wq</code><br>显示操作成功</p>
-<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge4.png" alt=""></p>
-<p>查看日志<code>git log</code><br>可以看到已经成功的修改了commit提交顺序</p>
-<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/skip-merge5.png" alt=""></p>
-<h3 id="遇到冲突"><a href="#遇到冲突" class="headerlink" title="遇到冲突"></a>遇到冲突</h3>
+<h3 id="准备commit提交信息"><a href="#准备commit提交信息" class="headerlink" title="准备commit提交信息"></a>准备commit提交信息</h3><p>这里我们准备了两个提交记录: <code>I am the second commit on edit-new-commit branch</code>, <code>I am the first commit on edit-new-commit branch</code>.</p>
+<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-new-commit0.png" alt=""></p>
+<p>我们准备把最后一条记录<code>I am the second commit on edit-new-commit branch</code>修改为<code>I am the last commit on edit-new-commit branch</code>.  即<code>second</code> &gt; <code>last</code>.</p>
+<h3 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h3><p>首先我们执行命令:</p>
+<p><code>git commit --amend</code></p>
+<p>进入到如下界面：<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-new-commit1.png" alt=""></p>
+<p>执行回车，会看到如下页面, 即最后一次commit的界面<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-new-commit2.png" alt=""></p>
+<p>然后回到熟悉的节奏, 进入编辑状态<code>i</code>, 然后把信息修改即可</p>
+<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-new-commit3.png" alt="修改后的界面"></p>
+<p>然后退出<code>esc</code>, 保存<code>:wq</code>, 回车即可</p>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><p>成功操作:<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-new-commit4.png" alt=""></p>
+<p>最后查看我们的log验证, 已经成功修改<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-new-commit5.png" alt=""></p>
+<h3 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h3><p>最后的提交<br><code>git push origin &lt;your branch name&gt;</code></p>
+<p>Note:<br>如果是修改server端最后一条记录，则需要执行最后的提交<br><code>git push origin &lt;your branch name&gt; -f</code></p>
+
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/12/17/Git如何修改最新commit的message/" data-toggle="tooltip" data-placement="top"
-                           title="Git如何修改最新commit的message">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/12/16/Git合并多个commit/" data-toggle="tooltip" data-placement="top"
-                           title="Git合并多个commit">Next Post &rarr;</a>
+                        <a href="/2018/12/16/Git如何修改commit提交顺序/" data-toggle="tooltip" data-placement="top"
+                           title="Git如何修改commit提交顺序">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -243,7 +239,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到冲突"><span class="toc-text">遇到冲突</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备commit提交信息"><span class="toc-text">准备commit提交信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行命令"><span class="toc-text">执行命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提交"><span class="toc-text">提交</span></a></li></ol>
                 </div>
             </div>
         </div>
