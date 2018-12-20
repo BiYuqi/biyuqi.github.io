@@ -1,11 +1,15 @@
 ---
-title: Git合并多个commit
+title: Git如何合并多个commit
 date: 2018-12-16 11:30:30
 tags: [git, 'github']
 categories: Git
 ---
 
 > 项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录
+
+### 前言
+
+`git rebase`的黄金法则便是: 绝不要在公共的分支上使用它
 
 ### 假设我们有四个commit
 

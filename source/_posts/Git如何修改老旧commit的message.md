@@ -6,10 +6,13 @@ categories: Git
 ---
 
 > 项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改老旧commit(非最新)的提交记录.
+### 前言
+
+`git rebase`的黄金法则便是: 绝不要在公共的分支上使用它
 
 ### 准备commit提交信息
 
-老样子，先准备几条commit信息
+老规矩，先准备几条commit信息
 
 ![](http://loadingmore-1254319003.coscd.myqcloud.com/edit-old0.png)
 
@@ -44,6 +47,7 @@ categories: Git
 接下来按照最初的设想开始修改吧
 
 照旧执行`i`，进入编辑模式修改
+
 ![](http://loadingmore-1254319003.coscd.myqcloud.com/edit-old6.png)
 
 完了,退出`esc`,保存`:wq`

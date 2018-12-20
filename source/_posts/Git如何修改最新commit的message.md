@@ -5,6 +5,9 @@ tags: [git, 'github']
 categories: Git
 ---
 > 项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改最后一次的提交记录.
+### 前言
+
+`git rebase`的黄金法则便是: 绝不要在公共的分支上使用它
 
 ### 准备commit提交信息
 
