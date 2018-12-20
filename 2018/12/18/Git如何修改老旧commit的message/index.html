@@ -194,8 +194,9 @@
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <blockquote>
 <p>项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改老旧commit(非最新)的提交记录.</p>
-</blockquote>
-<h3 id="准备commit提交信息"><a href="#准备commit提交信息" class="headerlink" title="准备commit提交信息"></a>准备commit提交信息</h3><p>老样子，先准备几条commit信息</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3></blockquote>
+<p><code>git rebase</code>的黄金法则便是: 绝不要在公共的分支上使用它</p>
+<h3 id="准备commit提交信息"><a href="#准备commit提交信息" class="headerlink" title="准备commit提交信息"></a>准备commit提交信息</h3><p>老规矩，先准备几条commit信息</p>
 <p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old0.png" alt=""></p>
 <p>然后执行命令<code>git rebase -i HEAD~3</code>进入修改模式</p>
 <p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old1.png" alt=""></p>
@@ -212,7 +213,8 @@
 <p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old4.png" alt="执行--ammend"></p>
 <p>然后回到熟悉的节奏<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old5.png" alt="有木有很熟悉"></p>
 <h3 id="开始修改"><a href="#开始修改" class="headerlink" title="开始修改"></a>开始修改</h3><p>接下来按照最初的设想开始修改吧</p>
-<p>照旧执行<code>i</code>，进入编辑模式修改<br><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old6.png" alt=""></p>
+<p>照旧执行<code>i</code>，进入编辑模式修改</p>
+<p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old6.png" alt=""></p>
 <p>完了,退出<code>esc</code>,保存<code>:wq</code></p>
 <p><img src="http://loadingmore-1254319003.coscd.myqcloud.com/edit-old7.png" alt="显示已经修改成功"></p>
 <p>现在已经commit，但是rebase操作还没结束。若要通知这个提交的操作已经结束，请指定 –continue选项执行rebase。<br><code>git rebase --continue</code></p>
@@ -256,7 +258,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备commit提交信息"><span class="toc-text">准备commit提交信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始修改"><span class="toc-text">开始修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验收"><span class="toc-text">验收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备commit提交信息"><span class="toc-text">准备commit提交信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始修改"><span class="toc-text">开始修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验收"><span class="toc-text">验收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol>
                 </div>
             </div>
         </div>

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Git合并多个commit｜LoaingMore&#39;s blog
+        Git如何合并多个commit｜LoaingMore&#39;s blog
         
     </title>
 
@@ -158,7 +158,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Git合并多个commit</h1>
+                    <h1>Git如何合并多个commit</h1>
                     
                     <span class="meta">
                          作者 LoaingMore
@@ -181,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Git合并多个commit
+            Git如何合并多个commit
         </span>
     </div>
 </header>
@@ -195,6 +195,7 @@
                 <blockquote>
 <p>项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录</p>
 </blockquote>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><code>git rebase</code>的黄金法则便是: 绝不要在公共的分支上使用它</p>
 <h3 id="假设我们有四个commit"><a href="#假设我们有四个commit" class="headerlink" title="假设我们有四个commit"></a>假设我们有四个commit</h3><p><code>git log</code> 查看提交日志.</p>
 <blockquote>
 <p>注: <code>glgg</code> 命令为<code>oh-my-zsh</code>附带aliases, 如果没有安装可自动忽略, 采用git原生操作即可, 下面不多做解释</p>
@@ -261,7 +262,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#假设我们有四个commit"><span class="toc-text">假设我们有四个commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过-git-rebase-i-执行合并操作"><span class="toc-text">通过 git rebase -i  执行合并操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改指令"><span class="toc-text">修改指令</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#假设我们有四个commit"><span class="toc-text">假设我们有四个commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过-git-rebase-i-执行合并操作"><span class="toc-text">通过 git rebase -i  执行合并操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改指令"><span class="toc-text">修改指令</span></a></li></ol>
                 </div>
             </div>
         </div>

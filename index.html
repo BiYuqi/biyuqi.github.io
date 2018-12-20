@@ -298,12 +298,11 @@
             <p>
                 
 项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改老旧commit(非最新)的提交记录.
+前言
+git rebase的黄金法则便是: 绝不要在公共的分支上使用它
+准备commit提交信息老规矩，先准备几条commit信息
 
-准备commit提交信息老样子，先准备几条commit信息
-
-然后执行命令git rebase -i HEAD~3进入修改模式
-
-接下来我们修改第一次提交的commit信息Chang..
+然后执行命令git rebase -i HEAD~..
             </p>
         </div>
     </a>
@@ -328,8 +327,9 @@
             <p>
                 
 项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改最后一次的提交记录.
-
-准备commit提交信息这里我们准备了两个提交记录: I am the second commit on edit-new-commit branch, I am the first commit o..
+前言
+git rebase的黄金法则便是: 绝不要在公共的分支上使用它
+准备commit提交信息这里我们准备了两个提交记录: I am the second commit on edit-new-com..
             </p>
         </div>
     </a>
@@ -355,11 +355,12 @@
                 
 有时候也会遇到需要把commit的顺序调整的情况，比较小众的需求 记录下
 
+前言git rebase的黄金法则便是: 绝不要在公共的分支上使用它
 分类
 单个文件，或者单一功能(耦合性低)的commit移动
 同一个文件的移动(冲突概率比较大)
 
-开始首先我们准备几个提交记录:可以看到提交的顺序 add skip merge add skip merge2 add ..
+开始首先我们准备几个提交记录:可以看到提交的顺序 ..
             </p>
         </div>
     </a>
@@ -374,7 +375,7 @@
      style="background-image: url('/uploads/optmini.jpg')">
     <a href="/2018/12/16/Git合并多个commit/">
         <h2 class="post-title">
-            Git合并多个commit
+            Git如何合并多个commit
         </h2>
         <p class="post-meta">
             <i class="fa fa-calendar" aria-hidden="true"></i> 2018-12-16
@@ -385,7 +386,7 @@
                 
 项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录
 
-假设我们有四个..
+前言git r..
             </p>
         </div>
     </a>
