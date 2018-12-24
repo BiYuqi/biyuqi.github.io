@@ -8,10 +8,10 @@ categories: Javascript
 
 <!-- more -->
 
-### <font color="#FF0000">Demo</font>
+### Demo
 [点击查看demo][2]
 
-[最新源码ES版](https://github.com/BiYuqi/js-utils/blob/master/src/utils/querySearch.js)
+[最新Utils源码ES6版](https://github.com/BiYuqi/js-utils/blob/master/src/core/query.js)
 ### 最常见的方式
 ```javascript
 //无底洞
@@ -19,6 +19,8 @@ categories: Javascript
 ```
 ### 实战开始
 ![enter description here][3]
+
+> 图片服务挂了，会尽快补上
 
 这是一个后台管理系统的退款订单查询页面，可以看到页面的关键词不下十个，选择里面很多状态，而且还要判断是否输入的状态，拼接起来那叫一个酸爽如果用if else 估计我会崩溃的.....
 ### 进入正题
@@ -130,10 +132,10 @@ var _requireParam = function(obj){
 
 // 测试
 var testObj = {
-      id:'123',
-      name:'小芳',
-      keyword:''
-  }
+    id:'123',
+    name:'小芳',
+    keyword:''
+}
 _requireParam(testObj)
 // ?id=123&name=小芳   已经自动过滤掉为空的字段
 ```
@@ -141,9 +143,7 @@ _requireParam(testObj)
 ```javascript
 url = url + str;
 ```
-### 结语
 
-
-  [1]: http://oiukswkar.bkt.clouddn.com/url.jpg
-  [2]: https://biyuqi.github.io/demo/src/html/url.html
-  [3]: http://oiukswkar.bkt.clouddn.com/search-url.png
+[1]: http://oiukswkar.bkt.clouddn.com/url.jpg
+[2]: https://biyuqi.github.io/demo/src/html/url.html
+[3]: http://oiukswkar.bkt.clouddn.com/search-url.png
