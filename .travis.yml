@@ -6,7 +6,7 @@ cache:
     - node_modules
 
 before_install:
-  - export TZ='Asia/Beijing' # 更改时区
+  - export TZ='Asia/Shanghai' # 更改时区
 
 install:
   - npm install
@@ -22,7 +22,7 @@ after_script:
   - cd ../
   - mv .deploy_git/.git/ ./public/
   - cd ./public
-  - git init 
+  - git init
   - git config user.name "BiYuqi"
   - git config user.email "biyuqiwan@163.com"
   - git add .
