@@ -61,8 +61,8 @@ function hasClass(elem,hClass){
 //调用了上个函数hasClass
 function removeClass(elem,rName){
 	if(hasClass(elem,rName)){
-		var reg = new RegExp('(\\s|^)'+rName+'(\\s|$)');
-		elem.className = elem.className.replace(reg,' ');//‘ ’空格
+		var reg = new RegExp('(\\s|^)'+rName+'(\\s|$)', 'g');
+		elem.className = elem.className.replace(reg, ' ');//‘ ’空格
 	}
 }
 ```
