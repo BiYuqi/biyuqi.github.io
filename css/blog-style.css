@@ -1097,13 +1097,22 @@ img::-moz-selection {
     height: 55px;
 }
 
-.navbar-custom.is-fixed::before {
+/* .navbar-custom.is-fixed::before {
     content: ' ';
     display: block;
     height: 2px;
     position: absolute;
     width: 100%;
     background: red;
+} */
+.navbar-custom .navbar-custom__bar {
+    width: 0%;
+    height: 2px;
+    background: red;
+    transition: width .24s;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .navbar-custom.is-fixed .brand-logo {

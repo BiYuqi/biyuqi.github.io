@@ -32,14 +32,23 @@ function _throttle(delay,times,callback){
     }
 }
 var _target = $('.ant-back-top');
+var navBarRed = $('.navbar-custom__bar')
 $(window).scroll(_throttle(100,100,function(){
-	var scrollTop = $(document).scrollTop();
+    var wHeihgt = $(window).height();
+    var bHeight = $('body').height();
+    var scrollTop = $(window).scrollTop();
+
+    var ratio = Math.max(0, Math.min(1, (scrollTop / (bHeight - wHeihgt)))) * 100;
+
+    navBarRed.css({
+        width: ratio + '%'
+    })
 	//console.log(scrollTop)
 	if(scrollTop >= 500){
 		_target.show();
 	}else{
 		_target.hide();
-	}
+    }
 }))
 // make all images responsive
 /*
