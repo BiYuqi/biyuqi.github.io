@@ -197,7 +197,94 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="#file-dir">文件和目录列表</a><br><a href="#handle-doc">处理文件</a><br><a href="#handle-dir">处理目录</a><br><a href="#cat-file">查看文件</a></p>
+                <p><strong>前言</strong></p>
+<p><a href="#file-dir">文件和目录列表</a><br><a href="#handle-doc">处理文件</a><br><a href="#handle-dir">处理目录</a><br><a href="#cat-file">查看文件</a></p>
+<h2 id="常见linux目录"><a href="#常见linux目录" class="headerlink" title="常见linux目录"></a>常见linux目录</h2><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/</td>
+<td>虚拟目录的根目录, 通常不会在这里存储文件</td>
+</tr>
+<tr>
+<td>/bin</td>
+<td>二进制目录, 存放许多用户级的<a href="">GNU</a>工具</td>
+</tr>
+<tr>
+<td>/boot</td>
+<td>启动目录, 存放启动文件</td>
+</tr>
+<tr>
+<td>/dev</td>
+<td>设备目录, linux在这里创建设备节点</td>
+</tr>
+<tr>
+<td>/etc</td>
+<td>系统配置文件目录</td>
+</tr>
+<tr>
+<td>/home</td>
+<td>主目录, Linux在这里创建用户</td>
+</tr>
+<tr>
+<td>/lib</td>
+<td>库目录, 存放系统和应用程序的库文件</td>
+</tr>
+<tr>
+<td>/media</td>
+<td>媒体目录, 可移动媒体设备的常用挂载点</td>
+</tr>
+<tr>
+<td>/mnt</td>
+<td>挂载目录, 另一个即可移动媒体设备的常用挂载点</td>
+</tr>
+<tr>
+<td>/opt</td>
+<td>可选目录m 常用语存放第三方软件包和数据文件</td>
+</tr>
+<tr>
+<td>/proc</td>
+<td>进程目录, 存放现有硬件及当前进程的相关信息</td>
+</tr>
+<tr>
+<td>/root</td>
+<td>root用户的主目录</td>
+</tr>
+<tr>
+<td>/sbin</td>
+<td>系统二进制目录，存放许多[GNU]管理工具</td>
+</tr>
+<tr>
+<td>/run</td>
+<td>运行目录, 存放系统运作时的运行数据</td>
+</tr>
+<tr>
+<td>/srv</td>
+<td>服务目录, 存放本地服务的相关文件</td>
+</tr>
+<tr>
+<td>/sys</td>
+<td>系统目录, 存放系统硬件信息的相关文件</td>
+</tr>
+<tr>
+<td>/tmp</td>
+<td>临时目录, 可以在该目录中创建和删除临时工作文件</td>
+</tr>
+<tr>
+<td>/usr</td>
+<td>用户二进制目录, 大量用户级的[GNU]工具和数据文件都存储在这里</td>
+</tr>
+<tr>
+<td>/var</td>
+<td>可变目录, 用以存放经常变化的文件，比如日志文件</td>
+</tr>
+</tbody>
+</table>
 <h2 id="文件和目录列表"><a href="#文件和目录列表" class="headerlink" title="文件和目录列表"></a><span id="file-dir">文件和目录列表</span></h2><p><strong>显示当前文件和目录</strong></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls</div></pre></td></tr></table></figure>
 <figure class="highlight js"><table><tr><td class="code"><pre><div class="line">README-zh_CN.md      commitlint.config.js example              node_modules</div><div class="line">README.md            docs                 lerna.json           package-lock.json</div></pre></td></tr></table></figure>
@@ -206,7 +293,7 @@
 <p><code>-F</code>参数在目录后面加了正斜线(/)</p>
 <p><strong>显示隐藏文件</strong><br>利用参数 <code>-a</code>来显示隐藏文件和普通文件, 所有以点号开始的隐藏文件都显示出来了<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -a</div></pre></td></tr></table></figure></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><div class="line">.git                 README-zh_CN.md      commitlint.config.js example              node_modules</div><div class="line">..                   .gitignore           README.md            docs                 lerna.json</div></pre></td></tr></table></figure>
-<p><strong>显示长列表</strong><br>利用<code>ls -l</code>产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls -l</div></pre></td></tr></table></figure></p>
+<p><strong>显示长列表</strong><br>利用<code>ls -l</code>产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -l</div></pre></td></tr></table></figure></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><div class="line">» ls -l</div><div class="line">total <span class="number">176</span></div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff   <span class="number">4453</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> _config.yml</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff  <span class="number">77732</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> package-lock.json</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff    <span class="number">667</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> package.json</div><div class="line">drwxr-xr-x  <span class="number">5</span> yuqi.bi  staff    <span class="number">160</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> scaffolds</div><div class="line">drwxr-xr-x  <span class="number">9</span> yuqi.bi  staff    <span class="number">288</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> source</div></pre></td></tr></table></figure>
 <p><strong>过滤输出列表</strong><br><code>ls</code> 会输出很多信息，可以针对目标文件进行过滤搜索,这里支持的是正则表达式</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 搜索以——conf开头的文件</span></div><div class="line">» ls -l _confi*</div></pre></td></tr></table></figure>
@@ -303,7 +390,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和目录列表"><span class="toc-text">文件和目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理文件"><span class="toc-text">处理文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理目录"><span class="toc-text">处理目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看文件"><span class="toc-text">查看文件</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见linux目录"><span class="toc-text">常见linux目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和目录列表"><span class="toc-text">文件和目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理文件"><span class="toc-text">处理文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理目录"><span class="toc-text">处理目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看文件"><span class="toc-text">查看文件</span></a></li></ol>
                 </div>
             </div>
         </div>
