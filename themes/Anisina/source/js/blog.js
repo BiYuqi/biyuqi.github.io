@@ -38,7 +38,7 @@ $(window).scroll(_throttle(100,100,function(){
     var bHeight = $('body').height();
     var scrollTop = $(window).scrollTop();
 
-    var ratio = Math.max(0, Math.min(1, (scrollTop / (bHeight - wHeihgt)))) * 100;
+    var ratio = Math.max(0, Math.min(1, (scrollTop / (bHeight - wHeihgt - 55)))) * 100;
 
     navBarRed.css({
         width: ratio + '%'
