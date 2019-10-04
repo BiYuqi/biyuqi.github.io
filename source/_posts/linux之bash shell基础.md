@@ -5,12 +5,29 @@ tags: [linux, bash, shell]
 categories: Linux
 ---
 
-# 前言
+## <span id="dir">常见linux目录</span>
 
-[文件和目录列表](#file-dir)
-[处理文件](#handle-doc)
-[处理目录](#handle-dir)
-[查看文件](#cat-file)
+目录 | 用途
+----- | -----
+/ | 虚拟目录的根目录, 通常不会在这里存储文件
+/bin | 二进制目录, 存放许多用户级的[GNU]()工具
+/boot | 启动目录, 存放启动文件
+/dev | 设备目录, linux在这里创建设备节点
+/etc | 系统配置文件目录
+/home | 主目录, Linux在这里创建用户
+/lib | 库目录, 存放系统和应用程序的库文件
+/media | 媒体目录, 可移动媒体设备的常用挂载点
+/mnt | 挂载目录, 另一个即可移动媒体设备的常用挂载点
+/opt | 可选目录m 常用语存放第三方软件包和数据文件
+/proc | 进程目录, 存放现有硬件及当前进程的相关信息
+/root | root用户的主目录
+/sbin | 系统二进制目录，存放许多[GNU]管理工具
+/run | 运行目录, 存放系统运作时的运行数据
+/srv | 服务目录, 存放本地服务的相关文件
+/sys | 系统目录, 存放系统硬件信息的相关文件
+/tmp | 临时目录, 可以在该目录中创建和删除临时工作文件
+/usr | 用户二进制目录, 大量用户级的[GNU]工具和数据文件都存储在这里
+/var | 可变目录, 用以存放经常变化的文件，比如日志文件
 
 ## <span id="file-dir">文件和目录列表</span>
 
@@ -45,7 +62,7 @@ README.md             docs/                 lerna.json            package-lock.j
 **显示长列表**
 利用`ls -l`产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)
 ```shell
-ls -l
+» ls -l
 ```
 ```js
 » ls -l
@@ -231,4 +248,40 @@ cat demo.txt
 
 ```shell
 » head -n [number] [file] 
+```
+
+## <span id="search-data">搜索数据</span>
+
+`grep [options] pattern [file]`
+
+grep命令会在输入或指定的文件中查找包含匹配指定模式的字符的行, 它的输出就是包含了匹配模式的行.
+
+eg: 在demo.js文件中找到含有`key`的行
+```shell
+» grep key demo.js
+```
+
+- 如果进行方向搜索(即不匹配该行), 加`-v`
+```shell
+» grep -v key demo.js
+```
+
+- 如果要显示匹配模式的行所在行号, 加`-n`
+```shell
+» grep -n key demo.js
+```
+
+- 如果想知道有多少行匹配, 加`-c`
+```shell
+» grep -c key demo.js
+```
+
+- 如果要制定多个匹配模式, 加`-e`指定每一个模式
+```shell
+» grep -e key -e word demo.js
+```
+
+- 支持正则表达式
+```shell
+» grep [k-z] demo.js
 ```
