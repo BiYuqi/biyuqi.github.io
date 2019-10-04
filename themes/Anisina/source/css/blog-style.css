@@ -1285,3 +1285,12 @@ pre .comment{
 		vertical-align: top;
 	}
 }
+
+.list-inline__custom li {
+    display: block;
+}
+@media (max-width: 768px) {
+    .list-inline__custom li {
+        display: inline-block;
+    }
+}

@@ -5,7 +5,7 @@
 # Site
 title: LoadingMore # your blog title name
 subtitle:
-author: LoaingMore # 作者
+author: BiYuqi # 作者
 language:
 timezone:
 
@@ -14,8 +14,8 @@ timezone:
 SEOTitle: LoaingMore's blog
 header-img: /uploads/optmini.jpg
 email: biyuqiwan@163.com
-description: "毕宇旗 Github 上的个人博客"
-keyword: "毕宇旗, 个人博客, 个人网站, web前端, 前端开发, JavaScript,css,html" # seo key words
+description: "毕宇旗 Github 上的个人前端博客"
+keyword: "毕宇旗, 个人博客, 前端博客 个人网站, web前端, 前端开发, JavaScript, css, html, linux, git, vue, react" # seo key words
 
 favicon: # your favicon png
 # custom end
@@ -59,7 +59,7 @@ ga_track_id:             # Format: UA-xxxxxx-xx
 ga_domain:
 
 # Sidebar settings
-sidebar-about-description: '越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com'# 个人描述
+sidebar-about-description: '越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com' # 个人描述
 sidebar-avatar: /uploads/avatar.png    # use absolute URL
 
 
@@ -70,24 +70,28 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # friends
 friends: [
     {
-        "title": "前端导航",
-        "href": "http://loadingmore.com/vuenotes/"
-    },
-    {
-        "title": "webpack-seed",
+        "title": "webpack-seed原生多页面开发",
         "href": "https://github.com/BiYuqi/webpack-seed"
     },
     {
-        "title": "Vue后台系统解决方案",
+        "title": "ftbjs脚手架",
+        "href": "https://github.com/ftbjs/ftb-cli"
+    },
+    {
+        "title": "vue后台系统解决方案",
         "href": "https://github.com/BiYuqi/vue-element-admin"
     },
     {
-        "title": "Vue后台系统模板",
+        "title": "vue后台系统模板",
         "href": "https://github.com/BiYuqi/vue-admin-template"
     },
     {
-        "title": "Vue多页面开发实例",
+        "title": "vue多页面开发实例",
         "href": "https://github.com/BiYuqi/vue2-multiple-page"
+    },
+    {
+        "title": "前端导航",
+        "href": "http://loadingmore.com/vuenotes/"
     }
 ]
 
