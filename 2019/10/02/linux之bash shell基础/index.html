@@ -197,9 +197,8 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p><strong>前言</strong></p>
-<p><a href="#file-dir">文件和目录列表</a><br><a href="#handle-doc">处理文件</a><br><a href="#handle-dir">处理目录</a><br><a href="#cat-file">查看文件</a></p>
-<h2 id="常见linux目录"><a href="#常见linux目录" class="headerlink" title="常见linux目录"></a>常见linux目录</h2><table>
+                <p><strong>前言</strong><br><a href="#dir">常见linux目录</a><br><a href="#file-dir">文件和目录列表</a><br><a href="#handle-doc">处理文件</a><br><a href="#handle-dir">处理目录</a><br><a href="#cat-file">查看文件</a><br><a href="#search-data">搜索数据</a></p>
+<h2 id="常见linux目录"><a href="#常见linux目录" class="headerlink" title="常见linux目录"></a><span id="dir">常见linux目录</span></h2><table>
 <thead>
 <tr>
 <th>目录</th>
@@ -361,6 +360,26 @@
 </ul>
 <p><code>head [-n count | -c bytes] [file ...]</code><br>查看文件起始内容</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» head -n [number] [file]</div></pre></td></tr></table></figure>
+<h2 id="搜索数据"><a href="#搜索数据" class="headerlink" title="搜索数据"></a><span id="search-data">搜索数据</span></h2><p><code>grep [options] pattern [file]</code></p>
+<p>grep命令会在输入或指定的文件中查找包含匹配指定模式的字符的行, 它的输出就是包含了匹配模式的行.</p>
+<p>eg: 在demo.js文件中找到含有<code>key</code>的行<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep key demo.js</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>如果进行方向搜索(即不匹配该行), 加<code>-v</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -v key demo.js</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果要显示匹配模式的行所在行号, 加<code>-n</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -n key demo.js</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果想知道有多少行匹配, 加<code>-c</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -c key demo.js</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果要制定多个匹配模式, 加<code>-e</code>指定每一个模式</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -e key -e word demo.js</div></pre></td></tr></table></figure>
+</li>
+<li><p>支持正则表达式</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep [k-z] demo.js</div></pre></td></tr></table></figure></li>
+</ul>
+
                 <hr>
                 
 
@@ -390,7 +409,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见linux目录"><span class="toc-text">常见linux目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和目录列表"><span class="toc-text">文件和目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理文件"><span class="toc-text">处理文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理目录"><span class="toc-text">处理目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看文件"><span class="toc-text">查看文件</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见linux目录"><span class="toc-text">常见linux目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和目录列表"><span class="toc-text">文件和目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理文件"><span class="toc-text">处理文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理目录"><span class="toc-text">处理目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看文件"><span class="toc-text">查看文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索数据"><span class="toc-text">搜索数据</span></a></li></ol>
                 </div>
             </div>
         </div>
