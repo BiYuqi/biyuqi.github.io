@@ -229,7 +229,53 @@
 <p>scale变量设置成了四位小数，并在expression中指定了特定和运算</p>
 <h2 id="退出脚本"><a href="#退出脚本" class="headerlink" title="退出脚本"></a>退出脚本</h2><p><strong>查看退出状态码</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash">?</span></div></pre></td></tr></table></figure></p>
 <p>e.g.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo $?</div><div class="line"><span class="meta">#</span><span class="bash"> 0</span></div></pre></td></tr></table></figure></p>
-<p>linux退出状态码<br>状态码 | 描述<br>—– | —-<br>0 | 命令成功结束<br>1 | 一般性未知错误<br>2 | 不适合的shell命令<br>126 | 命令不可执行<br>127 | 没找到命令<br>128 | 无效的退出参数<br>128+x | 与linux信号相关的严重错误<br>130 | 通过 Ctrl + C 终止<br>255 | 正常范围之外的状态码</p>
+<p>linux退出状态码</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>命令成功结束</td>
+</tr>
+<tr>
+<td>1</td>
+<td>一般性未知错误</td>
+</tr>
+<tr>
+<td>2</td>
+<td>不适合的shell命令</td>
+</tr>
+<tr>
+<td>126</td>
+<td>命令不可执行</td>
+</tr>
+<tr>
+<td>127</td>
+<td>没找到命令</td>
+</tr>
+<tr>
+<td>128</td>
+<td>无效的退出参数</td>
+</tr>
+<tr>
+<td>128+x</td>
+<td>与linux信号相关的严重错误</td>
+</tr>
+<tr>
+<td>130</td>
+<td>通过 Ctrl + C 终止</td>
+</tr>
+<tr>
+<td>255</td>
+<td>正常范围之外的状态码</td>
+</tr>
+</tbody>
+</table>
 <p><strong>exit命令</strong><br>exit命令允许在脚本结束时指定一个退出状态码</p>
 
                 <hr>
