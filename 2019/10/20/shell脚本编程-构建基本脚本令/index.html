@@ -197,32 +197,33 @@
                 <h2 id="创建shell脚本文件"><a href="#创建shell脚本文件" class="headerlink" title="创建shell脚本文件"></a>创建shell脚本文件</h2><p>创建shell脚本文件时,需要在第一行指定要使用的shell:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div></pre></td></tr></table></figure>
 <p>通常井(#)号用作注释行, 第一行是个例外.</p>
-<h3 id="改变文件权限"><a href="#改变文件权限" class="headerlink" title="改变文件权限"></a>改变文件权限</h3><p>chmod命令用来改变文件和目录的安全性，格式如下：</p>
+<p><strong>1.改变文件权限</strong></p>
+<p>chmod命令用来改变文件和目录的安全性，格式如下：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod options mode file</div></pre></td></tr></table></figure>
 <p>mode 参数可以使用八进制模式或者符号进行安全设置</p>
-<p><strong>八进制模式</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod 760 somefile</div></pre></td></tr></table></figure></p>
+<p><strong>2.八进制模式</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod 760 somefile</div></pre></td></tr></table></figure></p>
 <p>得到：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls -l somefile</div><div class="line"><span class="meta">#</span><span class="bash"> -rwxrw----</span></div></pre></td></tr></table></figure></p>
-<p><strong>符号模式</strong><br><code>[ugoa][[+-=][rwxXstigo]]</code></p>
+<p><strong>3.符号模式</strong><br><code>[ugoa][[+-=][rwxXstigo]]</code></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">u 代表用户</div><div class="line">g 代表组</div><div class="line">o 代表其他</div><div class="line">a 代表上述所有</div><div class="line">------</div><div class="line">r read</div><div class="line">w write</div><div class="line">x 执行权限</div><div class="line">X 如果对象是目录或者它已有执行权限，赋予执行权限</div><div class="line">s 运行时重新设置UID or GID</div><div class="line">t 包括文件或者目录</div><div class="line">u 设置属主权限</div><div class="line">g 设置属组权限</div><div class="line">o 设置其他用户权限</div></pre></td></tr></table></figure>
-<h3 id="执行shell文件"><a href="#执行shell文件" class="headerlink" title="执行shell文件"></a>执行shell文件</h3><p>第一次执行文件可能会告知没有权限<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">permission denied: ./somefile.sh</div></pre></td></tr></table></figure></p>
+<p><strong>4.执行shell文件</strong><br>第一次执行文件可能会告知没有权限<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">permission denied: ./somefile.sh</div></pre></td></tr></table></figure></p>
 <p>这时候可以用到👆的方法进行赋予权限：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod u+x somefile.sh</div></pre></td></tr></table></figure></p>
-<h3 id="echo输出消息"><a href="#echo输出消息" class="headerlink" title="echo输出消息"></a>echo输出消息</h3><p>在echo命令后加上字符串，就可以显示该文本<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo "This is a test"</div><div class="line"><span class="meta">#</span><span class="bash"> This is a <span class="built_in">test</span></span></div><div class="line">``` </div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment">## 使用变量</span></span></div><div class="line">set命令可以显示完整的当前环境变量</div><div class="line"></div><div class="line">**环境变量**</div><div class="line">```shell</div><div class="line">set</div></pre></td></tr></table></figure></p>
+<p><strong>5.echo输出消息</strong><br>在echo命令后加上字符串，就可以显示该文本<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo "This is a test"</div><div class="line"><span class="meta">#</span><span class="bash"> This is a <span class="built_in">test</span></span></div><div class="line">``` </div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment"># 使用变量</span></span></div><div class="line">set命令可以显示完整的当前环境变量</div><div class="line"></div><div class="line">**1.环境变量**</div><div class="line">```shell</div><div class="line">set</div></pre></td></tr></table></figure></p>
 <p>如果我们想使用环境变量，只需在名称之前加上$美元符号即可<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo $HOME</div></pre></td></tr></table></figure></p>
-<p><strong>用户变量</strong><br>用户可以定义自己的变量,比如我们在方才的<code>somefile.sh</code>文件中写入：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div><div class="line"></div><div class="line">val1=5</div><div class="line">val2=10</div><div class="line">echo $&#123;val1&#125; $&#123;val2&#125;</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> 5 10</span></div></pre></td></tr></table></figure></p>
-<h2 id="重定向输入输出"><a href="#重定向输入输出" class="headerlink" title="重定向输入输出"></a>重定向输入输出</h2><p><strong>输出重定向</strong><br>基本的重定向是将命令输出发送到一个文件中.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">command &gt; outputfile</div></pre></td></tr></table></figure></p>
+<p><strong>2.用户变量</strong><br>用户可以定义自己的变量,比如我们在方才的<code>somefile.sh</code>文件中写入：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div><div class="line"></div><div class="line">val1=5</div><div class="line">val2=10</div><div class="line">echo $&#123;val1&#125; $&#123;val2&#125;</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> 5 10</span></div></pre></td></tr></table></figure></p>
+<h2 id="重定向输入输出"><a href="#重定向输入输出" class="headerlink" title="重定向输入输出"></a>重定向输入输出</h2><p><strong>1.输出重定向</strong><br>基本的重定向是将命令输出发送到一个文件中.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">command &gt; outputfile</div></pre></td></tr></table></figure></p>
 <p>e.g.</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">date &gt; test</div></pre></td></tr></table></figure>
 <p>创建了一个test文件, 并将日期写入到该文件中.<br>如果文件已经存在，会覆盖原有内容，如果不想覆盖原有内容，而是追加内容，可用双大于号(&gt;&gt;)</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">date &gt;&gt; test</div></pre></td></tr></table></figure>
-<p><strong>输入重定向</strong><br>输入重定向和输出刚好是相反的，将内容重定向到命令, 用小于号<code>&lt;</code></p>
+<p><strong>2.输入重定向</strong><br>输入重定向和输出刚好是相反的，将内容重定向到命令, 用小于号<code>&lt;</code></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">command &lt; inputfile</div></pre></td></tr></table></figure>
 <p>e.g.</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">wc &lt; inputfile</div></pre></td></tr></table></figure>
 <p>可以对文件中的数据进行计数，默认3个值， 行数,词数,字节数</p>
 <p>还有一种输入重定向: 内联输入重定向. 内联重定向是远小于号(<code>&lt;&lt;</code>),该方法无需使用文件进行查询，只需要在命令行中指定用于输入重定向的数据, 除了该符号，还需要指定一个文本标记来划分输入数据的开始结尾.</p>
-<h2 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h2><p><strong>方括号</strong><br><code>$[ operation]</code></p>
+<h2 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h2><p><strong>1.方括号</strong><br><code>$[ operation]</code></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">val1=5</div><div class="line">val2=10</div><div class="line">val3=$[$val1 - $val2]</div><div class="line">echo $val3</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> -5</span></div></pre></td></tr></table></figure>
-<p><strong>浮点运算</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">variable=$(echo "options; expression" | bc)</div></pre></td></tr></table></figure></p>
+<p><strong>2.浮点运算</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">variable=$(echo "options; expression" | bc)</div></pre></td></tr></table></figure></p>
 <p>第一部分options允许你设置变量, 多个变量用分号隔开; expression参数定义了通过<code>bc</code>执行数学表达式</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div><div class="line">val1=100</div><div class="line">val2=45</div><div class="line">val3=$(echo "scale=4; $val1 / $val2"| bc)</div><div class="line"></div><div class="line">echo The answer for this is $val3</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> The answer <span class="keyword">for</span> this is 2.2222</span></div></pre></td></tr></table></figure>
 <p>scale变量设置成了四位小数，并在expression中指定了特定和运算</p>
@@ -260,7 +261,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建shell脚本文件"><span class="toc-text">创建shell脚本文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#改变文件权限"><span class="toc-text">改变文件权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行shell文件"><span class="toc-text">执行shell文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#echo输出消息"><span class="toc-text">echo输出消息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重定向输入输出"><span class="toc-text">重定向输入输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数学运算"><span class="toc-text">数学运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#退出脚本"><span class="toc-text">退出脚本</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建shell脚本文件"><span class="toc-text">创建shell脚本文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重定向输入输出"><span class="toc-text">重定向输入输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数学运算"><span class="toc-text">数学运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#退出脚本"><span class="toc-text">退出脚本</span></a></li></ol>
                 </div>
             </div>
         </div>
