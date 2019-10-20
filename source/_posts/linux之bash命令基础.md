@@ -1,5 +1,5 @@
 ---
-title: linux之bash shell基础
+title: linux之bash命令基础
 date: 2019-10-02 13:05:29
 tags: [linux, bash, shell]
 categories: Linux
