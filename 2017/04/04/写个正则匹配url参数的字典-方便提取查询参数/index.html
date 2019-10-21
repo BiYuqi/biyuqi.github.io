@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         写个正则匹配url参数的字典(方便提取查询参数)｜LoaingMore&#39;s blog
@@ -204,8 +205,47 @@
 <p>项目经常会用到提取地址栏的参数的问题，之前都是随用随写，这不趁着放假，总结了一下</p>
 </blockquote>
 <a id="more"></a>
-<h3 id="我的版本"><a href="#我的版本" class="headerlink" title="我的版本"></a>我的版本</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUrlPart</span>(<span class="params">url</span>)</span>&#123;</div><div class="line">    url = url == <span class="literal">null</span> ? <span class="built_in">window</span>.location.href : url;</div><div class="line">    <span class="keyword">var</span> str = url.substring(url.indexOf(<span class="string">'?'</span>)+<span class="number">1</span>);</div><div class="line">    <span class="comment">// 或者 var str = url.split('?')[1];也可以拿到?后面参数</span></div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/([^?&amp;=]+)=([^?&amp;=]+)/gi</span>;</div><div class="line">    <span class="keyword">var</span> m,res = &#123;&#125;;</div><div class="line">    <span class="keyword">while</span> (m = reg.exec(str))&#123;</div><div class="line">        res[m[<span class="number">1</span>]] = m[<span class="number">2</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="来个高程三的版本"><a href="#来个高程三的版本" class="headerlink" title="来个高程三的版本"></a>来个高程三的版本</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getQueryStringArgs</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//取得查询字符串并渠道开头问好</span></div><div class="line">    <span class="keyword">var</span> qs = (location.search.length &gt; <span class="number">0</span> ? location.search.substring(<span class="number">1</span>) : <span class="string">""</span>),</div><div class="line"></div><div class="line">    <span class="comment">//保存数据对象</span></div><div class="line">    args = &#123;&#125;,</div><div class="line"></div><div class="line">    <span class="comment">//取得每一项</span></div><div class="line">    items = qs.length ? qs.split(<span class="string">"&amp;"</span>) : [],</div><div class="line">    item = <span class="literal">null</span>,</div><div class="line">    name = <span class="literal">null</span>,</div><div class="line">    value = <span class="literal">null</span>,</div><div class="line"></div><div class="line">    <span class="comment">//for循环中使用</span></div><div class="line">    i = <span class="number">0</span>,</div><div class="line">    len = items.length;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        item = items[i].split(<span class="string">"="</span>);</div><div class="line">        name = <span class="built_in">decodeURIComponent</span>(item[<span class="number">0</span>]);</div><div class="line">        value = <span class="built_in">decodeURIComponent</span>(item[<span class="number">1</span>]);</div><div class="line"></div><div class="line">        <span class="keyword">if</span>(name.length)&#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="我的版本"><a href="#我的版本" class="headerlink" title="我的版本"></a>我的版本</h3><pre><code class="javascript">function getUrlPart(url){
+    url = url == null ? window.location.href : url;
+    var str = url.substring(url.indexOf(&#39;?&#39;)+1);
+    // 或者 var str = url.split(&#39;?&#39;)[1];也可以拿到?后面参数
+    var reg = /([^?&amp;=]+)=([^?&amp;=]+)/gi;
+    var m,res = {};
+    while (m = reg.exec(str)){
+        res[m[1]] = m[2];
+    }
+    return res;
+}
+</code></pre>
+<h3 id="来个高程三的版本"><a href="#来个高程三的版本" class="headerlink" title="来个高程三的版本"></a>来个高程三的版本</h3><pre><code class="javascript">function getQueryStringArgs(){
+    //取得查询字符串并渠道开头问好
+    var qs = (location.search.length &gt; 0 ? location.search.substring(1) : &quot;&quot;),
+
+    //保存数据对象
+    args = {},
+
+    //取得每一项
+    items = qs.length ? qs.split(&quot;&amp;&quot;) : [],
+    item = null,
+    name = null,
+    value = null,
+
+    //for循环中使用
+    i = 0,
+    len = items.length;
+
+    for(i=0;i&lt;len;i++){
+        item = items[i].split(&quot;=&quot;);
+        name = decodeURIComponent(item[0]);
+        value = decodeURIComponent(item[1]);
+
+        if(name.length){
+            args[name] = value;
+        }
+    }
+    return args;
+}
+</code></pre>
 
                 <hr>
                 
@@ -285,9 +325,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -355,13 +395,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

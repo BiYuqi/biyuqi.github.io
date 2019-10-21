@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://loadingmore.com/"/>
-  <updated>2019-10-20T07:43:55.518Z</updated>
+  <updated>2019-10-21T14:50:53.516Z</updated>
   <id>http://loadingmore.com/</id>
   
   <author>
@@ -20,43 +20,112 @@
     <link href="http://loadingmore.com/2019/10/20/shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B-%E6%9E%84%E5%BB%BA%E5%9F%BA%E6%9C%AC%E8%84%9A%E6%9C%AC%E4%BB%A4/"/>
     <id>http://loadingmore.com/2019/10/20/shell脚本编程-构建基本脚本令/</id>
     <published>2019-10-20T05:05:29.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<h2 id="创建shell脚本文件"><a href="#创建shell脚本文件" class="headerlink" title="创建shell脚本文件"></a>创建shell脚本文件</h2><p>创建shell脚本文件时,需要在第一行指定要使用的shell:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div></pre></td></tr></table></figure>
+<pre><code class="shell">#! /bin/bash
+</code></pre>
 <p>通常井(#)号用作注释行, 第一行是个例外.</p>
 <p><strong>1.改变文件权限</strong></p>
 <p>chmod命令用来改变文件和目录的安全性，格式如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod options mode file</div></pre></td></tr></table></figure>
+<pre><code class="shell">chmod options mode file
+</code></pre>
 <p>mode 参数可以使用八进制模式或者符号进行安全设置</p>
-<p><strong>2.八进制模式</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod 760 somefile</div></pre></td></tr></table></figure></p>
-<p>得到：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls -l somefile</div><div class="line"><span class="meta">#</span><span class="bash"> -rwxrw----</span></div></pre></td></tr></table></figure></p>
+<p><strong>2.八进制模式</strong></p>
+<pre><code class="shell">chmod 760 somefile
+</code></pre>
+<p>得到：</p>
+<pre><code class="shell">ls -l somefile
+# -rwxrw----
+</code></pre>
 <p><strong>3.符号模式</strong><br><code>[ugoa][[+-=][rwxXstigo]]</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">u 代表用户</div><div class="line">g 代表组</div><div class="line">o 代表其他</div><div class="line">a 代表上述所有</div><div class="line">------</div><div class="line">r read</div><div class="line">w write</div><div class="line">x 执行权限</div><div class="line">X 如果对象是目录或者它已有执行权限，赋予执行权限</div><div class="line">s 运行时重新设置UID or GID</div><div class="line">t 包括文件或者目录</div><div class="line">u 设置属主权限</div><div class="line">g 设置属组权限</div><div class="line">o 设置其他用户权限</div></pre></td></tr></table></figure>
-<p><strong>4.执行shell文件</strong><br>第一次执行文件可能会告知没有权限<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">permission denied: ./somefile.sh</div></pre></td></tr></table></figure></p>
-<p>这时候可以用到👆的方法进行赋予权限：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">chmod u+x somefile.sh</div></pre></td></tr></table></figure></p>
-<p><strong>5.echo输出消息</strong><br>在echo命令后加上字符串，就可以显示该文本<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo "This is a test"</div><div class="line"><span class="meta">#</span><span class="bash"> This is a <span class="built_in">test</span></span></div><div class="line">``` </div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"><span class="comment"># 使用变量</span></span></div><div class="line">set命令可以显示完整的当前环境变量</div><div class="line"></div><div class="line">**1.环境变量**</div><div class="line">```shell</div><div class="line">set</div></pre></td></tr></table></figure></p>
-<p>如果我们想使用环境变量，只需在名称之前加上$美元符号即可<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo $HOME</div></pre></td></tr></table></figure></p>
-<p><strong>2.用户变量</strong><br>用户可以定义自己的变量,比如我们在方才的<code>somefile.sh</code>文件中写入：<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div><div class="line"></div><div class="line">val1=5</div><div class="line">val2=10</div><div class="line">echo $&#123;val1&#125; $&#123;val2&#125;</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> 5 10</span></div></pre></td></tr></table></figure></p>
-<h2 id="重定向输入输出"><a href="#重定向输入输出" class="headerlink" title="重定向输入输出"></a>重定向输入输出</h2><p><strong>1.输出重定向</strong><br>基本的重定向是将命令输出发送到一个文件中.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">command &gt; outputfile</div></pre></td></tr></table></figure></p>
+<pre><code class="shell">u 代表用户
+g 代表组
+o 代表其他
+a 代表上述所有
+------
+r read
+w write
+x 执行权限
+X 如果对象是目录或者它已有执行权限，赋予执行权限
+s 运行时重新设置UID or GID
+t 包括文件或者目录
+u 设置属主权限
+g 设置属组权限
+o 设置其他用户权限
+</code></pre>
+<p><strong>4.执行shell文件</strong><br>第一次执行文件可能会告知没有权限</p>
+<pre><code class="shell">permission denied: ./somefile.sh
+</code></pre>
+<p>这时候可以用到👆的方法进行赋予权限：</p>
+<pre><code class="shell">chmod u+x somefile.sh
+</code></pre>
+<p><strong>5.echo输出消息</strong><br>在echo命令后加上字符串，就可以显示该文本</p>
+<pre><code class="shell">echo &quot;This is a test&quot;
+# This is a test
+</code></pre>
+<h2 id="使用变量"><a href="#使用变量" class="headerlink" title="使用变量"></a>使用变量</h2><p>set命令可以显示完整的当前环境变量</p>
+<p><strong>1.环境变量</strong></p>
+<pre><code class="shell">set
+</code></pre>
+<p>如果我们想使用环境变量，只需在名称之前加上$美元符号即可</p>
+<pre><code class="shell">echo $HOME
+</code></pre>
+<p><strong>2.用户变量</strong><br>用户可以定义自己的变量,比如我们在方才的<code>somefile.sh</code>文件中写入：</p>
+<pre><code class="shell">#! /bin/bash
+
+val1=5
+val2=10
+echo ${val1} ${val2}
+
+# 5 10
+</code></pre>
+<h2 id="重定向输入输出"><a href="#重定向输入输出" class="headerlink" title="重定向输入输出"></a>重定向输入输出</h2><p><strong>1.输出重定向</strong><br>基本的重定向是将命令输出发送到一个文件中.</p>
+<pre><code class="shell">command &gt; outputfile
+</code></pre>
 <p>e.g.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">date &gt; test</div></pre></td></tr></table></figure>
+<pre><code class="shell">date &gt; test
+</code></pre>
 <p>创建了一个test文件, 并将日期写入到该文件中.<br>如果文件已经存在，会覆盖原有内容，如果不想覆盖原有内容，而是追加内容，可用双大于号(&gt;&gt;)</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">date &gt;&gt; test</div></pre></td></tr></table></figure>
+<pre><code class="shell">date &gt;&gt; test
+</code></pre>
 <p><strong>2.输入重定向</strong><br>输入重定向和输出刚好是相反的，将内容重定向到命令, 用小于号<code>&lt;</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">command &lt; inputfile</div></pre></td></tr></table></figure>
+<pre><code class="shell">command &lt; inputfile
+</code></pre>
 <p>e.g.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">wc &lt; inputfile</div></pre></td></tr></table></figure>
+<pre><code class="shell">wc &lt; inputfile
+</code></pre>
 <p>可以对文件中的数据进行计数，默认3个值， 行数,词数,字节数</p>
 <p>还有一种输入重定向: 内联输入重定向. 内联重定向是远小于号(<code>&lt;&lt;</code>),该方法无需使用文件进行查询，只需要在命令行中指定用于输入重定向的数据, 除了该符号，还需要指定一个文本标记来划分输入数据的开始结尾.</p>
 <h2 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h2><p><strong>1.方括号</strong><br><code>$[ operation]</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">val1=5</div><div class="line">val2=10</div><div class="line">val3=$[$val1 - $val2]</div><div class="line">echo $val3</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> -5</span></div></pre></td></tr></table></figure>
-<p><strong>2.浮点运算</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">variable=$(echo "options; expression" | bc)</div></pre></td></tr></table></figure></p>
+<pre><code class="shell">val1=5
+val2=10
+val3=$[$val1 - $val2]
+echo $val3
+
+# -5
+</code></pre>
+<p><strong>2.浮点运算</strong></p>
+<pre><code class="shell">variable=$(echo &quot;options; expression&quot; | bc)
+</code></pre>
 <p>第一部分options允许你设置变量, 多个变量用分号隔开; expression参数定义了通过<code>bc</code>执行数学表达式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">! /bin/bash</span></div><div class="line">val1=100</div><div class="line">val2=45</div><div class="line">val3=$(echo "scale=4; $val1 / $val2"| bc)</div><div class="line"></div><div class="line">echo The answer for this is $val3</div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> The answer <span class="keyword">for</span> this is 2.2222</span></div></pre></td></tr></table></figure>
+<pre><code class="shell">#! /bin/bash
+val1=100
+val2=45
+val3=$(echo &quot;scale=4; $val1 / $val2&quot;| bc)
+
+echo The answer for this is $val3
+
+# The answer for this is 2.2222
+</code></pre>
 <p>scale变量设置成了四位小数，并在expression中指定了特定和运算</p>
-<h2 id="退出脚本"><a href="#退出脚本" class="headerlink" title="退出脚本"></a>退出脚本</h2><p><strong>查看退出状态码</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash">?</span></div></pre></td></tr></table></figure></p>
-<p>e.g.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">echo $?</div><div class="line"><span class="meta">#</span><span class="bash"> 0</span></div></pre></td></tr></table></figure></p>
+<h2 id="退出脚本"><a href="#退出脚本" class="headerlink" title="退出脚本"></a>退出脚本</h2><p><strong>查看退出状态码</strong></p>
+<pre><code class="shell">$?
+</code></pre>
+<p>e.g.</p>
+<pre><code class="shell">echo $?
+# 0
+</code></pre>
 <p>linux退出状态码</p>
 <table>
 <thead>
@@ -127,13 +196,14 @@
     <link href="http://loadingmore.com/2019/10/12/Git%E5%A6%82%E4%BD%95%E5%85%8B%E9%9A%86%E6%8C%87%E5%AE%9A%E5%88%86%E6%94%AF/"/>
     <id>http://loadingmore.com/2019/10/12/Git如何克隆指定分支/</id>
     <published>2019-10-12T15:54:16.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>偶尔会遇到只想克隆指定分支的情况，不想下载主分支，所以有了这篇文章.</p>
 </blockquote>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在Git<code>1.7.10</code>及更高版本中，添加<code>--single-branch</code>以防止提取所有分支.<br><code>&lt;folder&gt;</code> 可以指定克隆岛某个文件夹<br><code>branchname</code> 需要克隆的分支名<br><code>url</code> 远程仓库地址<br><code>--branch</code> 创建分支， 亦可用<code>-b</code>代替</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git clone --branch  &lt;branchname&gt; &lt;url&gt; --single-branch [&lt;folder&gt;]</div></pre></td></tr></table></figure>
+<pre><code class="js">git clone --branch  &lt;branchname&gt; &lt;url&gt; --single-branch [&lt;folder&gt;]
+</code></pre>
 ]]></content>
     
     <summary type="html">
@@ -159,12 +229,13 @@
     <link href="http://loadingmore.com/2019/10/12/VSCode%E6%89%93%E5%BC%80%E5%A4%9Atab%E9%A1%B5/"/>
     <id>http://loadingmore.com/2019/10/12/VSCode打开多tab页/</id>
     <published>2019-10-12T15:52:16.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>安装的vscode每次打开新的文件，前一次打开的就被覆盖掉了，很是抓狂，好在官方提供的配置开关.</p>
 </blockquote>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="string">"workbench.editor.showTabs"</span>: <span class="literal">true</span></div></pre></td></tr></table></figure>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><pre><code class="js">&quot;workbench.editor.showTabs&quot;: true
+</code></pre>
 <p>在设置里搜索<code>workbench.editor.showTabs</code>即可看到开关按钮</p>
 ]]></content>
     
@@ -191,7 +262,7 @@
     <link href="http://loadingmore.com/2019/10/02/linux%E4%B9%8Bbash%E5%91%BD%E4%BB%A4%E5%9F%BA%E7%A1%80/"/>
     <id>http://loadingmore.com/2019/10/02/linux之bash命令基础/</id>
     <published>2019-10-02T05:05:29.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<h2 id="常见linux目录"><a href="#常见linux目录" class="headerlink" title="常见linux目录"></a><span id="dir">常见linux目录</span></h2><table>
 <thead>
@@ -280,34 +351,70 @@
 </tbody>
 </table>
 <h2 id="文件和目录列表"><a href="#文件和目录列表" class="headerlink" title="文件和目录列表"></a><span id="file-dir">文件和目录列表</span></h2><p><strong>显示当前文件和目录</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">README-zh_CN.md      commitlint.config.js example              node_modules</div><div class="line">README.md            docs                 lerna.json           package-lock.json</div></pre></td></tr></table></figure>
-<p>ls是按字母排序的, 可以带参数 <code>-F</code> 用来区分文件和目录<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -F</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">README-zh_CN.md       commitlint.config.js  example/              node_modules/</div><div class="line">README.md             docs/                 lerna.json            package-lock.json</div></pre></td></tr></table></figure>
+<pre><code class="shell">» ls
+</code></pre>
+<pre><code class="js">README-zh_CN.md      commitlint.config.js example              node_modules
+README.md            docs                 lerna.json           package-lock.json
+</code></pre>
+<p>ls是按字母排序的, 可以带参数 <code>-F</code> 用来区分文件和目录</p>
+<pre><code class="shell">» ls -F
+</code></pre>
+<pre><code class="js">README-zh_CN.md       commitlint.config.js  example/              node_modules/
+README.md             docs/                 lerna.json            package-lock.json
+</code></pre>
 <p><code>-F</code>参数在目录后面加了正斜线(/)</p>
-<p><strong>显示隐藏文件</strong><br>利用参数 <code>-a</code>来显示隐藏文件和普通文件, 所有以点号开始的隐藏文件都显示出来了<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -a</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">.git                 README-zh_CN.md      commitlint.config.js example              node_modules</div><div class="line">..                   .gitignore           README.md            docs                 lerna.json</div></pre></td></tr></table></figure>
-<p><strong>显示长列表</strong><br>利用<code>ls -l</code>产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -l</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">» ls -l</div><div class="line">total <span class="number">176</span></div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff   <span class="number">4453</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> _config.yml</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff  <span class="number">77732</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> package-lock.json</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff    <span class="number">667</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> package.json</div><div class="line">drwxr-xr-x  <span class="number">5</span> yuqi.bi  staff    <span class="number">160</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> scaffolds</div><div class="line">drwxr-xr-x  <span class="number">9</span> yuqi.bi  staff    <span class="number">288</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> source</div></pre></td></tr></table></figure>
+<p><strong>显示隐藏文件</strong><br>利用参数 <code>-a</code>来显示隐藏文件和普通文件, 所有以点号开始的隐藏文件都显示出来了</p>
+<pre><code class="shell">» ls -a
+</code></pre>
+<pre><code class="js">.git                 README-zh_CN.md      commitlint.config.js example              node_modules
+..                   .gitignore           README.md            docs                 lerna.json
+</code></pre>
+<p><strong>显示长列表</strong><br>利用<code>ls -l</code>产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)</p>
+<pre><code class="shell">» ls -l
+</code></pre>
+<pre><code class="js">» ls -l
+total 176
+-rw-r--r--  1 yuqi.bi  staff   4453 Sep 25 23:10 _config.yml
+-rw-r--r--  1 yuqi.bi  staff  77732 Sep 25 23:10 package-lock.json
+-rw-r--r--  1 yuqi.bi  staff    667 Sep 25 23:10 package.json
+drwxr-xr-x  5 yuqi.bi  staff    160 Sep 25 23:10 scaffolds
+drwxr-xr-x  9 yuqi.bi  staff    288 Sep 25 23:10 source
+</code></pre>
 <p><strong>过滤输出列表</strong><br><code>ls</code> 会输出很多信息，可以针对目标文件进行过滤搜索,这里支持的是正则表达式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 搜索以——conf开头的文件</span></div><div class="line">» ls -l _confi*</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">» ls -l _confi*</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff  <span class="number">4453</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> _config.yml</div></pre></td></tr></table></figure>
+<pre><code class="shell"># 搜索以——conf开头的文件
+» ls -l _confi*
+</code></pre>
+<pre><code class="js">» ls -l _confi*
+-rw-r--r--  1 yuqi.bi  staff  4453 Sep 25 23:10 _config.yml
+</code></pre>
 <h2 id="处理文件"><a href="#处理文件" class="headerlink" title="处理文件"></a><span id="handle-doc">处理文件</span></h2><p><strong>创建文件</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» touch test_one</div><div class="line">» ls -l test_one</div></pre></td></tr></table></figure>
-<p>显示如下：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">-rw-r--r--  <span class="number">1</span> [Here is your user name]  staff  <span class="number">0</span> Oct  <span class="number">3</span> <span class="number">00</span>:<span class="number">06</span> test_one</div></pre></td></tr></table></figure></p>
+<pre><code class="shell">» touch test_one
+» ls -l test_one
+</code></pre>
+<p>显示如下：</p>
+<pre><code class="js">-rw-r--r--  1 [Here is your user name]  staff  0 Oct  3 00:06 test_one
+</code></pre>
 <p><code>ls -l</code> 不会直接显示访问时间，默认是显示修改时间，如需查看需啊哟加上<code>--time=attime</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -l --time=attime test_one</div></pre></td></tr></table></figure>
+<pre><code class="shell">» ls -l --time=attime test_one
+</code></pre>
 <p><strong>复制文件</strong><br><code>cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file target_file</code></p>
 <p>基本用法： <code>cp 命令需要两个参数--源对象和目标对象</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» cp source destination</div></pre></td></tr></table></figure>
+<pre><code class="shell">» cp source destination
+</code></pre>
 <p>当source和destination 参数是文件名时，cp命令将源文件复制成一个新文件，并命名为destination.</p>
 <p>eg:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» cp test_one test_two</div></pre></td></tr></table></figure>
-<p>如果目标文件已经存在，cp命令并不会提示，所以可以加<code>-i</code>来强制shell提示是否覆盖.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">~/Desktop » cp -i test_one test_two</div><div class="line">overwrite test_two? (y/n [n])</div></pre></td></tr></table></figure></p>
+<pre><code class="shell">» cp test_one test_two
+</code></pre>
+<p>如果目标文件已经存在，cp命令并不会提示，所以可以加<code>-i</code>来强制shell提示是否覆盖.</p>
+<pre><code class="shell">~/Desktop » cp -i test_one test_two
+overwrite test_two? (y/n [n])
+</code></pre>
 <p>cp命令<code>-R</code>参数可以递归的复制整个目录文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» cp -R source/ target</div></pre></td></tr></table></figure>
+<pre><code class="shell">» cp -R source/ target
+</code></pre>
 <p>也可以在cp命令中使用通配符</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">» cp *script new_script/</div></pre></td></tr></table></figure>
+<pre><code class="bash">» cp *script new_script/
+</code></pre>
 <p>该命令静所有以script结尾的文件赋值到new_script目录中，可以通过<code>ls -l new_script</code>查看</p>
 <p><strong>重命名文件</strong></p>
 <p><code>mv [-f | -i | -n] [-v] source target</code></p>
@@ -315,34 +422,53 @@
 <blockquote>
 <p>Create directory <code>linux-demo</code> with demo file and demo dir</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">» ls -lF</div><div class="line">total 0</div><div class="line">drwxr-xr-x  2 yuqi.bi staff  64 Oct  4 15:48 demo/</div><div class="line">-rw-r--r--  1 yuqi.bi staff   0 Oct  4 15:48 demo.txt</div></pre></td></tr></table></figure>
-<p>执行mv命令<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mv demo demo-with-mv</div><div class="line"></div><div class="line">» ls -lF de*</div><div class="line">total 0</div><div class="line">drwxr-xr-x  2 yuqi.bi  staff  64 Oct  4 15:48 demo-with-mv/</div><div class="line">-rw-r--r--  1 yuqi.bi  staff   0 Oct  4 15:48 demo.txt</div></pre></td></tr></table></figure></p>
+<pre><code class="bash">» ls -lF
+total 0
+drwxr-xr-x  2 yuqi.bi staff  64 Oct  4 15:48 demo/
+-rw-r--r--  1 yuqi.bi staff   0 Oct  4 15:48 demo.txt
+</code></pre>
+<p>执行mv命令</p>
+<pre><code class="shell">» mv demo demo-with-mv
+
+» ls -lF de*
+total 0
+drwxr-xr-x  2 yuqi.bi  staff  64 Oct  4 15:48 demo-with-mv/
+-rw-r--r--  1 yuqi.bi  staff   0 Oct  4 15:48 demo.txt
+</code></pre>
 <p>也可以使用mv移动位置并修改文件名称</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mv linux-demo linux-demo2</div></pre></td></tr></table></figure>
+<pre><code class="shell">» mv linux-demo linux-demo2
+</code></pre>
 <p><strong>删除文件</strong></p>
 <p><code>rm [-dfiPRrvW] file ...</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» rm -i demo.txt</div></pre></td></tr></table></figure>
+<pre><code class="shell">» rm -i demo.txt
+</code></pre>
 <p><code>-i</code> 提示是不是要真的删除文件</p>
 <p>如果要删除很多文件不受提示干扰，可用<code>-f</code> 强制删除 <code>-rf</code>递归强制删除</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» rm -rf demo.txt</div></pre></td></tr></table></figure>
+<pre><code class="shell">» rm -rf demo.txt
+</code></pre>
 <h2 id="处理目录"><a href="#处理目录" class="headerlink" title="处理目录"></a><span id="handle-dir">处理目录</span></h2><p><strong>创建目录</strong></p>
 <p><code>mkdir [-pv] [-m mode] directory_name ...</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mkdir new_dir</div></pre></td></tr></table></figure>
+<pre><code class="shell">» mkdir new_dir
+</code></pre>
 <p>如果想批量创建目录和子目录，需要加上<code>-p</code>, 可以根据需要创建缺失目录.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mkdir -p new_dir/sub_dir_child_dir</div></pre></td></tr></table></figure>
+<pre><code class="shell">» mkdir -p new_dir/sub_dir_child_dir
+</code></pre>
 <p><strong>删除目录</strong></p>
 <p><code>rmdir [-p] directory ...</code></p>
 <p>默认情况下<code>rmdir</code>只删除非空目录, 只能先删除文件，才能删除目录</p>
 <p>所以想要一口气删除所有文件，还是需要用到<code>rm -rf [target dir name]</code></p>
 <h2 id="查看文件"><a href="#查看文件" class="headerlink" title="查看文件"></a><span id="cat-file">查看文件</span></h2><p><code>file [-bcdDhiIkLnNprsvz] [--extension] [--mime-encoding] [--mime-type] [-f namefile] [-m magicfiles] [-P name=value]</code></p>
 <p>file命令是一个能够探测文件内部的工具</p>
-<p><strong>查看文件类型</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» file demo.text</div></pre></td></tr></table></figure></p>
+<p><strong>查看文件类型</strong></p>
+<pre><code class="shell">» file demo.text
+</code></pre>
 <p>会返回文件的类型</p>
 <p><strong>查看整个文件</strong></p>
 <ul>
 <li>cat命令</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">cat demo.txt</div></pre></td></tr></table></figure>
+<pre><code class="shell">cat demo.txt
+</code></pre>
 <p><code>-n</code> 可以给所有行加上行号<br><code>-b</code> 可以只给文本行添加行号<br><code>-T</code> 移除制表符</p>
 <p><strong>查看部分文件</strong></p>
 <ul>
@@ -354,25 +480,34 @@
 <li>head 命令</li>
 </ul>
 <p><code>head [-n count | -c bytes] [file ...]</code><br>查看文件起始内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» head -n [number] [file]</div></pre></td></tr></table></figure>
+<pre><code class="shell">» head -n [number] [file]
+</code></pre>
 <h2 id="搜索数据"><a href="#搜索数据" class="headerlink" title="搜索数据"></a><span id="search-data">搜索数据</span></h2><p><code>grep [options] pattern [file]</code></p>
 <p>grep命令会在输入或指定的文件中查找包含匹配指定模式的字符的行, 它的输出就是包含了匹配模式的行.</p>
-<p>eg: 在demo.js文件中找到含有<code>key</code>的行<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep key demo.js</div></pre></td></tr></table></figure></p>
+<p>eg: 在demo.js文件中找到含有<code>key</code>的行</p>
+<pre><code class="shell">» grep key demo.js
+</code></pre>
 <ul>
 <li><p>如果进行方向搜索(即不匹配该行), 加<code>-v</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -v key demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -v key demo.js
+</code></pre>
 </li>
 <li><p>如果要显示匹配模式的行所在行号, 加<code>-n</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -n key demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -n key demo.js
+</code></pre>
 </li>
 <li><p>如果想知道有多少行匹配, 加<code>-c</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -c key demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -c key demo.js
+</code></pre>
 </li>
 <li><p>如果要制定多个匹配模式, 加<code>-e</code>指定每一个模式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -e key -e word demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -e key -e word demo.js
+</code></pre>
 </li>
 <li><p>支持正则表达式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep [k-z] demo.js</div></pre></td></tr></table></figure></li>
+<pre><code class="shell">» grep [k-z] demo.js
+</code></pre>
+</li>
 </ul>
 ]]></content>
     
@@ -401,7 +536,7 @@
     <link href="http://loadingmore.com/2019/10/01/Git%20%E9%97%AE%E9%A2%98%E5%A4%87%E5%BF%98%E5%BD%95/"/>
     <id>http://loadingmore.com/2019/10/01/Git 问题备忘录/</id>
     <published>2019-10-01T15:30:30.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>日常开发，难免会遇到各种Git问题，特此记录.</p>
@@ -409,19 +544,23 @@
 <ul>
 <li>fatal: Unable to create ‘/path/my_project/.git/index.lock’: File exists</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">rm -f ./.git/index.lock</div></pre></td></tr></table></figure>
+<pre><code class="bash">rm -f ./.git/index.lock
+</code></pre>
 <ul>
 <li>重置所有commit提交信息</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i --root</div></pre></td></tr></table></figure>
+<pre><code class="basj">git rebase -i --root
+</code></pre>
 <ul>
 <li><p>大小写敏感</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">git config core.ignorecase <span class="literal">false</span></div></pre></td></tr></table></figure>
+<pre><code class="bash">git config core.ignorecase false
+</code></pre>
 </li>
 <li><p>新增远程仓库地址</p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">git remote add origin [url]</div></pre></td></tr></table></figure>
+<pre><code class="bash">git remote add origin [url]
+</code></pre>
 ]]></content>
     
     <summary type="html">
@@ -448,15 +587,22 @@
     <link href="http://loadingmore.com/2019/06/12/Git%E9%87%8D%E5%91%BD%E5%90%8D%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF%E5%90%8D%E5%92%8C%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%90%8D/"/>
     <id>http://loadingmore.com/2019/06/12/Git重命名本地分支名和远程分支名/</id>
     <published>2019-06-12T15:30:30.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>如果你错误的命名了一个分支名并且推送到了远端服务器，你可以在被发现之前得到修正</p>
 </blockquote>
-<h5 id="1-重命名本地分支"><a href="#1-重命名本地分支" class="headerlink" title="1.重命名本地分支"></a>1.重命名本地分支</h5><p>如果你在你想要改名的分支上：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git branch -m <span class="keyword">new</span>-name</div></pre></td></tr></table></figure></p>
-<p>如果你在其他分支上：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git branch -m old-name <span class="keyword">new</span>-name</div></pre></td></tr></table></figure></p>
-<h5 id="2-删除远端分支并推送本地的新分支"><a href="#2-删除远端分支并推送本地的新分支" class="headerlink" title="2.删除远端分支并推送本地的新分支"></a>2.删除远端分支并推送本地的新分支</h5><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git push origin :old-name <span class="keyword">new</span>-name</div></pre></td></tr></table></figure>
-<h5 id="3-重命名本地分支的上游分支："><a href="#3-重命名本地分支的上游分支：" class="headerlink" title="3.重命名本地分支的上游分支："></a>3.重命名本地分支的上游分支：</h5><p>切换到该分支然后：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git push origin -u <span class="keyword">new</span>-name</div></pre></td></tr></table></figure></p>
+<h5 id="1-重命名本地分支"><a href="#1-重命名本地分支" class="headerlink" title="1.重命名本地分支"></a>1.重命名本地分支</h5><p>如果你在你想要改名的分支上：</p>
+<pre><code class="js">git branch -m new-name
+</code></pre>
+<p>如果你在其他分支上：</p>
+<pre><code class="js">git branch -m old-name new-name
+</code></pre>
+<h5 id="2-删除远端分支并推送本地的新分支"><a href="#2-删除远端分支并推送本地的新分支" class="headerlink" title="2.删除远端分支并推送本地的新分支"></a>2.删除远端分支并推送本地的新分支</h5><pre><code class="js">git push origin :old-name new-name
+</code></pre>
+<h5 id="3-重命名本地分支的上游分支："><a href="#3-重命名本地分支的上游分支：" class="headerlink" title="3.重命名本地分支的上游分支："></a>3.重命名本地分支的上游分支：</h5><p>切换到该分支然后：</p>
+<pre><code class="js">git push origin -u new-name
+</code></pre>
 ]]></content>
     
     <summary type="html">
@@ -482,7 +628,7 @@
     <link href="http://loadingmore.com/2018/12/18/Git%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E8%80%81%E6%97%A7commit%E7%9A%84message/"/>
     <id>http://loadingmore.com/2018/12/18/Git如何修改老旧commit的message/</id>
     <published>2018-12-18T12:30:30.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改老旧commit(非最新)的提交记录.</p>
@@ -545,7 +691,7 @@
     <link href="http://loadingmore.com/2018/12/17/Git%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E6%9C%80%E6%96%B0commit%E7%9A%84message/"/>
     <id>http://loadingmore.com/2018/12/17/Git如何修改最新commit的message/</id>
     <published>2018-12-17T15:17:30.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>项目开发中经常会有修改已经提交commit信息的情况,这里做分析下修改最后一次的提交记录.</p>
@@ -590,7 +736,7 @@
     <link href="http://loadingmore.com/2018/12/16/Git%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9commit%E6%8F%90%E4%BA%A4%E9%A1%BA%E5%BA%8F/"/>
     <id>http://loadingmore.com/2018/12/16/Git如何修改commit提交顺序/</id>
     <published>2018-12-16T10:23:30.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>有时候也会遇到需要把commit的顺序调整的情况，比较小众的需求 记录下</p>
@@ -634,7 +780,7 @@
     <link href="http://loadingmore.com/2018/12/16/Git%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AAcommit/"/>
     <id>http://loadingmore.com/2018/12/16/Git合并多个commit/</id>
     <published>2018-12-16T03:30:30.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>项目开发中，很多时候都是单独开一个新的分支，完成一个模块，在该分支上由于功能较大，或者保险起见，我们可能会多次commit我们的文件,但是在提交的时候，我们不希望一个功能出现多次commit,导致review代码不便，所以经常在提交前，合并下我们的commit记录. 特此记录</p>
@@ -694,7 +840,7 @@
     <link href="http://loadingmore.com/2018/10/31/%E4%B8%80%E4%BA%9B%E6%9C%89%E8%B6%A3%E5%B8%B8%E7%94%A8%E7%9A%84npm%E5%8C%85%E6%94%B6%E9%9B%86/"/>
     <id>http://loadingmore.com/2018/10/31/一些有趣常用的npm包收集/</id>
     <published>2018-10-31T15:26:38.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录一些当前或以后要用到的npm包</p>
@@ -745,7 +891,7 @@
     <link href="http://loadingmore.com/2018/10/03/github%E4%B8%80%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E6%9F%90%E4%B8%AA%E5%88%86%E6%94%AF%E6%94%BE%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E4%BB%93%E5%BA%93%EF%BC%8C%E4%BF%9D%E7%95%99%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95/"/>
     <id>http://loadingmore.com/2018/10/03/github一个远程仓库的某个分支放到一个新的仓库，保留历史提交记录/</id>
     <published>2018-10-03T08:18:51.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录下迁将一个远程仓库的某个分支放到一个新的仓库中（提交历史纪录也导过去的一点经验</p>
@@ -753,12 +899,15 @@
 <h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>origin_seed(名字可自取，临时用，迁完后，主动取消关联) 区别于origin 目的在于将当前仓库(分支)新关联到新的仓库</p>
 <p>新建一个仓库，假设仓库名为<a href="https://github.com/BiYuqi/webpack-seed" target="_blank" rel="external">webpack-seed</a></p>
 <h3 id="切换仓库"><a href="#切换仓库" class="headerlink" title="切换仓库"></a>切换仓库</h3><p>切换到旧仓库(将要迁走的仓库下, 分支自己选, 或者默认迁走master)，然后关联新仓库</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git remove add origin_seed https:<span class="comment">//github.com/BiYuqi/webpack-seed.git (你的新仓库地址)</span></div></pre></td></tr></table></figure>
+<pre><code class="js">git remove add origin_seed https://github.com/BiYuqi/webpack-seed.git (你的新仓库地址)
+</code></pre>
 <h3 id="推送到新的仓库"><a href="#推送到新的仓库" class="headerlink" title="推送到新的仓库"></a>推送到新的仓库</h3><ul>
-<li>此处是将旧仓库下 web-ejs-pc 分支推送到新仓库master分支, 分支根据需要自己填写<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git -u push origin_seed web-ejs-pc:master</div></pre></td></tr></table></figure>
+<li>此处是将旧仓库下 web-ejs-pc 分支推送到新仓库master分支, 分支根据需要自己填写<pre><code class="js">git -u push origin_seed web-ejs-pc:master
+</code></pre>
 </li>
 </ul>
-<h3 id="取消关联，原有仓库恢复原样"><a href="#取消关联，原有仓库恢复原样" class="headerlink" title="取消关联，原有仓库恢复原样"></a>取消关联，原有仓库恢复原样</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git remote remove origin_seed</div></pre></td></tr></table></figure>
+<h3 id="取消关联，原有仓库恢复原样"><a href="#取消关联，原有仓库恢复原样" class="headerlink" title="取消关联，原有仓库恢复原样"></a>取消关联，原有仓库恢复原样</h3><pre><code class="js">git remote remove origin_seed
+</code></pre>
 <p>至此，可以去查看新仓库是否迁移成功.</p>
 ]]></content>
     
@@ -783,7 +932,7 @@
     <link href="http://loadingmore.com/2018/09/18/%E5%88%A9%E7%94%A8TravisCi%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0gitPage/"/>
     <id>http://loadingmore.com/2018/09/18/利用TravisCi自动部署博客到gitPage/</id>
     <published>2018-09-18T09:32:00.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>一篇测试文档，测试自动部署gitPage，稍后会写篇博客进行记录,先温习下git</p>
@@ -843,15 +992,75 @@
     <link href="http://loadingmore.com/2018/06/03/%E3%80%90Vue%E7%89%88%E3%80%91%E5%AE%9E%E7%94%A8js%E5%BF%AB%E9%80%9F%E5%A4%8D%E5%88%B6%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9/"/>
     <id>http://loadingmore.com/2018/06/03/【Vue版】实用js快速复制文本内容/</id>
     <published>2018-06-03T11:20:07.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>记录下用vue指令来写一个快速复制内容到剪贴板的插件, 主要是使用了chrome66+提供的新的剪贴方法，clipboard方法</p>
 </blockquote>
 <h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank" rel="external">Vue-element-admin, 欢迎start</a><br><a href="https://github.com/BiYuqi/vue-element-admin/blob/master/src/directive/clipboard/index.js" target="_blank" rel="external">directive/index.js</a><br><a href="http://loadingmore.com/vue-element-admin-preview/">项目预览,图标模块使用</a></p>
-<h2 id="directive部分"><a href="#directive部分" class="headerlink" title="directive部分"></a>directive部分</h2><p>由于项目使用的element-ui库，所以提示信息组件，我就直接应用了，如有需要或者去除，请自行修改<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Message &#125; <span class="keyword">from</span> <span class="string">'element-ui'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> Clipboard = &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 创建一个全局文本框 针对非chrome浏览器，以及chrome浏览器版本小于66的兼容方法</span></div><div class="line"><span class="keyword">const</span> input = <span class="built_in">document</span>.createElement(<span class="string">'input'</span>)</div><div class="line">input.id = <span class="string">'byq-clipboard'</span></div><div class="line">input.type = <span class="string">'text'</span></div><div class="line">input.style.position = <span class="string">'absolute'</span></div><div class="line">input.style.left = <span class="string">'-9999px'</span></div><div class="line"><span class="built_in">document</span>.body.appendChild(input)</div><div class="line"></div><div class="line"><span class="keyword">const</span> copyTarget = <span class="built_in">document</span>.querySelector(<span class="string">'#byq-clipboard'</span>)</div><div class="line"><span class="comment">// 浏览器以及相关验证</span></div><div class="line"><span class="keyword">const</span> UA = <span class="built_in">window</span>.navigator.userAgent.toLowerCase()</div><div class="line"><span class="keyword">const</span> isEdge = UA &amp;&amp; UA.indexOf(<span class="string">'edge/'</span>) &gt; <span class="number">0</span></div><div class="line"><span class="keyword">const</span> isChrome = UA &amp;&amp; <span class="regexp">/chrome\/\d+/</span>.test(UA) &amp;&amp; !isEdge</div><div class="line"><span class="comment">// 确认是chrome浏览器，且版本符合要求</span></div><div class="line"><span class="keyword">const</span> isSupportChromeVersion = <span class="function">(<span class="params">v</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> isChrome &amp;&amp; ~~UA.match(<span class="regexp">/chrome\/(\d+)/</span>)[<span class="number">1</span>] &gt;= v</div><div class="line">&#125;</div><div class="line">Clipboard.install = <span class="function">(<span class="params">Vue, options</span>) =&gt;</span> &#123;</div><div class="line">  Vue.directive(<span class="string">'clipboard'</span>, &#123;</div><div class="line">    bind (el, binding) &#123;</div><div class="line">      <span class="comment">// 注册事件</span></div><div class="line">      el.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> value = binding.value</div><div class="line">        <span class="comment">// 必须传值</span></div><div class="line">        <span class="keyword">if</span> (!value) &#123;</div><div class="line">          Message.error(<span class="string">'请输入要复制问的文本'</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// chrome version 66+ support</span></div><div class="line">        <span class="keyword">if</span> (isSupportChromeVersion(<span class="number">66</span>) &amp;&amp; <span class="built_in">window</span>.navigator.clipboard) &#123;</div><div class="line">          <span class="built_in">window</span>.navigator.clipboard.writeText(value).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            Message.success(<span class="string">'复制成功啦, 赶快使用吧'</span>)</div><div class="line">          &#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</div><div class="line">            Message.error(error)</div><div class="line">          &#125;)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          copyTarget.value = value</div><div class="line">          copyTarget.select()</div><div class="line">          <span class="built_in">document</span>.execCommand(<span class="string">'Copy'</span>)</div><div class="line">          Message.success(<span class="string">'复制成功啦, 赶快使用吧'</span>)</div><div class="line">        &#125;</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> Clipboard</div></pre></td></tr></table></figure></p>
-<h2 id="全局注册使用"><a href="#全局注册使用" class="headerlink" title="全局注册使用"></a>全局注册使用</h2><p><strong> 引入注册组件 </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// main.js 项目入口文件</span></div><div class="line"><span class="keyword">import</span> Clipboard <span class="keyword">from</span> <span class="string">'@/directive/clipboard/index'</span></div><div class="line">Vue.use(Clipboard)</div></pre></td></tr></table></figure></p>
-<p><strong> 页面使用 </strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 只需要传入v-clipboard  带上参数就可以了--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"test"</span> <span class="attr">v-clipboard</span>=<span class="string">"我是一个前端开发者"</span>&gt;</span></div><div class="line">  我是一个前端开发者</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="directive部分"><a href="#directive部分" class="headerlink" title="directive部分"></a>directive部分</h2><p>由于项目使用的element-ui库，所以提示信息组件，我就直接应用了，如有需要或者去除，请自行修改</p>
+<pre><code class="js">import { Message } from &#39;element-ui&#39;
+
+const Clipboard = {}
+
+// 创建一个全局文本框 针对非chrome浏览器，以及chrome浏览器版本小于66的兼容方法
+const input = document.createElement(&#39;input&#39;)
+input.id = &#39;byq-clipboard&#39;
+input.type = &#39;text&#39;
+input.style.position = &#39;absolute&#39;
+input.style.left = &#39;-9999px&#39;
+document.body.appendChild(input)
+
+const copyTarget = document.querySelector(&#39;#byq-clipboard&#39;)
+// 浏览器以及相关验证
+const UA = window.navigator.userAgent.toLowerCase()
+const isEdge = UA &amp;&amp; UA.indexOf(&#39;edge/&#39;) &gt; 0
+const isChrome = UA &amp;&amp; /chrome\/\d+/.test(UA) &amp;&amp; !isEdge
+// 确认是chrome浏览器，且版本符合要求
+const isSupportChromeVersion = (v) =&gt; {
+  return isChrome &amp;&amp; ~~UA.match(/chrome\/(\d+)/)[1] &gt;= v
+}
+Clipboard.install = (Vue, options) =&gt; {
+  Vue.directive(&#39;clipboard&#39;, {
+    bind (el, binding) {
+      // 注册事件
+      el.addEventListener(&#39;click&#39;, () =&gt; {
+        const value = binding.value
+        // 必须传值
+        if (!value) {
+          Message.error(&#39;请输入要复制问的文本&#39;)
+        }
+        // chrome version 66+ support
+        if (isSupportChromeVersion(66) &amp;&amp; window.navigator.clipboard) {
+          window.navigator.clipboard.writeText(value).then(() =&gt; {
+            Message.success(&#39;复制成功啦, 赶快使用吧&#39;)
+          }).catch((error) =&gt; {
+            Message.error(error)
+          })
+        } else {
+          copyTarget.value = value
+          copyTarget.select()
+          document.execCommand(&#39;Copy&#39;)
+          Message.success(&#39;复制成功啦, 赶快使用吧&#39;)
+        }
+      })
+    }
+  })
+}
+
+export default Clipboard
+</code></pre>
+<h2 id="全局注册使用"><a href="#全局注册使用" class="headerlink" title="全局注册使用"></a>全局注册使用</h2><p><strong> 引入注册组件 </strong></p>
+<pre><code class="js">// main.js 项目入口文件
+import Clipboard from &#39;@/directive/clipboard/index&#39;
+Vue.use(Clipboard)
+</code></pre>
+<p><strong> 页面使用 </strong></p>
+<pre><code class="html">&lt;!-- 只需要传入v-clipboard  带上参数就可以了--&gt;
+&lt;div class=&quot;test&quot; v-clipboard=&quot;我是一个前端开发者&quot;&gt;
+  我是一个前端开发者
+&lt;/div&gt;
+</code></pre>
 <h2 id="navigator-clipboard-是个什么鬼？"><a href="#navigator-clipboard-是个什么鬼？" class="headerlink" title="navigator.clipboard 是个什么鬼？"></a>navigator.clipboard 是个什么鬼？</h2><p>这是一个实验中的功能，Clipboard接口提供了一种读写操作系统剪贴板的方式。</p>
 <ul>
 <li>read()<br>从剪贴板读取数据（比如图片）。</li>
@@ -889,7 +1098,7 @@
     <link href="http://loadingmore.com/2018/05/12/%E7%BB%84%E4%BB%B6/"/>
     <id>http://loadingmore.com/2018/05/12/组件/</id>
     <published>2018-05-12T09:00:22.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.520Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>组件（Component）是对数据和方法的简单封装</p>
@@ -920,14 +1129,21 @@
     <link href="http://loadingmore.com/2018/04/12/%E8%A7%A3%E5%86%B3Vue%E5%A4%8D%E7%94%A8%E7%BB%84%E4%BB%B6%E5%88%87%E6%8D%A2%E6%97%B6%E7%BB%84%E4%BB%B6%E4%B8%8D%E6%9B%B4%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://loadingmore.com/2018/04/12/解决Vue复用组件切换时组件不更新的问题/</id>
     <published>2018-04-11T16:15:48.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.520Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>距离上次更新已经是去年了,习惯这个东西真可怕，本文仅做个小记录</p>
 </blockquote>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>做项目中,复用的vue组件，切换时，组件的生命周期都不执行了,查资料得知是vue的组件复用机制问题，相同的组件会被复用，也就不存在更新了</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在router-view上加上一个动态key属性值<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">router-view</span> <span class="attr">:key</span>=<span class="string">"key"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  key () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$route.name !== <span class="literal">undefined</span> ? <span class="keyword">this</span>.$route.name + +<span class="keyword">new</span> <span class="built_in">Date</span>() : <span class="keyword">this</span>.$route + +<span class="keyword">new</span> <span class="built_in">Date</span>()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在router-view上加上一个动态key属性值</p>
+<pre><code class="html">&lt;router-view :key=&quot;key&quot;/&gt;
+</code></pre>
+<pre><code class="js">computed: {
+  key () {
+    return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
+  }
+}
+</code></pre>
 <p>欧克…(逃)</p>
 ]]></content>
     
@@ -954,7 +1170,7 @@
     <link href="http://loadingmore.com/2017/12/28/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E8%B4%AA%E5%A9%AA%E4%B8%8E%E9%9D%9E%E8%B4%AA%E5%A9%AA%E6%A8%A1%E5%BC%8F/"/>
     <id>http://loadingmore.com/2017/12/28/【正则表达式系列】贪婪与非贪婪模式/</id>
     <published>2017-12-28T14:50:30.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文属于 正则表达式系列文章之一，将近一个多月了停更了，这个系列的坑得赶紧填了~~~</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p><strong> <a href="http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/">【正则表达式系列】入门篇</a> </strong></p>
@@ -965,23 +1181,53 @@
 <font style="color:#c33;padding:2px;">+</font>、<font style="color:#c33;padding:2px;">?</font>、<font style="color:#c33;padding:2px;">*</font>、<font style="color:#c33;padding:2px;">{n}</font>、<font style="color:#c33;padding:2px;">{n,}</font>、<font style="color:#c33;padding:2px;">{n,m}</font><br><br><br>上述标识符，代表是贪婪匹配，会尽可能多的去匹配内容<br><br><strong> 非贪婪模式标识符 </strong><br><font style="color:#c33;padding:2px;">+?</font>、<font style="color:#c33;padding:2px;">??</font>、<font style="color:#c33;padding:2px;">*?</font>、<font style="color:#c33;padding:2px;">{n}?</font>、<font style="color:#c33;padding:2px;">{n,}?</font>、<font style="color:#c33;padding:2px;">{n,m}?</font><br><br><br>非贪婪模式的标识符很有规律，就是贪婪模式的标识符后面加上一个<font style="color:#c33;padding:2px;">?</font>
 
 <p><strong> 示例 </strong></p>
-<p>需求：匹配1后面跟任意个0<br>目标源：10001<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">使用贪婪模式：<span class="number">10</span>*       结果：<span class="number">1000</span></div><div class="line">使用非贪婪模式：<span class="number">10</span>*?    结果：<span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure></p>
+<p>需求：匹配1后面跟任意个0<br>目标源：10001</p>
+<pre><code class="js">使用贪婪模式：10*       结果：1000
+使用非贪婪模式：10*?    结果：1
+
+const reg = /10*/
+const reg2 = /10*?/
+console.log(reg.match(&#39;10001&#39;))
+console.log(reg2.match(&#39;10001&#39;))
+</code></pre>
 <p><a href="https://regex101.com/r/XUpYgg/2" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/3" target="_blank" rel="external">非贪婪示例</a></p>
 <p>1.<font style="color:#c33;padding:2px;">*</font>代表匹配0个或多个的意思：<br>贪婪模式下，他首先匹配一个1然后匹配1后面的0，最多匹配到3个，因此是1000，假如我们的正则加上g模式匹配,会得到1000 和 1 两个结果</p>
 <p>2.非贪婪模式下，表示首先匹配一个1，然后以后面的0能不匹配就不匹配了，所以每次只匹配一个，然而，假如我们的正则加上g模式匹配,1 和 1 两个结果</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用贪婪模式：10*       结果：1000 和 1</span></div><div class="line"><span class="comment">// 使用非贪婪模式：10*?    结果：1 和 1</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/g</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/g</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure>
+<pre><code class="js">// 使用贪婪模式：10*       结果：1000 和 1
+// 使用非贪婪模式：10*?    结果：1 和 1
+const reg = /10*/g
+const reg2 = /10*?/g
+console.log(reg.match(&#39;10001&#39;))
+console.log(reg2.match(&#39;10001&#39;))
+</code></pre>
 <p><a href="https://regex101.com/r/XUpYgg/5" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/4" target="_blank" rel="external">非贪婪示例</a></p>
 <p><strong> 看懂了？ </strong><br>我们在来个例子：<br>需求：匹配1后面跟任意个0，再跟一个1<br>源串：10001</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用贪婪模式：10*1      结果：10001</span></div><div class="line"><span class="comment">// 使用非贪婪模式：10*?1    结果：10001</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/10*/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/10*?/</span></div><div class="line"><span class="built_in">console</span>.log(reg.match(<span class="string">'10001'</span>))</div><div class="line"><span class="built_in">console</span>.log(reg2.match(<span class="string">'10001'</span>))</div></pre></td></tr></table></figure>
+<pre><code class="js">// 使用贪婪模式：10*1      结果：10001
+// 使用非贪婪模式：10*?1    结果：10001
+
+const reg = /10*/
+const reg2 = /10*?/
+console.log(reg.match(&#39;10001&#39;))
+console.log(reg2.match(&#39;10001&#39;))
+</code></pre>
 <p><strong> 什么鬼？为什么两个结果一样</strong><br>因为，正则表达式要判断完这整个正则才算成功：</p>
 <p>1.贪婪模式，首先匹配到一个1，然后后面尽可能的多匹配0，发现3个，最后一个匹配上1，至此，正则表达式完成匹配得到10001</p>
 <p>2.非贪婪模式，首先匹配到一个1，然后0*？是非贪婪模式，后面他不想匹配了，于是就瞅瞅后面看到1没？一看，我去，还是0，这下不能偷懒了，只能匹配0了，于是同样的故事上演了三次后，终于看到了希望，看到同胞兄弟1，完成正则匹配，得到10001<br><a href="https://regex101.com/r/XUpYgg/7" target="_blank" rel="external">贪婪示例</a><br><a href="https://regex101.com/r/XUpYgg/6/" target="_blank" rel="external">非贪婪示例</a></p>
-<p><strong> 那究竟哪个好呢？ </strong><br>什么时候使用贪婪模式，什么时候使用非贪婪模式，哪个性能好，哪个性能不好，不能一概而论，要根据情况分析。<br>下面我举个例子：<br>源码：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/"</span> <span class="attr">target</span>=<span class="string">"_blank"</span> &gt;</span>Js上传图片本地预览几种姿势<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong> 那究竟哪个好呢？ </strong><br>什么时候使用贪婪模式，什么时候使用非贪婪模式，哪个性能好，哪个性能不好，不能一概而论，要根据情况分析。<br>下面我举个例子：<br>源码：</p>
+<pre><code class="html">&lt;a href=&quot;http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/&quot; target=&quot;_blank&quot; &gt;Js上传图片本地预览几种姿势&lt;/a&gt;
+</code></pre>
 <p>提取链接和文本：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg1 = <span class="regexp">/&lt;a [^&gt;]*?href="([^"]*?)"[^&gt;]*?&gt;([^&lt;]*?)&lt;\/a&gt;/</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/&lt;a [^&gt;]*?href="([^"]*)"[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/</span></div><div class="line"><span class="keyword">const</span> reg3 = <span class="regexp">/&lt;a [^&gt;]*href="([^"]*)"[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/</span></div></pre></td></tr></table></figure>
+<pre><code class="js">const reg1 = /&lt;a [^&gt;]*?href=&quot;([^&quot;]*?)&quot;[^&gt;]*?&gt;([^&lt;]*?)&lt;\/a&gt;/
+const reg2 = /&lt;a [^&gt;]*?href=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/
+const reg3 = /&lt;a [^&gt;]*href=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;([^&lt;]*)&lt;\/a&gt;/
+</code></pre>
 <p><a href="https://regex101.com/r/XUpYgg/8" target="_blank" rel="external">reg1运行次数</a> (150次)<br><a href="https://regex101.com/r/XUpYgg/9" target="_blank" rel="external">reg2运行次数</a> (24次)<br><a href="https://regex101.com/r/XUpYgg/10" target="_blank" rel="external">reg3运行次数</a> (98次)</p>
 <p>正则1是通用写法，正则2是在确定字符不会溢出的情况下消除非贪婪模式，正则3是证明并不是全部消除非贪婪模式就是最优。<br>关于贪婪模式好还是非贪婪模式好的讨论，只能说根据需求而定，不过，在平时的时候用，一般使用非贪婪模式较多，因为贪婪模式经常会由于元字符范围限制不严谨而导致匹配越界，得到非预期结果。</p>
-<h2 id="提取数据示例"><a href="#提取数据示例" class="headerlink" title="提取数据示例"></a>提取数据示例</h2><h3 id="提取两个””中的子串，其中不能再包含””"><a href="#提取两个””中的子串，其中不能再包含””" class="headerlink" title="提取两个””中的子串，其中不能再包含””"></a>提取两个””中的子串，其中不能再包含””</h3><p>需求: 提取两个引号之间的子串，其中不能再包括引号，例如上述的提取结果应该是: “regular expression” 与 “Regex”(每一个结束的”后面都接空格)<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> str = <span class="string">`"The phrase \"regular expression\" is called \"Regex\" for short"`</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/"[^"]*" /g</span> <span class="comment">// 注意正则最后面一个空格</span></div><div class="line"><span class="built_in">console</span>.log(str.match(reg)) <span class="comment">// [""regular expression" ", ""Regex" "]</span></div></pre></td></tr></table></figure></p>
+<h2 id="提取数据示例"><a href="#提取数据示例" class="headerlink" title="提取数据示例"></a>提取数据示例</h2><h3 id="提取两个””中的子串，其中不能再包含””"><a href="#提取两个””中的子串，其中不能再包含””" class="headerlink" title="提取两个””中的子串，其中不能再包含””"></a>提取两个””中的子串，其中不能再包含””</h3><p>需求: 提取两个引号之间的子串，其中不能再包括引号，例如上述的提取结果应该是: “regular expression” 与 “Regex”(每一个结束的”后面都接空格)</p>
+<pre><code class="js">const str = `&quot;The phrase \&quot;regular expression\&quot; is called \&quot;Regex\&quot; for short&quot;`
+const reg = /&quot;[^&quot;]*&quot; /g // 注意正则最后面一个空格
+console.log(str.match(reg)) // [&quot;&quot;regular expression&quot; &quot;, &quot;&quot;Regex&quot; &quot;]
+</code></pre>
 <p><a href="https://regex101.com/r/XUpYgg/11" target="_blank" rel="external">案例demo</a><br>分析：<br>1.从第一个”开始匹配，接下来到12位时(“r的”)，不满足[^”]，也不满足之后的”+空格，因此匹配失败了，index挪到下一个，开始下一次匹配<br>2.第二个匹配从”r的”开始，一直匹配到n”空格的空格，这一组刚刚好匹配成功(因为最后符合了正则的”空格)，匹配好了”regular expression”空格<br>3.第三个匹配匹配到了”Regex”空格(过程不再复述)<br>4.到最后时，仅剩一个”直接匹配失败(因为首先得符合”才能开始正则匹配)<br>5.至此，正则匹配结束，匹配成功，并且符合预期</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>本文也只是做一些浅显的分析与引导，更多是起到抛砖引玉的作用，要深入理解还请去了解正则的原理</p>
 <p><a href="http://www.jb51.net/article/31491.htm" target="_blank" rel="external">正则表达式之 贪婪与非贪婪模式详解</a></p>
@@ -1010,7 +1256,7 @@
     <link href="http://loadingmore.com/2017/11/26/%E3%80%90%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B3%BB%E5%88%97%E3%80%91%E5%85%A5%E9%97%A8%E7%AF%87/"/>
     <id>http://loadingmore.com/2017/11/26/【正则表达式系列】入门篇/</id>
     <published>2017-11-26T07:50:30.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>开始之前，我希望你能放下心中的恐惧感！</p>
@@ -1146,11 +1392,17 @@
 <li>匹配一个或零个<br>eg: <code>https?</code>匹配https（一个s）或者http（零个s）</li>
 <li>非贪婪模式<br>所谓非贪婪模式，就是匹配尽可能少的内容，比如，对于源字符串</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;&lt;div&gt;b&lt;/div&gt;
+</code></pre>
 <p>使用<code>&lt;div&gt;(.*?)&lt;/div&gt;</code>会得到2个结果（注意：如果源字符串有换行，使用[\s\S]替换 .</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>和<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>因为，当遇到第一个&lt;/div&gt;，非贪婪模式就不会再往后找了。<br>而使用<code>&lt;div&gt;(.*)&lt;/div&gt;</code>（贪婪模式）则会得到整个字符串,因为它会匹配所有字符直到后面再找不到<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;
+</code></pre>
+<p>和</p>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;
+</code></pre>
+<p>因为，当遇到第一个&lt;/div&gt;，非贪婪模式就不会再往后找了。<br>而使用<code>&lt;div&gt;(.*)&lt;/div&gt;</code>（贪婪模式）则会得到整个字符串,因为它会匹配所有字符直到后面再找不到</p>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;&lt;div&gt;b&lt;/div&gt;
+</code></pre>
 <h3 id="9-a-1-字符a出现1次或者更多次"><a href="#9-a-1-字符a出现1次或者更多次" class="headerlink" title="9. a{1,} 字符a出现1次或者更多次"></a>9. <code>a{1,}</code> 字符a出现1次或者更多次</h3><h3 id="10-a-字符a出现0次或者1次，等价于-0-1"><a href="#10-a-字符a出现0次或者1次，等价于-0-1" class="headerlink" title="10. a? 字符a出现0次或者1次，等价于{0,1}"></a>10. <code>a?</code> 字符a出现0次或者1次，等价于{0,1}</h3><h3 id="11-ab-0-1-字符ab出现0次或者1次，也就是说ab一起匹配"><a href="#11-ab-0-1-字符ab出现0次或者1次，也就是说ab一起匹配" class="headerlink" title="11. (ab){0,1} 字符ab出现0次或者1次，也就是说ab一起匹配"></a>11. <code>(ab){0,1}</code> 字符ab出现0次或者1次，也就是说ab一起匹配</h3><h3 id="12-a│bc-d-e-可以是ae或者是bce或者是de"><a href="#12-a│bc-d-e-可以是ae或者是bce或者是de" class="headerlink" title="12. (a│bc|d)e 可以是ae或者是bce或者是de"></a>12. <code>(a│bc|d)e</code> 可以是ae或者是bce或者是de</h3><h3 id="13-多个数据选一（常用于多字符）"><a href="#13-多个数据选一（常用于多字符）" class="headerlink" title="13. | 多个数据选一（常用于多字符）"></a>13. <code>|</code> 多个数据选一（常用于多字符）</h3><p>前面提到[]里面的字符有选一个字符功能，但是假如不是一个字符，比如：http|git|svn 就需要用|分开，|的作用域是一直往后直到遇到括号，比如，对于源字符串<br>匹配：</p>
 <ul>
 <li>http abc  </li>
@@ -1158,20 +1410,51 @@
 <li>svn abc</li>
 </ul>
 <p>就可以直接使用<code>(http|git|svn)abc</code>来进行匹配</p>
-<h3 id="14-数据分界和取数据"><a href="#14-数据分界和取数据" class="headerlink" title="14. () 数据分界和取数据"></a>14. <code>()</code> 数据分界和取数据</h3><p><code>(http|git|svn)abc</code>就是一个分界的例子，匹配结果会得到一个数组集合,其中[1]也就是数组的下标1得到的是一个数组集合，这就是模式匹配，也叫分组，子模式计数是从左至右<br><code>(https?):\/\/([^\/]+)</code> 就是一个匹配网址的正则，其中分组2得到的是网址主地址;<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">/(https?):\/\/([^\/]+)/.exec(<span class="string">'http://loadingmore.com'</span>)[<span class="number">2</span>] <span class="comment">// loadingmore.com</span></div></pre></td></tr></table></figure></p>
+<h3 id="14-数据分界和取数据"><a href="#14-数据分界和取数据" class="headerlink" title="14. () 数据分界和取数据"></a>14. <code>()</code> 数据分界和取数据</h3><p><code>(http|git|svn)abc</code>就是一个分界的例子，匹配结果会得到一个数组集合,其中[1]也就是数组的下标1得到的是一个数组集合，这就是模式匹配，也叫分组，子模式计数是从左至右<br><code>(https?):\/\/([^\/]+)</code> 就是一个匹配网址的正则，其中分组2得到的是网址主地址;</p>
+<pre><code class="js">/(https?):\/\/([^\/]+)/.exec(&#39;http://loadingmore.com&#39;)[2] // loadingmore.com
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/1" target="_blank" rel="external">点击这里查看匹配情况</a></p>
 <h3 id="15-非捕获组"><a href="#15-非捕获组" class="headerlink" title="15. (?:)非捕获组"></a>15. <code>(?:)</code>非捕获组</h3><p>上面提到的()作为子模式可以得到里面的数据，但是有些时候我们只是把它作为分界，不需要取数据，这个时候就需要用到非捕获概念了。比如上面匹配网址需要在分组2才能得到loadingmore.com，分组1是http；这个时候我们只需要后面的网址，就可以用非捕获来实现<code>(?:https?):\/\/([^\/]+)</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">/(?:https?):\/\/([^\/]+)/.exec(<span class="string">'http://loadingmore.com'</span>)[<span class="number">1</span>] <span class="comment">//loadingmore.com</span></div></pre></td></tr></table></figure>
+<pre><code class="js">/(?:https?):\/\/([^\/]+)/.exec(&#39;http://loadingmore.com&#39;)[1] //loadingmore.com
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/2" target="_blank" rel="external">点击这里查看匹配情况</a></p>
-<h3 id="16-模式修饰符"><a href="#16-模式修饰符" class="headerlink" title="16. 模式修饰符"></a>16. 模式修饰符</h3><p>模式修饰符很多语言都支持，js中常用的比如i不区分大小写，g全部匹配，m是多行匹配<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/a-z/i</span> <span class="comment">// 可以匹配26字母 不区分大小写</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/http/g</span> <span class="comment">// httphttphttp可以匹配三个http，没有g修饰，只能匹配第一个</span></div></pre></td></tr></table></figure></p>
-<h1 id="简单操作练习"><a href="#简单操作练习" class="headerlink" title="简单操作练习"></a>简单操作练习</h1><h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><p>下面就一段html进行剖析<br>目标：得到 target1中inner内容 哈哈1<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"target1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        哈哈1</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"target2"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        哈哈2</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>写正则之前，首先要观察要匹配的数据结构，找出异同点，精准定位到你想要数据的位置，必须你需要一个页面的title的内容，那么title就是你的正则的关键字，所要取的数据确实无法定位一个唯一的锚点，那就可以采用分段取数据，缩小范围后，再对这个数据进行二次分解<br>比如上面的html片段，加入直接采用:<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 很明显会得到两个inner数据段</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/&lt;div\s+class="inner"&gt;([\s\S]+?)&lt;\/div&gt;/</span></div></pre></td></tr></table></figure></p>
-<p><a href="https://regex101.com/r/LT6iPK/3" target="_blank" rel="external">点击查看详情</a><br>这个时候我们就可以考虑以class=”target1”作为定位点进行匹配<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/&lt;div class="target1"&gt;\s+&lt;div class="inner"&gt;([\S\s]+?)&lt;\/div&gt;\s+&lt;\/div&gt;/</span></div></pre></td></tr></table></figure></p>
+<h3 id="16-模式修饰符"><a href="#16-模式修饰符" class="headerlink" title="16. 模式修饰符"></a>16. 模式修饰符</h3><p>模式修饰符很多语言都支持，js中常用的比如i不区分大小写，g全部匹配，m是多行匹配</p>
+<pre><code class="js">const reg = /a-z/i // 可以匹配26字母 不区分大小写
+const reg2 = /http/g // httphttphttp可以匹配三个http，没有g修饰，只能匹配第一个
+</code></pre>
+<h1 id="简单操作练习"><a href="#简单操作练习" class="headerlink" title="简单操作练习"></a>简单操作练习</h1><h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><p>下面就一段html进行剖析<br>目标：得到 target1中inner内容 哈哈1</p>
+<pre><code class="html">&lt;div class=&quot;target1&quot;&gt;
+    &lt;div class=&quot;inner&quot;&gt;
+        哈哈1
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;target2&quot;&gt;
+    &lt;div class=&quot;inner&quot;&gt;
+        哈哈2
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>写正则之前，首先要观察要匹配的数据结构，找出异同点，精准定位到你想要数据的位置，必须你需要一个页面的title的内容，那么title就是你的正则的关键字，所要取的数据确实无法定位一个唯一的锚点，那就可以采用分段取数据，缩小范围后，再对这个数据进行二次分解<br>比如上面的html片段，加入直接采用:</p>
+<pre><code class="js">// 很明显会得到两个inner数据段
+const reg = /&lt;div\s+class=&quot;inner&quot;&gt;([\s\S]+?)&lt;\/div&gt;/
+</code></pre>
+<p><a href="https://regex101.com/r/LT6iPK/3" target="_blank" rel="external">点击查看详情</a><br>这个时候我们就可以考虑以class=”target1”作为定位点进行匹配</p>
+<pre><code class="js">const reg2 = /&lt;div class=&quot;target1&quot;&gt;\s+&lt;div class=&quot;inner&quot;&gt;([\S\s]+?)&lt;\/div&gt;\s+&lt;\/div&gt;/
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/5" target="_blank" rel="external">点击查看详情</a></p>
 <p>tips：采用<code>[\s\S]+</code>原因是html结构有换行；<code>.</code>不符合要求，<code>.</code>匹配不包括换行的任意字符，<code>[\s\S]+?</code>加？号的原因是非贪婪模式，否则会一致直匹配到不能匹配为止，本文只需要第一个，所以采用非贪婪模式匹配。下文会讲到贪婪与非贪婪模式</p>
 <p><strong> 总结：所谓匹配数据，就是找到能唯一定位你数据的标识的锚点 </strong></p>
-<h2 id="去噪音"><a href="#去噪音" class="headerlink" title="去噪音"></a>去噪音</h2><p>所谓去掉噪音，就是把哪些无关紧要的，迷惑你的数据果断抛弃掉，一眼抓住你想要的那个字符即可，比如：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">data-v-1b4073f4</span>=<span class="string">""</span> <span class="attr">href</span>=<span class="string">"https://github.com/icepy/Front-End-Develop-Guide#fed_point_recommend"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>前端开发指南<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>找出上个连接中的href链接，当然了，这用js的dom元素获取轻而易举，本文只是为了做示范，阐述一种正则思维<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 首先要定位 &lt;a href= 还有链接后面的 ” 其他的都不用关注</span></div><div class="line">cosnt str = <span class="string">`&lt;a data-v-1b4073f4="" href="http://loadingmore.com" target="_blank"&gt;&lt;/a&gt;`</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/&lt;a[^&gt;]*?href="([^"]+)"/</span></div><div class="line"><span class="keyword">const</span> result = reg.exec(str)[<span class="number">1</span>]</div><div class="line"></div><div class="line"><span class="comment">// console.log(result)</span></div></pre></td></tr></table></figure></p>
+<h2 id="去噪音"><a href="#去噪音" class="headerlink" title="去噪音"></a>去噪音</h2><p>所谓去掉噪音，就是把哪些无关紧要的，迷惑你的数据果断抛弃掉，一眼抓住你想要的那个字符即可，比如：</p>
+<pre><code class="html">&lt;a data-v-1b4073f4=&quot;&quot; href=&quot;https://github.com/icepy/Front-End-Develop-Guide#fed_point_recommend&quot; target=&quot;_blank&quot;&gt;前端开发指南&lt;/a&gt;
+</code></pre>
+<p>找出上个连接中的href链接，当然了，这用js的dom元素获取轻而易举，本文只是为了做示范，阐述一种正则思维</p>
+<pre><code class="js">// 首先要定位 &lt;a href= 还有链接后面的 ” 其他的都不用关注
+cosnt str = `&lt;a data-v-1b4073f4=&quot;&quot; href=&quot;http://loadingmore.com&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;`
+const reg = /&lt;a[^&gt;]*?href=&quot;([^&quot;]+)&quot;/
+const result = reg.exec(str)[1]
+
+// console.log(result)
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/6" target="_blank" rel="external">点击查看详情</a><br><strong> 总结：关心的留下，不关心的都是浮云 </strong></p>
 <h2 id="取数据"><a href="#取数据" class="headerlink" title="取数据"></a>取数据</h2><p>关于取数据一般都用到分组捕获上文有提及</p>
 <h2 id="最后的话"><a href="#最后的话" class="headerlink" title="最后的话"></a>最后的话</h2><p>学习正则，一定要多练习，狠下心来，过一遍正则基础，收获绝对满满，一边下来，不知不觉就掌握了大部分，当然了想要精通，爱需要深入的学习和大量练习，持之以恒方得成效</p>
@@ -1203,7 +1486,7 @@
     <link href="http://loadingmore.com/2017/11/18/Js%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88%E5%87%A0%E7%A7%8D%E5%A7%BF%E5%8A%BF/"/>
     <id>http://loadingmore.com/2017/11/18/Js上传图片本地预览几种姿势/</id>
     <published>2017-11-18T09:00:12.000Z</published>
-    <updated>2019-10-20T07:43:55.518Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>本主要总结前端开发中图片上传预览的几个方法 <strong> FileReader </strong> 和 <strong> URL.createObjectURL() </strong></p>
@@ -1212,9 +1495,45 @@
 <blockquote>
 <p>FileReader 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 File 或 Blob 对象指定要读取的文件或数据。 —MDN</p>
 </blockquote>
-<p>看下怎么利用它来简单的实现一个图片预览<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"input"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   @param &#123;dom&#125; StringOrObject input元素</div><div class="line">*   @param &#123;fn&#125; Function 回调函数 返回bs64 file</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">const</span> imagePreview = <span class="function"><span class="keyword">function</span>(<span class="params">dom,fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> dom === <span class="string">'string'</span>)&#123;</div><div class="line">        dom = <span class="built_in">document</span>.querySelector(dom)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">const</span> bindEv = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">// 这里默认单图上传</span></div><div class="line">        <span class="keyword">const</span> file = <span class="keyword">this</span>.files[<span class="number">0</span>]</div><div class="line">        <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader()</div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>)</span>&#123;</div><div class="line">            <span class="comment">// 这里得到的是base64图片编码</span></div><div class="line">            <span class="keyword">const</span> bs64 = ev.target.result</div><div class="line">            <span class="comment">// 返回给回调函数</span></div><div class="line">            fn &amp;&amp; fn(bs64,file)</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 读取指定的file文件，读取完毕后，在onload事件里面 result属性将返回base64URL</span></div><div class="line">        reader.readAsDataURL(file)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dom.addEventListener(<span class="string">'change'</span>,bindEv,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">imagePreview(<span class="string">'#input'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">src,file</span>)</span>&#123;</div><div class="line">    <span class="comment">// src 就是base64图片 可进行预览操作</span></div><div class="line">    <span class="comment">//.file 为文件 可在此处进行上传操作</span></div><div class="line">    <span class="keyword">const</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>)</div><div class="line">    img.src = src</div><div class="line">    <span class="built_in">document</span>.body.appendChild(img)</div><div class="line">    <span class="built_in">console</span>.log(src)</div><div class="line">    <span class="built_in">console</span>.log(file)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>看下怎么利用它来简单的实现一个图片预览</p>
+<pre><code class="html">&lt;input type=&quot;file&quot; id=&quot;input&quot;&gt;
+</code></pre>
+<pre><code class="js">/**
+*   @param {dom} StringOrObject input元素
+*   @param {fn} Function 回调函数 返回bs64 file
+*/
+
+const imagePreview = function(dom,fn){
+    if(typeof dom === &#39;string&#39;){
+        dom = document.querySelector(dom)
+    }
+    const bindEv = function(){
+        // 这里默认单图上传
+        const file = this.files[0]
+        const reader = new FileReader()
+        reader.onload = function(ev){
+            // 这里得到的是base64图片编码
+            const bs64 = ev.target.result
+            // 返回给回调函数
+            fn &amp;&amp; fn(bs64,file)
+        }
+        // 读取指定的file文件，读取完毕后，在onload事件里面 result属性将返回base64URL
+        reader.readAsDataURL(file)
+    }
+
+    dom.addEventListener(&#39;change&#39;,bindEv,false)
+}
+</code></pre>
+<pre><code class="js">imagePreview(&#39;#input&#39;,function(src,file){
+    // src 就是base64图片 可进行预览操作
+    //.file 为文件 可在此处进行上传操作
+    const img = document.createElement(&#39;img&#39;)
+    img.src = src
+    document.body.appendChild(img)
+    console.log(src)
+    console.log(file)
+})
+</code></pre>
 <p><strong> readAsDataURL: </strong></p>
 <blockquote>
 <p>开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.</p>
@@ -1223,7 +1542,57 @@
 <li>兼容性</li>
 <li>一些安卓5.0系统以下的bug</li>
 </ul>
-<p><strong> 兼容后面再解决，先着重解决下第二个问题 </strong><br><img src="http://oq4hkch8e.bkt.clouddn.com/bs64-filereader-bug-fix.png" alt=""><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   正常的图片应该是</div><div class="line">*   data:image/gif;data:image/png;;data:image/jpeg;data:image/x-icon;</div><div class="line">*   而在Android的一些5.0系统以下(如4.0)的设备中,</div><div class="line">*   有些返回的b64字符串缺少关键image/gif标识,所以需要手动加上</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">const</span> imagePreview = <span class="function"><span class="keyword">function</span>(<span class="params">dom,fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> dom === <span class="string">'string'</span>)&#123;</div><div class="line">        dom = <span class="built_in">document</span>.querySelector(dom)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 增加一个类型判断函数</span></div><div class="line">    <span class="keyword">const</span> isType = <span class="function"><span class="keyword">function</span>(<span class="params">name,type</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> name.indexOf(type) &gt; <span class="number">-1</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">const</span> bindEv = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">// 这里默认单图上传</span></div><div class="line">        <span class="keyword">const</span> file = <span class="keyword">this</span>.files[<span class="number">0</span>]</div><div class="line">        <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader()</div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>)</span>&#123;</div><div class="line">            <span class="keyword">let</span> bs64 = ev.target.result</div><div class="line">            <span class="keyword">if</span>(bs64 &amp;&amp; bs64.indexOf(<span class="string">'data:base64,'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">                <span class="comment">// 去除旧有的错误头部</span></div><div class="line">                bs64 = bs64.replace(<span class="regexp">/data:base64,/</span>,<span class="string">''</span>)</div><div class="line">                <span class="comment">// 声明一个空字符用来保存下面判断的类型</span></div><div class="line">                <span class="comment">// 通过name后缀进行识别标注</span></div><div class="line">                <span class="keyword">let</span> typeFile = <span class="string">''</span>,</div><div class="line">                    name = file.name.toLowerCase();</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.png'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/png;'</span></div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.jpg'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/jpeg;'</span></div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.gif'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/gif;'</span></div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.icon'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/x-icon;'</span></div><div class="line">                &#125;</div><div class="line">                bs64 = <span class="string">'data:'</span>+typeFile+<span class="string">'base64,'</span>+bs64</div><div class="line">            &#125;</div><div class="line">            fn &amp;&amp; fn(bs64,file)</div><div class="line">        &#125;</div><div class="line">        reader.readAsDataURL(file)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dom.addEventListener(<span class="string">'change'</span>,bindEv,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong> 兼容后面再解决，先着重解决下第二个问题 </strong><br><img src="http://oq4hkch8e.bkt.clouddn.com/bs64-filereader-bug-fix.png" alt=""></p>
+<pre><code class="js">/**
+*   正常的图片应该是
+*   data:image/gif;data:image/png;;data:image/jpeg;data:image/x-icon;
+*   而在Android的一些5.0系统以下(如4.0)的设备中,
+*   有些返回的b64字符串缺少关键image/gif标识,所以需要手动加上
+*/
+
+const imagePreview = function(dom,fn){
+    if(typeof dom === &#39;string&#39;){
+        dom = document.querySelector(dom)
+    }
+    // 增加一个类型判断函数
+    const isType = function(name,type){
+        return name.indexOf(type) &gt; -1
+    }
+    const bindEv = function(){
+        // 这里默认单图上传
+        const file = this.files[0]
+        const reader = new FileReader()
+        reader.onload = function(ev){
+            let bs64 = ev.target.result
+            if(bs64 &amp;&amp; bs64.indexOf(&#39;data:base64,&#39;) &gt; -1){
+                // 去除旧有的错误头部
+                bs64 = bs64.replace(/data:base64,/,&#39;&#39;)
+                // 声明一个空字符用来保存下面判断的类型
+                // 通过name后缀进行识别标注
+                let typeFile = &#39;&#39;,
+                    name = file.name.toLowerCase();
+                if(name &amp;&amp; isType(name,&#39;.png&#39;)){
+                    typeFile = &#39;image/png;&#39;
+                }
+                if(name &amp;&amp; isType(name,&#39;.jpg&#39;)){
+                    typeFile = &#39;image/jpeg;&#39;
+                }
+                if(name &amp;&amp; isType(name,&#39;.gif&#39;)){
+                    typeFile = &#39;image/gif;&#39;
+                }
+                if(name &amp;&amp; isType(name,&#39;.icon&#39;)){
+                    typeFile = &#39;image/x-icon;&#39;
+                }
+                bs64 = &#39;data:&#39;+typeFile+&#39;base64,&#39;+bs64
+            }
+            fn &amp;&amp; fn(bs64,file)
+        }
+        reader.readAsDataURL(file)
+    }
+
+    dom.addEventListener(&#39;change&#39;,bindEv,false)
+}
+</code></pre>
 <table>
 <thead>
 <tr>
@@ -1248,9 +1617,41 @@
 <h2 id="URL-createObjectURL"><a href="#URL-createObjectURL" class="headerlink" title="URL.createObjectURL()"></a>URL.createObjectURL()</h2><blockquote>
 <p>在每次调用 createObjectURL() 方法时，都会创建一个新的 URL对象，即使你已经用相同的对象作为参数创建过。当不再需要这些 URL 对象时，每个对象必须通过调用 URL.revokeObjectURL() 方法来释放。浏览器会在文档退出的时候自动释放它们，但是为了获得最佳性能和内存使用状况，你应该在安全的时机主动释放掉它们</p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 语法:</span></div><div class="line"><span class="comment">// 参数：blob</span></div><div class="line"><span class="comment">// 是用来创建 URL 的 File 对象或者 Blob 对象​</span></div><div class="line">objectURL = URL.createObjectURL(blob);</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> imagePreview = <span class="function"><span class="keyword">function</span>(<span class="params">dom,fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> dom === <span class="string">'string'</span>)&#123;</div><div class="line">        dom = <span class="built_in">document</span>.querySelector(dom)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 处理下兼容</span></div><div class="line">    <span class="built_in">window</span>.URL = <span class="built_in">window</span>.URL || <span class="built_in">window</span>.webkitURL</div><div class="line">    <span class="keyword">const</span> bindEv = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">const</span> file = <span class="keyword">this</span>.files[<span class="number">0</span>]</div><div class="line">        <span class="keyword">const</span> bs64 = <span class="built_in">window</span>.URL.createObjectURL(file)</div><div class="line">        <span class="keyword">const</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>)</div><div class="line">        img.src = bs64</div><div class="line">        img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">window</span>.URL.revokeObjectURL(<span class="keyword">this</span>.src)</div><div class="line">        &#125;</div><div class="line">        fn &amp;&amp; fn(bs64, file)</div><div class="line">    &#125;</div><div class="line">    dom.addEventListener(<span class="string">'change'</span>,bindEv,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">imagePreview(<span class="string">'#input'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">src,file</span>)</span>&#123;</div><div class="line">    <span class="comment">// src 就是blog对象 可进行预览操作</span></div><div class="line">    <span class="comment">// blob:null/6436b315-7d42-46e7-b447-a1a982048e61</span></div><div class="line">    <span class="comment">//.file 为文件 可在此处进行上传操作</span></div><div class="line">    <span class="keyword">const</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>)</div><div class="line">    img.src = src</div><div class="line">    <span class="built_in">document</span>.body.appendChild(img)</div><div class="line">    <span class="built_in">console</span>.log(src)</div><div class="line">    <span class="built_in">console</span>.log(file)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<pre><code class="js">// 语法:
+// 参数：blob
+// 是用来创建 URL 的 File 对象或者 Blob 对象​
+objectURL = URL.createObjectURL(blob);
+</code></pre>
+<pre><code class="js">const imagePreview = function(dom,fn){
+    if(typeof dom === &#39;string&#39;){
+        dom = document.querySelector(dom)
+    }
+    // 处理下兼容
+    window.URL = window.URL || window.webkitURL
+    const bindEv = function(){
+        const file = this.files[0]
+        const bs64 = window.URL.createObjectURL(file)
+        const img = document.createElement(&quot;img&quot;)
+        img.src = bs64
+        img.onload = function(){
+            window.URL.revokeObjectURL(this.src)
+        }
+        fn &amp;&amp; fn(bs64, file)
+    }
+    dom.addEventListener(&#39;change&#39;,bindEv,false)
+}
+</code></pre>
+<pre><code class="js">imagePreview(&#39;#input&#39;,function(src,file){
+    // src 就是blog对象 可进行预览操作
+    // blob:null/6436b315-7d42-46e7-b447-a1a982048e61
+    //.file 为文件 可在此处进行上传操作
+    const img = document.createElement(&#39;img&#39;)
+    img.src = src
+    document.body.appendChild(img)
+    console.log(src)
+    console.log(file)
+})
+</code></pre>
 <p>在现代浏览器中，支持度还是不错的：</p>
 <table>
 <thead>
@@ -1301,7 +1702,7 @@
     <link href="http://loadingmore.com/2017/10/22/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%AD%97%E6%AF%8D%E5%AF%BC%E8%88%AA%E7%B4%A2%E5%BC%95/"/>
     <id>http://loadingmore.com/2017/10/22/实现一个移动端字母导航索引/</id>
     <published>2017-10-22T10:20:12.000Z</published>
-    <updated>2019-10-20T07:43:55.522Z</updated>
+    <updated>2019-10-21T14:50:53.516Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <blockquote>
@@ -1314,9 +1715,64 @@
 <li>渲染页面数据</li>
 <li>实现touch事件<br><img src="http://oq4hkch8e.bkt.clouddn.com/indexslide-code.png" alt=""></li>
 </ul>
-<h2 id="解释几个函数"><a href="#解释几个函数" class="headerlink" title="解释几个函数"></a>解释几个函数</h2><p>解释下moveTo2这个函数,主要目的就是根据touch事件返回的字母，与页面进行匹配，匹配成功后，用window.scrollTo指定跳转位置，<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">moveTo2(letter) &#123;</div><div class="line">    <span class="keyword">const</span> len = <span class="keyword">this</span>.concatList.length</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        <span class="comment">// 匹配成功 即表示存在</span></div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.concatList[i].getAttribute(<span class="string">'data-char'</span>) === letter)&#123;</div><div class="line">            <span class="comment">// this.concatList[i].offsetTop-this.offsetTop</span></div><div class="line">            <span class="comment">// 减去this.offsetTop 是为了减去header的高度，达到预期高度</span></div><div class="line">            <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="keyword">this</span>.concatList[i].offsetTop-<span class="keyword">this</span>.offsetTop)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此方法可返回touch时 所对应的索引是哪个字符,原理就是 this.letterWrap.clientHeight是字母列高度，除以字母数量得到是每个字母的高占比，再用当前touchY去除，得到当前位置的所占比例，取整即可得到当前索引<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">getIndex(touchY) &#123;</div><div class="line">    <span class="comment">// 可返回对应的模块索引</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor((touchY-<span class="keyword">this</span>.offsetTop) / (<span class="keyword">this</span>.letterWrap.clientHeight / <span class="keyword">this</span>.source.length))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>touch事件，其中e.preventDefault()是为了阻止scroll事件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">touchStart() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchstart'</span>,(e)=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="keyword">this</span>.touching)&#123;</div><div class="line">            e.preventDefault()</div><div class="line">            <span class="keyword">this</span>.touching = <span class="literal">true</span></div><div class="line">            <span class="keyword">this</span>.letterWrap.className += <span class="string">' active'</span></div><div class="line">            <span class="keyword">const</span> touchY = e.touches[<span class="number">0</span>].clientY</div><div class="line">            <span class="keyword">const</span> index = <span class="keyword">this</span>.getIndex(touchY)</div><div class="line">            <span class="keyword">this</span>.showTips(index)</div><div class="line">            <span class="keyword">this</span>.moveTo2(<span class="keyword">this</span>.source[index])</div><div class="line">        &#125;</div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">touchMove() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchmove'</span>,(e)=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.touching)&#123;</div><div class="line">            e.preventDefault()</div><div class="line">            <span class="keyword">const</span> touchY = e.touches[<span class="number">0</span>].clientY</div><div class="line">            <span class="keyword">const</span> index = <span class="keyword">this</span>.getIndex(touchY)</div><div class="line">            <span class="keyword">this</span>.showTips(index)</div><div class="line">            <span class="keyword">this</span>.moveTo2(<span class="keyword">this</span>.source[index])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">touchEnd() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchend'</span>,()=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.touching)&#123;</div><div class="line">            <span class="keyword">this</span>.touching = <span class="literal">false</span></div><div class="line">            <span class="keyword">this</span>.letterWrap.className = <span class="keyword">this</span>.letterWrap.className.replace(<span class="regexp">/\s*active/</span>,<span class="string">''</span>)</div><div class="line">            <span class="keyword">this</span>.hideTips()</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="解释几个函数"><a href="#解释几个函数" class="headerlink" title="解释几个函数"></a>解释几个函数</h2><p>解释下moveTo2这个函数,主要目的就是根据touch事件返回的字母，与页面进行匹配，匹配成功后，用window.scrollTo指定跳转位置，</p>
+<pre><code class="js">moveTo2(letter) {
+    const len = this.concatList.length
+    for(let i=0;i&lt;len;i++){
+        // 匹配成功 即表示存在
+        if(this.concatList[i].getAttribute(&#39;data-char&#39;) === letter){
+            // this.concatList[i].offsetTop-this.offsetTop
+            // 减去this.offsetTop 是为了减去header的高度，达到预期高度
+            window.scrollTo(0,this.concatList[i].offsetTop-this.offsetTop)
+        }
+    }
+}
+</code></pre>
+<p>此方法可返回touch时 所对应的索引是哪个字符,原理就是 this.letterWrap.clientHeight是字母列高度，除以字母数量得到是每个字母的高占比，再用当前touchY去除，得到当前位置的所占比例，取整即可得到当前索引</p>
+<pre><code class="js">getIndex(touchY) {
+    // 可返回对应的模块索引
+    return Math.floor((touchY-this.offsetTop) / (this.letterWrap.clientHeight / this.source.length))
+}
+</code></pre>
+<p>touch事件，其中e.preventDefault()是为了阻止scroll事件</p>
+<pre><code class="js">touchStart() {
+    this.letterWrap.addEventListener(&#39;touchstart&#39;,(e)=&gt;{
+        if(!this.touching){
+            e.preventDefault()
+            this.touching = true
+            this.letterWrap.className += &#39; active&#39;
+            const touchY = e.touches[0].clientY
+            const index = this.getIndex(touchY)
+            this.showTips(index)
+            this.moveTo2(this.source[index])
+        }
+    },false)
+}
+
+touchMove() {
+    this.letterWrap.addEventListener(&#39;touchmove&#39;,(e)=&gt;{
+        if(this.touching){
+            e.preventDefault()
+            const touchY = e.touches[0].clientY
+            const index = this.getIndex(touchY)
+            this.showTips(index)
+            this.moveTo2(this.source[index])
+        }
+
+    },false)
+}
+
+touchEnd() {
+    this.letterWrap.addEventListener(&#39;touchend&#39;,()=&gt;{
+        if(this.touching){
+            this.touching = false
+            this.letterWrap.className = this.letterWrap.className.replace(/\s*active/,&#39;&#39;)
+            this.hideTips()
+        }
+
+    },false)
+}
+</code></pre>
 <p>至此，基本功能已经实现，可以根据不同的需求进行改进，后期打算封装成为一个类库，对外暴露接口，这样更灵活些</p>
 ]]></content>
     

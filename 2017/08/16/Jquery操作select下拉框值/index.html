@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Jquery操作select下拉框值｜LoaingMore&#39;s blog
@@ -197,8 +198,48 @@
                 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>最近项目中操作select的option值得场景还是很多的，在此记录一下,以免忘记</p>
 </blockquote>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selected"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">data-id</span>=<span class="string">"1000"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"2"</span> <span class="attr">data-id</span>=<span class="string">"1001"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"3"</span> <span class="attr">data-id</span>=<span class="string">"1002"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"4"</span> <span class="attr">data-id</span>=<span class="string">"1003"</span>&gt;</span><span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// change事件中进行操作</span></div><div class="line">$(<span class="string">'#selected'</span>).on(<span class="string">'change'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 获取被选中的option 自定义属性</span></div><div class="line">    <span class="keyword">var</span> selectedOpt = $(<span class="string">'#selected'</span>).find(<span class="string">'option:selected'</span>).attr(<span class="string">'data-id'</span>)</div><div class="line"></div><div class="line">    <span class="comment">//获取下拉框选中项的value属性值</span></div><div class="line">    <span class="keyword">var</span> selectedVal = $(<span class="string">'#selected'</span>).val()</div><div class="line"></div><div class="line">    <span class="comment">//获取下拉框选中项的index属性值</span></div><div class="line">    <span class="keyword">var</span> selectedIndex = $(<span class="string">"#selected"</span>).get(<span class="number">0</span>).selectedIndex</div><div class="line"></div><div class="line">    <span class="built_in">console</span>.log(selectedIndex)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">//设置下拉框值为4的option选中</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOpt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#selected option[value=4]'</span>).attr(<span class="string">'selected'</span>,<span class="string">'selected'</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// setOpt()</span></div><div class="line"></div><div class="line"><span class="comment">//在下拉框最后添加一个选项</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addOpt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#selected'</span>).append(<span class="string">'&lt;option value="5" data-id="1004"&gt;蘑菇云&lt;/option&gt;'</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// addOpt()</span></div><div class="line"></div><div class="line"><span class="comment">//移除下拉框最后一个选项</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeLastOpt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">'#selected option:last'</span>).remove()</div><div class="line">&#125;</div><div class="line"><span class="comment">// removeLastOpt()</span></div><div class="line"></div><div class="line"><span class="comment">// 获取最后一个下拉框自定义属性值</span></div><div class="line"><span class="keyword">var</span> selectMaxIndex = $(<span class="string">"#selected option:last"</span>).attr(<span class="string">"data-id"</span>);</div></pre></td></tr></table></figure>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><pre><code class="html">&lt;select id=&quot;selected&quot;&gt;
+    &lt;option value=&quot;1&quot; data-id=&quot;1000&quot;&gt;&lt;/option&gt;
+    &lt;option value=&quot;2&quot; data-id=&quot;1001&quot;&gt;&lt;/option&gt;
+    &lt;option value=&quot;3&quot; data-id=&quot;1002&quot;&gt;&lt;/option&gt;
+    &lt;option value=&quot;4&quot; data-id=&quot;1003&quot;&gt;&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><pre><code class="js">// change事件中进行操作
+$(&#39;#selected&#39;).on(&#39;change&#39;,function(){
+    // 获取被选中的option 自定义属性
+    var selectedOpt = $(&#39;#selected&#39;).find(&#39;option:selected&#39;).attr(&#39;data-id&#39;)
+
+    //获取下拉框选中项的value属性值
+    var selectedVal = $(&#39;#selected&#39;).val()
+
+    //获取下拉框选中项的index属性值
+    var selectedIndex = $(&quot;#selected&quot;).get(0).selectedIndex
+
+    console.log(selectedIndex)
+})
+
+//设置下拉框值为4的option选中
+function setOpt(){
+    $(&#39;#selected option[value=4]&#39;).attr(&#39;selected&#39;,&#39;selected&#39;)
+}
+// setOpt()
+
+//在下拉框最后添加一个选项
+function addOpt(){
+    $(&#39;#selected&#39;).append(&#39;&lt;option value=&quot;5&quot; data-id=&quot;1004&quot;&gt;蘑菇云&lt;/option&gt;&#39;)
+}
+// addOpt()
+
+//移除下拉框最后一个选项
+function removeLastOpt(){
+    $(&#39;#selected option:last&#39;).remove()
+}
+// removeLastOpt()
+
+// 获取最后一个下拉框自定义属性值
+var selectMaxIndex = $(&quot;#selected option:last&quot;).attr(&quot;data-id&quot;);
+</code></pre>
 
                 <hr>
                 
@@ -272,9 +313,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -342,13 +383,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

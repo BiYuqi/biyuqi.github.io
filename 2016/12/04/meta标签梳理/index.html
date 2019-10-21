@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         meta标签梳理｜LoaingMore&#39;s blog
@@ -192,9 +193,90 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <p>实际开发过程中meta标签大家都不陌生,大多都是去粘贴复制，对其原理和一些细节不太清楚,网上查阅一些常用的meta属性,以及什么意思,以备开发(偷懒)用.</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line">content参数</div><div class="line">width viewport 宽度(数值/device-width)</div><div class="line">height viewport 高度(数值/device-height)</div><div class="line">initial-scale 初始缩放比例</div><div class="line">maximum-scale 最大缩放比例</div><div class="line">minimum-scale 最小缩放比例</div><div class="line">user-scalable 是否允许用户缩放(yes / no)</div></pre></td></tr></table></figure>
+<pre><code class="html">  content参数
+  width viewport 宽度(数值/device-width)
+  height viewport 高度(数值/device-height)
+  initial-scale 初始缩放比例
+  maximum-scale 最大缩放比例
+  minimum-scale 最小缩放比例
+  user-scalable 是否允许用户缩放(yes / no)
+</code></pre>
 <a id="more"></a>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span> <span class="comment">&lt;!-- 使用 HTML5 doctype，不区分大小写 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cmn-Hans"</span>&gt;</span> <span class="comment">&lt;!-- 更加标准的 lang 属性写法 http://zhi.hu/XyIa --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 声明文档使用的字符编码 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 优先使用IE最新版本和chrome --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge,chrome=1"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 页面描述 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"description"</span> <span class="attr">content</span>=<span class="string">"不超过150个字符"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 页面关键词 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"keywords"</span> <span class="attr">content</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 网页作者 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"author"</span> <span class="attr">content</span>=<span class="string">"name,email@gmail.com"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 搜索引擎抓取 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"robots"</span> <span class="attr">content</span>=<span class="string">"index,follow"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 为移动设备添加 viewport --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- `width=device-width` 会导致 iPhone 5 添加到主屏后以 WebApp 全屏模式打开页面时出现黑边http://bigc.at/ios-webapp-viewport-meta.orz --&gt;</span></div><div class="line"></div><div class="line">  <span class="comment">&lt;!-- iOS 设备 begin --&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"apple-mobile-web-app-title"</span> <span class="attr">content</span>=<span class="string">"标题"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 添加到主屏后的标题（iOS 6 新增） --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"apple-mobile-web-app-capable"</span> <span class="attr">content</span>=<span class="string">"yes"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 --&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"format-detection"</span> <span class="attr">content</span>=<span class="string">"telphone=no, email=no"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 忽略页面中的数字识别为电话，忽略email识别 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 启用360浏览器的极速模式(webkit) --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"renderer"</span> <span class="attr">content</span>=<span class="string">"webkit"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 避免IE使用兼容模式 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"HandheldFriendly"</span> <span class="attr">content</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 微软的老式浏览器 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"MobileOptimized"</span> <span class="attr">content</span>=<span class="string">"320"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- uc强制竖屏 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"screen-orientation"</span> <span class="attr">content</span>=<span class="string">"portrait"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- QQ强制竖屏 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"x5-orientation"</span> <span class="attr">content</span>=<span class="string">"portrait"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- UC强制全屏 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"full-screen"</span> <span class="attr">content</span>=<span class="string">"yes"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- QQ强制全屏 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"x5-fullscreen"</span> <span class="attr">content</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- UC应用模式 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"browsermode"</span> <span class="attr">content</span>=<span class="string">"application"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- QQ应用模式 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"x5-page-mode"</span> <span class="attr">content</span>=<span class="string">"app"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- windows phone 点击无高光 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"msapplication-tap-highlight"</span> <span class="attr">content</span>=<span class="string">"no"</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="comment">&lt;!-- iOS 图标 begin --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-icon-precomposed"</span> <span class="attr">href</span>=<span class="string">"/apple-touch-icon-57x57-precomposed.png"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- iPhone 和 iTouch，默认 57x57 像素，必须有 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-icon-precomposed"</span> <span class="attr">sizes</span>=<span class="string">"114x114"</span> <span class="attr">href</span>=<span class="string">"/apple-touch-icon-114x114-precomposed.png"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- Retina iPhone 和 Retina iTouch，114x114 像素，可以没有，但推荐有 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-icon-precomposed"</span> <span class="attr">sizes</span>=<span class="string">"144x144"</span> <span class="attr">href</span>=<span class="string">"/apple-touch-icon-144x144-precomposed.png"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- Retina iPad，144x144 像素，可以没有，但推荐有 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- iOS 图标 end --&gt;</span></div><div class="line"></div><div class="line">  <span class="comment">&lt;!-- iOS 启动画面 begin --&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-startup-image"</span> <span class="attr">sizes</span>=<span class="string">"768x1004"</span> <span class="attr">href</span>=<span class="string">"/splash-screen-768x1004.png"</span>/&gt;</span></div><div class="line"> <span class="comment">&lt;!-- iPad 竖屏 768 x 1004（标准分辨率） --&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-startup-image"</span> <span class="attr">sizes</span>=<span class="string">"1536x2008"</span> <span class="attr">href</span>=<span class="string">"/splash-screen-1536x2008.png"</span>/&gt;</span></div><div class="line"> <span class="comment">&lt;!-- iPad 竖屏 1536x2008（Retina） --&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-startup-image"</span> <span class="attr">sizes</span>=<span class="string">"1024x748"</span> <span class="attr">href</span>=<span class="string">"/Default-Portrait-1024x748.png"</span>/&gt;</span></div><div class="line"> <span class="comment">&lt;!-- iPad 横屏 1024x748（标准分辨率） --&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"apple-touch-startup-image"</span> <span class="attr">sizes</span>=<span class="string">"2048x1496"</span> <span class="attr">href</span>=<span class="string">"/splash-screen-2048x1496.png"</span>/&gt;</span></div><div class="line"> <span class="comment">&lt;!-- iPad 横屏 2048x1496（Retina） --&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"alternate"</span> <span class="attr">type</span>=<span class="string">"application/rss+xml"</span> <span class="attr">title</span>=<span class="string">"RSS"</span> <span class="attr">href</span>=<span class="string">"/rss.xml"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 添加 RSS 订阅 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"shortcut icon"</span> <span class="attr">type</span>=<span class="string">"image/ico"</span> <span class="attr">href</span>=<span class="string">"/favicon.ico"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 添加 favicon icon --&gt;</span></div></pre></td></tr></table></figure>
+<pre><code class="html">  &lt;!DOCTYPE html&gt; &lt;!-- 使用 HTML5 doctype，不区分大小写 --&gt;
+  &lt;html lang=&quot;zh-cmn-Hans&quot;&gt; &lt;!-- 更加标准的 lang 属性写法 http://zhi.hu/XyIa --&gt;
+  &lt;head&gt;
+    &lt;!-- 声明文档使用的字符编码 --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!-- 优先使用IE最新版本和chrome --&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
+    &lt;!-- 页面描述 --&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;不超过150个字符&quot;&gt;
+    &lt;!-- 页面关键词 --&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;&quot;&gt;
+    &lt;!-- 网页作者 --&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;name,email@gmail.com&quot;&gt;
+    &lt;!-- 搜索引擎抓取 --&gt;
+    &lt;meta name=&quot;robots&quot; content=&quot;index,follow&quot;&gt;
+    &lt;!-- 为移动设备添加 viewport --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no&quot;&gt;
+    &lt;!-- `width=device-width` 会导致 iPhone 5 添加到主屏后以 WebApp 全屏模式打开页面时出现黑边http://bigc.at/ios-webapp-viewport-meta.orz --&gt;
+
+    &lt;!-- iOS 设备 begin --&gt;
+
+    &lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;标题&quot;&gt;
+    &lt;!-- 添加到主屏后的标题（iOS 6 新增） --&gt;
+    &lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;/&gt;
+    &lt;!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 --&gt;
+
+    &lt;meta name=&quot;format-detection&quot; content=&quot;telphone=no, email=no&quot;/&gt;
+    &lt;!-- 忽略页面中的数字识别为电话，忽略email识别 --&gt;
+    &lt;!-- 启用360浏览器的极速模式(webkit) --&gt;
+    &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;
+    &lt;!-- 避免IE使用兼容模式 --&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 --&gt;
+    &lt;meta name=&quot;HandheldFriendly&quot; content=&quot;true&quot;&gt;
+    &lt;!-- 微软的老式浏览器 --&gt;
+    &lt;meta name=&quot;MobileOptimized&quot; content=&quot;320&quot;&gt;
+    &lt;!-- uc强制竖屏 --&gt;
+    &lt;meta name=&quot;screen-orientation&quot; content=&quot;portrait&quot;&gt;
+    &lt;!-- QQ强制竖屏 --&gt;
+    &lt;meta name=&quot;x5-orientation&quot; content=&quot;portrait&quot;&gt;
+    &lt;!-- UC强制全屏 --&gt;
+    &lt;meta name=&quot;full-screen&quot; content=&quot;yes&quot;&gt;
+    &lt;!-- QQ强制全屏 --&gt;
+    &lt;meta name=&quot;x5-fullscreen&quot; content=&quot;true&quot;&gt;
+    &lt;!-- UC应用模式 --&gt;
+    &lt;meta name=&quot;browsermode&quot; content=&quot;application&quot;&gt;
+    &lt;!-- QQ应用模式 --&gt;
+    &lt;meta name=&quot;x5-page-mode&quot; content=&quot;app&quot;&gt;
+    &lt;!-- windows phone 点击无高光 --&gt;
+    &lt;meta name=&quot;msapplication-tap-highlight&quot; content=&quot;no&quot;&gt;
+
+    &lt;!-- iOS 图标 begin --&gt;
+    &lt;link rel=&quot;apple-touch-icon-precomposed&quot; href=&quot;/apple-touch-icon-57x57-precomposed.png&quot;/&gt;
+    &lt;!-- iPhone 和 iTouch，默认 57x57 像素，必须有 --&gt;
+    &lt;link rel=&quot;apple-touch-icon-precomposed&quot; sizes=&quot;114x114&quot; href=&quot;/apple-touch-icon-114x114-precomposed.png&quot;/&gt;
+    &lt;!-- Retina iPhone 和 Retina iTouch，114x114 像素，可以没有，但推荐有 --&gt;
+    &lt;link rel=&quot;apple-touch-icon-precomposed&quot; sizes=&quot;144x144&quot; href=&quot;/apple-touch-icon-144x144-precomposed.png&quot;/&gt;
+    &lt;!-- Retina iPad，144x144 像素，可以没有，但推荐有 --&gt;
+    &lt;!-- iOS 图标 end --&gt;
+
+    &lt;!-- iOS 启动画面 begin --&gt;
+   &lt;link rel=&quot;apple-touch-startup-image&quot; sizes=&quot;768x1004&quot; href=&quot;/splash-screen-768x1004.png&quot;/&gt;
+   &lt;!-- iPad 竖屏 768 x 1004（标准分辨率） --&gt;
+   &lt;link rel=&quot;apple-touch-startup-image&quot; sizes=&quot;1536x2008&quot; href=&quot;/splash-screen-1536x2008.png&quot;/&gt;
+   &lt;!-- iPad 竖屏 1536x2008（Retina） --&gt;
+   &lt;link rel=&quot;apple-touch-startup-image&quot; sizes=&quot;1024x748&quot; href=&quot;/Default-Portrait-1024x748.png&quot;/&gt;
+   &lt;!-- iPad 横屏 1024x748（标准分辨率） --&gt;
+   &lt;link rel=&quot;apple-touch-startup-image&quot; sizes=&quot;2048x1496&quot; href=&quot;/splash-screen-2048x1496.png&quot;/&gt;
+   &lt;!-- iPad 横屏 2048x1496（Retina） --&gt;
+
+    &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;RSS&quot; href=&quot;/rss.xml&quot;/&gt;
+    &lt;!-- 添加 RSS 订阅 --&gt;
+    &lt;link rel=&quot;shortcut icon&quot; type=&quot;image/ico&quot; href=&quot;/favicon.ico&quot;/&gt;
+    &lt;!-- 添加 favicon icon --&gt;
+</code></pre>
 
                 <hr>
                 
@@ -265,9 +347,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -335,13 +417,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

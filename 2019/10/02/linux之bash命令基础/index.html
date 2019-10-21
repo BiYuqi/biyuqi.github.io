@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         linux之bash命令基础｜LoaingMore&#39;s blog
@@ -284,34 +285,70 @@
 </tbody>
 </table>
 <h2 id="文件和目录列表"><a href="#文件和目录列表" class="headerlink" title="文件和目录列表"></a><span id="file-dir">文件和目录列表</span></h2><p><strong>显示当前文件和目录</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">README-zh_CN.md      commitlint.config.js example              node_modules</div><div class="line">README.md            docs                 lerna.json           package-lock.json</div></pre></td></tr></table></figure>
-<p>ls是按字母排序的, 可以带参数 <code>-F</code> 用来区分文件和目录<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -F</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">README-zh_CN.md       commitlint.config.js  example/              node_modules/</div><div class="line">README.md             docs/                 lerna.json            package-lock.json</div></pre></td></tr></table></figure>
+<pre><code class="shell">» ls
+</code></pre>
+<pre><code class="js">README-zh_CN.md      commitlint.config.js example              node_modules
+README.md            docs                 lerna.json           package-lock.json
+</code></pre>
+<p>ls是按字母排序的, 可以带参数 <code>-F</code> 用来区分文件和目录</p>
+<pre><code class="shell">» ls -F
+</code></pre>
+<pre><code class="js">README-zh_CN.md       commitlint.config.js  example/              node_modules/
+README.md             docs/                 lerna.json            package-lock.json
+</code></pre>
 <p><code>-F</code>参数在目录后面加了正斜线(/)</p>
-<p><strong>显示隐藏文件</strong><br>利用参数 <code>-a</code>来显示隐藏文件和普通文件, 所有以点号开始的隐藏文件都显示出来了<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -a</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">.git                 README-zh_CN.md      commitlint.config.js example              node_modules</div><div class="line">..                   .gitignore           README.md            docs                 lerna.json</div></pre></td></tr></table></figure>
-<p><strong>显示长列表</strong><br>利用<code>ls -l</code>产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -l</div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">» ls -l</div><div class="line">total <span class="number">176</span></div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff   <span class="number">4453</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> _config.yml</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff  <span class="number">77732</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> package-lock.json</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff    <span class="number">667</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> package.json</div><div class="line">drwxr-xr-x  <span class="number">5</span> yuqi.bi  staff    <span class="number">160</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> scaffolds</div><div class="line">drwxr-xr-x  <span class="number">9</span> yuqi.bi  staff    <span class="number">288</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> source</div></pre></td></tr></table></figure>
+<p><strong>显示隐藏文件</strong><br>利用参数 <code>-a</code>来显示隐藏文件和普通文件, 所有以点号开始的隐藏文件都显示出来了</p>
+<pre><code class="shell">» ls -a
+</code></pre>
+<pre><code class="js">.git                 README-zh_CN.md      commitlint.config.js example              node_modules
+..                   .gitignore           README.md            docs                 lerna.json
+</code></pre>
+<p><strong>显示长列表</strong><br>利用<code>ls -l</code>产生每个文件的更多信息, 比如目录(d), 文件(-), 字符型文件(c)或者块设备(b)</p>
+<pre><code class="shell">» ls -l
+</code></pre>
+<pre><code class="js">» ls -l
+total 176
+-rw-r--r--  1 yuqi.bi  staff   4453 Sep 25 23:10 _config.yml
+-rw-r--r--  1 yuqi.bi  staff  77732 Sep 25 23:10 package-lock.json
+-rw-r--r--  1 yuqi.bi  staff    667 Sep 25 23:10 package.json
+drwxr-xr-x  5 yuqi.bi  staff    160 Sep 25 23:10 scaffolds
+drwxr-xr-x  9 yuqi.bi  staff    288 Sep 25 23:10 source
+</code></pre>
 <p><strong>过滤输出列表</strong><br><code>ls</code> 会输出很多信息，可以针对目标文件进行过滤搜索,这里支持的是正则表达式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 搜索以——conf开头的文件</span></div><div class="line">» ls -l _confi*</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">» ls -l _confi*</div><div class="line">-rw-r--r--  <span class="number">1</span> yuqi.bi  staff  <span class="number">4453</span> Sep <span class="number">25</span> <span class="number">23</span>:<span class="number">10</span> _config.yml</div></pre></td></tr></table></figure>
+<pre><code class="shell"># 搜索以——conf开头的文件
+» ls -l _confi*
+</code></pre>
+<pre><code class="js">» ls -l _confi*
+-rw-r--r--  1 yuqi.bi  staff  4453 Sep 25 23:10 _config.yml
+</code></pre>
 <h2 id="处理文件"><a href="#处理文件" class="headerlink" title="处理文件"></a><span id="handle-doc">处理文件</span></h2><p><strong>创建文件</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» touch test_one</div><div class="line">» ls -l test_one</div></pre></td></tr></table></figure>
-<p>显示如下：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">-rw-r--r--  <span class="number">1</span> [Here is your user name]  staff  <span class="number">0</span> Oct  <span class="number">3</span> <span class="number">00</span>:<span class="number">06</span> test_one</div></pre></td></tr></table></figure></p>
+<pre><code class="shell">» touch test_one
+» ls -l test_one
+</code></pre>
+<p>显示如下：</p>
+<pre><code class="js">-rw-r--r--  1 [Here is your user name]  staff  0 Oct  3 00:06 test_one
+</code></pre>
 <p><code>ls -l</code> 不会直接显示访问时间，默认是显示修改时间，如需查看需啊哟加上<code>--time=attime</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» ls -l --time=attime test_one</div></pre></td></tr></table></figure>
+<pre><code class="shell">» ls -l --time=attime test_one
+</code></pre>
 <p><strong>复制文件</strong><br><code>cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file target_file</code></p>
 <p>基本用法： <code>cp 命令需要两个参数--源对象和目标对象</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» cp source destination</div></pre></td></tr></table></figure>
+<pre><code class="shell">» cp source destination
+</code></pre>
 <p>当source和destination 参数是文件名时，cp命令将源文件复制成一个新文件，并命名为destination.</p>
 <p>eg:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» cp test_one test_two</div></pre></td></tr></table></figure>
-<p>如果目标文件已经存在，cp命令并不会提示，所以可以加<code>-i</code>来强制shell提示是否覆盖.<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">~/Desktop » cp -i test_one test_two</div><div class="line">overwrite test_two? (y/n [n])</div></pre></td></tr></table></figure></p>
+<pre><code class="shell">» cp test_one test_two
+</code></pre>
+<p>如果目标文件已经存在，cp命令并不会提示，所以可以加<code>-i</code>来强制shell提示是否覆盖.</p>
+<pre><code class="shell">~/Desktop » cp -i test_one test_two
+overwrite test_two? (y/n [n])
+</code></pre>
 <p>cp命令<code>-R</code>参数可以递归的复制整个目录文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» cp -R source/ target</div></pre></td></tr></table></figure>
+<pre><code class="shell">» cp -R source/ target
+</code></pre>
 <p>也可以在cp命令中使用通配符</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">» cp *script new_script/</div></pre></td></tr></table></figure>
+<pre><code class="bash">» cp *script new_script/
+</code></pre>
 <p>该命令静所有以script结尾的文件赋值到new_script目录中，可以通过<code>ls -l new_script</code>查看</p>
 <p><strong>重命名文件</strong></p>
 <p><code>mv [-f | -i | -n] [-v] source target</code></p>
@@ -319,34 +356,53 @@
 <blockquote>
 <p>Create directory <code>linux-demo</code> with demo file and demo dir</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">» ls -lF</div><div class="line">total 0</div><div class="line">drwxr-xr-x  2 yuqi.bi staff  64 Oct  4 15:48 demo/</div><div class="line">-rw-r--r--  1 yuqi.bi staff   0 Oct  4 15:48 demo.txt</div></pre></td></tr></table></figure>
-<p>执行mv命令<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mv demo demo-with-mv</div><div class="line"></div><div class="line">» ls -lF de*</div><div class="line">total 0</div><div class="line">drwxr-xr-x  2 yuqi.bi  staff  64 Oct  4 15:48 demo-with-mv/</div><div class="line">-rw-r--r--  1 yuqi.bi  staff   0 Oct  4 15:48 demo.txt</div></pre></td></tr></table></figure></p>
+<pre><code class="bash">» ls -lF
+total 0
+drwxr-xr-x  2 yuqi.bi staff  64 Oct  4 15:48 demo/
+-rw-r--r--  1 yuqi.bi staff   0 Oct  4 15:48 demo.txt
+</code></pre>
+<p>执行mv命令</p>
+<pre><code class="shell">» mv demo demo-with-mv
+
+» ls -lF de*
+total 0
+drwxr-xr-x  2 yuqi.bi  staff  64 Oct  4 15:48 demo-with-mv/
+-rw-r--r--  1 yuqi.bi  staff   0 Oct  4 15:48 demo.txt
+</code></pre>
 <p>也可以使用mv移动位置并修改文件名称</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mv linux-demo linux-demo2</div></pre></td></tr></table></figure>
+<pre><code class="shell">» mv linux-demo linux-demo2
+</code></pre>
 <p><strong>删除文件</strong></p>
 <p><code>rm [-dfiPRrvW] file ...</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» rm -i demo.txt</div></pre></td></tr></table></figure>
+<pre><code class="shell">» rm -i demo.txt
+</code></pre>
 <p><code>-i</code> 提示是不是要真的删除文件</p>
 <p>如果要删除很多文件不受提示干扰，可用<code>-f</code> 强制删除 <code>-rf</code>递归强制删除</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» rm -rf demo.txt</div></pre></td></tr></table></figure>
+<pre><code class="shell">» rm -rf demo.txt
+</code></pre>
 <h2 id="处理目录"><a href="#处理目录" class="headerlink" title="处理目录"></a><span id="handle-dir">处理目录</span></h2><p><strong>创建目录</strong></p>
 <p><code>mkdir [-pv] [-m mode] directory_name ...</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mkdir new_dir</div></pre></td></tr></table></figure>
+<pre><code class="shell">» mkdir new_dir
+</code></pre>
 <p>如果想批量创建目录和子目录，需要加上<code>-p</code>, 可以根据需要创建缺失目录.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» mkdir -p new_dir/sub_dir_child_dir</div></pre></td></tr></table></figure>
+<pre><code class="shell">» mkdir -p new_dir/sub_dir_child_dir
+</code></pre>
 <p><strong>删除目录</strong></p>
 <p><code>rmdir [-p] directory ...</code></p>
 <p>默认情况下<code>rmdir</code>只删除非空目录, 只能先删除文件，才能删除目录</p>
 <p>所以想要一口气删除所有文件，还是需要用到<code>rm -rf [target dir name]</code></p>
 <h2 id="查看文件"><a href="#查看文件" class="headerlink" title="查看文件"></a><span id="cat-file">查看文件</span></h2><p><code>file [-bcdDhiIkLnNprsvz] [--extension] [--mime-encoding] [--mime-type] [-f namefile] [-m magicfiles] [-P name=value]</code></p>
 <p>file命令是一个能够探测文件内部的工具</p>
-<p><strong>查看文件类型</strong><br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» file demo.text</div></pre></td></tr></table></figure></p>
+<p><strong>查看文件类型</strong></p>
+<pre><code class="shell">» file demo.text
+</code></pre>
 <p>会返回文件的类型</p>
 <p><strong>查看整个文件</strong></p>
 <ul>
 <li>cat命令</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">cat demo.txt</div></pre></td></tr></table></figure>
+<pre><code class="shell">cat demo.txt
+</code></pre>
 <p><code>-n</code> 可以给所有行加上行号<br><code>-b</code> 可以只给文本行添加行号<br><code>-T</code> 移除制表符</p>
 <p><strong>查看部分文件</strong></p>
 <ul>
@@ -358,25 +414,34 @@
 <li>head 命令</li>
 </ul>
 <p><code>head [-n count | -c bytes] [file ...]</code><br>查看文件起始内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» head -n [number] [file]</div></pre></td></tr></table></figure>
+<pre><code class="shell">» head -n [number] [file]
+</code></pre>
 <h2 id="搜索数据"><a href="#搜索数据" class="headerlink" title="搜索数据"></a><span id="search-data">搜索数据</span></h2><p><code>grep [options] pattern [file]</code></p>
 <p>grep命令会在输入或指定的文件中查找包含匹配指定模式的字符的行, 它的输出就是包含了匹配模式的行.</p>
-<p>eg: 在demo.js文件中找到含有<code>key</code>的行<br><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep key demo.js</div></pre></td></tr></table></figure></p>
+<p>eg: 在demo.js文件中找到含有<code>key</code>的行</p>
+<pre><code class="shell">» grep key demo.js
+</code></pre>
 <ul>
 <li><p>如果进行方向搜索(即不匹配该行), 加<code>-v</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -v key demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -v key demo.js
+</code></pre>
 </li>
 <li><p>如果要显示匹配模式的行所在行号, 加<code>-n</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -n key demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -n key demo.js
+</code></pre>
 </li>
 <li><p>如果想知道有多少行匹配, 加<code>-c</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -c key demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -c key demo.js
+</code></pre>
 </li>
 <li><p>如果要制定多个匹配模式, 加<code>-e</code>指定每一个模式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep -e key -e word demo.js</div></pre></td></tr></table></figure>
+<pre><code class="shell">» grep -e key -e word demo.js
+</code></pre>
 </li>
 <li><p>支持正则表达式</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">» grep [k-z] demo.js</div></pre></td></tr></table></figure></li>
+<pre><code class="shell">» grep [k-z] demo.js
+</code></pre>
+</li>
 </ul>
 
                 <hr>
@@ -454,9 +519,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -524,13 +589,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         一次FormData递归上传图片小记｜LoaingMore&#39;s blog
@@ -196,7 +197,43 @@
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近项目开发中遇到一个多图上传的需求，后台给的接口支持FormData.<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/FormData" target="_blank" rel="external">这里查看详情FormData</a></p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>刚开始没有太好的办法，之前用formdata传图，都是固定的个数，对应唯一的filename参数名字，不会发生冲突，所以刚开始想到了for循环…结果就是能上传，但是顺序全部搞乱了，还有就是图片传的重复，缺失严重</p>
-<h2 id="递归优化"><a href="#递归优化" class="headerlink" title="递归优化"></a>递归优化</h2><p>想着for循环也不能控制上传进度，所以采用了递归的思路<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 伪代码</span></div><div class="line">$(<span class="string">'#sleect_input'</span>).off().on(<span class="string">'change'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> files = e.target.files,</div><div class="line">        resFiles = [];</div><div class="line">    <span class="comment">// 收集files</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;files.length;i++)&#123;</div><div class="line">        resFiles.push(files[i])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 上传</span></div><div class="line">    $(<span class="string">'#upLoad'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">// 递归</span></div><div class="line">        (<span class="function"><span class="keyword">function</span> <span class="title">uploadFiles</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> f = resFiles.shift();</div><div class="line">            <span class="keyword">if</span>(f)&#123;</div><div class="line">                <span class="comment">// 这里创建是为了避免重名导致上传混乱，每次都重新创建新的对象</span></div><div class="line">                <span class="keyword">var</span> formdata = <span class="keyword">new</span> FormData();</div><div class="line">                formdata.append(<span class="string">'file'</span>,f);</div><div class="line">                $.ajax(&#123;</div><div class="line">                    <span class="attr">url</span>:<span class="string">'XXXXXXXXXXXXXXXXXXXXXX'</span>,</div><div class="line">                    <span class="attr">type</span>: <span class="string">"POST"</span>,</div><div class="line">                    <span class="attr">data</span>: formdata,</div><div class="line">                    <span class="attr">processData</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="attr">contentType</span>: <span class="literal">false</span>,</div><div class="line">                &#125;).always(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                    <span class="built_in">console</span>.log(<span class="string">"pending+正在上传"</span>);</div><div class="line">                    <span class="comment">// 继续下一步上传</span></div><div class="line">                    uploadFiles();</div><div class="line">                &#125;);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="built_in">console</span>.log(<span class="string">"finished+上传完毕要做的事"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;)()</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="递归优化"><a href="#递归优化" class="headerlink" title="递归优化"></a>递归优化</h2><p>想着for循环也不能控制上传进度，所以采用了递归的思路</p>
+<pre><code class="js">// 伪代码
+$(&#39;#sleect_input&#39;).off().on(&#39;change&#39;,function(e){
+    var files = e.target.files,
+        resFiles = [];
+    // 收集files
+    for(var i=0;i&lt;files.length;i++){
+        resFiles.push(files[i])
+    }
+
+    // 上传
+    $(&#39;#upLoad&#39;).on(&#39;click&#39;,function(){
+        // 递归
+        (function uploadFiles(){
+            var f = resFiles.shift();
+            if(f){
+                // 这里创建是为了避免重名导致上传混乱，每次都重新创建新的对象
+                var formdata = new FormData();
+                formdata.append(&#39;file&#39;,f);
+                $.ajax({
+                    url:&#39;XXXXXXXXXXXXXXXXXXXXXX&#39;,
+                    type: &quot;POST&quot;,
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                }).always(function(){
+                    console.log(&quot;pending+正在上传&quot;);
+                    // 继续下一步上传
+                    uploadFiles();
+                });
+            }else{
+                console.log(&quot;finished+上传完毕要做的事&quot;);
+            }
+        })()
+    })
+})
+</code></pre>
 <p>至此，解决了多图片上传的问题</p>
 
                 <hr>
@@ -271,9 +308,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -341,13 +378,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

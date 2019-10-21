@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         原生js实现类似于Jquery的ajax请求方式｜LoaingMore&#39;s blog
@@ -195,9 +196,89 @@
 <p>最近用数据这块挺多，随手写了个原生Js的ajax封装，调用方式与JQuery一样</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">* @obj 传入入口的对象属性和方法</div><div class="line">* @type  请求方式 GET 或者. 默认GET</div><div class="line">* @url 请求链接API</div><div class="line">* @boolType 是否异步 true or false</div><div class="line">* @dataType 数据类型 默认JSON</div><div class="line">* @success 请求数据成功后的回调</div><div class="line">* @error 请求数据失败的回调</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">    <span class="comment">//定义请求数据方式</span></div><div class="line">    obj.type = obj.type || <span class="string">"GET"</span>;</div><div class="line">    <span class="comment">//创建实例</span></div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</div><div class="line">		xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">window</span>.ActiveXObject)&#123;</div><div class="line">		xhr = <span class="keyword">new</span> ActiveXObject(Microsoft.XMLHTTP);</div><div class="line">	&#125;</div><div class="line">    <span class="comment">//发送请求</span></div><div class="line">    xhr.open(obj.type,obj.url,obj.boolType);</div><div class="line">    <span class="comment">//触发事件后</span></div><div class="line">    xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(xhr.readyState === <span class="number">4</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(xhr.status &gt;=<span class="number">200</span> &amp;&amp; xhr.status &lt;<span class="number">300</span> || xhr.status === <span class="number">304</span>)&#123;</div><div class="line">                <span class="comment">//判断数据类型</span></div><div class="line">                <span class="keyword">if</span>(obj.dataType &amp;&amp; obj.dataType.toLowerCase() === <span class="string">"json"</span>)&#123;</div><div class="line">                    <span class="comment">//声明类型 按json解析</span></div><div class="line">                    <span class="keyword">return</span> obj.success(<span class="built_in">JSON</span>.parse(xhr.responseText));</div><div class="line">                &#125;</div><div class="line">                 <span class="comment">//默认输出</span></div><div class="line">                <span class="keyword">return</span> obj.success(xhr.responseText);</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> obj.error(<span class="keyword">new</span> <span class="built_in">Error</span>(xhr.statusText));</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    <span class="comment">//触发数据失败的提示</span></div><div class="line">    xhr.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> obj.error(<span class="keyword">new</span> <span class="built_in">Error</span>(xhr.statusText));</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//判断数据get or post</span></div><div class="line">    obj.type &amp;&amp; obj.type.toLowerCase() === <span class="string">"post"</span> ?</div><div class="line">		xhr.send(obj.data) : xhr.send(<span class="literal">null</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="调用："><a href="#调用：" class="headerlink" title="调用："></a>调用：</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">ajax(&#123;</div><div class="line">    <span class="attr">url</span>:<span class="string">"https://biyuqi.github.io/gnotes/data/bloger.json"</span>,<span class="comment">//数据可用，无跨域</span></div><div class="line">    type:<span class="string">"GET"</span>,</div><div class="line">    <span class="attr">boolType</span>:<span class="literal">true</span>,</div><div class="line">    <span class="attr">dataType</span>:<span class="string">"JSON"</span>,</div><div class="line">    <span class="attr">success</span>:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(data);<span class="comment">//可以在浏览器查看数据了</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">error</span>:<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(error);</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h2 id="追加一个promise方式的ajax之Get请求"><a href="#追加一个promise方式的ajax之Get请求" class="headerlink" title="追加一个promise方式的ajax之Get请求"></a>追加一个promise方式的ajax之Get请求</h2><p>update at 2017-12-29<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> ajax_GET = <span class="function"><span class="keyword">function</span>(<span class="params">param</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">const</span> xhr = <span class="built_in">window</span>.XMLHttpRequest ? <span class="keyword">new</span> XMLHttpRequest() : <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>)</div><div class="line"></div><div class="line">        xhr.open(<span class="string">"GET"</span>,param.url,<span class="literal">true</span>)</div><div class="line"></div><div class="line">        xhr.send()</div><div class="line"></div><div class="line">        xhr.onload  = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            resolve(xhr.responseText)</div><div class="line">        &#125;</div><div class="line">        xhr.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">            reject(error)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line">ajax_GET(&#123;<span class="attr">url</span>:xxxxxxxxx&#125;)</div><div class="line">    .then(<span class="function">(<span class="params">data</span>)=&gt;</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.parse(data))</div><div class="line">    &#125;)</div><div class="line">    .catch(<span class="function">(<span class="params">err</span>)=&gt;</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(err)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><pre><code class="javascript">/*
+* @obj 传入入口的对象属性和方法
+* @type  请求方式 GET 或者. 默认GET
+* @url 请求链接API
+* @boolType 是否异步 true or false
+* @dataType 数据类型 默认JSON
+* @success 请求数据成功后的回调
+* @error 请求数据失败的回调
+*/
+function ajax(obj){
+    //定义请求数据方式
+    obj.type = obj.type || &quot;GET&quot;;
+    //创建实例
+    if(window.XMLHttpRequest){
+        xhr = new XMLHttpRequest();
+    }else if(window.ActiveXObject){
+        xhr = new ActiveXObject(Microsoft.XMLHTTP);
+    }
+    //发送请求
+    xhr.open(obj.type,obj.url,obj.boolType);
+    //触发事件后
+    xhr.onload = function(){
+        if(xhr.readyState === 4){
+            if(xhr.status &gt;=200 &amp;&amp; xhr.status &lt;300 || xhr.status === 304){
+                //判断数据类型
+                if(obj.dataType &amp;&amp; obj.dataType.toLowerCase() === &quot;json&quot;){
+                    //声明类型 按json解析
+                    return obj.success(JSON.parse(xhr.responseText));
+                }
+                 //默认输出
+                return obj.success(xhr.responseText);
+            }
+        }else{
+            return obj.error(new Error(xhr.statusText));
+        }
+    };
+    //触发数据失败的提示
+    xhr.onerror = function(){
+        return obj.error(new Error(xhr.statusText));
+    }
+    //判断数据get or post
+    obj.type &amp;&amp; obj.type.toLowerCase() === &quot;post&quot; ?
+        xhr.send(obj.data) : xhr.send(null);
+}
+</code></pre>
+<h2 id="调用："><a href="#调用：" class="headerlink" title="调用："></a>调用：</h2><pre><code class="javascript">ajax({
+    url:&quot;https://biyuqi.github.io/gnotes/data/bloger.json&quot;,//数据可用，无跨域
+    type:&quot;GET&quot;,
+    boolType:true,
+    dataType:&quot;JSON&quot;,
+    success:function(data){
+        console.log(data);//可以在浏览器查看数据了
+    },
+    error:function(error){
+        console.log(error);
+    }
+})
+</code></pre>
+<h2 id="追加一个promise方式的ajax之Get请求"><a href="#追加一个promise方式的ajax之Get请求" class="headerlink" title="追加一个promise方式的ajax之Get请求"></a>追加一个promise方式的ajax之Get请求</h2><p>update at 2017-12-29</p>
+<pre><code class="js">const ajax_GET = function(param){
+    return new Promise((resolve,reject) =&gt; {
+        const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;)
+
+        xhr.open(&quot;GET&quot;,param.url,true)
+
+        xhr.send()
+
+        xhr.onload  = function(){
+            resolve(xhr.responseText)
+        }
+        xhr.onerror = function(error){
+            reject(error)
+        }
+    })
+}
+ajax_GET({url:xxxxxxxxx})
+    .then((data)=&gt;{
+        console.log(JSON.parse(data))
+    })
+    .catch((err)=&gt;{
+        console.log(err)
+    })
+</code></pre>
 <p>POST请求一样的道理，这里就不加赘述了</p>
 
                 <hr>
@@ -269,9 +350,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -339,13 +420,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

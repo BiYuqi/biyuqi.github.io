@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -300,11 +301,13 @@
             <p>
                 创建shell脚本文件创建shell脚本文件时,需要在第一行指定要使用的shell:
 #! /bin/bash
+
 通常井(#)号用作注释行, 第一行是个例外.
 1.改变文件权限
 chmod命令用来改变文件和目录的安全性，格式如下：
 chmod options mode file
-mode 参数可以..
+
+mode 参数..
             </p>
         </div>
     </a>
@@ -356,7 +359,8 @@ mode 参数可以..
                 
 安装的vscode每次打开新的文件，前一次打开的就被覆盖掉了，很是抓狂，好在官方提供的配置开关.
 
-设置"workbench.editor.showTabs": true
+设置&quot;workbench.editor.showTabs&quot;: true
+
 在设置里搜索workbench.editor.showTabs即可看到开关按钮
 
             </p>
@@ -442,9 +446,10 @@ fatal: Unable to create ‘/path/my_project/.git/index.lock’: File exists
 
 rm -f ./.git/index.lock
 
+
 重置所有commit提交信息
 
-git reb..
+git re..
             </p>
         </div>
     </a>
@@ -470,9 +475,13 @@ git reb..
                 
 如果你错误的命名了一个分支名并且推送到了远端服务器，你可以在被发现之前得到修正
 
-1.重命名本地分支如果你在你想要改名的分支上：git branch -m new-name
-如果你在其他分支上：git branch -m old-name new-name
-2.删除远端分支并推送本地的新分支g..
+1.重命名本地分支如果你在你想要改名的分支上：
+git branch -m new-name
+
+如果你在其他分支上：
+git branch -m old-name new-name
+
+2.删除远端分支并推送本地的..
             </p>
         </div>
     </a>
@@ -763,9 +772,9 @@ git reb..
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -828,13 +837,15 @@ git reb..
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

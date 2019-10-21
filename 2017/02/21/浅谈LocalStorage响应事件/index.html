@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         浅谈LocalStorage响应事件｜LoaingMore&#39;s blog
@@ -211,7 +212,15 @@
 <p>无论何时,Storage对象发生变化时(即创建/更新/删除数据项时,重复设置相同的键值不会触发该事件，Storage.clear() 方法至多触发一次该事件),StorageEvent事件会触发.在同一个页面内发生的改变不会起作用——在相同域名下的其他页面(如一个新标签或iframe)发生的改变才会起作用.在其他域名下的页面不能访问相同的Storage对象。</p>
 </blockquote>
 <p><strong> 根据mdn的描述，说明该方法只能在通域名下使用 </strong></p>
-<p>写个样板DEMO<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'storage'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    e.key;<span class="comment">//改变的数据项的键</span></div><div class="line">    e.oldValue;<span class="comment">//改变前的旧值</span></div><div class="line">    e.newValue;<span class="comment">//改变后的新值</span></div><div class="line">    e.url;<span class="comment">//改变的存储对象所在的文档的 URL</span></div><div class="line">    e.storageArea;<span class="comment">//以及存储对象本身</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>写个样板DEMO</p>
+<pre><code class="javascript">window.addEventListener(&#39;storage&#39;,function(e){
+    e.key;//改变的数据项的键
+    e.oldValue;//改变前的旧值
+    e.newValue;//改变后的新值
+    e.url;//改变的存储对象所在的文档的 URL
+    e.storageArea;//以及存储对象本身
+})
+</code></pre>
 <p><strong> 该方法给予了我们很多想象力,像开头所说不同页面同域名下,所发生的的变化都可以通过该方法进行捕捉，进而更新相应数据 </strong></p>
 <h3 id="演示DEMO"><a href="#演示DEMO" class="headerlink" title="演示DEMO"></a>演示DEMO</h3><p><a href="http://loadingmore.com/demo/src/html/localstorage/page1.html">DEMO地址</a></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
@@ -291,9 +300,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -361,13 +370,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

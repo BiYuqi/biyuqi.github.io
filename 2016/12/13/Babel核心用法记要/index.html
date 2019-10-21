@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Babel核心用法记要｜LoaingMore&#39;s blog
@@ -195,27 +196,63 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近公司项目的需要，开始接触闻名已久的ES6了，学习之前网上看了不少资料，各大浏览器厂商的支持程度不一，遂需要转码器来转换ES6为ES5代码，<a href="https://babeljs.io/" title="Babel" target="_blank" rel="external">Babel</a>是一个广泛使用的转码器,安装学习过程中遇到一些问题，所以有了今天这篇文章，以备查阅。</p>
-<h2 id="Babel一句话介绍"><a href="#Babel一句话介绍" class="headerlink" title="Babel一句话介绍"></a>Babel一句话介绍</h2><p>一个js编译器，报浏览器不支持js装换成支持的js。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//转码前</span></div><div class="line">input.map(<span class="function"><span class="params">item</span> =&gt;</span> item + <span class="number">1</span>);</div><div class="line"><span class="comment">//转码后</span></div><div class="line">input.map(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> item + <span class="number">1</span>;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="Babel一句话介绍"><a href="#Babel一句话介绍" class="headerlink" title="Babel一句话介绍"></a>Babel一句话介绍</h2><p>一个js编译器，报浏览器不支持js装换成支持的js。 </p>
+<pre><code class="javascript">//转码前
+input.map(item =&gt; item + 1);
+//转码后
+input.map(function(item){
+    return item + 1;
+})
+</code></pre>
 <a id="more"></a>
-<h2 id="一、配置文件-babelrc"><a href="#一、配置文件-babelrc" class="headerlink" title="一、配置文件.babelrc"></a>一、配置文件.babelrc</h2><p>Babel的配置文件是.babelrc，存放在项目根目录下，使用Babel第一步就是配置这个文件。（<strong>该文件需要自己创建，随便新建一个txt文档把它重命名为 </strong> .xxxx. <strong> 即会最终生成 .xxxx文件，创建.bablerc 则 重命名为 </strong> .babelrc. ）。  <a href="http://pan.baidu.com/s/1qY2cHDq" title="百度网盘下载" target="_blank" rel="external">百度网盘下载</a><br>该文件用来设置转码规则和插件，基本格式如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">	<span class="string">"presets"</span>: [],</div><div class="line">	<span class="string">"plugins"</span>: []</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><strong>presets</strong>设置转码规则，官方提供以下规则集，可根据需要进行安装。<br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"># ES2015转码规则</div><div class="line">$ npm install --save-dev babel-preset-es2015</div><div class="line"></div><div class="line">#react转码规则</div><div class="line">$ npm install --save-dev babel-preset-react</div></pre></td></tr></table></figure></p>
-<p>将规则加入.babelrc<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">	<span class="string">"presets"</span>: [</div><div class="line">		<span class="string">"es2015"</span>,</div><div class="line">		<span class="string">"react"</span></div><div class="line">	],</div><div class="line">	<span class="string">"plugins"</span>: []</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="一、配置文件-babelrc"><a href="#一、配置文件-babelrc" class="headerlink" title="一、配置文件.babelrc"></a>一、配置文件.babelrc</h2><p>Babel的配置文件是.babelrc，存放在项目根目录下，使用Babel第一步就是配置这个文件。（<strong>该文件需要自己创建，随便新建一个txt文档把它重命名为 </strong> .xxxx. <strong> 即会最终生成 .xxxx文件，创建.bablerc 则 重命名为 </strong> .babelrc. ）。  <a href="http://pan.baidu.com/s/1qY2cHDq" title="百度网盘下载" target="_blank" rel="external">百度网盘下载</a><br>该文件用来设置转码规则和插件，基本格式如下：  </p>
+<pre><code class="javascript">{
+    &quot;presets&quot;: [],
+    &quot;plugins&quot;: []
+}
+</code></pre>
+<p><strong>presets</strong>设置转码规则，官方提供以下规则集，可根据需要进行安装。 </p>
+<pre><code class="javascript"># ES2015转码规则
+$ npm install --save-dev babel-preset-es2015
+
+#react转码规则
+$ npm install --save-dev babel-preset-react
+</code></pre>
+<p>将规则加入.babelrc</p>
+<pre><code class="javascript">{
+    &quot;presets&quot;: [
+        &quot;es2015&quot;,
+        &quot;react&quot;
+    ],
+    &quot;plugins&quot;: []
+}
+</code></pre>
 <p>! 注意，以下所有Babel工具和模块的使用，都必须先写好.babelrc。</p>
 <h2 id="二、安装命令行转码babel-cli"><a href="#二、安装命令行转码babel-cli" class="headerlink" title="二、安装命令行转码babel-cli"></a>二、安装命令行转码babel-cli</h2><blockquote>
-<p>Babel提供babel-cli工具，用于命令行转码。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$ npm install --global babel-cli</div></pre></td></tr></table></figure></p>
-</blockquote>
+<p>Babel提供babel-cli工具，用于命令行转码。</p>
+<pre><code class="javascript">$ npm install --global babel-cli
+</code></pre>
 <p>基本用法如下：</p>
 <ul>
-<li><h4 id="转码结果输出到标准输出（即-命令行里展现"><a href="#转码结果输出到标准输出（即-命令行里展现" class="headerlink" title="转码结果输出到标准输出（即 命令行里展现)"></a>转码结果输出到标准输出（即 命令行里展现)</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$ babel demo.js</div></pre></td></tr></table></figure>
+<li><h4 id="转码结果输出到标准输出（即-命令行里展现"><a href="#转码结果输出到标准输出（即-命令行里展现" class="headerlink" title="转码结果输出到标准输出（即 命令行里展现)"></a>转码结果输出到标准输出（即 命令行里展现)</h4><pre><code class="javascript">$ babel demo.js
+</code></pre>
 </li>
-<li><h4 id="转码结果写入一个文件-–out-file-或-o-参数指定输出文件"><a href="#转码结果写入一个文件-–out-file-或-o-参数指定输出文件" class="headerlink" title="转码结果写入一个文件, –out-file 或 -o 参数指定输出文件"></a>转码结果写入一个文件, –out-file 或 -o 参数指定输出文件</h4><figure class="highlight"><table><tr><td class="code"><pre><div class="line">$ babel demo.js --out-file complete.js</div><div class="line"># 或者</div><div class="line">$ babel demo.js -o complete.js</div></pre></td></tr></table></figure>
+<li><h4 id="转码结果写入一个文件-–out-file-或-o-参数指定输出文件"><a href="#转码结果写入一个文件-–out-file-或-o-参数指定输出文件" class="headerlink" title="转码结果写入一个文件, –out-file 或 -o 参数指定输出文件"></a>转码结果写入一个文件, –out-file 或 -o 参数指定输出文件</h4><pre><code class="javascript">$ babel demo.js --out-file complete.js
+# 或者
+$ babel demo.js -o complete.js
+</code></pre>
 </li>
-<li><h4 id="转译目录到目录"><a href="#转译目录到目录" class="headerlink" title="转译目录到目录"></a>转译目录到目录</h4><figure class="highlight"><table><tr><td class="code"><pre><div class="line">$ babel src --out-dir dist</div><div class="line"># 或者</div><div class="line">babel src -d dist</div></pre></td></tr></table></figure>
+<li><h4 id="转译目录到目录"><a href="#转译目录到目录" class="headerlink" title="转译目录到目录"></a>转译目录到目录</h4><pre><code class="javascript">$ babel src --out-dir dist
+# 或者
+babel src -d dist
+</code></pre>
 </li>
-<li><h4 id="监听文件变化"><a href="#监听文件变化" class="headerlink" title="监听文件变化"></a>监听文件变化</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$ babel -w src -d dist</div></pre></td></tr></table></figure>
-</li>
+<li><h4 id="监听文件变化"><a href="#监听文件变化" class="headerlink" title="监听文件变化"></a>监听文件变化</h4><pre><code class="javascript">$ babel -w src -d dist
+</code></pre>
+<h5 id="上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel"><a href="#上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel" class="headerlink" title="上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel"></a>上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel</h5></li>
 </ul>
-<h5 id="上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel"><a href="#上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel" class="headerlink" title="上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel"></a>上面代码是在全局环境下，进行Babel转码。这意味着，如果项目要运行，全局环境必须有Babel</h5><p>##参考：<a href="https://github.com/thejameskyle/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md#toc-babel-cli" title="Babel 用户手册" target="_blank" rel="external">Babel 用户手册</a></p>
+</blockquote>
+<p>##参考：<a href="https://github.com/thejameskyle/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md#toc-babel-cli" title="Babel 用户手册" target="_blank" rel="external">Babel 用户手册</a></p>
 
                 <hr>
                 
@@ -289,9 +326,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -359,13 +396,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

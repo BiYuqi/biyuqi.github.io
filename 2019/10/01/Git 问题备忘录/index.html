@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Git问题备忘录｜LoaingMore&#39;s blog
@@ -200,19 +201,23 @@
 <ul>
 <li>fatal: Unable to create ‘/path/my_project/.git/index.lock’: File exists</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">rm -f ./.git/index.lock</div></pre></td></tr></table></figure>
+<pre><code class="bash">rm -f ./.git/index.lock
+</code></pre>
 <ul>
 <li>重置所有commit提交信息</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i --root</div></pre></td></tr></table></figure>
+<pre><code class="basj">git rebase -i --root
+</code></pre>
 <ul>
 <li><p>大小写敏感</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">git config core.ignorecase <span class="literal">false</span></div></pre></td></tr></table></figure>
+<pre><code class="bash">git config core.ignorecase false
+</code></pre>
 </li>
 <li><p>新增远程仓库地址</p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">git remote add origin [url]</div></pre></td></tr></table></figure>
+<pre><code class="bash">git remote add origin [url]
+</code></pre>
 
                 <hr>
                 
@@ -286,9 +291,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -356,13 +361,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

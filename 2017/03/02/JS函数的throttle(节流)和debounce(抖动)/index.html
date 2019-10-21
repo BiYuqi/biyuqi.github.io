@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Js函数的throttle(节流)和debounce(防抖)｜LoaingMore&#39;s blog
@@ -209,7 +210,30 @@
 <li>也就是说当调用动作n毫秒后，才会执行该动作，</li>
 <li>若在这n毫秒内又调用此动作则将重新计算执行时间。</li>
 </ul>
-<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay,callback 才会执行</div><div class="line">* @param delay   &#123;number&#125;    空闲时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">delay,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">        &#125;,delay)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line"><span class="comment">//keypress时间结束200毫秒后执行相关回调事件</span></div><div class="line">$(<span class="string">'.input'</span>).addEventListener(<span class="string">'keypress'</span>,debounce(<span class="number">200</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//do somecode</span></div><div class="line">&#125;,<span class="literal">false</span>))</div></pre></td></tr></table></figure></p>
+<p><strong>实现</strong></p>
+<pre><code class="javascript">/**
+* 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 delay,callback 才会执行
+* @param delay   {number}    空闲时间，单位毫秒
+* @param callback {function}  请求关联函数，实际应用需要调用的函数
+* @return {function}    返回客户调用函数
+*/
+function debounce(delay,callback){
+    var timer = null;
+    return function(){
+        var that = this,
+            args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+            callback.apply(that,args);
+        },delay)
+    }
+}
+//demo
+//keypress时间结束200毫秒后执行相关回调事件
+$(&#39;.input&#39;).addEventListener(&#39;keypress&#39;,debounce(200,function(){
+    //do somecode
+},false))
+</code></pre>
 <h3 id="什么是throttle-什么场景用-怎么实现"><a href="#什么是throttle-什么场景用-怎么实现" class="headerlink" title="什么是throttle? 什么场景用? 怎么实现?"></a>什么是throttle? 什么场景用? 怎么实现?</h3><p><strong>scroll事件</strong></p>
 <p>网站开发中经常会遇到这样的需求就是滚动浏览器滚动条的时候，更新页面上的某些布局或者数据或者调用后台的某些接口,同样，如果不对scroll函数加以限制的话,我们滚动一次滚动条就会产生N多次的调用了,throttle跟debounce不同,不是在等待某个时间后去执行函数，二是每间隔某个时间去执行函数</p>
 <p><strong>自助饮料机</strong></p>
@@ -222,8 +246,59 @@
 <li>也就是会说预先设定一个执行周期，当调用动作的时刻大于</li>
 <li>等于执行周期则执行该动作，然后进入下一个新周期。</li>
 </ul>
-<p><strong>实现</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 频率控制 返回函数连续调用时，callback 执行频率限定为 次/delay  </div><div class="line">* 不满足间隔时间,延迟times后必须执行一次</div><div class="line">* @param delay  &#123;number&#125;    间隔时间，单位毫秒</div><div class="line">* @param times  &#123;number&#125;    延迟时间，单位毫秒</div><div class="line">* @param callback &#123;function&#125;  请求关联函数，实际应用需要调用的函数</div><div class="line">* @return &#123;function&#125;    返回客户调用函数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">delay,times,callback</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> startTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">        timer = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> currTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime(),</div><div class="line">            that = <span class="keyword">this</span>,</div><div class="line">            args = <span class="built_in">arguments</span>;</div><div class="line">        clearTimeout(timer);</div><div class="line">        <span class="keyword">if</span>(currTime - startTime &gt;= delay)&#123;</div><div class="line">            callback.apply(that,args);</div><div class="line">            startTime = currTime;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                callback.apply(that,args);</div><div class="line">            &#125;,times)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//Demo</span></div><div class="line"><span class="comment">//图片懒加,就是一个不断需要滚动条来判断距离的一个解决方案;</span></div><div class="line"><span class="comment">//通过scroll时间不断的判断,为了避免大量的scroll触发,</span></div><div class="line"><span class="comment">//我们可以用throttle对其进行节流操作</span></div><div class="line"><span class="comment">//仅仅做演示 html css均不提供，后文会给出demo</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lazyload</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> okSeeHeight = <span class="built_in">document</span>.documentElement.clientHeight;<span class="comment">//可视区域高度</span></div><div class="line">    <span class="keyword">var</span> curScrollTop = <span class="built_in">document</span>.body.scrollTop || <span class="built_in">document</span>.documentElement.scrollTop;<span class="comment">//滚动条高度</span></div><div class="line">    <span class="keyword">var</span> imgNums = <span class="built_in">document</span>.querySelectorAll(<span class="string">'img'</span>),</div><div class="line">        len = imgNums.length,</div><div class="line">        sn = <span class="number">0</span>;<span class="comment">//初始化图片位置 避免每次都重新计算</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=sn; i&lt;len; i++)&#123;</div><div class="line">        <span class="comment">//到达可视区域</span></div><div class="line">        <span class="keyword">if</span>(imgNums[i].offsetTop &lt; okSeeHeight + curScrollTop)&#123;</div><div class="line">            <span class="comment">//替换scr</span></div><div class="line">            imgNums[i].src = imgNums[i].getAttribute(<span class="string">'data-src'</span>);</div><div class="line">            sn = i + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用即可</span></div><div class="line"><span class="comment">//可以大大减少scroll的触发量,而不影响体验</span></div><div class="line"><span class="comment">//500毫秒执行  不满足就强制500毫秒运行一次回调函数</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,throttle(<span class="number">500</span>,<span class="number">500</span>,lazyload))</div></pre></td></tr></table></figure>
+<p><strong>实现</strong></p>
+<pre><code class="javascript">/**
+* 频率控制 返回函数连续调用时，callback 执行频率限定为 次/delay  
+* 不满足间隔时间,延迟times后必须执行一次
+* @param delay  {number}    间隔时间，单位毫秒
+* @param times  {number}    延迟时间，单位毫秒
+* @param callback {function}  请求关联函数，实际应用需要调用的函数
+* @return {function}    返回客户调用函数
+*/
+function throttle(delay,times,callback){
+    var startTime = (new Date()).getTime(),
+        timer = null;
+    return function(){
+        var currTime = (new Date()).getTime(),
+            that = this,
+            args = arguments;
+        clearTimeout(timer);
+        if(currTime - startTime &gt;= delay){
+            callback.apply(that,args);
+            startTime = currTime;
+        }else{
+            timer = setTimeout(function(){
+                callback.apply(that,args);
+            },times)
+        }
+    }
+}
+</code></pre>
+<pre><code class="javascript">//Demo
+//图片懒加,就是一个不断需要滚动条来判断距离的一个解决方案;
+//通过scroll时间不断的判断,为了避免大量的scroll触发,
+//我们可以用throttle对其进行节流操作
+//仅仅做演示 html css均不提供，后文会给出demo
+function lazyload(){
+    var okSeeHeight = document.documentElement.clientHeight;//可视区域高度
+    var curScrollTop = document.body.scrollTop || document.documentElement.scrollTop;//滚动条高度
+    var imgNums = document.querySelectorAll(&#39;img&#39;),
+        len = imgNums.length,
+        sn = 0;//初始化图片位置 避免每次都重新计算
+    for(var i=sn; i&lt;len; i++){
+        //到达可视区域
+        if(imgNums[i].offsetTop &lt; okSeeHeight + curScrollTop){
+            //替换scr
+            imgNums[i].src = imgNums[i].getAttribute(&#39;data-src&#39;);
+            sn = i + 1;
+        }
+    }
+}
+//调用即可
+//可以大大减少scroll的触发量,而不影响体验
+//500毫秒执行  不满足就强制500毫秒运行一次回调函数
+window.addEventListener(&#39;scroll&#39;,throttle(500,500,lazyload))
+</code></pre>
 <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>只要牵涉到连续事件或频率控制相关的应用都可以考虑到这两个函数，比如：</p>
 <ul>
 <li>游戏射击，keydown 事件</li>
@@ -311,9 +386,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -381,13 +456,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

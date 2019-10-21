@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -298,7 +299,13 @@
         
         <div class="post-content-preview">
             <p>
-                前言网上偶然看到一个问题，需要生成3~32位长度的字母数字随机组合字符串，另一个是生成43位随机字符串.代码：/*** getWorld 产生任意长度随机字母数字组合** getFlag 是否任意长度 min 任意最小长度（固定位数） max-任意最大长度*/function getWord(g..
+                前言网上偶然看到一个问题，需要生成3~32位长度的字母数字随机组合字符串，另一个是生成43位随机字符串.代码：
+/*
+** getWorld 产生任意长度随机字母数字组合
+** getFlag 是否任意长度 min 任意最小长度（固定位数） max-任意最大长度
+*/
+
+function get..
             </p>
         </div>
     </a>
@@ -321,7 +328,9 @@
         
         <div class="post-content-preview">
             <p>
-                概念函数是一块Javascript代码，被定义一次，但可执行和调用多次。JS中的函数也是对象，所以JS函数可以像其他对象那样操作和传递。所以我们也常叫JS中的函数为函数对象。例如：function add(x,y)&#123;	if(typeof x === 'number' &amp;&amp..
+                概念函数是一块Javascript代码，被定义一次，但可执行和调用多次。JS中的函数也是对象，所以JS函数可以像其他对象那样操作和传递。所以我们也常叫JS中的函数为函数对象。例如：  
+function add(x,y){
+    if(typeof x === &#39;number&#39;..
             </p>
         </div>
     </a>
@@ -345,7 +354,9 @@
         <div class="post-content-preview">
             <p>
                 实际开发过程中meta标签大家都不陌生,大多都是去粘贴复制，对其原理和一些细节不太清楚,网上查阅一些常用的meta属性,以及什么意思,以备开发(偷懒)用.
-content参数width viewport 宽度(数值/device-width)height viewport 高度(数值/devic..
+  content参数
+  width viewport 宽度(数值/device-width)
+  height viewport 高度(..
             </p>
         </div>
     </a>
@@ -627,9 +638,9 @@ content参数width viewport 宽度(数值/device-width)height viewport 高度(�
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -692,13 +703,15 @@ content参数width viewport 宽度(数值/device-width)height viewport 高度(�
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

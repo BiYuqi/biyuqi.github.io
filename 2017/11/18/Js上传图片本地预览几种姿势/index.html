@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Js上传图片本地预览几种姿势｜LoaingMore&#39;s blog
@@ -204,9 +205,45 @@
 <blockquote>
 <p>FileReader 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 File 或 Blob 对象指定要读取的文件或数据。 —MDN</p>
 </blockquote>
-<p>看下怎么利用它来简单的实现一个图片预览<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"input"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   @param &#123;dom&#125; StringOrObject input元素</div><div class="line">*   @param &#123;fn&#125; Function 回调函数 返回bs64 file</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">const</span> imagePreview = <span class="function"><span class="keyword">function</span>(<span class="params">dom,fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> dom === <span class="string">'string'</span>)&#123;</div><div class="line">        dom = <span class="built_in">document</span>.querySelector(dom)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">const</span> bindEv = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">// 这里默认单图上传</span></div><div class="line">        <span class="keyword">const</span> file = <span class="keyword">this</span>.files[<span class="number">0</span>]</div><div class="line">        <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader()</div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>)</span>&#123;</div><div class="line">            <span class="comment">// 这里得到的是base64图片编码</span></div><div class="line">            <span class="keyword">const</span> bs64 = ev.target.result</div><div class="line">            <span class="comment">// 返回给回调函数</span></div><div class="line">            fn &amp;&amp; fn(bs64,file)</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 读取指定的file文件，读取完毕后，在onload事件里面 result属性将返回base64URL</span></div><div class="line">        reader.readAsDataURL(file)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dom.addEventListener(<span class="string">'change'</span>,bindEv,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">imagePreview(<span class="string">'#input'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">src,file</span>)</span>&#123;</div><div class="line">    <span class="comment">// src 就是base64图片 可进行预览操作</span></div><div class="line">    <span class="comment">//.file 为文件 可在此处进行上传操作</span></div><div class="line">    <span class="keyword">const</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>)</div><div class="line">    img.src = src</div><div class="line">    <span class="built_in">document</span>.body.appendChild(img)</div><div class="line">    <span class="built_in">console</span>.log(src)</div><div class="line">    <span class="built_in">console</span>.log(file)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>看下怎么利用它来简单的实现一个图片预览</p>
+<pre><code class="html">&lt;input type=&quot;file&quot; id=&quot;input&quot;&gt;
+</code></pre>
+<pre><code class="js">/**
+*   @param {dom} StringOrObject input元素
+*   @param {fn} Function 回调函数 返回bs64 file
+*/
+
+const imagePreview = function(dom,fn){
+    if(typeof dom === &#39;string&#39;){
+        dom = document.querySelector(dom)
+    }
+    const bindEv = function(){
+        // 这里默认单图上传
+        const file = this.files[0]
+        const reader = new FileReader()
+        reader.onload = function(ev){
+            // 这里得到的是base64图片编码
+            const bs64 = ev.target.result
+            // 返回给回调函数
+            fn &amp;&amp; fn(bs64,file)
+        }
+        // 读取指定的file文件，读取完毕后，在onload事件里面 result属性将返回base64URL
+        reader.readAsDataURL(file)
+    }
+
+    dom.addEventListener(&#39;change&#39;,bindEv,false)
+}
+</code></pre>
+<pre><code class="js">imagePreview(&#39;#input&#39;,function(src,file){
+    // src 就是base64图片 可进行预览操作
+    //.file 为文件 可在此处进行上传操作
+    const img = document.createElement(&#39;img&#39;)
+    img.src = src
+    document.body.appendChild(img)
+    console.log(src)
+    console.log(file)
+})
+</code></pre>
 <p><strong> readAsDataURL: </strong></p>
 <blockquote>
 <p>开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.</p>
@@ -215,7 +252,57 @@
 <li>兼容性</li>
 <li>一些安卓5.0系统以下的bug</li>
 </ul>
-<p><strong> 兼容后面再解决，先着重解决下第二个问题 </strong><br><img src="http://oq4hkch8e.bkt.clouddn.com/bs64-filereader-bug-fix.png" alt=""><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   正常的图片应该是</div><div class="line">*   data:image/gif;data:image/png;;data:image/jpeg;data:image/x-icon;</div><div class="line">*   而在Android的一些5.0系统以下(如4.0)的设备中,</div><div class="line">*   有些返回的b64字符串缺少关键image/gif标识,所以需要手动加上</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">const</span> imagePreview = <span class="function"><span class="keyword">function</span>(<span class="params">dom,fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> dom === <span class="string">'string'</span>)&#123;</div><div class="line">        dom = <span class="built_in">document</span>.querySelector(dom)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 增加一个类型判断函数</span></div><div class="line">    <span class="keyword">const</span> isType = <span class="function"><span class="keyword">function</span>(<span class="params">name,type</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> name.indexOf(type) &gt; <span class="number">-1</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">const</span> bindEv = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">// 这里默认单图上传</span></div><div class="line">        <span class="keyword">const</span> file = <span class="keyword">this</span>.files[<span class="number">0</span>]</div><div class="line">        <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader()</div><div class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>)</span>&#123;</div><div class="line">            <span class="keyword">let</span> bs64 = ev.target.result</div><div class="line">            <span class="keyword">if</span>(bs64 &amp;&amp; bs64.indexOf(<span class="string">'data:base64,'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">                <span class="comment">// 去除旧有的错误头部</span></div><div class="line">                bs64 = bs64.replace(<span class="regexp">/data:base64,/</span>,<span class="string">''</span>)</div><div class="line">                <span class="comment">// 声明一个空字符用来保存下面判断的类型</span></div><div class="line">                <span class="comment">// 通过name后缀进行识别标注</span></div><div class="line">                <span class="keyword">let</span> typeFile = <span class="string">''</span>,</div><div class="line">                    name = file.name.toLowerCase();</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.png'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/png;'</span></div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.jpg'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/jpeg;'</span></div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.gif'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/gif;'</span></div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(name &amp;&amp; isType(name,<span class="string">'.icon'</span>))&#123;</div><div class="line">                    typeFile = <span class="string">'image/x-icon;'</span></div><div class="line">                &#125;</div><div class="line">                bs64 = <span class="string">'data:'</span>+typeFile+<span class="string">'base64,'</span>+bs64</div><div class="line">            &#125;</div><div class="line">            fn &amp;&amp; fn(bs64,file)</div><div class="line">        &#125;</div><div class="line">        reader.readAsDataURL(file)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dom.addEventListener(<span class="string">'change'</span>,bindEv,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong> 兼容后面再解决，先着重解决下第二个问题 </strong><br><img src="http://oq4hkch8e.bkt.clouddn.com/bs64-filereader-bug-fix.png" alt=""></p>
+<pre><code class="js">/**
+*   正常的图片应该是
+*   data:image/gif;data:image/png;;data:image/jpeg;data:image/x-icon;
+*   而在Android的一些5.0系统以下(如4.0)的设备中,
+*   有些返回的b64字符串缺少关键image/gif标识,所以需要手动加上
+*/
+
+const imagePreview = function(dom,fn){
+    if(typeof dom === &#39;string&#39;){
+        dom = document.querySelector(dom)
+    }
+    // 增加一个类型判断函数
+    const isType = function(name,type){
+        return name.indexOf(type) &gt; -1
+    }
+    const bindEv = function(){
+        // 这里默认单图上传
+        const file = this.files[0]
+        const reader = new FileReader()
+        reader.onload = function(ev){
+            let bs64 = ev.target.result
+            if(bs64 &amp;&amp; bs64.indexOf(&#39;data:base64,&#39;) &gt; -1){
+                // 去除旧有的错误头部
+                bs64 = bs64.replace(/data:base64,/,&#39;&#39;)
+                // 声明一个空字符用来保存下面判断的类型
+                // 通过name后缀进行识别标注
+                let typeFile = &#39;&#39;,
+                    name = file.name.toLowerCase();
+                if(name &amp;&amp; isType(name,&#39;.png&#39;)){
+                    typeFile = &#39;image/png;&#39;
+                }
+                if(name &amp;&amp; isType(name,&#39;.jpg&#39;)){
+                    typeFile = &#39;image/jpeg;&#39;
+                }
+                if(name &amp;&amp; isType(name,&#39;.gif&#39;)){
+                    typeFile = &#39;image/gif;&#39;
+                }
+                if(name &amp;&amp; isType(name,&#39;.icon&#39;)){
+                    typeFile = &#39;image/x-icon;&#39;
+                }
+                bs64 = &#39;data:&#39;+typeFile+&#39;base64,&#39;+bs64
+            }
+            fn &amp;&amp; fn(bs64,file)
+        }
+        reader.readAsDataURL(file)
+    }
+
+    dom.addEventListener(&#39;change&#39;,bindEv,false)
+}
+</code></pre>
 <table>
 <thead>
 <tr>
@@ -240,9 +327,41 @@
 <h2 id="URL-createObjectURL"><a href="#URL-createObjectURL" class="headerlink" title="URL.createObjectURL()"></a>URL.createObjectURL()</h2><blockquote>
 <p>在每次调用 createObjectURL() 方法时，都会创建一个新的 URL对象，即使你已经用相同的对象作为参数创建过。当不再需要这些 URL 对象时，每个对象必须通过调用 URL.revokeObjectURL() 方法来释放。浏览器会在文档退出的时候自动释放它们，但是为了获得最佳性能和内存使用状况，你应该在安全的时机主动释放掉它们</p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 语法:</span></div><div class="line"><span class="comment">// 参数：blob</span></div><div class="line"><span class="comment">// 是用来创建 URL 的 File 对象或者 Blob 对象​</span></div><div class="line">objectURL = URL.createObjectURL(blob);</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> imagePreview = <span class="function"><span class="keyword">function</span>(<span class="params">dom,fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> dom === <span class="string">'string'</span>)&#123;</div><div class="line">        dom = <span class="built_in">document</span>.querySelector(dom)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 处理下兼容</span></div><div class="line">    <span class="built_in">window</span>.URL = <span class="built_in">window</span>.URL || <span class="built_in">window</span>.webkitURL</div><div class="line">    <span class="keyword">const</span> bindEv = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">const</span> file = <span class="keyword">this</span>.files[<span class="number">0</span>]</div><div class="line">        <span class="keyword">const</span> bs64 = <span class="built_in">window</span>.URL.createObjectURL(file)</div><div class="line">        <span class="keyword">const</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>)</div><div class="line">        img.src = bs64</div><div class="line">        img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">window</span>.URL.revokeObjectURL(<span class="keyword">this</span>.src)</div><div class="line">        &#125;</div><div class="line">        fn &amp;&amp; fn(bs64, file)</div><div class="line">    &#125;</div><div class="line">    dom.addEventListener(<span class="string">'change'</span>,bindEv,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">imagePreview(<span class="string">'#input'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">src,file</span>)</span>&#123;</div><div class="line">    <span class="comment">// src 就是blog对象 可进行预览操作</span></div><div class="line">    <span class="comment">// blob:null/6436b315-7d42-46e7-b447-a1a982048e61</span></div><div class="line">    <span class="comment">//.file 为文件 可在此处进行上传操作</span></div><div class="line">    <span class="keyword">const</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>)</div><div class="line">    img.src = src</div><div class="line">    <span class="built_in">document</span>.body.appendChild(img)</div><div class="line">    <span class="built_in">console</span>.log(src)</div><div class="line">    <span class="built_in">console</span>.log(file)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<pre><code class="js">// 语法:
+// 参数：blob
+// 是用来创建 URL 的 File 对象或者 Blob 对象​
+objectURL = URL.createObjectURL(blob);
+</code></pre>
+<pre><code class="js">const imagePreview = function(dom,fn){
+    if(typeof dom === &#39;string&#39;){
+        dom = document.querySelector(dom)
+    }
+    // 处理下兼容
+    window.URL = window.URL || window.webkitURL
+    const bindEv = function(){
+        const file = this.files[0]
+        const bs64 = window.URL.createObjectURL(file)
+        const img = document.createElement(&quot;img&quot;)
+        img.src = bs64
+        img.onload = function(){
+            window.URL.revokeObjectURL(this.src)
+        }
+        fn &amp;&amp; fn(bs64, file)
+    }
+    dom.addEventListener(&#39;change&#39;,bindEv,false)
+}
+</code></pre>
+<pre><code class="js">imagePreview(&#39;#input&#39;,function(src,file){
+    // src 就是blog对象 可进行预览操作
+    // blob:null/6436b315-7d42-46e7-b447-a1a982048e61
+    //.file 为文件 可在此处进行上传操作
+    const img = document.createElement(&#39;img&#39;)
+    img.src = src
+    document.body.appendChild(img)
+    console.log(src)
+    console.log(file)
+})
+</code></pre>
 <p>在现代浏览器中，支持度还是不错的：</p>
 <table>
 <thead>
@@ -342,9 +461,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -412,13 +531,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         每隔四个字符添加一个空格的正则怎么写?｜LoaingMore&#39;s blog
@@ -206,11 +207,99 @@
 <li>首先肯定是得把4n个字符找出来</li>
 <li>其次把剩余的字符找出来</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//取前4n个字符</span></div><div class="line"><span class="keyword">var</span> reg = <span class="regexp">/(\w&#123;4&#125;)/g</span>;</div><div class="line"><span class="comment">//拿到最后剩余的字符</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(?:\w&#123;4&#125;)+(\w+)/g</span>;</div></pre></td></tr></table></figure>
-<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>接下来我们这这些代码组织一下,封装一个通用的方法，进而只需要传字符,可自动输出想要的字符：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSpace</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="comment">//过滤了空格的存在</span></div><div class="line">    <span class="comment">//实际中根据需求是否必须去掉空格</span></div><div class="line">    s = s.replace(<span class="regexp">/\s*/g</span>,<span class="string">''</span>);</div><div class="line">    <span class="keyword">if</span>(s.length === <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">4</span> &amp;&amp; s.length !== <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> m,n,res = <span class="string">''</span>;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/(\w&#123;4&#125;)/g</span>;</div><div class="line">    <span class="keyword">var</span> reg2 = <span class="regexp">/(?:\w&#123;4&#125;)+(\w+)/</span>;</div><div class="line">    <span class="keyword">while</span>(m = reg.exec(s))&#123;</div><div class="line">        <span class="comment">//循环加空格</span></div><div class="line">        res += m[<span class="number">1</span>] +<span class="string">' '</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//做下判断是否是4的整数倍</span></div><div class="line">    <span class="keyword">if</span>(s.length%<span class="number">4</span> == <span class="number">0</span>)&#123;</div><div class="line">        <span class="comment">//整数倍会多一个空格 去除</span></div><div class="line">        <span class="keyword">return</span> res.replace(<span class="regexp">/\s$/</span>,<span class="string">''</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//否则用俩正则</span></div><div class="line">        <span class="keyword">var</span> n = reg2.exec(s);</div><div class="line">        <span class="keyword">return</span> (res+n[<span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Demo</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'1234567890'</span>;</div><div class="line"><span class="built_in">console</span>.log(getSpace(str));</div><div class="line"><span class="comment">//1234 5678 90</span></div></pre></td></tr></table></figure></p>
-<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>下面是支付宝的绑定银行卡界面:<br>监听oninput事件,进行实时的提示用户输入的卡号<br><img src="http://oiukswkar.bkt.clouddn.com/bank-number.png" alt=""><br>咱们模拟下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//html</span></div><div class="line">&lt;input type=<span class="string">"text"</span> id=<span class="string">"get"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"show"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">//js</span></div><div class="line"><span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">'#get'</span>);</div><div class="line"><span class="keyword">var</span> show = <span class="built_in">document</span>.querySelector(<span class="string">'.show'</span>);</div><div class="line">box.oninput = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    show.innerHTML =getSpace(box.value);</div><div class="line">&#125;</div><div class="line"><span class="comment">//ok大功告成 自己测试去吧</span></div></pre></td></tr></table></figure></p>
+<pre><code class="javascript">//取前4n个字符
+var reg = /(\w{4})/g;
+//拿到最后剩余的字符
+var reg2 = /(?:\w{4})+(\w+)/g;
+</code></pre>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>接下来我们这这些代码组织一下,封装一个通用的方法，进而只需要传字符,可自动输出想要的字符：</p>
+<pre><code class="javascript">function getSpace(s){
+    //过滤了空格的存在
+    //实际中根据需求是否必须去掉空格
+    s = s.replace(/\s*/g,&#39;&#39;);
+    if(s.length === 0){
+        return &#39;&#39;;
+    }
+    if(s.length &lt; 4 &amp;&amp; s.length !== 0){
+        return s;
+    }
+    var m,n,res = &#39;&#39;;
+    var reg = /(\w{4})/g;
+    var reg2 = /(?:\w{4})+(\w+)/;
+    while(m = reg.exec(s)){
+        //循环加空格
+        res += m[1] +&#39; &#39;;
+    }
+    //做下判断是否是4的整数倍
+    if(s.length%4 == 0){
+        //整数倍会多一个空格 去除
+        return res.replace(/\s$/,&#39;&#39;);
+    }else{
+        //否则用俩正则
+        var n = reg2.exec(s);
+        return (res+n[1]);
+    }
+}
+//Demo
+var str = &#39;1234567890&#39;;
+console.log(getSpace(str));
+//1234 5678 90
+</code></pre>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>下面是支付宝的绑定银行卡界面:<br>监听oninput事件,进行实时的提示用户输入的卡号<br><img src="http://oiukswkar.bkt.clouddn.com/bank-number.png" alt=""><br>咱们模拟下：</p>
+<pre><code class="javascript">//html
+&lt;input type=&quot;text&quot; id=&quot;get&quot;&gt;
+&lt;div class=&quot;show&quot;&gt;&lt;/div&gt;
+
+//js
+var box = document.querySelector(&#39;#get&#39;);
+var show = document.querySelector(&#39;.show&#39;);
+box.oninput = function(){
+    show.innerHTML =getSpace(box.value);
+}
+//ok大功告成 自己测试去吧
+</code></pre>
 <p><img src="http://oiukswkar.bkt.clouddn.com/bank-number2.png" alt=""></p>
-<h2 id="通用模块封装"><a href="#通用模块封装" class="headerlink" title="通用模块封装"></a>通用模块封装</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">*@param s 即将被转化的字符  String</div><div class="line">*@param num 字符的间隔    Number</div><div class="line">*@param type 字符的类型  String</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSpace</span>(<span class="params">s,num,type</span>)</span>&#123;</div><div class="line">    <span class="comment">//过滤了空格的存在</span></div><div class="line">    <span class="comment">//实际中根据需求是否必须去掉空格</span></div><div class="line">    s = s.replace(<span class="regexp">/\s*/g</span>,<span class="string">''</span>);</div><div class="line">    <span class="keyword">if</span>(s.length === <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; num &amp;&amp; s.length !== <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> m,n,res = <span class="string">''</span>;</div><div class="line">    <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(\\w&#123;'</span>+num+<span class="string">'&#125;)'</span>,<span class="string">'g'</span>);</div><div class="line">    <span class="keyword">var</span> reg2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(?:\\w&#123;'</span>+num+<span class="string">'&#125;)+(\\w+)'</span>,<span class="string">'g'</span>);</div><div class="line">    <span class="keyword">var</span> reg3 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">''</span>+type+<span class="string">'$'</span>);</div><div class="line">    <span class="keyword">while</span>(m = reg.exec(s))&#123;</div><div class="line">        res += m[<span class="number">1</span>] + type;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(s.length%num == <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">return</span> res.replace(reg3,<span class="string">''</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">var</span> n = reg2.exec(s);</div><div class="line">        <span class="keyword">return</span> (res+n[<span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//用法</span></div><div class="line"><span class="keyword">var</span> st = <span class="string">'1234567890'</span>;</div><div class="line">getSpace(st,<span class="number">3</span>,<span class="string">','</span>);</div><div class="line"><span class="comment">//123,456,789,0</span></div><div class="line">getSpace(st,<span class="number">4</span>,<span class="string">'.'</span>);</div><div class="line"><span class="comment">//1234.5678.90</span></div><div class="line">getSpace(st,<span class="number">2</span>,<span class="string">'$'</span>);</div><div class="line"><span class="comment">//12$34$56$78$90</span></div><div class="line"></div><div class="line"><span class="comment">//诸位发挥想象力吧...........</span></div><div class="line"><span class="comment">//想怎么用就怎么用....</span></div></pre></td></tr></table></figure>
+<h2 id="通用模块封装"><a href="#通用模块封装" class="headerlink" title="通用模块封装"></a>通用模块封装</h2><pre><code class="javascript">/*
+*@param s 即将被转化的字符  String
+*@param num 字符的间隔    Number
+*@param type 字符的类型  String
+*/
+function getSpace(s,num,type){
+    //过滤了空格的存在
+    //实际中根据需求是否必须去掉空格
+    s = s.replace(/\s*/g,&#39;&#39;);
+    if(s.length === 0){
+        return &#39;&#39;;
+    }
+    if(s.length &lt; num &amp;&amp; s.length !== 0){
+        return s;
+    }
+    var m,n,res = &#39;&#39;;
+    var reg = new RegExp(&#39;(\\w{&#39;+num+&#39;})&#39;,&#39;g&#39;);
+    var reg2 = new RegExp(&#39;(?:\\w{&#39;+num+&#39;})+(\\w+)&#39;,&#39;g&#39;);
+    var reg3 = new RegExp(&#39;&#39;+type+&#39;$&#39;);
+    while(m = reg.exec(s)){
+        res += m[1] + type;
+    }
+    if(s.length%num == 0){
+        return res.replace(reg3,&#39;&#39;);
+    }else{
+        var n = reg2.exec(s);
+        return (res+n[1]);
+    }
+}
+//用法
+var st = &#39;1234567890&#39;;
+getSpace(st,3,&#39;,&#39;);
+//123,456,789,0
+getSpace(st,4,&#39;.&#39;);
+//1234.5678.90
+getSpace(st,2,&#39;$&#39;);
+//12$34$56$78$90
+
+//诸位发挥想象力吧...........
+//想怎么用就怎么用....
+</code></pre>
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本文所写的函数,适用于数字字母下划线,没有做只允许数字的判断,如果需要只需在函数开始对s进行判断，return 即可;如有问题,请评论区留言</p>
 
                 <hr>
@@ -288,9 +377,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -358,13 +447,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

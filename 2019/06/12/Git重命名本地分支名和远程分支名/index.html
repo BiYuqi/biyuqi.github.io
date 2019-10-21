@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Git重命名本地分支名和远程分支名｜LoaingMore&#39;s blog
@@ -197,10 +198,17 @@
                 <blockquote>
 <p>如果你错误的命名了一个分支名并且推送到了远端服务器，你可以在被发现之前得到修正</p>
 </blockquote>
-<h5 id="1-重命名本地分支"><a href="#1-重命名本地分支" class="headerlink" title="1.重命名本地分支"></a>1.重命名本地分支</h5><p>如果你在你想要改名的分支上：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git branch -m <span class="keyword">new</span>-name</div></pre></td></tr></table></figure></p>
-<p>如果你在其他分支上：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git branch -m old-name <span class="keyword">new</span>-name</div></pre></td></tr></table></figure></p>
-<h5 id="2-删除远端分支并推送本地的新分支"><a href="#2-删除远端分支并推送本地的新分支" class="headerlink" title="2.删除远端分支并推送本地的新分支"></a>2.删除远端分支并推送本地的新分支</h5><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git push origin :old-name <span class="keyword">new</span>-name</div></pre></td></tr></table></figure>
-<h5 id="3-重命名本地分支的上游分支："><a href="#3-重命名本地分支的上游分支：" class="headerlink" title="3.重命名本地分支的上游分支："></a>3.重命名本地分支的上游分支：</h5><p>切换到该分支然后：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git push origin -u <span class="keyword">new</span>-name</div></pre></td></tr></table></figure></p>
+<h5 id="1-重命名本地分支"><a href="#1-重命名本地分支" class="headerlink" title="1.重命名本地分支"></a>1.重命名本地分支</h5><p>如果你在你想要改名的分支上：</p>
+<pre><code class="js">git branch -m new-name
+</code></pre>
+<p>如果你在其他分支上：</p>
+<pre><code class="js">git branch -m old-name new-name
+</code></pre>
+<h5 id="2-删除远端分支并推送本地的新分支"><a href="#2-删除远端分支并推送本地的新分支" class="headerlink" title="2.删除远端分支并推送本地的新分支"></a>2.删除远端分支并推送本地的新分支</h5><pre><code class="js">git push origin :old-name new-name
+</code></pre>
+<h5 id="3-重命名本地分支的上游分支："><a href="#3-重命名本地分支的上游分支：" class="headerlink" title="3.重命名本地分支的上游分支："></a>3.重命名本地分支的上游分支：</h5><p>切换到该分支然后：</p>
+<pre><code class="js">git push origin -u new-name
+</code></pre>
 
                 <hr>
                 
@@ -274,9 +282,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -344,13 +352,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -302,7 +303,9 @@
 最近在做一个后台项目，其中遇到了vuex在IE浏览器中报错的问题，于是就有了这篇博文进行记录
 
 报错语句SCRIPT5022: [vuex] vuex requires a Promise polyfill in this browser.
-解决办法1.先安装babel-polyfillnpm..
+
+解决办法1.先安装babel-polyfill
+n..
             </p>
         </div>
     </a>
@@ -328,7 +331,8 @@
                 
 周末闲来无事，没事逛逛前端群,碰到一个有点意思的题目,记录下来
 
-需求一个数组，里面的字符串都有相同的前几个字，但是后面的不相同  如何把这相同的提取出来大概像下面这样：const arr = ['test23','testtr','test90'] //共同体 testconst arr1 ..
+需求一个数组，里面的字符串都有相同的前几个字，但是后面的不相同  如何把这相同的提取出来大概像下面这样：
+const arr = [&#39;test23&#39;,&#39;testtr&#39;,&#39;test90&#3..
             </p>
         </div>
     </a>
@@ -482,7 +486,8 @@ FreeCodeCamp是一个学习编程的开源社区,里面有面向前端方面的�
 
 
 DEMOdemo源码可能与博客有些略微不同(但是核心思想一模一样)线上案例
-问题看看平时我写表单的代码风格吧(求轻喷~)if(userName.v..
+问题看看平时我写表单的代码风格吧(求轻喷~)
+if(userName...
             </p>
         </div>
     </a>
@@ -721,9 +726,9 @@ DEMOdemo源码可能与博客有些略微不同(但是核心思想一模一样)�
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -786,13 +791,15 @@ DEMOdemo源码可能与博客有些略微不同(但是核心思想一模一样)�
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

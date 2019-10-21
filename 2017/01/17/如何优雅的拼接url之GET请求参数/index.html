@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         如何优雅的拼接url之GET请求参数｜LoaingMore&#39;s blog
@@ -204,10 +205,82 @@
 <p>请求的URL后面带参数在项目中是很常见的，常用在的地方比如跳转到新页面或者搜索关键词等，刚好项目用到，就写了我认为比较简便的方法提取参数</p>
 </blockquote>
 <a id="more"></a>
-<h3 id="最常见的形式"><a href="#最常见的形式" class="headerlink" title="最常见的形式"></a>最常见的形式</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">url?arg1=value1&amp;arg2=value2&amp;arg3=value3...</div></pre></td></tr></table></figure>
-<h3 id="如何拼接URL？"><a href="#如何拼接URL？" class="headerlink" title="如何拼接URL？"></a>如何拼接URL？</h3><p>假如一个查询系统有很多字段,刚好需要拼接URl的形式进行查询，此刻我们可以采用对象过滤的方法进行转换：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> searchParam = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Bob'</span>,</div><div class="line">    <span class="attr">age</span>: <span class="number">20</span>,</div><div class="line">    <span class="attr">address</span>: <span class="string">''</span>,</div><div class="line">    <span class="attr">phone</span>: <span class="number">18888888888</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> transformParamToUrl = <span class="function">(<span class="params">param</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> tempObj = []</div><div class="line">    <span class="keyword">if</span> (!param || <span class="keyword">typeof</span> param !== <span class="string">'object'</span>) &#123;</div><div class="line">        <span class="keyword">return</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> param) &#123;</div><div class="line">        <span class="keyword">if</span> (param.hasOwnProperty(i) &amp;&amp; param[i]) &#123;</div><div class="line">            tempObj.push(i)</div><div class="line">            tempObj.push(<span class="string">'='</span>)</div><div class="line">            tempObj.push(param[i])</div><div class="line">            tempObj.push(<span class="string">'&amp;'</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// remove the last field &amp;</span></div><div class="line">    tempObj.pop()</div><div class="line">    <span class="keyword">return</span> tempObj.join(<span class="string">''</span>)</div><div class="line">&#125;</div><div class="line">transformParamToUrl(searchParam)</div><div class="line"><span class="comment">// name=Bob&amp;age=20&amp;phone=18888888888</span></div></pre></td></tr></table></figure></p>
+<h3 id="最常见的形式"><a href="#最常见的形式" class="headerlink" title="最常见的形式"></a>最常见的形式</h3><pre><code class="javascript"> url?arg1=value1&amp;arg2=value2&amp;arg3=value3...
+</code></pre>
+<h3 id="如何拼接URL？"><a href="#如何拼接URL？" class="headerlink" title="如何拼接URL？"></a>如何拼接URL？</h3><p>假如一个查询系统有很多字段,刚好需要拼接URl的形式进行查询，此刻我们可以采用对象过滤的方法进行转换：</p>
+<pre><code class="js">const searchParam = {
+    name: &#39;Bob&#39;,
+    age: 20,
+    address: &#39;&#39;,
+    phone: 18888888888
+}
+
+const transformParamToUrl = (param) =&gt; {
+    const tempObj = []
+    if (!param || typeof param !== &#39;object&#39;) {
+        return
+    }
+
+    for (let i in param) {
+        if (param.hasOwnProperty(i) &amp;&amp; param[i]) {
+            tempObj.push(i)
+            tempObj.push(&#39;=&#39;)
+            tempObj.push(param[i])
+            tempObj.push(&#39;&amp;&#39;)
+        }
+    }
+    // remove the last field &amp;
+    tempObj.pop()
+    return tempObj.join(&#39;&#39;)
+}
+transformParamToUrl(searchParam)
+// name=Bob&amp;age=20&amp;phone=18888888888
+</code></pre>
 <p>我们得到了拼接好的URL，并且未将无效值加入.</p>
-<h3 id="解析URL参数"><a href="#解析URL参数" class="headerlink" title="解析URL参数"></a>解析URL参数</h3><p>我们拼接了URl，下面讲下如何解析URL参数.<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> flatten = <span class="function">(<span class="params">arr</span>) =&gt;</span> </div><div class="line">    arr.reduce(<span class="function">(<span class="params">initial, curr, index</span>) =&gt;</span> </div><div class="line">    <span class="built_in">Array</span>.isArray(curr) ? initial.concat(flatten(curr)) : initial.concat(curr), [])</div><div class="line"></div><div class="line"><span class="keyword">const</span> parseQuery = <span class="function">(<span class="params">query</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> regexp = <span class="regexp">/(\w+)=([^&amp;]+)/g</span></div><div class="line">    <span class="keyword">const</span> result = &#123;&#125;</div><div class="line">    <span class="keyword">let</span> match</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(match = regexp.exec(query)) &#123;</div><div class="line">        <span class="keyword">let</span> key = match[<span class="number">1</span>], value = match[<span class="number">2</span>].replace(<span class="regexp">/\n/g</span>, <span class="string">''</span>)</div><div class="line">        result[key] ? result[key] = flatten([result[key], value]) : result[key] = value</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// example:</span></div><div class="line"><span class="keyword">const</span> query = <span class="string">`</span></div><div class="line">https://www.baidu.com/s?ie=utf8&amp;f=8&amp;f=90&amp;rsv_bp=1&amp;rsv_idx=1&amp;rsv_bp=1&amp;tn=baidu&amp;wd=%E6%B0%B4%E7%94%B5%E8%B4%B9&amp;rsv_pq=c7797024000434a8&amp;rsv_t=b786FJnGwOOxPk7E7gsn1VbYHpmSP93UpP1470GL9ajYJkd09MOyBzSTsVk&amp;rqlang=cn&amp;rsv_enter=1&amp;rsv_dl=tb&amp;rsv_sug3=5&amp;rsv_sug1=4&amp;rsv_sug7=101&amp;rsv_bp=234&amp;rsv_sug2=0&amp;inputT=1760&amp;rsv_sug4=2010&amp;jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcm9tX3VzZXIiOiJCIiwidGFyZ2V0X3VzZXIiOiJBIn0.rSWamyAYwuHCo7IFAgd1oRpSP7nzL7BF5t7ItqpKViM</div><div class="line">`.split(<span class="string">'?'</span>)[<span class="number">1</span>]</div><div class="line"></div><div class="line">parseQuery(query)</div><div class="line"></div><div class="line"><span class="comment">// &#123; </span></div><div class="line"><span class="comment">//   ie: 'utf8',</span></div><div class="line"><span class="comment">//   f: [ '8', '90' ],</span></div><div class="line"><span class="comment">//   rsv_bp: [ '1', '1', '234' ],</span></div><div class="line"><span class="comment">//   rsv_idx: '1',</span></div><div class="line"><span class="comment">//   tn: 'baidu',</span></div><div class="line"><span class="comment">//   rsv_pq: 'c7797024000434a8',</span></div><div class="line"><span class="comment">//   rsv_t: 'b786FJnGwOOxPk7E7gsn1VbYHpmSP93UpP1470GL9ajYJkd09MOyBzSTsVk',</span></div><div class="line"><span class="comment">//   rqlang: 'cn',</span></div><div class="line"><span class="comment">//   rsv_enter: '1',</span></div><div class="line"><span class="comment">//   rsv_dl: 'tb',</span></div><div class="line"><span class="comment">//   rsv_sug3: '5',</span></div><div class="line"><span class="comment">//   rsv_sug1: '4',</span></div><div class="line"><span class="comment">//   rsv_sug7: '101',</span></div><div class="line"><span class="comment">//   rsv_sug2: '0',</span></div><div class="line"><span class="comment">//   inputT: '1760',</span></div><div class="line"><span class="comment">//   rsv_sug4: '2010' </span></div><div class="line"><span class="comment">// &#125;</span></div></pre></td></tr></table></figure></p>
+<h3 id="解析URL参数"><a href="#解析URL参数" class="headerlink" title="解析URL参数"></a>解析URL参数</h3><p>我们拼接了URl，下面讲下如何解析URL参数.</p>
+<pre><code class="js">const flatten = (arr) =&gt; 
+    arr.reduce((initial, curr, index) =&gt; 
+    Array.isArray(curr) ? initial.concat(flatten(curr)) : initial.concat(curr), [])
+
+const parseQuery = (query) =&gt; {
+    const regexp = /(\w+)=([^&amp;]+)/g
+    const result = {}
+    let match
+
+    while(match = regexp.exec(query)) {
+        let key = match[1], value = match[2].replace(/\n/g, &#39;&#39;)
+        result[key] ? result[key] = flatten([result[key], value]) : result[key] = value
+    }
+
+    return result
+}
+
+// example:
+const query = `
+https://www.baidu.com/s?ie=utf8&amp;f=8&amp;f=90&amp;rsv_bp=1&amp;rsv_idx=1&amp;rsv_bp=1&amp;tn=baidu&amp;wd=%E6%B0%B4%E7%94%B5%E8%B4%B9&amp;rsv_pq=c7797024000434a8&amp;rsv_t=b786FJnGwOOxPk7E7gsn1VbYHpmSP93UpP1470GL9ajYJkd09MOyBzSTsVk&amp;rqlang=cn&amp;rsv_enter=1&amp;rsv_dl=tb&amp;rsv_sug3=5&amp;rsv_sug1=4&amp;rsv_sug7=101&amp;rsv_bp=234&amp;rsv_sug2=0&amp;inputT=1760&amp;rsv_sug4=2010&amp;jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcm9tX3VzZXIiOiJCIiwidGFyZ2V0X3VzZXIiOiJBIn0.rSWamyAYwuHCo7IFAgd1oRpSP7nzL7BF5t7ItqpKViM
+`.split(&#39;?&#39;)[1]
+
+parseQuery(query)
+
+// { 
+//   ie: &#39;utf8&#39;,
+//   f: [ &#39;8&#39;, &#39;90&#39; ],
+//   rsv_bp: [ &#39;1&#39;, &#39;1&#39;, &#39;234&#39; ],
+//   rsv_idx: &#39;1&#39;,
+//   tn: &#39;baidu&#39;,
+//   rsv_pq: &#39;c7797024000434a8&#39;,
+//   rsv_t: &#39;b786FJnGwOOxPk7E7gsn1VbYHpmSP93UpP1470GL9ajYJkd09MOyBzSTsVk&#39;,
+//   rqlang: &#39;cn&#39;,
+//   rsv_enter: &#39;1&#39;,
+//   rsv_dl: &#39;tb&#39;,
+//   rsv_sug3: &#39;5&#39;,
+//   rsv_sug1: &#39;4&#39;,
+//   rsv_sug7: &#39;101&#39;,
+//   rsv_sug2: &#39;0&#39;,
+//   inputT: &#39;1760&#39;,
+//   rsv_sug4: &#39;2010&#39; 
+// }
+</code></pre>
 <p>我们得到了预期的解析数据，并且相同的key进行了数组化存储.</p>
 <h3 id="在线小Demo"><a href="#在线小Demo" class="headerlink" title="在线小Demo"></a>在线小Demo</h3><p>Demo仅做参考，请看代码请看上面👆.<br><a href="https://biyuqi.github.io/demo/src/html/url.html" target="_blank" rel="external">DEMO</a></p>
 
@@ -289,9 +362,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -359,13 +432,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

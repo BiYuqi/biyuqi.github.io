@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         正则匹配字符串英文首字母小写转大写｜LoaingMore&#39;s blog
@@ -202,9 +203,35 @@
 </blockquote>
 <a id="more"></a>
 <h3 id="Demo演示"><a href="#Demo演示" class="headerlink" title="Demo演示"></a><font color="#FF0000">Demo演示</font></h3><p><a href="https://biyuqi.github.io/demo/src/html/letToUper.html" target="_blank" rel="external">点击查看demo</a></p>
-<h3 id="需求实现一篇英文文稿中单词首字母大写化"><a href="#需求实现一篇英文文稿中单词首字母大写化" class="headerlink" title="需求实现一篇英文文稿中单词首字母大写化"></a>需求实现一篇英文文稿中单词首字母大写化</h3><p>第一步首先得匹配上每个单词，包括紧跟着单词后面的标点符号<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//正则</span></div><div class="line"><span class="comment">//考虑了单词中会有数字,标点,换行,引用</span></div><div class="line"><span class="comment">//规则如下</span></div><div class="line">/[<span class="string">"a-zA-Z0-9]+[,.!-'—"</span><span class="string">"]*\s?\n?/g;</span></div></pre></td></tr></table></figure></p>
-<h3 id="封装函数"><a href="#封装函数" class="headerlink" title="封装函数"></a>封装函数</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">* @target 目标文本</div><div class="line">* @range 输出值</div><div class="line">* ToTarget(match) 匹配replace 回调函数</div><div class="line">*</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ToLetterUpper</span>(<span class="params">target</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/["a-zA-Z0-9]+[,.!-'—""]*\s?\n?/g</span>;</div><div class="line">    <span class="keyword">var</span> range = <span class="string">''</span>;<span class="comment">//转化后的内容</span></div><div class="line">    <span class="comment">//匹配的内容大写</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ToTarget</span>(<span class="params">match</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> match.toUpperCase();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">while</span>(match = reg.exec(target))&#123;</div><div class="line">        range += match[<span class="number">0</span>].replace(<span class="regexp">/^[a-z]&#123;1&#125;/</span>,ToTarget);<span class="comment">//调用方法</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> range;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">'At least 36, people. have been killed'</span>;</div><div class="line">ToLetterUpper(str);</div><div class="line"><span class="comment">//At Least 36, People. Have Been Killed</span></div></pre></td></tr></table></figure>
+<h3 id="需求实现一篇英文文稿中单词首字母大写化"><a href="#需求实现一篇英文文稿中单词首字母大写化" class="headerlink" title="需求实现一篇英文文稿中单词首字母大写化"></a>需求实现一篇英文文稿中单词首字母大写化</h3><p>第一步首先得匹配上每个单词，包括紧跟着单词后面的标点符号</p>
+<pre><code class="javascript">//正则
+//考虑了单词中会有数字,标点,换行,引用
+//规则如下
+/[&quot;a-zA-Z0-9]+[,.!-&#39;—&quot;&quot;]*\s?\n?/g;
+</code></pre>
+<h3 id="封装函数"><a href="#封装函数" class="headerlink" title="封装函数"></a>封装函数</h3><pre><code class="javascript">/*
+* @target 目标文本
+* @range 输出值
+* ToTarget(match) 匹配replace 回调函数
+*
+*/
+function ToLetterUpper(target){
+    var reg = /[&quot;a-zA-Z0-9]+[,.!-&#39;—&quot;&quot;]*\s?\n?/g;
+    var range = &#39;&#39;;//转化后的内容
+    //匹配的内容大写
+    function ToTarget(match){
+        return match.toUpperCase();
+    }
+    while(match = reg.exec(target)){
+        range += match[0].replace(/^[a-z]{1}/,ToTarget);//调用方法
+    }
+    return range;
+}
+</code></pre>
+<h3 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h3><pre><code class="javascript">var str = &#39;At least 36, people. have been killed&#39;;
+ToLetterUpper(str);
+//At Least 36, People. Have Been Killed
+</code></pre>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace" target="_blank" rel="external">MDN</a></li>
 </ul>
@@ -284,9 +311,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -354,13 +381,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

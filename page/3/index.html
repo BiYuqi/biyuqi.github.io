@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -446,8 +447,11 @@ FileReader 对象允许Web应用程序异步读取存储在用户计算机上的
                 
 最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法
 
-获取不到样式const res = document.querySelector('.target').style.widthconsole.log(res) // 结果为空
-郁闷啊。。。突然想到之前..
+获取不到样式const res = document.querySelector(&#39;.target&#39;).style.width
+
+console.log(res) // 结果为空
+
+郁..
             </p>
         </div>
     </a>
@@ -473,7 +477,8 @@ FileReader 对象允许Web应用程序异步读取存储在用户计算机上的
                 前言
 最近项目中操作select的option值得场景还是很多的，在此记录一下,以免忘记
 
-结构&lt;select id="selected"&gt;    &lt;option value="1" data-id="1000"&gt;&lt;/option&gt;    &lt;option..
+结构&lt;select id=&quot;selected&quot;&gt;
+    &lt;option value=&quot;1&quot; data-id=&quot;1000&quot;&g..
             </p>
         </div>
     </a>
@@ -736,9 +741,9 @@ FileReader 对象允许Web应用程序异步读取存储在用户计算机上的
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -801,13 +806,15 @@ FileReader 对象允许Web应用程序异步读取存储在用户计算机上的
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

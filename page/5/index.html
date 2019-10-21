@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -307,8 +308,10 @@ charCodeAt()
 
 
 都接收一个参数，区别是chartAt()方法以单独字符串形式返回给定位置的字符eg:
-var str = 'hello world';alert(str.charAt(1))//e
-如果你想得到的不是字符..
+var str = &#39;hello world&#39;;
+alert(str.charAt(1))//e
+
+如..
             </p>
         </div>
     </a>
@@ -363,7 +366,8 @@ var str = 'hello world';alert(str.charAt(1))//e
 
 DEMODEMO
 
-实现原理说下实现思路吧,其实就是监听输入框输入的类型,进行空格检测,正则一旦检测到空格,立即对当前值输入框进行赋值,赋值为过滤空格后的值&lt;input type="text" cl..
+实现原理说下实现思路吧,其实就是监听输入框输入的类型,进行空格检测,正则一旦检测到空格,立即对当前值输入框进行赋值,赋值为过滤空格后的值
+&lt;input type=&quot;te..
             </p>
         </div>
     </a>
@@ -390,7 +394,9 @@ DEMODEMO
 项目经常会用到提取地址栏的参数的问题，之前都是随用随写，这不趁着放假，总结了一下
 
 
-我的版本function getUrlPart(url)&#123;    url = url == null ? window.location.href : url;    var str = url.s..
+我的版本function getUrlPart(url){
+    url = url == null ? window.location.href : url;
+    var str = url.subs..
             </p>
         </div>
     </a>
@@ -417,7 +423,8 @@ DEMODEMO
 正则这门语言实在是太强大,用的好可以大大减少工作量,大多时候会写很多重复类似的正则，处于爱护脑细胞的考虑，我决定从今往后的所写的正则,都记录下来.
 
 
-不能纯字母数字 必须包含两者var reg1 = /^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/;var reg2..
+不能纯字母数字 必须包含两者var reg1 = /^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/;
+var reg..
             </p>
         </div>
     </a>
@@ -735,9 +742,9 @@ DEMODEMO
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -800,13 +807,15 @@ DEMODEMO
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

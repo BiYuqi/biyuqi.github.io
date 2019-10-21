@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         JavaScript获取CSS样式遇到的一些问题｜LoaingMore&#39;s blog
@@ -197,13 +198,43 @@
                 <blockquote>
 <p>最近在写一个效果需要获取一个元素translateX的值，因为没有采用JQ,所以用原生方法</p>
 </blockquote>
-<h2 id="获取不到样式"><a href="#获取不到样式" class="headerlink" title="获取不到样式"></a>获取不到样式</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> res = <span class="built_in">document</span>.querySelector(<span class="string">'.target'</span>).style.width</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(res) <span class="comment">// 结果为空</span></div></pre></td></tr></table></figure>
+<h2 id="获取不到样式"><a href="#获取不到样式" class="headerlink" title="获取不到样式"></a>获取不到样式</h2><pre><code class="js">const res = document.querySelector(&#39;.target&#39;).style.width
+
+console.log(res) // 结果为空
+</code></pre>
 <p>郁闷啊。。。<br>突然想到之前看高程的时候看到过getComputedStyle这个方法，于是MDN了一下<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getComputedStyle" target="_blank" rel="external">这里</a></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">style                  <span class="comment">//只能获取元素的内联样式，内部样式和外部样式使用style是获取不到的。</span></div><div class="line">currentStyle         <span class="comment">//适用于IE8及以下。</span></div><div class="line">getComputedStyle     <span class="comment">//同currentStyle作用相同，但是适用于FF、opera、safari、chrome IE9+。</span></div></pre></td></tr></table></figure>
+<pre><code class="js">style                  //只能获取元素的内联样式，内部样式和外部样式使用style是获取不到的。
+currentStyle         //适用于IE8及以下。
+getComputedStyle     //同currentStyle作用相同，但是适用于FF、opera、safari、chrome IE9+。
+</code></pre>
 <h2 id="getComputedStyle"><a href="#getComputedStyle" class="headerlink" title="getComputedStyle"></a>getComputedStyle</h2><p>getComputedStyle 是一个可以获取当前元素所有最终使用的CSS属性值。返回的是一个CSS样式声明对象([object CSSStyleDeclaration])，只读</p>
-<p>语法：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">let</span> style = <span class="built_in">window</span>.getComputedStyle(element, [pseudoElt]);</div><div class="line"></div><div class="line"><span class="comment">// 用于获取计算样式的Element</span></div><div class="line"><span class="comment">// pseudoElt 可选 指定一个要匹配的伪元素的字符串</span></div></pre></td></tr></table></figure></p>
-<h2 id="兼容性写法"><a href="#兼容性写法" class="headerlink" title="兼容性写法"></a>兼容性写法</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle($(obj))[attr]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Javascript获取transform中的属性值"><a href="#Javascript获取transform中的属性值" class="headerlink" title="Javascript获取transform中的属性值"></a>Javascript获取transform中的属性值</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> $ = <span class="function"><span class="keyword">function</span>(<span class="params">el</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.querySelector(el)</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj,attr</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> obj.currentStyle ? obj.currentStyle[attr] : <span class="built_in">window</span>.getComputedStyle(obj)[attr]</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> getTransform = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="keyword">const</span> reg = <span class="regexp">/matrix\((.*)\)/</span></div><div class="line">    <span class="keyword">const</span> result = reg.exec(data)[<span class="number">1</span>].split(<span class="string">','</span>)</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">transX</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-2</span>]),</div><div class="line">        <span class="attr">transY</span>: <span class="built_in">parseInt</span>(result[result.length<span class="number">-1</span>])</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">getTransform(getStyle($(<span class="string">'.box'</span>),<span class="string">'transform'</span>))</div><div class="line"><span class="comment">// &#123;transX: -4, transY: -8&#125;</span></div></pre></td></tr></table></figure>
+<p>语法：</p>
+<pre><code class="js">let style = window.getComputedStyle(element, [pseudoElt]);
+
+// 用于获取计算样式的Element
+// pseudoElt 可选 指定一个要匹配的伪元素的字符串
+</code></pre>
+<h2 id="兼容性写法"><a href="#兼容性写法" class="headerlink" title="兼容性写法"></a>兼容性写法</h2><pre><code class="js">const getStyle = function(obj,attr){
+    return obj.currentStyle ? obj.currentStyle[attr] : window.getComputedStyle($(obj))[attr]
+}
+</code></pre>
+<h2 id="Javascript获取transform中的属性值"><a href="#Javascript获取transform中的属性值" class="headerlink" title="Javascript获取transform中的属性值"></a>Javascript获取transform中的属性值</h2><pre><code class="js">const $ = function(el){
+    return document.querySelector(el)
+}
+const getStyle = function(obj,attr){
+    return obj.currentStyle ? obj.currentStyle[attr] : window.getComputedStyle(obj)[attr]
+}
+const getTransform = function(data){
+    const reg = /matrix\((.*)\)/
+    const result = reg.exec(data)[1].split(&#39;,&#39;)
+    return {
+        transX: parseInt(result[result.length-2]),
+        transY: parseInt(result[result.length-1])
+    }
+}
+getTransform(getStyle($(&#39;.box&#39;),&#39;transform&#39;))
+// {transX: -4, transY: -8}
+</code></pre>
 
                 <hr>
                 
@@ -277,9 +308,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -347,13 +378,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

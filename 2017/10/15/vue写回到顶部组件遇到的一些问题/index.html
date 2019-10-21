@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         写Vue回到顶部组件遇到的一些问题｜LoaingMore&#39;s blog
@@ -200,12 +201,88 @@
 </blockquote>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="http://oq4hkch8e.bkt.clouddn.com/backTop.gif" alt=""><br><a href="https://github.com/BiYuqi/daily-practice/blob/master/Vue/todo-app/src/components/BackTop/BackTop.vue" target="_blank" rel="external">组件地址</a></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="1-谷歌浏览器下document-body-scrollTop失效"><a href="#1-谷歌浏览器下document-body-scrollTop失效" class="headerlink" title="1.谷歌浏览器下document.body.scrollTop失效"></a>1.谷歌浏览器下document.body.scrollTop失效</h3><p>经查阅此版本(版本为61)后的均需要使用document.documentElement.scrollTop来替代</p>
-<h3 id="2-vue怎么监听滚动事件"><a href="#2-vue怎么监听滚动事件" class="headerlink" title="2.vue怎么监听滚动事件"></a>2.vue怎么监听滚动事件</h3><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"back-top"</span> @<span class="attr">click</span>=<span class="string">"goTop"</span> <span class="attr">name</span>=<span class="string">"button"</span> <span class="attr">v-show</span>=<span class="string">"visible"</span> <span class="attr">:style</span>=<span class="string">"customStyle"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"16"</span> <span class="attr">height</span>=<span class="string">"16"</span> <span class="attr">viewBox</span>=<span class="string">"0 0 17 17"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2000/svg"</span> <span class="attr">class</span>=<span class="string">"back-icon"</span> <span class="attr">aria-hidden</span>=<span class="string">"true"</span> <span class="attr">style</span>=<span class="string">"height: 16px; width: 16px;"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">g</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">"M12.036 15.59c0 .55-.453.995-.997.995H5.032c-.55 0-.997-.445-.997-.996V8.584H1.03c-1.1 0-1.36-.633-.578-1.416L7.33.29c.39-.39 1.026-.385 1.412 0l6.878 6.88c.782.78.523 1.415-.58 1.415h-3.004v7.004z"</span> <span class="attr">fill-rule</span>=<span class="string">"evenodd"</span>&gt;</span><span class="tag">&lt;/<span class="name">path</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">g</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    <span class="attr">props</span>:&#123;</div><div class="line">        <span class="attr">visibleHeight</span>: &#123; <span class="comment">// 按钮出现条件</span></div><div class="line">            type: <span class="built_in">Number</span>,</div><div class="line">            <span class="attr">default</span>: <span class="number">400</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">rate</span>: &#123;</div><div class="line">            <span class="attr">type</span>: <span class="built_in">Number</span>, <span class="comment">// 滚动速率</span></div><div class="line">            <span class="keyword">default</span>: <span class="number">4</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">customStyle</span>: &#123; <span class="comment">// 默认样式</span></div><div class="line">            type: <span class="built_in">Object</span>,</div><div class="line">            <span class="keyword">default</span>() &#123;  <span class="comment">// 此处由于是Object 所以要返回一个函数</span></div><div class="line">                <span class="keyword">return</span> &#123;</div><div class="line">                    <span class="attr">right</span>: <span class="string">'50px'</span>,</div><div class="line">                    <span class="attr">bottom</span>: <span class="string">'50px'</span>,</div><div class="line">                    <span class="attr">width</span>: <span class="string">'40px'</span>,</div><div class="line">                    <span class="attr">height</span>: <span class="string">'40px'</span>,</div><div class="line">                    <span class="string">'border-radius'</span>: <span class="string">'4px'</span>,</div><div class="line">                    <span class="string">'line-height'</span>: <span class="string">'45px'</span>,</div><div class="line">                    <span class="attr">background</span>: <span class="string">'#e7eaf1'</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    data() &#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">scrollTop</span>: <span class="string">''</span>,</div><div class="line">            <span class="attr">visible</span>: <span class="literal">false</span>, <span class="comment">// 是否显示</span></div><div class="line">            interval: <span class="literal">null</span>  <span class="comment">// 定时器</span></div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    mounted() &#123;</div><div class="line">        <span class="comment">// Dom加载完毕时监听scroll事件</span></div><div class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, <span class="keyword">this</span>.handleScroll)</div><div class="line">    &#125;,</div><div class="line">    beforeDestroy() &#123;</div><div class="line">        <span class="built_in">window</span>.removeEventListener(<span class="string">'scroll'</span>, <span class="keyword">this</span>.handleScroll)</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.interval) &#123;</div><div class="line">                clearInterval(<span class="keyword">this</span>.interval)</div><div class="line">            &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">methods</span>:&#123;</div><div class="line">        handleScroll() &#123;</div><div class="line">            <span class="comment">// 判断条件</span></div><div class="line">            <span class="keyword">this</span>.visible = <span class="built_in">window</span>.pageYOffset &gt; <span class="keyword">this</span>.visibleHeight</div><div class="line">            <span class="keyword">this</span>.scrollTop = <span class="built_in">window</span>.pageYOffset</div><div class="line">        &#125;,</div><div class="line">        goTop(e) &#123;</div><div class="line">            <span class="keyword">this</span>.interval = setInterval(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">                <span class="keyword">this</span>.scrollTop = <span class="keyword">this</span>.scrollTop + (-<span class="keyword">this</span>.scrollTop)/<span class="keyword">this</span>.rate</div><div class="line">                <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="keyword">this</span>.scrollTop)</div><div class="line">                <span class="keyword">if</span>(<span class="keyword">this</span>.scrollTop &lt;= <span class="number">0</span>)&#123;</div><div class="line">                    <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="number">0</span>)</div><div class="line">                    clearInterval(<span class="keyword">this</span>.interval)</div><div class="line">                &#125;</div><div class="line">            &#125;,<span class="number">13</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-vue怎么监听滚动事件"><a href="#2-vue怎么监听滚动事件" class="headerlink" title="2.vue怎么监听滚动事件"></a>2.vue怎么监听滚动事件</h3><pre><code class="html">&lt;div class=&quot;back-top&quot; @click=&quot;goTop&quot; name=&quot;button&quot; v-show=&quot;visible&quot; :style=&quot;customStyle&quot;&gt;
+    &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 17 17&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;back-icon&quot; aria-hidden=&quot;true&quot; style=&quot;height: 16px; width: 16px;&quot;&gt;
+        &lt;g&gt;
+          &lt;path d=&quot;M12.036 15.59c0 .55-.453.995-.997.995H5.032c-.55 0-.997-.445-.997-.996V8.584H1.03c-1.1 0-1.36-.633-.578-1.416L7.33.29c.39-.39 1.026-.385 1.412 0l6.878 6.88c.782.78.523 1.415-.58 1.415h-3.004v7.004z&quot; fill-rule=&quot;evenodd&quot;&gt;&lt;/path&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="js">export default {
+    props:{
+        visibleHeight: { // 按钮出现条件
+            type: Number,
+            default: 400
+        },
+        rate: {
+            type: Number, // 滚动速率
+            default: 4
+        },
+        customStyle: { // 默认样式
+            type: Object,
+            default() {  // 此处由于是Object 所以要返回一个函数
+                return {
+                    right: &#39;50px&#39;,
+                    bottom: &#39;50px&#39;,
+                    width: &#39;40px&#39;,
+                    height: &#39;40px&#39;,
+                    &#39;border-radius&#39;: &#39;4px&#39;,
+                    &#39;line-height&#39;: &#39;45px&#39;,
+                    background: &#39;#e7eaf1&#39;
+                }
+            }
+        }
+    },
+    data() {
+        return {
+            scrollTop: &#39;&#39;,
+            visible: false, // 是否显示
+            interval: null  // 定时器
+
+        }
+    },
+    mounted() {
+        // Dom加载完毕时监听scroll事件
+        window.addEventListener(&#39;scroll&#39;, this.handleScroll)
+    },
+    beforeDestroy() {
+        window.removeEventListener(&#39;scroll&#39;, this.handleScroll)
+            if (this.interval) {
+                clearInterval(this.interval)
+            }
+    },
+    methods:{
+        handleScroll() {
+            // 判断条件
+            this.visible = window.pageYOffset &gt; this.visibleHeight
+            this.scrollTop = window.pageYOffset
+        },
+        goTop(e) {
+            this.interval = setInterval(()=&gt;{
+                this.scrollTop = this.scrollTop + (-this.scrollTop)/this.rate
+                window.scrollTo(0,this.scrollTop)
+                if(this.scrollTop &lt;= 0){
+                    window.scrollTo(0,0)
+                    clearInterval(this.interval)
+                }
+            },13)
+        }
+    }
+}
+</code></pre>
 <h3 id="3-window-scrollTo-x-y-是什么鬼"><a href="#3-window-scrollTo-x-y-是什么鬼" class="headerlink" title="3.window.scrollTo(x,y)是什么鬼"></a>3.window.scrollTo(x,y)是什么鬼</h3><p>此方法为滚动到文档中的某个坐标，x 是文档中的横轴坐标。y 是文档中的纵轴坐标。<br>该函数实际上和 window.scroll是一样的<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/scrollTo" target="_blank" rel="external">具体请看MDM介绍</a></p>
-<h3 id="4-组件使用方法"><a href="#4-组件使用方法" class="headerlink" title="4.组件使用方法"></a>4.组件使用方法</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">//1. 先引入</span></div><div class="line"><span class="keyword">import</span> BackTop <span class="keyword">from</span> <span class="string">'@/components/BackTop/BackTop.vue'</span></div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 2. 页面使用方法 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">back-top</span> <span class="attr">:visibleHeight</span>=<span class="string">"50"</span> <span class="attr">:rate</span>=<span class="string">"6"</span>&gt;</span><span class="tag">&lt;/<span class="name">back-top</span>&gt;</span></div></pre></td></tr></table></figure>
-<h2 id="缓动动画算法"><a href="#缓动动画算法" class="headerlink" title="缓动动画算法"></a>缓动动画算法</h2><p>之前看过张鑫旭大神写过这个方法，所以本文就直接拿来用了，具体算法是<br><img src="http://oq4hkch8e.bkt.clouddn.com/js-animate.png" alt=""><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">A = A + (B - A) / <span class="number">2</span></div><div class="line"></div><div class="line">我下一秒的位置 = 现在位置 + 现在和初始之间距离的一半</div></pre></td></tr></table></figure></p>
+<h3 id="4-组件使用方法"><a href="#4-组件使用方法" class="headerlink" title="4.组件使用方法"></a>4.组件使用方法</h3><pre><code class="js">//1. 先引入
+import BackTop from &#39;@/components/BackTop/BackTop.vue&#39;
+</code></pre>
+<pre><code class="html">&lt;!-- 2. 页面使用方法 --&gt;
+&lt;back-top :visibleHeight=&quot;50&quot; :rate=&quot;6&quot;&gt;&lt;/back-top&gt;
+</code></pre>
+<h2 id="缓动动画算法"><a href="#缓动动画算法" class="headerlink" title="缓动动画算法"></a>缓动动画算法</h2><p>之前看过张鑫旭大神写过这个方法，所以本文就直接拿来用了，具体算法是<br><img src="http://oq4hkch8e.bkt.clouddn.com/js-animate.png" alt=""></p>
+<pre><code class="js">A = A + (B - A) / 2
+
+我下一秒的位置 = 现在位置 + 现在和初始之间距离的一半
+</code></pre>
 <h2 id="参考算法："><a href="#参考算法：" class="headerlink" title="参考算法："></a>参考算法：</h2><p><a href="http://www.zhangxinxu.com/wordpress/2017/01/share-a-animation-algorithm-js/" target="_blank" rel="external">张鑫旭-分享一个即插即用的私藏缓动动画JS小算法</a></p>
 
                 <hr>
@@ -280,9 +357,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -350,13 +427,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

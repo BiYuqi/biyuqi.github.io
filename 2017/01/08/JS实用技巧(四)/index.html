@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         JS实用技巧(四)｜LoaingMore&#39;s blog
@@ -197,14 +198,118 @@
                 <blockquote>
 <h3 id="该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"><a href="#该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。" class="headerlink" title="该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"></a>该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。</h3></blockquote>
 <a id="more"></a>
-<h2 id="1-判断函数的类型"><a href="#1-判断函数的类型" class="headerlink" title="1.判断函数的类型"></a>1.判断函数的类型</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//ex:判断一个数据是否是数组Object.prototype.toString.call(obj)返回一个字符串</span></div><div class="line"><span class="comment">//比如 Object.prototype.toString.call( [1,2,3] ) 总 是 返 回 "[object Array]"</span></div><div class="line"><span class="comment">//Object.prototype.toString.call( “str”)总是返回"[object String]"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> isString = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj) === <span class="string">'[object String]'</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> isArray = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj) === <span class="string">'[object Array]'</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> isNumber = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(ojb) === <span class="string">'[object Number]'</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用</span></div><div class="line"><span class="built_in">console</span>.log( isString(<span class="string">'abc'</span>) );<span class="comment">//true</span></div><div class="line"><span class="built_in">console</span>.log( isArray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) );<span class="comment">//true</span></div></pre></td></tr></table></figure>
-<p>改进<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//这些函数大部分实现都是相同的，</span></div><div class="line"><span class="comment">//不同的只是返回的字符串的类型，</span></div><div class="line"><span class="comment">//可以把字符串作为参数提前植入</span></div><div class="line"><span class="keyword">var</span> isType = <span class="function"><span class="keyword">function</span>(<span class="params">type</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj) === <span class="string">'[object '</span>+type+<span class="string">']'</span>;</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> isString = isType(<span class="string">'String'</span>);</div><div class="line"><span class="keyword">var</span> isArray = isType(<span class="string">'Array'</span>);</div><div class="line"><span class="keyword">var</span> isNumber = isType(<span class="string">'Number'</span>);</div><div class="line"></div><div class="line"><span class="comment">//调用</span></div><div class="line"><span class="built_in">console</span>.log( isArray([<span class="number">1</span>,<span class="number">2</span>]) );<span class="comment">//true</span></div><div class="line"><span class="built_in">console</span>.log( isArray(<span class="string">'str'</span>) );<span class="comment">// false</span></div></pre></td></tr></table></figure></p>
-<h2 id="2-防止连续点击造成事件Bug"><a href="#2-防止连续点击造成事件Bug" class="headerlink" title="2.防止连续点击造成事件Bug"></a>2.防止连续点击造成事件Bug</h2><p>(比如轮播按钮快速点击，表单重复多次提交，这里就需要判断两次点击事件间隔，来做判断)<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//原生JS</span></div><div class="line"><span class="keyword">var</span> testBtnt = <span class="built_in">document</span>.querySelector(<span class="string">'.btn'</span>);</div><div class="line"><span class="comment">//初始时间戳</span></div><div class="line"><span class="keyword">var</span> _thistime = <span class="built_in">Date</span>.now();</div><div class="line">testBtnt.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="comment">//比较两次点击之间的时间，如果点击过快，return</span></div><div class="line">	<span class="keyword">if</span>((<span class="built_in">Date</span>.now() - _thistime) &lt; <span class="number">700</span>)&#123;<span class="comment">//事件为毫秒，需要自己设定</span></div><div class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;<span class="comment">//符合点击范围</span></div><div class="line">		<span class="comment">//时间保留到上次点击的地方</span></div><div class="line">		_thistime = <span class="built_in">Date</span>.now();</div><div class="line">		<span class="comment">//do some code</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="3-判断对象的属性存在于实例中，还是原型中"><a href="#3-判断对象的属性存在于实例中，还是原型中" class="headerlink" title="3.判断对象的属性存在于实例中，还是原型中"></a>3.判断对象的属性存在于实例中，还是原型中</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">*object:实例对象</div><div class="line">*name:要查询的属性</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasPrototypeProperty</span>(<span class="params">object,name</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span>  !object.hasOwnProperty(name) &amp;&amp; (name <span class="keyword">in</span> object);</div><div class="line">&#125;</div><div class="line"><span class="comment">//in 只要通过对象能访问到属性就返回true</span></div><div class="line"><span class="comment">//hasOwnproperty()只有属性存在于实例中才会返回true</span></div></pre></td></tr></table></figure>
-<p><strong>Test：</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">Person.prototype.name = <span class="string">"loading"</span>;</div><div class="line">Person.prototype.age = <span class="number">34</span>;</div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</div><div class="line"><span class="built_in">console</span>.log( hasPrototypeProperty(person,<span class="string">'name'</span>) );<span class="comment">//true;</span></div><div class="line">person.name = <span class="string">"caricai"</span>;</div><div class="line"><span class="built_in">console</span>.log( hasPrototypeProperty(person,<span class="string">'name'</span>) );<span class="comment">//false</span></div></pre></td></tr></table></figure></p>
-<h2 id="4-RGBA实现随机颜色"><a href="#4-RGBA实现随机颜色" class="headerlink" title="4.RGBA实现随机颜色"></a>4.RGBA实现随机颜色</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getColor</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> strColor = [</div><div class="line">        <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">255</span>),</div><div class="line">        <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">255</span>),</div><div class="line">        <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">255</span>)</div><div class="line">    ];</div><div class="line">    <span class="keyword">var</span> strNum = strColor.join(<span class="string">','</span>);</div><div class="line">    <span class="keyword">var</span> rgba = <span class="string">'rgba('</span>+strNum+<span class="string">')'</span>;</div><div class="line">    <span class="keyword">return</span> rgba;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(getColor());得到随机值rgba();</div></pre></td></tr></table></figure>
-<h2 id="5-找出字符串中最长的单词并输出其长度"><a href="#5-找出字符串中最长的单词并输出其长度" class="headerlink" title="5.找出字符串中最长的单词并输出其长度"></a>5.找出字符串中最长的单词并输出其长度</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> string = <span class="string">"The over the; lazy dog, May with you wohennia shabiad."</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">findLongWord</span>(<span class="params">str</span>)</span>&#123;</div><div class="line">    <span class="comment">//对, . ; 先做了过滤 用空格分开 转化成数组 成为单词</span></div><div class="line">    <span class="keyword">var</span> str = str.replace(<span class="regexp">/[,.;]*/g</span> ,<span class="string">''</span>).split(<span class="string">' '</span>);</div><div class="line">    <span class="comment">//进行长度比较</span></div><div class="line">    <span class="keyword">var</span> len = <span class="number">0</span>;</div><div class="line">    <span class="comment">//储存最长的单词</span></div><div class="line">    <span class="keyword">var</span> s = <span class="string">''</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;str.length;i++)&#123;</div><div class="line">        <span class="keyword">if</span>(len &lt; str[i].length)&#123;</div><div class="line">            len = str[i].length;</div><div class="line">            s = str[i];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//返回值</span></div><div class="line">    <span class="keyword">return</span> (<span class="string">'最长单词是:'</span>+s +<span class="string">',长度为:'</span>+s.length)</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(findLongWord(string));</div></pre></td></tr></table></figure>
-<h2 id="6-判断是否为空对象"><a href="#6-判断是否为空对象" class="headerlink" title="6.判断是否为空对象"></a>6.判断是否为空对象</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isEmpty</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">   <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> obj)&#123;</div><div class="line">	   <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> o = &#123;&#125;;</div><div class="line">isEmpty(o);<span class="comment">//true</span></div><div class="line">o.name=<span class="string">"biyuqi"</span>;</div><div class="line">isEmpty(o);<span class="comment">//false</span></div></pre></td></tr></table></figure>
+<h2 id="1-判断函数的类型"><a href="#1-判断函数的类型" class="headerlink" title="1.判断函数的类型"></a>1.判断函数的类型</h2><pre><code class="javascript">//ex:判断一个数据是否是数组Object.prototype.toString.call(obj)返回一个字符串
+//比如 Object.prototype.toString.call( [1,2,3] ) 总 是 返 回 &quot;[object Array]&quot;
+//Object.prototype.toString.call( “str”)总是返回&quot;[object String]&quot;
+
+var isString = function(obj){
+    return Object.prototype.toString.call(obj) === &#39;[object String]&#39;;
+}
+var isArray = function(obj){
+    return Object.prototype.toString.call(obj) === &#39;[object Array]&#39;;
+}
+var isNumber = function(obj){
+    return Object.prototype.toString.call(ojb) === &#39;[object Number]&#39;;
+}
+//调用
+console.log( isString(&#39;abc&#39;) );//true
+console.log( isArray([1,2,3]) );//true
+</code></pre>
+<p>改进</p>
+<pre><code class="javascript">//这些函数大部分实现都是相同的，
+//不同的只是返回的字符串的类型，
+//可以把字符串作为参数提前植入
+var isType = function(type){
+    return function(obj){
+        return Object.prototype.toString.call(obj) === &#39;[object &#39;+type+&#39;]&#39;;
+    }
+};
+var isString = isType(&#39;String&#39;);
+var isArray = isType(&#39;Array&#39;);
+var isNumber = isType(&#39;Number&#39;);
+
+//调用
+console.log( isArray([1,2]) );//true
+console.log( isArray(&#39;str&#39;) );// false
+</code></pre>
+<h2 id="2-防止连续点击造成事件Bug"><a href="#2-防止连续点击造成事件Bug" class="headerlink" title="2.防止连续点击造成事件Bug"></a>2.防止连续点击造成事件Bug</h2><p>(比如轮播按钮快速点击，表单重复多次提交，这里就需要判断两次点击事件间隔，来做判断)</p>
+<pre><code class="javascript">//原生JS
+var testBtnt = document.querySelector(&#39;.btn&#39;);
+//初始时间戳
+var _thistime = Date.now();
+testBtnt.onclick = function(){
+    //比较两次点击之间的时间，如果点击过快，return
+    if((Date.now() - _thistime) &lt; 700){//事件为毫秒，需要自己设定
+        return false;
+    }else{//符合点击范围
+        //时间保留到上次点击的地方
+        _thistime = Date.now();
+        //do some code
+    }
+}
+</code></pre>
+<h2 id="3-判断对象的属性存在于实例中，还是原型中"><a href="#3-判断对象的属性存在于实例中，还是原型中" class="headerlink" title="3.判断对象的属性存在于实例中，还是原型中"></a>3.判断对象的属性存在于实例中，还是原型中</h2><pre><code class="javascript">/*
+*object:实例对象
+*name:要查询的属性
+*/
+function hasPrototypeProperty(object,name){
+    return  !object.hasOwnProperty(name) &amp;&amp; (name in object);
+}
+//in 只要通过对象能访问到属性就返回true
+//hasOwnproperty()只有属性存在于实例中才会返回true
+</code></pre>
+<p><strong>Test：</strong></p>
+<pre><code class="javascript">function Person(){
+}
+Person.prototype.name = &quot;loading&quot;;
+Person.prototype.age = 34;
+var person = new Person();
+console.log( hasPrototypeProperty(person,&#39;name&#39;) );//true;
+person.name = &quot;caricai&quot;;
+console.log( hasPrototypeProperty(person,&#39;name&#39;) );//false
+</code></pre>
+<h2 id="4-RGBA实现随机颜色"><a href="#4-RGBA实现随机颜色" class="headerlink" title="4.RGBA实现随机颜色"></a>4.RGBA实现随机颜色</h2><pre><code class="javascript">function getColor(){
+    var strColor = [
+        Math.floor(Math.random() * 255),
+        Math.floor(Math.random() * 255),
+        Math.floor(Math.random() * 255)
+    ];
+    var strNum = strColor.join(&#39;,&#39;);
+    var rgba = &#39;rgba(&#39;+strNum+&#39;)&#39;;
+    return rgba;
+}
+console.log(getColor());得到随机值rgba();
+</code></pre>
+<h2 id="5-找出字符串中最长的单词并输出其长度"><a href="#5-找出字符串中最长的单词并输出其长度" class="headerlink" title="5.找出字符串中最长的单词并输出其长度"></a>5.找出字符串中最长的单词并输出其长度</h2><pre><code class="javascript">var string = &quot;The over the; lazy dog, May with you wohennia shabiad.&quot;;
+function findLongWord(str){
+    //对, . ; 先做了过滤 用空格分开 转化成数组 成为单词
+    var str = str.replace(/[,.;]*/g ,&#39;&#39;).split(&#39; &#39;);
+    //进行长度比较
+    var len = 0;
+    //储存最长的单词
+    var s = &#39;&#39;;
+    for(var i=0;i&lt;str.length;i++){
+        if(len &lt; str[i].length){
+            len = str[i].length;
+            s = str[i];
+        }
+    }
+    //返回值
+    return (&#39;最长单词是:&#39;+s +&#39;,长度为:&#39;+s.length)
+}
+console.log(findLongWord(string));
+</code></pre>
+<h2 id="6-判断是否为空对象"><a href="#6-判断是否为空对象" class="headerlink" title="6.判断是否为空对象"></a>6.判断是否为空对象</h2><pre><code class="javascript">function isEmpty(obj){
+   for(var key in obj){
+       return false;
+   }
+   return true;
+};
+var o = {};
+isEmpty(o);//true
+o.name=&quot;biyuqi&quot;;
+isEmpty(o);//false
+</code></pre>
 
                 <hr>
                 
@@ -278,9 +383,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -348,13 +453,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

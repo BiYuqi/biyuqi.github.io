@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         解决Vue复用组件切换时组件不更新的问题｜LoaingMore&#39;s blog
@@ -201,8 +202,15 @@
 <p>距离上次更新已经是去年了,习惯这个东西真可怕，本文仅做个小记录</p>
 </blockquote>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>做项目中,复用的vue组件，切换时，组件的生命周期都不执行了,查资料得知是vue的组件复用机制问题，相同的组件会被复用，也就不存在更新了</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在router-view上加上一个动态key属性值<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">router-view</span> <span class="attr">:key</span>=<span class="string">"key"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  key () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$route.name !== <span class="literal">undefined</span> ? <span class="keyword">this</span>.$route.name + +<span class="keyword">new</span> <span class="built_in">Date</span>() : <span class="keyword">this</span>.$route + +<span class="keyword">new</span> <span class="built_in">Date</span>()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>在router-view上加上一个动态key属性值</p>
+<pre><code class="html">&lt;router-view :key=&quot;key&quot;/&gt;
+</code></pre>
+<pre><code class="js">computed: {
+  key () {
+    return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
+  }
+}
+</code></pre>
 <p>欧克…(逃)</p>
 
                 <hr>
@@ -280,9 +288,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -350,13 +358,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

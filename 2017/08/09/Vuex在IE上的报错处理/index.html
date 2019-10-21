@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Vuex在IE上的报错处理｜LoaingMore&#39;s blog
@@ -194,9 +195,17 @@
                 <blockquote>
 <p>最近在做一个后台项目，其中遇到了vuex在IE浏览器中报错的问题，于是就有了这篇博文进行记录</p>
 </blockquote>
-<h2 id="报错语句"><a href="#报错语句" class="headerlink" title="报错语句"></a>报错语句</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">SCRIPT5022: [vuex] vuex requires a <span class="built_in">Promise</span> polyfill <span class="keyword">in</span> <span class="keyword">this</span> browser.</div></pre></td></tr></table></figure>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>1.先安装babel-polyfill<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">npm install babel-polyfill --save-dev</div></pre></td></tr></table></figure></p>
-<p>2.build/webpack.base.config.js下修改文件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 入口文件改为如下</span></div><div class="line">entry: &#123;</div><div class="line">  <span class="attr">app</span>: [<span class="string">'babel-polyfill'</span>,<span class="string">'./src/main.js'</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="报错语句"><a href="#报错语句" class="headerlink" title="报错语句"></a>报错语句</h2><pre><code class="js">SCRIPT5022: [vuex] vuex requires a Promise polyfill in this browser.
+</code></pre>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>1.先安装babel-polyfill</p>
+<pre><code class="js">npm install babel-polyfill --save-dev
+</code></pre>
+<p>2.build/webpack.base.config.js下修改文件</p>
+<pre><code class="js">// 入口文件改为如下
+entry: {
+  app: [&#39;babel-polyfill&#39;,&#39;./src/main.js&#39;]
+}
+</code></pre>
 <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>IE浏览器没有内置Promise对象。不仅如此，几乎所有的ES6新增的方法在IE都不能用，比如Array.from。因为babel只会转译语法，并不会新增方法</p>
 
                 <hr>
@@ -268,9 +277,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -338,13 +347,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         只执行一次的函数该怎么写?｜LoaingMore&#39;s blog
@@ -198,7 +199,24 @@
 <p>实际项目中也许会遇到一些只能执行一次的事件,该怎么写呢？</p>
 </blockquote>
 <a id="more"></a>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">once</span>(<span class="params">fn</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> isFlag = <span class="literal">false</span>;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!isFlag)&#123;</div><div class="line">            isFlag = <span class="literal">true</span>;</div><div class="line">            fn();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line"><span class="comment">//html结构省略 测试点击事件</span></div><div class="line"><span class="comment">//只执行一次</span></div><div class="line"><span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">'.box'</span>);</div><div class="line">box.addEventListener(<span class="string">'click'</span>,once(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//放心鼠标点破,也只会执行一次</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"二狗"</span>);</div><div class="line">&#125;),<span class="literal">false</span>)</div></pre></td></tr></table></figure>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="javascript">function once(fn){
+    var isFlag = false;
+    return function(){
+        if(!isFlag){
+            isFlag = true;
+            fn();
+        }
+    }
+}
+//demo
+//html结构省略 测试点击事件
+//只执行一次
+var box = document.querySelector(&#39;.box&#39;);
+box.addEventListener(&#39;click&#39;,once(function(){
+        //放心鼠标点破,也只会执行一次
+        console.log(&quot;二狗&quot;);
+}),false)
+</code></pre>
 <p>剩下的就看根据需求,来决定使用场景了</p>
 
                 <hr>
@@ -273,9 +291,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -343,13 +361,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

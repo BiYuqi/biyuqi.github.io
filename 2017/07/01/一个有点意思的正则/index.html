@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         一个有点意思的正则｜LoaingMore&#39;s blog
@@ -197,8 +198,27 @@
                 <blockquote>
 <p>周末闲来无事，没事逛逛前端群,碰到一个有点意思的题目,记录下来</p>
 </blockquote>
-<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>一个数组，里面的字符串都有相同的前几个字，但是后面的不相同  如何把这相同的提取出来<br>大概像下面这样：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> arr = [<span class="string">'test23'</span>,<span class="string">'testtr'</span>,<span class="string">'test90'</span>] <span class="comment">//共同体 test</span></div><div class="line"><span class="keyword">const</span> arr1 = [<span class="string">'tes23'</span>,<span class="string">'testtr'</span>,<span class="string">'test90'</span>] <span class="comment">//共同体 tes  小心搞错哦</span></div><div class="line"><span class="keyword">const</span> arr2 = [<span class="string">'回家3'</span>,<span class="string">'回家5'</span>,<span class="string">'回家吗'</span>] <span class="comment">// 共同体 回家</span></div></pre></td></tr></table></figure></p>
-<h2 id="我的方法"><a href="#我的方法" class="headerlink" title="我的方法"></a>我的方法</h2><p>看到的第一感觉就是用正则(谁让我逻辑很菜呢…)<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* @param &#123;len&#125; 数组长度 下面用来匹配重复的个数</div><div class="line">* @param &#123;reg&#125; 不用说了，我们的匹配规则</div><div class="line">* @param &#123;data&#125; 换个思路，当做字符串进行处理</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWord</span>(<span class="params">arr</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> len = arr.length,</div><div class="line">        reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'^(.*)(.*\\1)&#123;'</span>+(len<span class="number">-1</span>)+<span class="string">'&#125;'</span>,<span class="string">'g'</span>),</div><div class="line">        data = arr.join(<span class="string">''</span>);</div><div class="line">    <span class="keyword">return</span> reg.exec(data)[<span class="number">1</span>]</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(getWord(arr)) <span class="comment">// test</span></div><div class="line"><span class="built_in">console</span>.log(getWord(arr1)) <span class="comment">//tes</span></div><div class="line"><span class="built_in">console</span>.log(getWord(arr2)) <span class="comment">//回家</span></div></pre></td></tr></table></figure></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>一个数组，里面的字符串都有相同的前几个字，但是后面的不相同  如何把这相同的提取出来<br>大概像下面这样：</p>
+<pre><code class="js">const arr = [&#39;test23&#39;,&#39;testtr&#39;,&#39;test90&#39;] //共同体 test
+const arr1 = [&#39;tes23&#39;,&#39;testtr&#39;,&#39;test90&#39;] //共同体 tes  小心搞错哦
+const arr2 = [&#39;回家3&#39;,&#39;回家5&#39;,&#39;回家吗&#39;] // 共同体 回家
+</code></pre>
+<h2 id="我的方法"><a href="#我的方法" class="headerlink" title="我的方法"></a>我的方法</h2><p>看到的第一感觉就是用正则(谁让我逻辑很菜呢…)</p>
+<pre><code class="js">/**
+* @param {len} 数组长度 下面用来匹配重复的个数
+* @param {reg} 不用说了，我们的匹配规则
+* @param {data} 换个思路，当做字符串进行处理
+*/
+function getWord(arr){
+    var len = arr.length,
+        reg = new RegExp(&#39;^(.*)(.*\\1){&#39;+(len-1)+&#39;}&#39;,&#39;g&#39;),
+        data = arr.join(&#39;&#39;);
+    return reg.exec(data)[1]
+}
+console.log(getWord(arr)) // test
+console.log(getWord(arr1)) //tes
+console.log(getWord(arr2)) //回家
+</code></pre>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>我也不知道(逃…),我就想安安静静的温习个正则而已.<br>如果有更好的方法，烦请与我联系,向您请教，如有bug,请轻拍.我的邮箱：biyuqiwan@163.com</p>
 
                 <hr>
@@ -273,9 +293,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -343,13 +363,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

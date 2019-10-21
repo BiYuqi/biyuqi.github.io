@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Vue起步｜LoaingMore&#39;s blog
@@ -198,10 +199,21 @@
 <p>此贴代表我的Vue.js之旅开始了，留个位置</p>
 </blockquote>
 <a id="more"></a>
-<p><strong> Vue.js 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：</strong><br><figure class="highlight"><table><tr><td class="code"><pre><div class="line"># 最新稳定版</div><div class="line">$ npm install vue</div></pre></td></tr></table></figure></p>
-<figure class="highlight"><table><tr><td class="code"><pre><div class="line"># 全局安装 vue-cli</div><div class="line">$ npm install --global vue-cli</div></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="code"><pre><div class="line"># 创建一个基于 webpack 模板的新项目</div><div class="line">$ vue init webpack my-project</div></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="code"><pre><div class="line"># 安装依赖，走你</div><div class="line">$ cd my-project</div><div class="line">$ npm install</div><div class="line">$ npm run dev</div></pre></td></tr></table></figure>
+<p><strong> Vue.js 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：</strong></p>
+<pre><code class="javascript"># 最新稳定版
+$ npm install vue
+</code></pre>
+<pre><code class="javascript"># 全局安装 vue-cli
+$ npm install --global vue-cli
+</code></pre>
+<pre><code class="javascript"># 创建一个基于 webpack 模板的新项目
+$ vue init webpack my-project
+</code></pre>
+<pre><code class="javascript"># 安装依赖，走你
+$ cd my-project
+$ npm install
+$ npm run dev
+</code></pre>
 
                 <hr>
                 
@@ -275,9 +287,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -345,13 +357,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

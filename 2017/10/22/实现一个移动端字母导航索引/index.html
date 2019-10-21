@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         实现一个移动端字母索引导航｜LoaingMore&#39;s blog
@@ -205,9 +206,64 @@
 <li>渲染页面数据</li>
 <li>实现touch事件<br><img src="http://oq4hkch8e.bkt.clouddn.com/indexslide-code.png" alt=""></li>
 </ul>
-<h2 id="解释几个函数"><a href="#解释几个函数" class="headerlink" title="解释几个函数"></a>解释几个函数</h2><p>解释下moveTo2这个函数,主要目的就是根据touch事件返回的字母，与页面进行匹配，匹配成功后，用window.scrollTo指定跳转位置，<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">moveTo2(letter) &#123;</div><div class="line">    <span class="keyword">const</span> len = <span class="keyword">this</span>.concatList.length</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</div><div class="line">        <span class="comment">// 匹配成功 即表示存在</span></div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.concatList[i].getAttribute(<span class="string">'data-char'</span>) === letter)&#123;</div><div class="line">            <span class="comment">// this.concatList[i].offsetTop-this.offsetTop</span></div><div class="line">            <span class="comment">// 减去this.offsetTop 是为了减去header的高度，达到预期高度</span></div><div class="line">            <span class="built_in">window</span>.scrollTo(<span class="number">0</span>,<span class="keyword">this</span>.concatList[i].offsetTop-<span class="keyword">this</span>.offsetTop)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此方法可返回touch时 所对应的索引是哪个字符,原理就是 this.letterWrap.clientHeight是字母列高度，除以字母数量得到是每个字母的高占比，再用当前touchY去除，得到当前位置的所占比例，取整即可得到当前索引<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">getIndex(touchY) &#123;</div><div class="line">    <span class="comment">// 可返回对应的模块索引</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor((touchY-<span class="keyword">this</span>.offsetTop) / (<span class="keyword">this</span>.letterWrap.clientHeight / <span class="keyword">this</span>.source.length))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>touch事件，其中e.preventDefault()是为了阻止scroll事件<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">touchStart() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchstart'</span>,(e)=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(!<span class="keyword">this</span>.touching)&#123;</div><div class="line">            e.preventDefault()</div><div class="line">            <span class="keyword">this</span>.touching = <span class="literal">true</span></div><div class="line">            <span class="keyword">this</span>.letterWrap.className += <span class="string">' active'</span></div><div class="line">            <span class="keyword">const</span> touchY = e.touches[<span class="number">0</span>].clientY</div><div class="line">            <span class="keyword">const</span> index = <span class="keyword">this</span>.getIndex(touchY)</div><div class="line">            <span class="keyword">this</span>.showTips(index)</div><div class="line">            <span class="keyword">this</span>.moveTo2(<span class="keyword">this</span>.source[index])</div><div class="line">        &#125;</div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">touchMove() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchmove'</span>,(e)=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.touching)&#123;</div><div class="line">            e.preventDefault()</div><div class="line">            <span class="keyword">const</span> touchY = e.touches[<span class="number">0</span>].clientY</div><div class="line">            <span class="keyword">const</span> index = <span class="keyword">this</span>.getIndex(touchY)</div><div class="line">            <span class="keyword">this</span>.showTips(index)</div><div class="line">            <span class="keyword">this</span>.moveTo2(<span class="keyword">this</span>.source[index])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">touchEnd() &#123;</div><div class="line">    <span class="keyword">this</span>.letterWrap.addEventListener(<span class="string">'touchend'</span>,()=&gt;&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.touching)&#123;</div><div class="line">            <span class="keyword">this</span>.touching = <span class="literal">false</span></div><div class="line">            <span class="keyword">this</span>.letterWrap.className = <span class="keyword">this</span>.letterWrap.className.replace(<span class="regexp">/\s*active/</span>,<span class="string">''</span>)</div><div class="line">            <span class="keyword">this</span>.hideTips()</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,<span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="解释几个函数"><a href="#解释几个函数" class="headerlink" title="解释几个函数"></a>解释几个函数</h2><p>解释下moveTo2这个函数,主要目的就是根据touch事件返回的字母，与页面进行匹配，匹配成功后，用window.scrollTo指定跳转位置，</p>
+<pre><code class="js">moveTo2(letter) {
+    const len = this.concatList.length
+    for(let i=0;i&lt;len;i++){
+        // 匹配成功 即表示存在
+        if(this.concatList[i].getAttribute(&#39;data-char&#39;) === letter){
+            // this.concatList[i].offsetTop-this.offsetTop
+            // 减去this.offsetTop 是为了减去header的高度，达到预期高度
+            window.scrollTo(0,this.concatList[i].offsetTop-this.offsetTop)
+        }
+    }
+}
+</code></pre>
+<p>此方法可返回touch时 所对应的索引是哪个字符,原理就是 this.letterWrap.clientHeight是字母列高度，除以字母数量得到是每个字母的高占比，再用当前touchY去除，得到当前位置的所占比例，取整即可得到当前索引</p>
+<pre><code class="js">getIndex(touchY) {
+    // 可返回对应的模块索引
+    return Math.floor((touchY-this.offsetTop) / (this.letterWrap.clientHeight / this.source.length))
+}
+</code></pre>
+<p>touch事件，其中e.preventDefault()是为了阻止scroll事件</p>
+<pre><code class="js">touchStart() {
+    this.letterWrap.addEventListener(&#39;touchstart&#39;,(e)=&gt;{
+        if(!this.touching){
+            e.preventDefault()
+            this.touching = true
+            this.letterWrap.className += &#39; active&#39;
+            const touchY = e.touches[0].clientY
+            const index = this.getIndex(touchY)
+            this.showTips(index)
+            this.moveTo2(this.source[index])
+        }
+    },false)
+}
+
+touchMove() {
+    this.letterWrap.addEventListener(&#39;touchmove&#39;,(e)=&gt;{
+        if(this.touching){
+            e.preventDefault()
+            const touchY = e.touches[0].clientY
+            const index = this.getIndex(touchY)
+            this.showTips(index)
+            this.moveTo2(this.source[index])
+        }
+
+    },false)
+}
+
+touchEnd() {
+    this.letterWrap.addEventListener(&#39;touchend&#39;,()=&gt;{
+        if(this.touching){
+            this.touching = false
+            this.letterWrap.className = this.letterWrap.className.replace(/\s*active/,&#39;&#39;)
+            this.hideTips()
+        }
+
+    },false)
+}
+</code></pre>
 <p>至此，基本功能已经实现，可以根据不同的需求进行改进，后期打算封装成为一个类库，对外暴露接口，这样更灵活些</p>
 
                 <hr>
@@ -282,9 +338,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -352,13 +408,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

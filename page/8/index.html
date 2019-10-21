@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -305,11 +306,10 @@
 
 
 创建方式
-Array构造函数
-var colors = new Array();
+Array构造函数var colors = new Array();
 
-数组字面量表示
-var colors = ["..
+
+数组字面量表示var colors = [&q..
             </p>
         </div>
     </a>
@@ -359,7 +359,8 @@ var colors = ["..
             <p>
                 
 该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。
-1.十六进制颜色值的随机生成(2种方法)function getColor()&#123;	var   arrStr = ["0","1","2","3","4","5","6","7","8","9","a","b","c","..
+1.十六进制颜色值的随机生成(2种方法)function getColor(){
+    var   arrStr = [&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot..
             </p>
         </div>
     </a>
@@ -488,7 +489,8 @@ Babel一句话介绍一个js编译器，报浏览器不支持js..
 该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。
 
 
-1.用户判断给定的对象是否是数组function isArray(obj)&#123;	return Object.prototype.toString.call(obj) === '[object Array]'；&#125..
+1.用户判断给定的对象是否是数组function isArray(obj){
+    return Object.prototype.toString.call(obj) === &#39;[object Array]&#39..
             </p>
         </div>
     </a>
@@ -727,9 +729,9 @@ Babel一句话介绍一个js编译器，报浏览器不支持js..
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -792,13 +794,15 @@ Babel一句话介绍一个js编译器，报浏览器不支持js..
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

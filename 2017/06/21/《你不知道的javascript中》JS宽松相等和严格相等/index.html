@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         《你不知道的javascript中》JS宽松相等和严格相等｜LoaingMore&#39;s blog
@@ -202,33 +203,98 @@
 <h2 id="ToNumber"><a href="#ToNumber" class="headerlink" title="ToNumber"></a>ToNumber</h2><p>ES5 规范在 9.3 节定义了<br>抽象操作 ToNumber。<br>其中 true 转换为 1，false 转换为 0。undefined 转换为 NaN，null 转换为 0。</p>
 <h2 id="ToString"><a href="#ToString" class="headerlink" title="ToString"></a>ToString</h2><p>定义了抽象操作 ToString，它负责处理非字符串到字符串的强制类型转换。<br>基本类型值的字符串化规则为：null 转换为 “null”，undefined 转换为 “undefined”，true<br>转换为 “true”。数字的字符串化则遵循通用规则</p>
 <h2 id="ToPrimitive"><a href="#ToPrimitive" class="headerlink" title="ToPrimitive"></a>ToPrimitive</h2><p>为了将值转换为相应的基本类型值，抽象操作 ToPrimitive（参见 ES5 规范 9.1 节）会首先<br>（通过内部操作 DefaultValue，参见 ES5 规范 8.12.8 节）检查该值是否有 valueOf() 方法。<br>如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用 toString()<br>的返回值（如果存在）来进行强制类型转换。<br>如果 valueOf() 和 toString() 均不返回基本类型值，会产生 TypeError 错误</p>
-<h1 id="抽象相等"><a href="#抽象相等" class="headerlink" title="抽象相等"></a>抽象相等</h1><h2 id="1-字符串和数字之间的相等比较"><a href="#1-字符串和数字之间的相等比较" class="headerlink" title="1.字符串和数字之间的相等比较"></a>1.字符串和数字之间的相等比较</h2><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">42</span>；</div><div class="line"><span class="keyword">var</span> b = <span class="string">"42"</span>;</div><div class="line"></div><div class="line">a === b <span class="comment">//false</span></div><div class="line">a == b <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<h1 id="抽象相等"><a href="#抽象相等" class="headerlink" title="抽象相等"></a>抽象相等</h1><h2 id="1-字符串和数字之间的相等比较"><a href="#1-字符串和数字之间的相等比较" class="headerlink" title="1.字符串和数字之间的相等比较"></a>1.字符串和数字之间的相等比较</h2><pre><code class="js">var a = 42；
+var b = &quot;42&quot;;
+
+a === b //false
+a == b //true
+</code></pre>
 <p>因为没有强制类型的转换，所以a===b为false,42不等于”42”<br>a == b 是宽松相等,如果值得类型不同，则对其中之一或者两者进行强制类型转换。<br>具体怎么转环？还要看规范：<br>ES5规范汇这样定义：</p>
 <p><strong>(1) 如果Type(x) 是数字，Type(y) 是字符串，则返回 x == ToNumber(y)的结果。</strong></p>
 <p><strong>(2) 如果Type(x)是字符串，Type(y)是数字，则返回ToNumber(x) == y的结果</strong></p>
-<h2 id="2-其他类型和布尔类型之间的相等比较"><a href="#2-其他类型和布尔类型之间的相等比较" class="headerlink" title="2.其他类型和布尔类型之间的相等比较"></a>2.其他类型和布尔类型之间的相等比较</h2><p>== 最容易出错的一个地方时true和false与其他类型之间的相等比较。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="string">"42"</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="literal">true</span>;</div><div class="line"></div><div class="line">a == b <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<h2 id="2-其他类型和布尔类型之间的相等比较"><a href="#2-其他类型和布尔类型之间的相等比较" class="headerlink" title="2.其他类型和布尔类型之间的相等比较"></a>2.其他类型和布尔类型之间的相等比较</h2><p>== 最容易出错的一个地方时true和false与其他类型之间的相等比较。</p>
+<pre><code class="js">var a = &quot;42&quot;;
+var b = true;
+
+a == b // false
+</code></pre>
 <p>根据以往的经验，”42”是一个真值，为什么==的结果不是true呢？原因及简单又复杂，很容易掉坑里，看看规范怎么说：</p>
 <p><strong>(1) 如果Type(x)是布尔类型，则返回ToNumber(x) == y的结果 </strong></p>
-<p><strong>(2) 如果Type(y)是布尔类型，则返回x == ToNumber(y)的结果</strong><br>看个例子<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="literal">true</span></div><div class="line"><span class="keyword">var</span> y = <span class="string">"42"</span></div><div class="line"></div><div class="line">x == y <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
-<p>Type(x)是布尔值，所以准换后为1，变为1 == “42”,两者类型仍然不通，进而”42”继续转换为42，最后变为1 == 42，结果是false，<br>反过来也一样<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="string">'42'</span></div><div class="line"><span class="keyword">var</span> y = <span class="literal">false</span></div><div class="line"></div><div class="line">x == y <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<p><strong>(2) 如果Type(y)是布尔类型，则返回x == ToNumber(y)的结果</strong><br>看个例子</p>
+<pre><code class="js">var x = true
+var y = &quot;42&quot;
+
+x == y //false
+</code></pre>
+<p>Type(x)是布尔值，所以准换后为1，变为1 == “42”,两者类型仍然不通，进而”42”继续转换为42，最后变为1 == 42，结果是false，<br>反过来也一样</p>
+<pre><code class="js">var x = &#39;42&#39;
+var y = false
+
+x == y //false
+</code></pre>
 <p>一个值既不等于true,也不等于false.太奇怪了吧？</p>
 <p>这个问题本身就是错误的，我们被自己的大脑欺骗了。</p>
 <p>“42” 是一个真值没错，但 “42” == true 中并没有发生布尔值的比较和强制类型转换。</p>
 <p>这里不是 “42” 转换为布尔值（true） ，而是 true 转换为 1，”42” 转换为 42。</p>
 <p>这里并不涉及 ToBoolean，所以 “42” 是真值还是假值与 == 本身没有关系！<br>重点是我们要搞清楚 == 对不同的类型组合怎样处理。== 两边的布尔值会被强制类型转换为数字。</p>
-<p>很奇怪吧？建议无论什么情况下都不要使用 == true 和 == false。<br>请注意，这里说的只是 ==，=== true 和 === false 不允许强制类型转换，所以并不涉及ToNumber。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="string">'42'</span></div><div class="line"></div><div class="line"><span class="comment">// 不要这样用，条件不成立</span></div><div class="line"><span class="keyword">if</span>(a == <span class="literal">true</span>)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 也不要这样</span></div><div class="line"><span class="keyword">if</span>(a === <span class="literal">true</span>)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//这样显式用法没有问题</span></div><div class="line"><span class="keyword">if</span>(a)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 这样的显式更好</span></div><div class="line"><span class="keyword">if</span>(!!a)&#123;</div><div class="line">    <span class="comment">//</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>很奇怪吧？建议无论什么情况下都不要使用 == true 和 == false。<br>请注意，这里说的只是 ==，=== true 和 === false 不允许强制类型转换，所以并不涉及ToNumber。</p>
+<pre><code class="js">var a = &#39;42&#39;
+
+// 不要这样用，条件不成立
+if(a == true){
+    //
+}
+
+// 也不要这样
+if(a === true){
+    //
+}
+
+//这样显式用法没有问题
+if(a){
+    //
+}
+
+// 这样的显式更好
+if(!!a){
+    //
+}
+</code></pre>
 <p>避免了 == true 和 == false(也叫作布尔值的宽松相等)之后就不用担心这些坑了</p>
 <h2 id="3-null和undefined之间的相等比较"><a href="#3-null和undefined之间的相等比较" class="headerlink" title="3.null和undefined之间的相等比较"></a>3.null和undefined之间的相等比较</h2><p>null 和 unfined之间的== 也涉及隐式强制类型的转换：</p>
 <p><strong>(1)如果x为null,y为unfined,这结果为true</strong></p>
 <p><strong>(2)如果x为unfined，y为null,则结果为true</strong></p>
-<p>在==中null和unfined相等(他们也与其自身相等),除此之外其他值不存在这种情况<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = nul;</div><div class="line"><span class="keyword">var</span> b;</div><div class="line"></div><div class="line">a == b <span class="comment">//true</span></div><div class="line">a == <span class="literal">null</span> <span class="comment">// true</span></div><div class="line">b == <span class="literal">null</span> <span class="comment">//true</span></div><div class="line"></div><div class="line">a == <span class="literal">false</span>  <span class="comment">//false</span></div><div class="line">b == <span class="literal">false</span> <span class="comment">//false</span></div><div class="line">a == <span class="string">''</span>  <span class="comment">//false</span></div><div class="line">b == <span class="string">''</span>  <span class="comment">//fasle</span></div><div class="line">a == <span class="number">0</span>  <span class="comment">//false</span></div><div class="line">b == <span class="number">0</span> <span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<p>在==中null和unfined相等(他们也与其自身相等),除此之外其他值不存在这种情况</p>
+<pre><code class="js">var a = nul;
+var b;
+
+a == b //true
+a == null // true
+b == null //true
+
+a == false  //false
+b == false //false
+a == &#39;&#39;  //false
+b == &#39;&#39;  //fasle
+a == 0  //false
+b == 0 //false
+</code></pre>
 <p>null 和 undefined 之间的强制类型转换是安全可靠的，上例中除 null 和 undefined 以外的</p>
-<p>其他值均无法得到假阳（false positive）结果。个人认为通过这种方式将 null 和 undefined<br>作为等价值来处理比较好。<br>ex:<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = doSomething()</div><div class="line"></div><div class="line"><span class="keyword">if</span>(a == <span class="literal">null</span>)&#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其他值均无法得到假阳（false positive）结果。个人认为通过这种方式将 null 和 undefined<br>作为等价值来处理比较好。<br>ex:</p>
+<pre><code class="js">var a = doSomething()
+
+if(a == null){
+    //...
+}
+</code></pre>
 <p>条件判断a ==null仅仅在函数返回null和undefined时才成立，除此之外都不成立</p>
 <h2 id="4-对象和非对象之间的相等比较"><a href="#4-对象和非对象之间的相等比较" class="headerlink" title="4.对象和非对象之间的相等比较"></a>4.对象和非对象之间的相等比较</h2><p>ES5 规范 11.9.3.8-9 做如下规定：</p>
 <p><strong>(1)如果Type(x)是字符串或者数字，Type(y)是对象，则返回x == ToPromitive(y)的结果</strong></p>
 <p><strong>(2)如果 Type(x) 是对象，Type(y) 是字符串或数字，则返回 ToPromitive(x) == y 的结果</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">42</span></div><div class="line"><span class="keyword">var</span> b = [<span class="number">42</span>]</div><div class="line">a == b <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<pre><code class="js">var a = 42
+var b = [42]
+a == b //true
+</code></pre>
 <p>[ 42 ] 首先调用 ToPromitive 抽象操作 ，返回 “42”，变成 “42” == 42，然后<br>又变成 42 == 42，最后二者相等</p>
 <h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">JavaScript 中的相等性判断|MDN</a></p>
 
@@ -301,9 +367,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -371,13 +437,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

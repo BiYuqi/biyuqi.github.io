@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         编写一个Vue clipboard指令-快速复制文本到剪贴板｜LoaingMore&#39;s blog
@@ -204,9 +205,69 @@
 <p>记录下用vue指令来写一个快速复制内容到剪贴板的插件, 主要是使用了chrome66+提供的新的剪贴方法，clipboard方法</p>
 </blockquote>
 <h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank" rel="external">Vue-element-admin, 欢迎start</a><br><a href="https://github.com/BiYuqi/vue-element-admin/blob/master/src/directive/clipboard/index.js" target="_blank" rel="external">directive/index.js</a><br><a href="http://loadingmore.com/vue-element-admin-preview/">项目预览,图标模块使用</a></p>
-<h2 id="directive部分"><a href="#directive部分" class="headerlink" title="directive部分"></a>directive部分</h2><p>由于项目使用的element-ui库，所以提示信息组件，我就直接应用了，如有需要或者去除，请自行修改<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Message &#125; <span class="keyword">from</span> <span class="string">'element-ui'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> Clipboard = &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 创建一个全局文本框 针对非chrome浏览器，以及chrome浏览器版本小于66的兼容方法</span></div><div class="line"><span class="keyword">const</span> input = <span class="built_in">document</span>.createElement(<span class="string">'input'</span>)</div><div class="line">input.id = <span class="string">'byq-clipboard'</span></div><div class="line">input.type = <span class="string">'text'</span></div><div class="line">input.style.position = <span class="string">'absolute'</span></div><div class="line">input.style.left = <span class="string">'-9999px'</span></div><div class="line"><span class="built_in">document</span>.body.appendChild(input)</div><div class="line"></div><div class="line"><span class="keyword">const</span> copyTarget = <span class="built_in">document</span>.querySelector(<span class="string">'#byq-clipboard'</span>)</div><div class="line"><span class="comment">// 浏览器以及相关验证</span></div><div class="line"><span class="keyword">const</span> UA = <span class="built_in">window</span>.navigator.userAgent.toLowerCase()</div><div class="line"><span class="keyword">const</span> isEdge = UA &amp;&amp; UA.indexOf(<span class="string">'edge/'</span>) &gt; <span class="number">0</span></div><div class="line"><span class="keyword">const</span> isChrome = UA &amp;&amp; <span class="regexp">/chrome\/\d+/</span>.test(UA) &amp;&amp; !isEdge</div><div class="line"><span class="comment">// 确认是chrome浏览器，且版本符合要求</span></div><div class="line"><span class="keyword">const</span> isSupportChromeVersion = <span class="function">(<span class="params">v</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> isChrome &amp;&amp; ~~UA.match(<span class="regexp">/chrome\/(\d+)/</span>)[<span class="number">1</span>] &gt;= v</div><div class="line">&#125;</div><div class="line">Clipboard.install = <span class="function">(<span class="params">Vue, options</span>) =&gt;</span> &#123;</div><div class="line">  Vue.directive(<span class="string">'clipboard'</span>, &#123;</div><div class="line">    bind (el, binding) &#123;</div><div class="line">      <span class="comment">// 注册事件</span></div><div class="line">      el.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> value = binding.value</div><div class="line">        <span class="comment">// 必须传值</span></div><div class="line">        <span class="keyword">if</span> (!value) &#123;</div><div class="line">          Message.error(<span class="string">'请输入要复制问的文本'</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// chrome version 66+ support</span></div><div class="line">        <span class="keyword">if</span> (isSupportChromeVersion(<span class="number">66</span>) &amp;&amp; <span class="built_in">window</span>.navigator.clipboard) &#123;</div><div class="line">          <span class="built_in">window</span>.navigator.clipboard.writeText(value).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            Message.success(<span class="string">'复制成功啦, 赶快使用吧'</span>)</div><div class="line">          &#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</div><div class="line">            Message.error(error)</div><div class="line">          &#125;)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          copyTarget.value = value</div><div class="line">          copyTarget.select()</div><div class="line">          <span class="built_in">document</span>.execCommand(<span class="string">'Copy'</span>)</div><div class="line">          Message.success(<span class="string">'复制成功啦, 赶快使用吧'</span>)</div><div class="line">        &#125;</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> Clipboard</div></pre></td></tr></table></figure></p>
-<h2 id="全局注册使用"><a href="#全局注册使用" class="headerlink" title="全局注册使用"></a>全局注册使用</h2><p><strong> 引入注册组件 </strong><br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// main.js 项目入口文件</span></div><div class="line"><span class="keyword">import</span> Clipboard <span class="keyword">from</span> <span class="string">'@/directive/clipboard/index'</span></div><div class="line">Vue.use(Clipboard)</div></pre></td></tr></table></figure></p>
-<p><strong> 页面使用 </strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 只需要传入v-clipboard  带上参数就可以了--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"test"</span> <span class="attr">v-clipboard</span>=<span class="string">"我是一个前端开发者"</span>&gt;</span></div><div class="line">  我是一个前端开发者</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="directive部分"><a href="#directive部分" class="headerlink" title="directive部分"></a>directive部分</h2><p>由于项目使用的element-ui库，所以提示信息组件，我就直接应用了，如有需要或者去除，请自行修改</p>
+<pre><code class="js">import { Message } from &#39;element-ui&#39;
+
+const Clipboard = {}
+
+// 创建一个全局文本框 针对非chrome浏览器，以及chrome浏览器版本小于66的兼容方法
+const input = document.createElement(&#39;input&#39;)
+input.id = &#39;byq-clipboard&#39;
+input.type = &#39;text&#39;
+input.style.position = &#39;absolute&#39;
+input.style.left = &#39;-9999px&#39;
+document.body.appendChild(input)
+
+const copyTarget = document.querySelector(&#39;#byq-clipboard&#39;)
+// 浏览器以及相关验证
+const UA = window.navigator.userAgent.toLowerCase()
+const isEdge = UA &amp;&amp; UA.indexOf(&#39;edge/&#39;) &gt; 0
+const isChrome = UA &amp;&amp; /chrome\/\d+/.test(UA) &amp;&amp; !isEdge
+// 确认是chrome浏览器，且版本符合要求
+const isSupportChromeVersion = (v) =&gt; {
+  return isChrome &amp;&amp; ~~UA.match(/chrome\/(\d+)/)[1] &gt;= v
+}
+Clipboard.install = (Vue, options) =&gt; {
+  Vue.directive(&#39;clipboard&#39;, {
+    bind (el, binding) {
+      // 注册事件
+      el.addEventListener(&#39;click&#39;, () =&gt; {
+        const value = binding.value
+        // 必须传值
+        if (!value) {
+          Message.error(&#39;请输入要复制问的文本&#39;)
+        }
+        // chrome version 66+ support
+        if (isSupportChromeVersion(66) &amp;&amp; window.navigator.clipboard) {
+          window.navigator.clipboard.writeText(value).then(() =&gt; {
+            Message.success(&#39;复制成功啦, 赶快使用吧&#39;)
+          }).catch((error) =&gt; {
+            Message.error(error)
+          })
+        } else {
+          copyTarget.value = value
+          copyTarget.select()
+          document.execCommand(&#39;Copy&#39;)
+          Message.success(&#39;复制成功啦, 赶快使用吧&#39;)
+        }
+      })
+    }
+  })
+}
+
+export default Clipboard
+</code></pre>
+<h2 id="全局注册使用"><a href="#全局注册使用" class="headerlink" title="全局注册使用"></a>全局注册使用</h2><p><strong> 引入注册组件 </strong></p>
+<pre><code class="js">// main.js 项目入口文件
+import Clipboard from &#39;@/directive/clipboard/index&#39;
+Vue.use(Clipboard)
+</code></pre>
+<p><strong> 页面使用 </strong></p>
+<pre><code class="html">&lt;!-- 只需要传入v-clipboard  带上参数就可以了--&gt;
+&lt;div class=&quot;test&quot; v-clipboard=&quot;我是一个前端开发者&quot;&gt;
+  我是一个前端开发者
+&lt;/div&gt;
+</code></pre>
 <h2 id="navigator-clipboard-是个什么鬼？"><a href="#navigator-clipboard-是个什么鬼？" class="headerlink" title="navigator.clipboard 是个什么鬼？"></a>navigator.clipboard 是个什么鬼？</h2><p>这是一个实验中的功能，Clipboard接口提供了一种读写操作系统剪贴板的方式。</p>
 <ul>
 <li>read()<br>从剪贴板读取数据（比如图片）。</li>
@@ -294,9 +355,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -364,13 +425,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         React.createClass和extends React.Component的区别｜LoaingMore&#39;s blog
@@ -205,23 +206,188 @@
 <li>4.实例函数／回调函数的绑定(this)</li>
 <li>5.propType 和 getDefaultProps</li>
 </ul>
-<h2 id="一、语法区别"><a href="#一、语法区别" class="headerlink" title="一、语法区别"></a>一、语法区别</h2><p>React.createClass<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">const</span> ListDemo = React.create(&#123;</div><div class="line">	render()&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;)；</div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div></pre></td></tr></table></figure></p>
-<p>React.Component<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(props) &#123;</div><div class="line">		<span class="keyword">super</span>(props)</div><div class="line">	&#125;</div><div class="line">	render()&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<h2 id="一、语法区别"><a href="#一、语法区别" class="headerlink" title="一、语法区别"></a>一、语法区别</h2><p>React.createClass</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+const ListDemo = React.create({
+    render(){
+        return (
+            &lt;div&gt;&lt;/div&gt;
+        )
+    }
+})；
+module.exports = ListDemo;
+</code></pre>
+<p>React.Component</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+class ListDemo extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+    render(){
+        return (
+            &lt;div&gt;&lt;/div&gt;
+        )
+    }
+}
+export default ListDemo;
+</code></pre>
 <p>后一种方法使用ES6的语法，用constructor构造器来构造默认的属性和状态。类中方法的定义不再需要尾随 function，而且方法之间不需要以 , 分隔.</p>
 <h2 id="二、模块的导出"><a href="#二、模块的导出" class="headerlink" title="二、模块的导出"></a>二、模块的导出</h2><blockquote>
 <p>在 ES6 语法中，模块的导出使用 export default 代替 module.exports，如下所示：</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// ES5 语法</span></div><div class="line"><span class="keyword">var</span> ListDemo = React.createClass(&#123;</div><div class="line">    ...</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div><div class="line"></div><div class="line"><span class="comment">// ES6 语法</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo</div></pre></td></tr></table></figure>
-<h2 id="三、状态的区别"><a href="#三、状态的区别" class="headerlink" title="三、状态的区别"></a>三、状态的区别</h2><p>React.createClass<br>使用 ES5 语法时，React Native 组件的状态变量是在 getInitialState 函数中初始化的，如下所示：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">const</span> ListDemo = React.create(&#123;</div><div class="line">	<span class="comment">// return an object</span></div><div class="line">	getInitialState()&#123;</div><div class="line">	        <span class="keyword">return</span> &#123;</div><div class="line">	            <span class="attr">isEditing</span>: <span class="literal">false</span></div><div class="line">	        &#125;</div><div class="line">   	 &#125;,</div><div class="line">	<span class="attr">render</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;)；</div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div></pre></td></tr></table></figure></p>
-<p>React.Component<br>到了 ES6 语法中，React Native 团队修改了状态变量的初始化方式，取消了单独的 getInitialState 函数，将初始化放在构造函数中，并提供 this.state 实例变量用来存储状态变量，如下所示：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(props) &#123;</div><div class="line">		<span class="keyword">super</span>(props);</div><div class="line">		<span class="keyword">this</span>.state = &#123;</div><div class="line">           		 <span class="attr">scrollTop</span>: <span class="keyword">new</span> Animated.Value(<span class="number">0</span>),</div><div class="line">        	&#125;;</div><div class="line">	&#125;</div><div class="line">	render()&#123;</div><div class="line">		<span class="keyword">return</span> (</div><div class="line">			<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">		)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
-<h2 id="四、实例函数／回调函数的绑定-this"><a href="#四、实例函数／回调函数的绑定-this" class="headerlink" title="四、实例函数／回调函数的绑定(this)"></a>四、实例函数／回调函数的绑定(this)</h2><p>React.createClass：会正确绑定this<br>ES5 语法中，React Native 的 createClass 函数提供的一个便利的功能是自动绑定类作用域中的函数到组件实例，例如 createClass 里面定义的函数可以通过 this 直接指向本组件的某个成员函数<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">let</span> ListDemo = React.createClass(&#123;</div><div class="line">    <span class="attr">_handleClick</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 这个方法将作为回调函数使用</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'onClick'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">render</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">                <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.normal&#125;</span></span></div><div class="line">                    <span class="attr">onPress</span>=<span class="string">&#123;this._handleClick&#125;</span>&gt;</div><div class="line">                    确定</div><div class="line">                <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;,</div><div class="line">&#125;);</div><div class="line"><span class="built_in">module</span>.exports = ListDemo;</div></pre></td></tr></table></figure></p>
-<p>React.Component<br>到了 ES6 的 class 定义中，开发者必须手动进行回调函数的绑定操作，React Native 团队推荐在组件的构造函数中进行，如下所示：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(props) &#123;</div><div class="line">        <span class="keyword">super</span>(props);</div><div class="line">    &#125;</div><div class="line">    _handleClick() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'onClick'</span>);</div><div class="line">    &#125;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">                <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.normal&#125;</span></span></div><div class="line">                    <span class="attr">onPress</span>=<span class="string">&#123;this._handleClick.bind(this)&#125;</span>&gt;</div><div class="line">                    确定</div><div class="line">                <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<pre><code class="javascript">// ES5 语法
+var ListDemo = React.createClass({
+    ...
+});
+
+module.exports = ListDemo;
+
+// ES6 语法
+class ListDemo extends React.Component {
+    ...
+}
+export default ListDemo
+</code></pre>
+<h2 id="三、状态的区别"><a href="#三、状态的区别" class="headerlink" title="三、状态的区别"></a>三、状态的区别</h2><p>React.createClass<br>使用 ES5 语法时，React Native 组件的状态变量是在 getInitialState 函数中初始化的，如下所示：</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+const ListDemo = React.create({
+    // return an object
+    getInitialState(){
+            return {
+                isEditing: false
+            }
+        },
+    render: function(){
+        return (
+            &lt;div&gt;&lt;/div&gt;
+        )
+    }
+})；
+module.exports = ListDemo;
+</code></pre>
+<p>React.Component<br>到了 ES6 语法中，React Native 团队修改了状态变量的初始化方式，取消了单独的 getInitialState 函数，将初始化放在构造函数中，并提供 this.state 实例变量用来存储状态变量，如下所示：</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+class ListDemo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+                    scrollTop: new Animated.Value(0),
+            };
+    }
+    render(){
+        return (
+            &lt;div&gt;&lt;/div&gt;
+        )
+    }
+}
+export default ListDemo;
+</code></pre>
+<h2 id="四、实例函数／回调函数的绑定-this"><a href="#四、实例函数／回调函数的绑定-this" class="headerlink" title="四、实例函数／回调函数的绑定(this)"></a>四、实例函数／回调函数的绑定(this)</h2><p>React.createClass：会正确绑定this<br>ES5 语法中，React Native 的 createClass 函数提供的一个便利的功能是自动绑定类作用域中的函数到组件实例，例如 createClass 里面定义的函数可以通过 this 直接指向本组件的某个成员函数</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+let ListDemo = React.createClass({
+    _handleClick : function() { // 这个方法将作为回调函数使用
+        console.log(&#39;onClick&#39;);
+    },
+    render : function() {
+        return (
+            &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.normal}
+                    onPress={this._handleClick}&gt;
+                    确定
+                &lt;/Text&gt;
+            &lt;/View&gt;
+        );
+    },
+});
+module.exports = ListDemo;
+</code></pre>
+<p>React.Component<br>到了 ES6 的 class 定义中，开发者必须手动进行回调函数的绑定操作，React Native 团队推荐在组件的构造函数中进行，如下所示：</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+class ListDemo extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    _handleClick() {
+        console.log(&#39;onClick&#39;);
+    }
+    render() {
+        return (
+            &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.normal}
+                    onPress={this._handleClick.bind(this)}&gt;
+                    确定
+                &lt;/Text&gt;
+            &lt;/View&gt;
+        );
+    }
+}
+export default ListDemo;
+</code></pre>
 <blockquote>
 <p>我们还可以在 constructor 中来改变 this.handleClick 执行的上下文，这应该是相对上面一种来说更好的办法，万一我们需要改变语法结构，这种方式完全不需要去改动 JSX 的部分：</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(props) &#123;</div><div class="line">        <span class="keyword">super</span>(props);</div><div class="line">        <span class="comment">// 手动执行绑定操作</span></div><div class="line">        <span class="keyword">this</span>._handleClick = <span class="keyword">this</span>._handleClick.bind(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">    _handleClick() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'onClick'</span>);</div><div class="line">    &#125;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></div><div class="line">                <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;styles.normal&#125;</span></span></div><div class="line">                    <span class="attr">onPress</span>=<span class="string">&#123;this._handleClick&#125;</span>&gt;</div><div class="line">                    确定</div><div class="line">                <span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure>
-<h2 id="五、propType-和-getDefaultProps"><a href="#五、propType-和-getDefaultProps" class="headerlink" title="五、propType 和 getDefaultProps"></a>五、propType 和 getDefaultProps</h2><p>React.createClass：通过proTypes对象和getDefaultProps()方法来设置和获取props.<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> ListDemo = React.createClass(&#123;  </div><div class="line">  <span class="attr">propTypes</span>: &#123;</div><div class="line">    <span class="attr">name</span>: React.PropTypes.string</div><div class="line">  &#125;,</div><div class="line">  getDefaultProps() &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line"></div><div class="line">    &#125;;</div><div class="line">  &#125;,</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
-<p>React.Component：通过设置两个属性propTypes和defaultProps<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> React form <span class="string">'react'</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListDemo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> propTypes = &#123; <span class="comment">// as static property</span></div><div class="line">        name: React.PropTypes.string</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">static</span> defaultProps = &#123; <span class="comment">// as static property</span></div><div class="line">        name: <span class="string">''</span></div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">constructor</span>(props)&#123;</div><div class="line">        <span class="keyword">super</span>(props)</div><div class="line">    &#125;</div><div class="line">    render()&#123;</div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> ListDemo;</div></pre></td></tr></table></figure></p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+class ListDemo extends React.Component {
+    constructor(props) {
+        super(props);
+        // 手动执行绑定操作
+        this._handleClick = this._handleClick.bind(this);
+    }
+    _handleClick() {
+        console.log(&#39;onClick&#39;);
+    }
+    render() {
+        return (
+            &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.normal}
+                    onPress={this._handleClick}&gt;
+                    确定
+                &lt;/Text&gt;
+            &lt;/View&gt;
+        );
+    }
+}
+export default ListDemo;
+</code></pre>
+<h2 id="五、propType-和-getDefaultProps"><a href="#五、propType-和-getDefaultProps" class="headerlink" title="五、propType 和 getDefaultProps"></a>五、propType 和 getDefaultProps</h2><p>React.createClass：通过proTypes对象和getDefaultProps()方法来设置和获取props.</p>
+<pre><code class="javascript">import React from &#39;react&#39;;
+
+const ListDemo = React.createClass({  
+  propTypes: {
+    name: React.PropTypes.string
+  },
+  getDefaultProps() {
+    return {
+
+    };
+  },
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+});
+
+export default ListDemo;
+</code></pre>
+<p>React.Component：通过设置两个属性propTypes和defaultProps</p>
+<pre><code class="javascript">import React form &#39;react&#39;;
+class ListDemo extends React.Component{
+    static propTypes = { // as static property
+        name: React.PropTypes.string
+    };
+    static defaultProps = { // as static property
+        name: &#39;&#39;
+    };
+    constructor(props){
+        super(props)
+    }
+    render(){
+        return &lt;div&gt;&lt;/div&gt;
+    }
+}
+export default ListDemo;
+</code></pre>
 <p><strong> 最近使用RN比较多,慢慢填坑路… 慢慢写吧!</strong></p>
 
                 <hr>
@@ -296,9 +462,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -366,13 +532,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

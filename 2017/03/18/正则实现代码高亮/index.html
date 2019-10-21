@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         正则实现代码高亮｜LoaingMore&#39;s blog
@@ -201,12 +202,77 @@
 <p>最近鼓捣了个markdown在线预览的编辑器,基于vue2.0实现,对vue的理解程度还没有那么深,所以代码高亮,断行没有用插件来实现,于是决定用正则来简单实现.</p>
 </blockquote>
 <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>经常写代码，写业务难免要查询某些数据和字符串打交道,其中正则便是一个提高编程效率的实用工具,还没了解正则的建议好好学一学.<strong> <a href="http://loadingmore.com/v-markdown">编辑器在这里</a></strong> | <strong> <a href="http://www.jb51.net/tools/zhengze.html#mission" target="_blank" rel="external">正则表达式30分钟入门教程</a></strong><br><a id="more"></a></p>
-<h2 id="第一步取html"><a href="#第一步取html" class="headerlink" title="第一步取html"></a>第一步取html</h2><p>示例代码,给代码块加高亮,断行,前提是在整个HTML文档中先取出代码块，再对代码块进行操作<br><strong> 取数据：</strong><br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//这就是我所用到的正则</span></div><div class="line"><span class="comment">//&lt;code[^&gt;]+&gt;  找到code代码段 包含里面含有class 等属性的情况</span></div><div class="line"><span class="comment">//[\s\S]+? [\s\S]代表匹配文档中任何一个位置 +不止一处  ?非贪婪模式</span></div><div class="line"><span class="comment">//非贪婪模式可以匹配每一段code的内容，如不加？ 诸位可以试下会匹配到什么</span></div><div class="line"><span class="keyword">var</span> regCode = <span class="regexp">/&lt;code[^&gt;]+&gt;([\s\S]+?)&lt;\/code&gt;/g</span>;</div></pre></td></tr></table></figure></p>
-<p><strong> 取出的数据源:</strong><br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">code</span> <span class="attr">class</span>=<span class="string">"javascript language-javascript"</span>&gt;</span></div><div class="line">    function loadStyle(href)&#123;</div><div class="line">        var link = document.createElement("link");   </div><div class="line">        link.type = "text/css";</div><div class="line">        link.rel = "stylesheet";</div><div class="line">        link.href = href;   </div><div class="line">        var head = document.getElementsByTagName("head")[0];   </div><div class="line">        head.appendChild(link);</div><div class="line">    &#125;</div><div class="line">    loadStyle(demo.css);</div><div class="line"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="第二步写规则"><a href="#第二步写规则" class="headerlink" title="第二步写规则"></a>第二步写规则</h2><p>这里我把正则分开写了,分别配置了不同关键词,对应的颜色,考虑到性能,复杂度可以把这些正则写在一起,用|隔开也行,这里我就偷懒了，先这样<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> config = &#123;</div><div class="line">    <span class="attr">regs</span>:[</div><div class="line">        <span class="regexp">/\b(var|function|return|new|try|exec|match|catch|break|continue|case|for|if|else|while|switch)\b/g</span>,</div><div class="line">        /(<span class="keyword">this</span>)/g,</div><div class="line">        /(<span class="literal">true</span>|<span class="literal">false</span>)/g,</div><div class="line">        /([+])/g,</div><div class="line">        /\b(<span class="built_in">document</span>|innerHTML)\b/g,</div><div class="line">        /\b(createElement|getElementsByTagName|appendChild|querySelector|querySelectorAll|getElementById)\b/g</div><div class="line">    ],</div><div class="line">    <span class="attr">fontColor</span>:[</div><div class="line">        <span class="string">'#9E70DD'</span>,</div><div class="line">        <span class="string">'#9B2C34'</span>,</div><div class="line">        <span class="string">'#D19A66'</span>,</div><div class="line">        <span class="string">'#42A2EF'</span>,</div><div class="line">        <span class="string">'#E06A6C'</span>,</div><div class="line">        <span class="string">'#50B2BC'</span></div><div class="line">    ]</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<h2 id="第三步-处理关键词"><a href="#第三步-处理关键词" class="headerlink" title="第三步 处理关键词"></a>第三步 处理关键词</h2><p>假设我们的html数命名为 s 现在来替换s中的代码段里面的关键词<br>我们的配置项为6个  所以直接for循环<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">    <span class="comment">//对codes 进行循环替换</span></div><div class="line">    s = s.replace(config.regs[i],<span class="function"><span class="keyword">function</span>(<span class="params">m</span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;span style="color:'</span>+config.fontColor[i]+<span class="string">'"&gt;'</span>+m+<span class="string">'&lt;/span&gt;'</span></div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="第四步-处理函数名高亮"><a href="#第四步-处理函数名高亮" class="headerlink" title="第四步 处理函数名高亮"></a>第四步 处理函数名高亮</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//函数名高亮</span></div><div class="line"><span class="comment">//匹配代码块内函数名</span></div><div class="line"><span class="keyword">var</span> regName = <span class="regexp">/\s(\w+)\(/g</span>;</div><div class="line"><span class="keyword">var</span> res = [];</div><div class="line"><span class="keyword">while</span>(m = regName.exec(s))&#123;</div><div class="line">    res.push(m[<span class="number">1</span>])</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;res.length;i++)&#123;</div><div class="line">    s = s.replace(res[i],<span class="string">'&lt;span style="color:#3081E3"&gt;'</span>+res[i]+<span class="string">'&lt;/span&gt;'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="第五步-处理函数断行加"><a href="#第五步-处理函数断行加" class="headerlink" title="第五步 处理函数断行加"></a>第五步 处理函数断行加<br></h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> regCode = <span class="regexp">/&lt;code[^&gt;]+&gt;([\s\S]+?)&lt;\/code&gt;/g</span>;</div><div class="line"><span class="keyword">var</span> content;</div><div class="line"><span class="comment">//收集每一行代码</span></div><div class="line"><span class="keyword">var</span> conStr=[];</div><div class="line"><span class="keyword">while</span>(content = regCode.exec(s))&#123;</div><div class="line">    conStr.push(content[<span class="number">1</span>])</div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;conStr.length;i++)&#123;</div><div class="line">    <span class="comment">//代码换行处进行添加&lt;br&gt;</span></div><div class="line">    s = s.replace(conStr[i],conStr[i].replace(<span class="regexp">/\n/g</span>, <span class="string">"&lt;br&gt;"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="第一步取html"><a href="#第一步取html" class="headerlink" title="第一步取html"></a>第一步取html</h2><p>示例代码,给代码块加高亮,断行,前提是在整个HTML文档中先取出代码块，再对代码块进行操作<br><strong> 取数据：</strong></p>
+<pre><code class="javascript">//这就是我所用到的正则
+//&lt;code[^&gt;]+&gt;  找到code代码段 包含里面含有class 等属性的情况
+//[\s\S]+? [\s\S]代表匹配文档中任何一个位置 +不止一处  ?非贪婪模式
+//非贪婪模式可以匹配每一段code的内容，如不加？ 诸位可以试下会匹配到什么
+var regCode = /&lt;code[^&gt;]+&gt;([\s\S]+?)&lt;\/code&gt;/g;
+</code></pre>
+<p><strong> 取出的数据源:</strong></p>
+<pre><code class="html">&lt;code class=&quot;javascript language-javascript&quot;&gt;
+    function loadStyle(href){
+        var link = document.createElement(&quot;link&quot;);   
+        link.type = &quot;text/css&quot;;
+        link.rel = &quot;stylesheet&quot;;
+        link.href = href;   
+        var head = document.getElementsByTagName(&quot;head&quot;)[0];   
+        head.appendChild(link);
+    }
+    loadStyle(demo.css);
+&lt;/code&gt;
+</code></pre>
+<h2 id="第二步写规则"><a href="#第二步写规则" class="headerlink" title="第二步写规则"></a>第二步写规则</h2><p>这里我把正则分开写了,分别配置了不同关键词,对应的颜色,考虑到性能,复杂度可以把这些正则写在一起,用|隔开也行,这里我就偷懒了，先这样</p>
+<pre><code class="javascript">var config = {
+    regs:[
+        /\b(var|function|return|new|try|exec|match|catch|break|continue|case|for|if|else|while|switch)\b/g,
+        /(this)/g,
+        /(true|false)/g,
+        /([+])/g,
+        /\b(document|innerHTML)\b/g,
+        /\b(createElement|getElementsByTagName|appendChild|querySelector|querySelectorAll|getElementById)\b/g
+    ],
+    fontColor:[
+        &#39;#9E70DD&#39;,
+        &#39;#9B2C34&#39;,
+        &#39;#D19A66&#39;,
+        &#39;#42A2EF&#39;,
+        &#39;#E06A6C&#39;,
+        &#39;#50B2BC&#39;
+    ]
+};
+</code></pre>
+<h2 id="第三步-处理关键词"><a href="#第三步-处理关键词" class="headerlink" title="第三步 处理关键词"></a>第三步 处理关键词</h2><p>假设我们的html数命名为 s 现在来替换s中的代码段里面的关键词<br>我们的配置项为6个  所以直接for循环</p>
+<pre><code class="javascript">for(var i=0;i&lt;6;i++){
+    //对codes 进行循环替换
+    s = s.replace(config.regs[i],function(m){
+        return &#39;&lt;span style=&quot;color:&#39;+config.fontColor[i]+&#39;&quot;&gt;&#39;+m+&#39;&lt;/span&gt;&#39;
+    })
+}
+</code></pre>
+<h2 id="第四步-处理函数名高亮"><a href="#第四步-处理函数名高亮" class="headerlink" title="第四步 处理函数名高亮"></a>第四步 处理函数名高亮</h2><pre><code class="javascript">//函数名高亮
+//匹配代码块内函数名
+var regName = /\s(\w+)\(/g;
+var res = [];
+while(m = regName.exec(s)){
+    res.push(m[1])
+}
+for(var i=0;i&lt;res.length;i++){
+    s = s.replace(res[i],&#39;&lt;span style=&quot;color:#3081E3&quot;&gt;&#39;+res[i]+&#39;&lt;/span&gt;&#39;)
+}
+</code></pre>
+<h2 id="第五步-处理函数断行加"><a href="#第五步-处理函数断行加" class="headerlink" title="第五步 处理函数断行加"></a>第五步 处理函数断行加<br></h2><pre><code class="javascript">var regCode = /&lt;code[^&gt;]+&gt;([\s\S]+?)&lt;\/code&gt;/g;
+var content;
+//收集每一行代码
+var conStr=[];
+while(content = regCode.exec(s)){
+    conStr.push(content[1])
+}
+for(var i=0;i&lt;conStr.length;i++){
+    //代码换行处进行添加&lt;br&gt;
+    s = s.replace(conStr[i],conStr[i].replace(/\n/g, &quot;&lt;br&gt;&quot;));
+}
+</code></pre>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>处理结束后就可以把s放到页面了,试试效果，效果在这里<a href="http://loadingmore.com/v-markdown">效果在这里</a></p>
 
                 <hr>
@@ -284,9 +350,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -354,13 +420,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

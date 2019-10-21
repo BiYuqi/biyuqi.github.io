@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -302,7 +303,12 @@
 实际项目中也许会遇到一些只能执行一次的事件,该怎么写呢？
 
 
-代码function once(fn)&#123;    var isFlag = false;    return function()&#123;        if(!isFlag)&#123;            isFl..
+代码function once(fn){
+    var isFlag = false;
+    return function(){
+        if(!isFlag){
+            isFlag = true;
+..
             </p>
         </div>
     </a>
@@ -474,7 +480,10 @@ localSto..
 
 
 Demo演示点击查看demo
-需求实现一篇英文文稿中单词首字母大写化第一步首先得匹配上每个单词，包括紧跟着单词后面的标点符号//正则//考虑了单词中会有数字,标点,换行,引用//规则如下/["..
+需求实现一篇英文文稿中单词首字母大写化第一步首先得匹配上每个单词，包括紧跟着单词后面的标点符号
+//正则
+//考虑了单词中会有数字,标点,换行,引用
+//规则如下..
             </p>
         </div>
     </a>
@@ -500,7 +509,11 @@ Demo演示点击查看demo
                 
 该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。
 
-实现数组原生翻转reverse()方法function reverse(arr)&#123;    //方法1    var s = JSON.stringify(arr),//序列化        o = [],       ..
+实现数组原生翻转reverse()方法function reverse(arr){
+    //方法1
+    var s = JSON.stringify(arr),//序列化
+        o = [],
+        ..
             </p>
         </div>
     </a>
@@ -739,9 +752,9 @@ Demo演示点击查看demo
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -804,13 +817,15 @@ Demo演示点击查看demo
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         LoaingMore&#39;s blog
@@ -332,8 +333,9 @@ add()：向下拉列表..
 请求的URL后面带参数在项目中是很常见的，常用在的地方比如跳转到新页面或者搜索关键词等，刚好项目用到，就写了我认为比较简便的方法提取参数
 
 
-最常见的形式url?arg1=value1&amp;arg2=value2&amp;arg3=value3...
-如何拼接URL？假如一个查询系统有很多..
+最常见的形式 url?arg1=value1&amp;arg2=value2&amp;arg3=value3...
+
+如何拼接URL？假如一个查询系统有..
             </p>
         </div>
     </a>
@@ -360,7 +362,12 @@ add()：向下拉列表..
 最近用数据这块挺多，随手写了个原生Js的ajax封装，调用方式与JQuery一样
 
 
-封装/** @obj 传入入口的对象属性和方法* @type  请求方式 GET 或者. 默认GET* @url 请求链接API* @boolType 是否异步 true or false* @dataTyp..
+封装/*
+* @obj 传入入口的对象属性和方法
+* @type  请求方式 GET 或者. 默认GET
+* @url 请求链接API
+* @boolType 是否异步 true or false
+* @da..
             </p>
         </div>
     </a>
@@ -387,7 +394,9 @@ add()：向下拉列表..
 此贴代表我的Vue.js之旅开始了，留个位置
 
 
- Vue.js 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：# 最新稳定版$ npm i..
+ Vue.js 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具提供开箱即用的构建工具配置，带来现代化的前端开发流程。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目：
+# 最新稳定版
+$ npm..
             </p>
         </div>
     </a>
@@ -413,7 +422,8 @@ add()：向下拉列表..
                 
 该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。
 
-1.判断函数的类型//ex:判断一个数据是否是数组Object.prototype.toString.call(obj)返回一个字符串//比如 Object.prototype.toString.call( [1,2,3] ) ..
+1.判断函数的类型//ex:判断一个数据是否是数组Object.prototype.toString.call(obj)返回一个字符串
+//比如 Object.prototype.toString.call( [1,2,3] )..
             </p>
         </div>
     </a>
@@ -440,7 +450,10 @@ add()：向下拉列表..
 项目上经常会用到轮播，为避免重复劳动，遂决定实现一个灵活的无缝滚动轮播效果，注意：此插件依赖jquery；直接看代码。本文引入jq版本为1.11；
 
 
-Demo演示无缝滚动轮播原理/*	无缝滚动原理：		1、前后各加一张图片		2、每次改变ss-inner盒子的位置（margin-left）	..
+Demo演示无缝滚动轮播原理/*
+    无缝滚动原理：
+        1、前后各加一张图片
+        2、每次改变ss-inner盒..
             </p>
         </div>
     </a>
@@ -466,7 +479,11 @@ Demo演示无缝滚动轮播原理/*	无缝滚动原理：		1、前后各加一�
                 
 该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。
 
-1.获取或设置元素样式/**	css 获取或者设置元素的样式	css($('div'),'width','100px');*/function css(elem,styles,attr)&#123;	if(arguments.l..
+1.获取或设置元素样式/**
+    css 获取或者设置元素的样式
+    css($(&#39;div&#39;),&#39;width&#39;,&#39;100px&#39;);
+*/
+function css(elem..
             </p>
         </div>
     </a>
@@ -730,9 +747,9 @@ Demo演示无缝滚动轮播原理/*	无缝滚动原理：		1、前后各加一�
             <h5 style="text-align: center;">我的作品</h5>
             <ul class="list-inline list-inline__custom" style="text-align: center;">
                 
-                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed原生多页面开发</a></li>
+                <li><a href="https://github.com/BiYuqi/webpack-seed" target="_blank">webpack-seed</a></li>
                 
-                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs脚手架</a></li>
+                <li><a href="https://github.com/ftbjs/ftb-cli" target="_blank">ftbjs</a></li>
                 
                 <li><a href="https://github.com/BiYuqi/vue-element-admin" target="_blank">vue后台系统解决方案</a></li>
                 
@@ -795,13 +812,15 @@ Demo演示无缝滚动轮播原理/*	无缝滚动原理：		1、前后各加一�
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

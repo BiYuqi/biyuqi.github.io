@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         【正则表达式系列】入门篇｜LoaingMore&#39;s blog
@@ -331,11 +332,17 @@
 <li>匹配一个或零个<br>eg: <code>https?</code>匹配https（一个s）或者http（零个s）</li>
 <li>非贪婪模式<br>所谓非贪婪模式，就是匹配尽可能少的内容，比如，对于源字符串</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;&lt;div&gt;b&lt;/div&gt;
+</code></pre>
 <p>使用<code>&lt;div&gt;(.*?)&lt;/div&gt;</code>会得到2个结果（注意：如果源字符串有换行，使用[\s\S]替换 .</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>和<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>因为，当遇到第一个&lt;/div&gt;，非贪婪模式就不会再往后找了。<br>而使用<code>&lt;div&gt;(.*)&lt;/div&gt;</code>（贪婪模式）则会得到整个字符串,因为它会匹配所有字符直到后面再找不到<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;
+</code></pre>
+<p>和</p>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;
+</code></pre>
+<p>因为，当遇到第一个&lt;/div&gt;，非贪婪模式就不会再往后找了。<br>而使用<code>&lt;div&gt;(.*)&lt;/div&gt;</code>（贪婪模式）则会得到整个字符串,因为它会匹配所有字符直到后面再找不到</p>
+<pre><code class="html">&lt;div&gt;a&lt;/div&gt;&lt;div&gt;b&lt;/div&gt;
+</code></pre>
 <h3 id="9-a-1-字符a出现1次或者更多次"><a href="#9-a-1-字符a出现1次或者更多次" class="headerlink" title="9. a{1,} 字符a出现1次或者更多次"></a>9. <code>a{1,}</code> 字符a出现1次或者更多次</h3><h3 id="10-a-字符a出现0次或者1次，等价于-0-1"><a href="#10-a-字符a出现0次或者1次，等价于-0-1" class="headerlink" title="10. a? 字符a出现0次或者1次，等价于{0,1}"></a>10. <code>a?</code> 字符a出现0次或者1次，等价于{0,1}</h3><h3 id="11-ab-0-1-字符ab出现0次或者1次，也就是说ab一起匹配"><a href="#11-ab-0-1-字符ab出现0次或者1次，也就是说ab一起匹配" class="headerlink" title="11. (ab){0,1} 字符ab出现0次或者1次，也就是说ab一起匹配"></a>11. <code>(ab){0,1}</code> 字符ab出现0次或者1次，也就是说ab一起匹配</h3><h3 id="12-a│bc-d-e-可以是ae或者是bce或者是de"><a href="#12-a│bc-d-e-可以是ae或者是bce或者是de" class="headerlink" title="12. (a│bc|d)e 可以是ae或者是bce或者是de"></a>12. <code>(a│bc|d)e</code> 可以是ae或者是bce或者是de</h3><h3 id="13-多个数据选一（常用于多字符）"><a href="#13-多个数据选一（常用于多字符）" class="headerlink" title="13. | 多个数据选一（常用于多字符）"></a>13. <code>|</code> 多个数据选一（常用于多字符）</h3><p>前面提到[]里面的字符有选一个字符功能，但是假如不是一个字符，比如：http|git|svn 就需要用|分开，|的作用域是一直往后直到遇到括号，比如，对于源字符串<br>匹配：</p>
 <ul>
 <li>http abc  </li>
@@ -343,20 +350,51 @@
 <li>svn abc</li>
 </ul>
 <p>就可以直接使用<code>(http|git|svn)abc</code>来进行匹配</p>
-<h3 id="14-数据分界和取数据"><a href="#14-数据分界和取数据" class="headerlink" title="14. () 数据分界和取数据"></a>14. <code>()</code> 数据分界和取数据</h3><p><code>(http|git|svn)abc</code>就是一个分界的例子，匹配结果会得到一个数组集合,其中[1]也就是数组的下标1得到的是一个数组集合，这就是模式匹配，也叫分组，子模式计数是从左至右<br><code>(https?):\/\/([^\/]+)</code> 就是一个匹配网址的正则，其中分组2得到的是网址主地址;<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line">/(https?):\/\/([^\/]+)/.exec(<span class="string">'http://loadingmore.com'</span>)[<span class="number">2</span>] <span class="comment">// loadingmore.com</span></div></pre></td></tr></table></figure></p>
+<h3 id="14-数据分界和取数据"><a href="#14-数据分界和取数据" class="headerlink" title="14. () 数据分界和取数据"></a>14. <code>()</code> 数据分界和取数据</h3><p><code>(http|git|svn)abc</code>就是一个分界的例子，匹配结果会得到一个数组集合,其中[1]也就是数组的下标1得到的是一个数组集合，这就是模式匹配，也叫分组，子模式计数是从左至右<br><code>(https?):\/\/([^\/]+)</code> 就是一个匹配网址的正则，其中分组2得到的是网址主地址;</p>
+<pre><code class="js">/(https?):\/\/([^\/]+)/.exec(&#39;http://loadingmore.com&#39;)[2] // loadingmore.com
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/1" target="_blank" rel="external">点击这里查看匹配情况</a></p>
 <h3 id="15-非捕获组"><a href="#15-非捕获组" class="headerlink" title="15. (?:)非捕获组"></a>15. <code>(?:)</code>非捕获组</h3><p>上面提到的()作为子模式可以得到里面的数据，但是有些时候我们只是把它作为分界，不需要取数据，这个时候就需要用到非捕获概念了。比如上面匹配网址需要在分组2才能得到loadingmore.com，分组1是http；这个时候我们只需要后面的网址，就可以用非捕获来实现<code>(?:https?):\/\/([^\/]+)</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">/(?:https?):\/\/([^\/]+)/.exec(<span class="string">'http://loadingmore.com'</span>)[<span class="number">1</span>] <span class="comment">//loadingmore.com</span></div></pre></td></tr></table></figure>
+<pre><code class="js">/(?:https?):\/\/([^\/]+)/.exec(&#39;http://loadingmore.com&#39;)[1] //loadingmore.com
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/2" target="_blank" rel="external">点击这里查看匹配情况</a></p>
-<h3 id="16-模式修饰符"><a href="#16-模式修饰符" class="headerlink" title="16. 模式修饰符"></a>16. 模式修饰符</h3><p>模式修饰符很多语言都支持，js中常用的比如i不区分大小写，g全部匹配，m是多行匹配<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/a-z/i</span> <span class="comment">// 可以匹配26字母 不区分大小写</span></div><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/http/g</span> <span class="comment">// httphttphttp可以匹配三个http，没有g修饰，只能匹配第一个</span></div></pre></td></tr></table></figure></p>
-<h1 id="简单操作练习"><a href="#简单操作练习" class="headerlink" title="简单操作练习"></a>简单操作练习</h1><h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><p>下面就一段html进行剖析<br>目标：得到 target1中inner内容 哈哈1<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"target1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        哈哈1</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"target2"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span></div><div class="line">        哈哈2</div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>写正则之前，首先要观察要匹配的数据结构，找出异同点，精准定位到你想要数据的位置，必须你需要一个页面的title的内容，那么title就是你的正则的关键字，所要取的数据确实无法定位一个唯一的锚点，那就可以采用分段取数据，缩小范围后，再对这个数据进行二次分解<br>比如上面的html片段，加入直接采用:<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 很明显会得到两个inner数据段</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/&lt;div\s+class="inner"&gt;([\s\S]+?)&lt;\/div&gt;/</span></div></pre></td></tr></table></figure></p>
-<p><a href="https://regex101.com/r/LT6iPK/3" target="_blank" rel="external">点击查看详情</a><br>这个时候我们就可以考虑以class=”target1”作为定位点进行匹配<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> reg2 = <span class="regexp">/&lt;div class="target1"&gt;\s+&lt;div class="inner"&gt;([\S\s]+?)&lt;\/div&gt;\s+&lt;\/div&gt;/</span></div></pre></td></tr></table></figure></p>
+<h3 id="16-模式修饰符"><a href="#16-模式修饰符" class="headerlink" title="16. 模式修饰符"></a>16. 模式修饰符</h3><p>模式修饰符很多语言都支持，js中常用的比如i不区分大小写，g全部匹配，m是多行匹配</p>
+<pre><code class="js">const reg = /a-z/i // 可以匹配26字母 不区分大小写
+const reg2 = /http/g // httphttphttp可以匹配三个http，没有g修饰，只能匹配第一个
+</code></pre>
+<h1 id="简单操作练习"><a href="#简单操作练习" class="headerlink" title="简单操作练习"></a>简单操作练习</h1><h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><p>下面就一段html进行剖析<br>目标：得到 target1中inner内容 哈哈1</p>
+<pre><code class="html">&lt;div class=&quot;target1&quot;&gt;
+    &lt;div class=&quot;inner&quot;&gt;
+        哈哈1
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;target2&quot;&gt;
+    &lt;div class=&quot;inner&quot;&gt;
+        哈哈2
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>写正则之前，首先要观察要匹配的数据结构，找出异同点，精准定位到你想要数据的位置，必须你需要一个页面的title的内容，那么title就是你的正则的关键字，所要取的数据确实无法定位一个唯一的锚点，那就可以采用分段取数据，缩小范围后，再对这个数据进行二次分解<br>比如上面的html片段，加入直接采用:</p>
+<pre><code class="js">// 很明显会得到两个inner数据段
+const reg = /&lt;div\s+class=&quot;inner&quot;&gt;([\s\S]+?)&lt;\/div&gt;/
+</code></pre>
+<p><a href="https://regex101.com/r/LT6iPK/3" target="_blank" rel="external">点击查看详情</a><br>这个时候我们就可以考虑以class=”target1”作为定位点进行匹配</p>
+<pre><code class="js">const reg2 = /&lt;div class=&quot;target1&quot;&gt;\s+&lt;div class=&quot;inner&quot;&gt;([\S\s]+?)&lt;\/div&gt;\s+&lt;\/div&gt;/
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/5" target="_blank" rel="external">点击查看详情</a></p>
 <p>tips：采用<code>[\s\S]+</code>原因是html结构有换行；<code>.</code>不符合要求，<code>.</code>匹配不包括换行的任意字符，<code>[\s\S]+?</code>加？号的原因是非贪婪模式，否则会一致直匹配到不能匹配为止，本文只需要第一个，所以采用非贪婪模式匹配。下文会讲到贪婪与非贪婪模式</p>
 <p><strong> 总结：所谓匹配数据，就是找到能唯一定位你数据的标识的锚点 </strong></p>
-<h2 id="去噪音"><a href="#去噪音" class="headerlink" title="去噪音"></a>去噪音</h2><p>所谓去掉噪音，就是把哪些无关紧要的，迷惑你的数据果断抛弃掉，一眼抓住你想要的那个字符即可，比如：<br><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">data-v-1b4073f4</span>=<span class="string">""</span> <span class="attr">href</span>=<span class="string">"https://github.com/icepy/Front-End-Develop-Guide#fed_point_recommend"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>前端开发指南<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>找出上个连接中的href链接，当然了，这用js的dom元素获取轻而易举，本文只是为了做示范，阐述一种正则思维<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 首先要定位 &lt;a href= 还有链接后面的 ” 其他的都不用关注</span></div><div class="line">cosnt str = <span class="string">`&lt;a data-v-1b4073f4="" href="http://loadingmore.com" target="_blank"&gt;&lt;/a&gt;`</span></div><div class="line"><span class="keyword">const</span> reg = <span class="regexp">/&lt;a[^&gt;]*?href="([^"]+)"/</span></div><div class="line"><span class="keyword">const</span> result = reg.exec(str)[<span class="number">1</span>]</div><div class="line"></div><div class="line"><span class="comment">// console.log(result)</span></div></pre></td></tr></table></figure></p>
+<h2 id="去噪音"><a href="#去噪音" class="headerlink" title="去噪音"></a>去噪音</h2><p>所谓去掉噪音，就是把哪些无关紧要的，迷惑你的数据果断抛弃掉，一眼抓住你想要的那个字符即可，比如：</p>
+<pre><code class="html">&lt;a data-v-1b4073f4=&quot;&quot; href=&quot;https://github.com/icepy/Front-End-Develop-Guide#fed_point_recommend&quot; target=&quot;_blank&quot;&gt;前端开发指南&lt;/a&gt;
+</code></pre>
+<p>找出上个连接中的href链接，当然了，这用js的dom元素获取轻而易举，本文只是为了做示范，阐述一种正则思维</p>
+<pre><code class="js">// 首先要定位 &lt;a href= 还有链接后面的 ” 其他的都不用关注
+cosnt str = `&lt;a data-v-1b4073f4=&quot;&quot; href=&quot;http://loadingmore.com&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;`
+const reg = /&lt;a[^&gt;]*?href=&quot;([^&quot;]+)&quot;/
+const result = reg.exec(str)[1]
+
+// console.log(result)
+</code></pre>
 <p><a href="https://regex101.com/r/LT6iPK/6" target="_blank" rel="external">点击查看详情</a><br><strong> 总结：关心的留下，不关心的都是浮云 </strong></p>
 <h2 id="取数据"><a href="#取数据" class="headerlink" title="取数据"></a>取数据</h2><p>关于取数据一般都用到分组捕获上文有提及</p>
 <h2 id="最后的话"><a href="#最后的话" class="headerlink" title="最后的话"></a>最后的话</h2><p>学习正则，一定要多练习，狠下心来，过一遍正则基础，收获绝对满满，一边下来，不知不觉就掌握了大部分，当然了想要精通，爱需要深入的学习和大量练习，持之以恒方得成效</p>
@@ -437,9 +475,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -507,13 +545,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

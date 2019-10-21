@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         JS实用技巧(二)｜LoaingMore&#39;s blog
@@ -196,14 +197,122 @@
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <blockquote>
 <h3 id="该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"><a href="#该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。" class="headerlink" title="该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。"></a>该系列文章主要记录自己平常所用，js一些技巧，作为知识的积累。</h3></blockquote>
-<h2 id="1-十六进制颜色值的随机生成-2种方法"><a href="#1-十六进制颜色值的随机生成-2种方法" class="headerlink" title="1.十六进制颜色值的随机生成(2种方法)"></a>1.十六进制颜色值的随机生成(2种方法)</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getColor</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span>   arrStr = [<span class="string">"0"</span>,<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>,<span class="string">"5"</span>,<span class="string">"6"</span>,<span class="string">"7"</span>,<span class="string">"8"</span>,<span class="string">"9"</span>,<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>],</div><div class="line">			strHas = <span class="string">"#"</span>,</div><div class="line">			index;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</div><div class="line">				index = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">14</span>);</div><div class="line">				strHas += arrStr[index];</div><div class="line">			&#125;</div><div class="line">	<span class="keyword">return</span> strHas;</div><div class="line">&#125;</div><div class="line">getColor();<span class="comment">//随机颜色值</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getColor2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="string">"#"</span>+(<span class="string">"000"</span>+<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">16777215</span>).toString(<span class="number">16</span>)).slice(<span class="number">-6</span>);</div><div class="line">&#125;</div><div class="line">getColor2()<span class="comment">//随机颜色值</span></div></pre></td></tr></table></figure>
+<h2 id="1-十六进制颜色值的随机生成-2种方法"><a href="#1-十六进制颜色值的随机生成-2种方法" class="headerlink" title="1.十六进制颜色值的随机生成(2种方法)"></a>1.十六进制颜色值的随机生成(2种方法)</h2><pre><code class="javascript">function getColor(){
+    var   arrStr = [&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;],
+            strHas = &quot;#&quot;,
+            index;
+            for(var i=0;i&lt;6;i++){
+                index = Math.floor(Math.random()*14);
+                strHas += arrStr[index];
+            }
+    return strHas;
+}
+getColor();//随机颜色值
+
+function getColor2(){
+    return &quot;#&quot;+(&quot;000&quot;+Math.floor(Math.random()*16777215).toString(16)).slice(-6);
+}
+getColor2()//随机颜色值
+</code></pre>
 <p>说明：<br>1、16777215为16进制的颜色ffffff转成10进制的数字<br>2、转成16进制不足6位的以0来补充(经测试会有不足6位的情况出现)</p>
-<h2 id="2-Event兼容"><a href="#2-Event兼容" class="headerlink" title="2.Event兼容"></a>2.Event兼容</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//兼容IE和Firefox的event对象</span></div><div class="line">btn.onclick() = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	e = <span class="built_in">window</span>.event || e;</div><div class="line">	<span class="comment">//some code</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//兼容srcElement和target(事件源)</span></div><div class="line"><span class="keyword">var</span> et = e.srcElement || e.target;</div><div class="line"><span class="built_in">console</span>.log(et.tagName);</div><div class="line"></div><div class="line"><span class="comment">//封装getEventTarget函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getEventTarget</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e.window.event || e;</div><div class="line">	<span class="keyword">return</span> e.srcElement || e.target;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="3-阻止冒泡，封装stopPropagation函数"><a href="#3-阻止冒泡，封装stopPropagation函数" class="headerlink" title="3.阻止冒泡，封装stopPropagation函数"></a>3.阻止冒泡，封装stopPropagation函数</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopPropagation</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = <span class="built_in">window</span>.event || e;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">document</span>.all)&#123;</div><div class="line">		cancelBubble = <span class="literal">true</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		e.stopPropagation();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//or</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopPropagation2</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	e = <span class="built_in">window</span>.event || e;</div><div class="line">	<span class="keyword">if</span>(e.stopPropagation)&#123;</div><div class="line">		e.stopPropagation();</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		cancelBubble = <span class="literal">true</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//demo</span></div><div class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">	stopPropagation(e);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-Event兼容"><a href="#2-Event兼容" class="headerlink" title="2.Event兼容"></a>2.Event兼容</h2><pre><code class="javascript">//兼容IE和Firefox的event对象
+btn.onclick() = function(){
+    e = window.event || e;
+    //some code
+}
+
+//兼容srcElement和target(事件源)
+var et = e.srcElement || e.target;
+console.log(et.tagName);
+
+//封装getEventTarget函数
+function getEventTarget(e){
+    e.window.event || e;
+    return e.srcElement || e.target;
+}
+</code></pre>
+<h2 id="3-阻止冒泡，封装stopPropagation函数"><a href="#3-阻止冒泡，封装stopPropagation函数" class="headerlink" title="3.阻止冒泡，封装stopPropagation函数"></a>3.阻止冒泡，封装stopPropagation函数</h2><pre><code class="javascript">function stopPropagation(e){
+    e = window.event || e;
+    if(document.all){
+        cancelBubble = true;
+    }else{
+        e.stopPropagation();
+    }
+}
+//or
+function stopPropagation2(e){
+    e = window.event || e;
+    if(e.stopPropagation){
+        e.stopPropagation();
+    }else{
+        cancelBubble = true;
+    }
+}
+//demo
+btn.onclick = function(e){
+    stopPropagation(e);
+}
+</code></pre>
 <p>document.all可以判断浏览器是否是IE;</p>
-<h2 id="4-添加事件监听-兼容"><a href="#4-添加事件监听-兼容" class="headerlink" title="4.添加事件监听 兼容"></a>4.添加事件监听 兼容</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">	添加事件监听 兼容</div><div class="line">	addEvent(elem,type,fn,choose);</div><div class="line">	elem 需要添加事件监听的元素</div><div class="line">	type 事件类型 一律不加on</div><div class="line">	fn 回调函数（要做的事情）</div><div class="line">	choose 冒泡或者捕捉 默认为false</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span>(<span class="params">elem,type,fn,choose</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">arguments</span>.length &lt; <span class="number">3</span>)&#123;</div><div class="line">		<span class="keyword">return</span> ;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//给choose赋初值</span></div><div class="line">	choose = choose || <span class="literal">false</span>;</div><div class="line">	<span class="comment">//判断浏览器是否支持addEventListener</span></div><div class="line">	<span class="keyword">if</span>(elem.addEventListener)&#123;</div><div class="line">		elem.addEventListener(type,fn,choose);</div><div class="line">	&#125;<span class="keyword">else</span> &#123;</div><div class="line">		elem.attachEvent(<span class="string">'on'</span>+type , fn , choose);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// demo:</span></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.querySelector(<span class="string">"#btn"</span>);</div><div class="line">on(btn,<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="number">888</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h2 id="5-类型判断函数"><a href="#5-类型判断函数" class="headerlink" title="5.类型判断函数"></a>5.类型判断函数</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> Tyle = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> Type = &#123;&#125;,</div><div class="line">		list = [<span class="string">'String'</span>,<span class="string">'Array'</span>,<span class="string">'Object'</span>,<span class="string">'Number'</span>,<span class="string">'RegExp'</span>,<span class="string">'Null'</span>];</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;list.length;i++)&#123;</div><div class="line">		(<span class="function"><span class="keyword">function</span>(<span class="params">type</span>)</span>&#123;</div><div class="line">			Type[<span class="string">'is'</span>+type] = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">				<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj) === <span class="string">'[object '</span>+type+<span class="string">']'</span></div><div class="line">			&#125;</div><div class="line">		&#125;)(list[i])</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> Type</div><div class="line">&#125;)()</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Tyle.isArray([])) <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isNumber(<span class="string">''</span>))	<span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isString(<span class="string">''</span>))	<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isObject(&#123;&#125;))	<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isRegExp(<span class="regexp">/\s/</span>))	<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Tyle.isNull(<span class="string">''</span>))	<span class="comment">// false</span></div></pre></td></tr></table></figure>
-<h2 id="6-设置透明度"><a href="#6-设置透明度" class="headerlink" title="6.设置透明度"></a>6.设置透明度</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOpacity</span>(<span class="params">elem,level</span>)</span>&#123;</div><div class="line">	node = <span class="keyword">typeof</span> node == <span class="string">"string"</span> ? <span class="built_in">document</span>.getElementById(node) : node;<span class="comment">//检测传进来node的类型</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">document</span>.all)&#123;</div><div class="line">		node.style.filter = <span class="string">'alpha(opacity='</span>+level+<span class="string">')'</span>;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		node.style.opacity  = level/<span class="number">100</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//test</span></div><div class="line">setOpacity(<span class="string">"box1"</span>,<span class="number">20</span>);</div><div class="line">setOpacity(<span class="string">"box2"</span>,<span class="number">80</span>);</div></pre></td></tr></table></figure>
+<h2 id="4-添加事件监听-兼容"><a href="#4-添加事件监听-兼容" class="headerlink" title="4.添加事件监听 兼容"></a>4.添加事件监听 兼容</h2><pre><code class="javascript">/*
+    添加事件监听 兼容
+    addEvent(elem,type,fn,choose);
+    elem 需要添加事件监听的元素
+    type 事件类型 一律不加on
+    fn 回调函数（要做的事情）
+    choose 冒泡或者捕捉 默认为false
+*/
+function addEvent(elem,type,fn,choose){
+    if(arguments.length &lt; 3){
+        return ;
+    }
+    //给choose赋初值
+    choose = choose || false;
+    //判断浏览器是否支持addEventListener
+    if(elem.addEventListener){
+        elem.addEventListener(type,fn,choose);
+    }else {
+        elem.attachEvent(&#39;on&#39;+type , fn , choose);
+    }
+}
+// demo:
+var btn = document.querySelector(&quot;#btn&quot;);
+on(btn,&quot;click&quot;,function(){
+    console.log(888);
+});
+</code></pre>
+<h2 id="5-类型判断函数"><a href="#5-类型判断函数" class="headerlink" title="5.类型判断函数"></a>5.类型判断函数</h2><pre><code class="javascript">var Tyle = (function(){
+    var Type = {},
+        list = [&#39;String&#39;,&#39;Array&#39;,&#39;Object&#39;,&#39;Number&#39;,&#39;RegExp&#39;,&#39;Null&#39;];
+    for(var i=0;i&lt;list.length;i++){
+        (function(type){
+            Type[&#39;is&#39;+type] = function(obj){
+                return Object.prototype.toString.call(obj) === &#39;[object &#39;+type+&#39;]&#39;
+            }
+        })(list[i])
+    }
+    return Type
+})()
+
+console.log(Tyle.isArray([])) // true
+console.log(Tyle.isNumber(&#39;&#39;))    // false
+console.log(Tyle.isString(&#39;&#39;))    // true
+console.log(Tyle.isObject({}))    // true
+console.log(Tyle.isRegExp(/\s/))    // true
+console.log(Tyle.isNull(&#39;&#39;))    // false
+</code></pre>
+<h2 id="6-设置透明度"><a href="#6-设置透明度" class="headerlink" title="6.设置透明度"></a>6.设置透明度</h2><pre><code class="javascript">function setOpacity(elem,level){
+    node = typeof node == &quot;string&quot; ? document.getElementById(node) : node;//检测传进来node的类型
+    if(document.all){
+        node.style.filter = &#39;alpha(opacity=&#39;+level+&#39;)&#39;;
+    }else{
+        node.style.opacity  = level/100;
+    }
+}
+//test
+setOpacity(&quot;box1&quot;,20);
+setOpacity(&quot;box2&quot;,80);
+</code></pre>
 
                 <hr>
                 
@@ -277,9 +386,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -347,13 +456,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

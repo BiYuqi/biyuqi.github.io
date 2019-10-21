@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         Git如何克隆指定的分支｜LoaingMore&#39;s blog
@@ -198,7 +199,8 @@
 <p>偶尔会遇到只想克隆指定分支的情况，不想下载主分支，所以有了这篇文章.</p>
 </blockquote>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在Git<code>1.7.10</code>及更高版本中，添加<code>--single-branch</code>以防止提取所有分支.<br><code>&lt;folder&gt;</code> 可以指定克隆岛某个文件夹<br><code>branchname</code> 需要克隆的分支名<br><code>url</code> 远程仓库地址<br><code>--branch</code> 创建分支， 亦可用<code>-b</code>代替</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">git clone --branch  &lt;branchname&gt; &lt;url&gt; --single-branch [&lt;folder&gt;]</div></pre></td></tr></table></figure>
+<pre><code class="js">git clone --branch  &lt;branchname&gt; &lt;url&gt; --single-branch [&lt;folder&gt;]
+</code></pre>
 
                 <hr>
                 
@@ -272,9 +274,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -342,13 +344,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

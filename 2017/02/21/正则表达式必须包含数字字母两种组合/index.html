@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         正则表达式必须包含数字和字母两种组合｜LoaingMore&#39;s blog
@@ -203,12 +204,29 @@
 <li>必须包含数字</li>
 <li>必须包含字母</li>
 </ul>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>这里会用到正则的环视(零宽断言):(?=exp)和(?!exp),所以我们的正则可以写为：<br>第一种实现用(?=exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字)</span></div><div class="line">/^(?=.*?[<span class="number">0</span><span class="number">-9</span>])(?=.*?[a-z])[<span class="number">0</span><span class="number">-9</span>a-z]+$/</div></pre></td></tr></table></figure></p>
-<p>第二种实现用(?!exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母)</span></div><div class="line">/(?!^[<span class="number">0</span><span class="number">-9</span>]+$)(?!^[a-z]+$)^[<span class="number">0</span><span class="number">-9</span>a-z]+$/</div></pre></td></tr></table></figure></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>这里会用到正则的环视(零宽断言):(?=exp)和(?!exp),所以我们的正则可以写为：<br>第一种实现用(?=exp)：</p>
+<pre><code class="javascript">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字)
+/^(?=.*?[0-9])(?=.*?[a-z])[0-9a-z]+$/
+</code></pre>
+<p>第二种实现用(?!exp)：</p>
+<pre><code class="javascript">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母)
+/(?!^[0-9]+$)(?!^[a-z]+$)^[0-9a-z]+$/
+</code></pre>
 <p>当然,如果需要限定字符串长度,我们后面的[a-z0-9]+可以改为一个长度范围,+改为如{5,16};</p>
-<h3 id="改需求-必须包含字母数字特殊字符"><a href="#改需求-必须包含字母数字特殊字符" class="headerlink" title="改需求 必须包含字母数字特殊字符"></a>改需求 必须包含字母数字特殊字符</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>第一种实现用(?=exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字，一个特殊字符)</span></div><div class="line">/^(?=.*?[<span class="number">0</span><span class="number">-9</span>])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[<span class="number">0</span><span class="number">-9</span>a-z_\-@&amp;=]+$/</div></pre></td></tr></table></figure></p>
-<p>第二种实现用混合<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?=exp)</span></div><div class="line"><span class="comment">//必须包含?=exp 后面的字符(意味着必须有至有字母，数字，不全是字母数字</span></div><div class="line"><span class="comment">//(意味着有特殊字符))</span></div><div class="line"> /^(?=.*?\d)(?=.*?[a-z])(?!^[a-z\d]+$).+$/;</div></pre></td></tr></table></figure></p>
-<h3 id="改需求-必须包含字母数字特殊字符中任意两种组合"><a href="#改需求-必须包含字母数字特殊字符中任意两种组合" class="headerlink" title="改需求 必须包含字母数字特殊字符中任意两种组合"></a>改需求 必须包含字母数字特殊字符中任意两种组合</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>实现用(?!exp)：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母 纯特殊字符)</span></div><div class="line">/(?!^[<span class="number">0</span><span class="number">-9</span>]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[<span class="number">0</span><span class="number">-9</span>a-z_\-@&amp;=]+$/</div></pre></td></tr></table></figure></p>
+<h3 id="改需求-必须包含字母数字特殊字符"><a href="#改需求-必须包含字母数字特殊字符" class="headerlink" title="改需求 必须包含字母数字特殊字符"></a>改需求 必须包含字母数字特殊字符</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>第一种实现用(?=exp)：</p>
+<pre><code class="javascript">//(?=exp) 必须包含?=exp 后面的字符(意味着必须有至少一个字母，一个数字，一个特殊字符)
+/^(?=.*?[0-9])(?=.*?[a-z])(?=.*?[_\-@&amp;=])[0-9a-z_\-@&amp;=]+$/
+</code></pre>
+<p>第二种实现用混合</p>
+<pre><code class="javascript">//(?=exp)
+//必须包含?=exp 后面的字符(意味着必须有至有字母，数字，不全是字母数字
+//(意味着有特殊字符))
+ /^(?=.*?\d)(?=.*?[a-z])(?!^[a-z\d]+$).+$/;
+</code></pre>
+<h3 id="改需求-必须包含字母数字特殊字符中任意两种组合"><a href="#改需求-必须包含字母数字特殊字符中任意两种组合" class="headerlink" title="改需求 必须包含字母数字特殊字符中任意两种组合"></a>改需求 必须包含字母数字特殊字符中任意两种组合</h3><p><strong> 其实就是在上面的正则中加入特殊字符即可 这里只输入_-@&amp;=几个字符，根据需要可自行扩充 </strong><br>实现用(?!exp)：</p>
+<pre><code class="javascript">//(?!exp)不包含?!exp后面的字符(意味着不能是纯数字 纯字母 纯特殊字符)
+/(?!^[0-9]+$)(?!^[a-z]+$)(?!^[_\-@&amp;=]]+$)^[0-9a-z_\-@&amp;=]+$/
+</code></pre>
 <p>###解读正则</p>
 <p><strong> 正则以^开始，限定匹配字符串是从开始位置进行匹配，(?=.<em>?[a-z])是肯定型顺序环视，限定当前位置的后面，能匹配.</em>?[a-z]，也就是，能够匹配到一个字母，同理，(?=.<em>?[0-9])表示限定当前位置的后面，能匹配一个数字，(?=.</em>?[<em>-@&amp;=])表示限定当前位置的后面，能匹配一个特殊字符，而[a-z0-9</em>-@&amp;=]+就是前面那些环视限定的位置，即表示[a-z0-9_-@&amp;=]+中，至少匹配一个字母、一个数字、一个特殊字符，最终匹配到达字符串结束位置$。</strong></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://deerchao.net/tutorials/regex/regex-1.htm" target="_blank" rel="external">30分钟入门正则表达式</a></p>
@@ -285,9 +303,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -355,13 +373,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

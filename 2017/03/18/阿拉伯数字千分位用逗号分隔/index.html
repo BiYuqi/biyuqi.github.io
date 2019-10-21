@@ -18,6 +18,7 @@
     <link rel="alternate" type="application/atom+xml" title="LoadingMore" href="/atom.xml">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
     <title>
         
         阿拉伯数字千分位用逗号分隔｜LoaingMore&#39;s blog
@@ -201,8 +202,58 @@
 <p>上回说到字符正向加逗号或者其他字符,主要用户银行卡号等场景，而且封装成了通用代码;这回准备写点关于金钱的东西,今天写点不一样的。</p>
 </blockquote>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我经常在上市公司年报上看到这样的字眼:<strong> 本公司首次向社会公众发行人民币普通股（A 股）10,720,000.00 股。募集资金总额为人民币 239,270,400.00 元.</strong> 千分位加逗号,今天咱们用正则实现这样的效果<br><a id="more"></a></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">*@param s 字符</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMoney</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(s.length &lt; <span class="number">3</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//判断是否有小数位 如果有,需要多加判断</span></div><div class="line">    <span class="keyword">if</span>(s.indexOf(<span class="string">'.'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">        <span class="keyword">var</span> index = s.indexOf(<span class="string">'.'</span>);</div><div class="line">        <span class="keyword">var</span> last = s.substr(index);</div><div class="line">        s = s.substr(<span class="number">0</span>,index).replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+$)/g</span>,<span class="string">','</span>);</div><div class="line">        s = s + last;</div><div class="line">        <span class="keyword">return</span> s;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//没有小数的就直接返回</span></div><div class="line">        <span class="keyword">return</span> s.replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+$)/g</span>,<span class="string">','</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//测试</span></div><div class="line"><span class="keyword">var</span> str = <span class="string">'123123123123.56'</span>;</div><div class="line"><span class="built_in">console</span>.log(setMoney(str))</div><div class="line"><span class="comment">//123,123,123,123.56</span></div></pre></td></tr></table></figure>
-<h2 id="要不封装一下？"><a href="#要不封装一下？" class="headerlink" title="要不封装一下？"></a>要不封装一下？</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*   @param &#123;Number&#125; num 字符</div><div class="line">*   @param &#123;String&#125; type 字符类型 , . 。等等</div><div class="line">*   @param &#123;Number&#125; len 间隔位数</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setMoney</span>(<span class="params">num,type,len</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(num.length &lt; <span class="number">3</span>)&#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'\\B(?=(\\d&#123;'</span>+len+<span class="string">'&#125;)+$)'</span>,<span class="string">'g'</span>);</div><div class="line">    <span class="comment">//判断是否有小数位 如果有,需要多加判断</span></div><div class="line">    <span class="keyword">if</span>(num.indexOf(<span class="string">'.'</span>) &gt; <span class="number">-1</span>)&#123;</div><div class="line">        <span class="keyword">var</span> index = str.indexOf(<span class="string">'.'</span>);</div><div class="line">        <span class="keyword">var</span> last = str.substr(index);</div><div class="line">        num = num.substr(<span class="number">0</span>,index).replace(reg,<span class="string">''</span>+type+<span class="string">''</span>);</div><div class="line">        num = num + last;</div><div class="line">        <span class="keyword">return</span> num;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="comment">//没有小数的就直接返回</span></div><div class="line">        <span class="keyword">return</span> num.replace(reg,<span class="string">''</span>+type+<span class="string">''</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//测试</span></div><div class="line"><span class="built_in">console</span>.log(setMoney2(str,<span class="string">','</span>,<span class="number">5</span>))</div><div class="line"><span class="comment">//12,31231,23123.56</span></div><div class="line"><span class="built_in">console</span>.log(setMoney2(str,<span class="string">','</span>,<span class="number">3</span>))</div><div class="line"><span class="comment">//123,123,123,123.56</span></div></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code class="javascript">/*
+*@param s 字符
+*/
+function setMoney(s){
+    if(s.length &lt; 3){
+        return;
+    }
+    //判断是否有小数位 如果有,需要多加判断
+    if(s.indexOf(&#39;.&#39;) &gt; -1){
+        var index = s.indexOf(&#39;.&#39;);
+        var last = s.substr(index);
+        s = s.substr(0,index).replace(/\B(?=(\d{3})+$)/g,&#39;,&#39;);
+        s = s + last;
+        return s;
+    }else{
+        //没有小数的就直接返回
+        return s.replace(/\B(?=(\d{3})+$)/g,&#39;,&#39;)
+    }
+}
+//测试
+var str = &#39;123123123123.56&#39;;
+console.log(setMoney(str))
+//123,123,123,123.56
+</code></pre>
+<h2 id="要不封装一下？"><a href="#要不封装一下？" class="headerlink" title="要不封装一下？"></a>要不封装一下？</h2><pre><code class="javascript">/**
+*   @param {Number} num 字符
+*   @param {String} type 字符类型 , . 。等等
+*   @param {Number} len 间隔位数
+*/
+function setMoney(num,type,len){
+    if(num.length &lt; 3){
+        return;
+    }
+    var reg = new RegExp(&#39;\\B(?=(\\d{&#39;+len+&#39;})+$)&#39;,&#39;g&#39;);
+    //判断是否有小数位 如果有,需要多加判断
+    if(num.indexOf(&#39;.&#39;) &gt; -1){
+        var index = str.indexOf(&#39;.&#39;);
+        var last = str.substr(index);
+        num = num.substr(0,index).replace(reg,&#39;&#39;+type+&#39;&#39;);
+        num = num + last;
+        return num;
+    }else{
+        //没有小数的就直接返回
+        return num.replace(reg,&#39;&#39;+type+&#39;&#39;)
+    }
+}
+//测试
+console.log(setMoney2(str,&#39;,&#39;,5))
+//12,31231,23123.56
+console.log(setMoney2(str,&#39;,&#39;,3))
+//123,123,123,123.56
+</code></pre>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>今天就先写到这,最近一直在研究正则,所以稍微总结了一些案例,后续可能还是以js为主,正则可能相对会减少发表,过几天写一个日常用的正则案例的博客,就正则这东西,几天不用就会遗忘,保持持续更新…以上代码都有做测试,如果有什么疑问,可以与我联系 biyuqiwan@163.com</p>
 
                 <hr>
@@ -280,9 +331,9 @@
                     <h5 class="text-center">FRIENDS</h5>
                     <ul class="list-inline text-center">
                         
-                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed原生多页面开发</a></li>
+                        <li><a href="https://github.com/BiYuqi/webpack-seed">webpack-seed</a></li>
                         
-                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs脚手架</a></li>
+                        <li><a href="https://github.com/ftbjs/ftb-cli">ftbjs</a></li>
                         
                         <li><a href="https://github.com/BiYuqi/vue-element-admin">vue后台系统解决方案</a></li>
                         
@@ -350,13 +401,15 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 <!-- async load function -->
 <script>
     function async(u, c) {
