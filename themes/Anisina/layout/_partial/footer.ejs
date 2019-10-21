@@ -97,13 +97,15 @@
 
 <!-- jQuery -->
 <%- js('js/jquery.min.js') %>
-
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <!-- Bootstrap Core JavaScript -->
 <%- js('js/bootstrap.min.js') %>
 
 <!-- Custom Theme JavaScript -->
 <%- js('js/blog.js') %>
-
 <!-- async load function -->
 <script>
     function async(u, c) {

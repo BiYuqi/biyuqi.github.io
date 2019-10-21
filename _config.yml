@@ -70,11 +70,11 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # friends
 friends: [
     {
-        "title": "webpack-seed原生多页面开发",
+        "title": "webpack-seed",
         "href": "https://github.com/BiYuqi/webpack-seed"
     },
     {
-        "title": "ftbjs脚手架",
+        "title": "ftbjs",
         "href": "https://github.com/ftbjs/ftb-cli"
     },
     {
@@ -116,10 +116,10 @@ post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: false
-  auto_detect: false
-  tab_replace:
+  auto_detect: true
+  tab_replace: 2
 
 # Category & Tag
 default_category: uncategorized
