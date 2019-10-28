@@ -157,7 +157,9 @@ theme: Anisina
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/BiYuqi/biyuqi.github.io
+  repo: 
+    github: https://github.com/BiYuqi/biyuqi.github.io
+    coding: https://e.coding.net/loadingmore/loadingmore.git
   branch: master
 
 
