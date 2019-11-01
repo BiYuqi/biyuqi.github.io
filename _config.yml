@@ -82,16 +82,16 @@ friends: [
         "href": "https://github.com/BiYuqi/vue-element-admin"
     },
     {
-        "title": "vue后台系统模板",
+        "title": "vue system template",
         "href": "https://github.com/BiYuqi/vue-admin-template"
     },
     {
-        "title": "vue多页面开发实例",
+        "title": "vue multiple page",
         "href": "https://github.com/BiYuqi/vue2-multiple-page"
     },
     {
         "title": "前端导航",
-        "href": "http://loadingmore.com/vuenotes/"
+        "href": "https://fe.loadingmore.com"
     }
 ]
 

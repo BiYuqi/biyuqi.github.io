@@ -28,7 +28,7 @@ after_script:
   - git add .
   - git commit -m "Travis CI Auto Builder at `date +"%Y-%m-%d %H:%M"`"
   - git push --force --quiet "https://${firefly}@${GH_REF}" master:master
-  - git push --force --quiet "https://${CO_TOKEN}@${CO_REPO}" master:master
+#  - git push --force --quiet "https://${CO_TOKEN}@${CO_REPO}" master:master
 
 branches:
   only:
@@ -36,4 +36,4 @@ branches:
 env:
  global:
    - GH_REF: github.com/BiYuqi/biyuqi.github.io.git
-   - CO_REPO: e.coding.net/loadingmore/loadingmore.git
+#   - CO_REPO: e.coding.net/loadingmore/loadingmore.git
