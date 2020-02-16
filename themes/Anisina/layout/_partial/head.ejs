@@ -10,11 +10,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
 	<meta name="baidu-site-verification" content="4GbLTMWvP7" />
-    <link rel="shortcut icon" href="<%- config.favicon || 'http://oq4hkch8e.bkt.clouddn.com/logo_ico.ico' %>">
+    <link rel="shortcut icon" href="<%- config.favicon %>">
     <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="/atom.xml">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
-    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-light.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://loadingmore-1254319003.cos.ap-chengdu.myqcloud.com/assets/animate.min.css">
+    <link rel="stylesheet" href="https://loadingmore-1254319003.cos.ap-chengdu.myqcloud.com/assets/font-awesome.min.css">
+    <link href="https://loadingmore-1254319003.cos.ap-chengdu.myqcloud.com/assets/atom-one-light.min.css" rel="stylesheet">
     <title>
         <% if (page.title) { %>
         <%= page.title + '｜' + config.SEOTitle %>
@@ -26,11 +26,12 @@
     <link rel="canonical" href="<%= config.url + config.root + (page.path || '').replace('index.html', '') %>">
 
     <!-- Bootstrap Core CSS -->
-    <%- css('css/bootstrap.min.css') %>
+    <link href="https://loadingmore-1254319003.cos.ap-chengdu.myqcloud.com/assets/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <%- css('css/blog-style.css') %>
-
+    <link href="https://loadingmore-1254319003.cos.ap-chengdu.myqcloud.com/assets/blog-style.css" rel="stylesheet">
+    
     <!-- Pygments Github CSS -->
-    <%- css('css/syntax') %>
+    <link href="https://loadingmore-1254319003.cos.ap-chengdu.myqcloud.com/assets/syntax.styl" rel="stylesheet">
+
 </head>

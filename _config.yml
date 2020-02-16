@@ -22,7 +22,7 @@ favicon: # your favicon png
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://loadingmore.com
+url: https://loadingmore.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -59,7 +59,7 @@ ga_track_id:             # Format: UA-xxxxxx-xx
 ga_domain:
 
 # Sidebar settings
-sidebar-about-description: '越来越认为，过好现实生活的人才是了不起的人 biyuqiwan@163.com' # 个人描述
+sidebar-about-description: '越来越认为，过好现实生活的人才是了不起的人' # 个人描述
 sidebar-avatar: /uploads/avatar.png    # use absolute URL
 
 
@@ -74,8 +74,12 @@ friends: [
         "href": "https://github.com/BiYuqi/webpack-seed"
     },
     {
-        "title": "ftbjs",
-        "href": "https://github.com/ftbjs/ftb-cli"
+        "title": "mdppt",
+        "href": "https://github.com/ftbjs/mdppt"
+    },
+    {
+        "title": "前端导航",
+        "href": "https://fe.loadingmore.com"
     },
     {
         "title": "vue后台系统解决方案",
@@ -87,11 +91,7 @@ friends: [
     },
     {
         "title": "vue multiple page",
-        "href": "https://github.com/BiYuqi/vue2-multiple-page"
-    },
-    {
-        "title": "前端导航",
-        "href": "https://fe.loadingmore.com"
+        "href": "https://github.com/BiYuqi/vue-multiple-pages"
     }
 ]
 
@@ -164,7 +164,7 @@ deploy:
 
 
 # img CDN path
-cdn-url: http://oq4hkch8e.bkt.clouddn.com/ # 你的CDN地址
+# cdn-url: http://oq4hkch8e.bkt.clouddn.com/ # 你的CDN地址
 
 # Qiniu imageView2 API
 # More info http://developer.qiniu.com/code/v6/api/kodo-api/image/imageview2.html
